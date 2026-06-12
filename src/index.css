@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 210 11% 20%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 210 11% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 11% 20%;
+
+    /* Primary Teal #0D7377 */
+    --primary: 184 80% 25%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Dark Teal #004D5C */
+    --secondary: 190 100% 18%;
+    --secondary-foreground: 0 0% 100%;
+
+    /* Light Mint #D4F1F4 */
+    --muted: 185 59% 89%;
+    --muted-foreground: 184 80% 25%;
+
+    /* Vibrant Green #52B788 */
+    --accent: 152 43% 52%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 45%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 92%;
+    --input: 0 0% 96%;
+    --ring: 184 80% 25%;
+
+    --radius: 0.75rem;
+
+    /* Sidebar */
+    --sidebar-bg: 190 100% 12%;
+    --sidebar-fg: 185 59% 89%;
+    --sidebar-active: 184 80% 45%;
+    --sidebar-hover: 190 100% 18%;
+    --sidebar-border: 190 100% 20%;
+  }
+
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+    color: hsl(var(--secondary));
+  }
+
+  p {
+    line-height: 1.625;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .glass-panel {
+    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-xl;
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  .sidebar-link {
+    @apply flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold
+           text-[hsl(var(--sidebar-fg)/0.7)] transition-all duration-200
+           hover:bg-[hsl(var(--sidebar-hover))] hover:text-[hsl(var(--sidebar-fg))];
+  }
+
+  .sidebar-link.active {
+    @apply bg-[hsl(var(--sidebar-active)/0.15)] text-[hsl(var(--sidebar-active))];
+  }
+}
+
+@layer components {
+  button, [role="button"] {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  button:active:not(:disabled),
+  [role="button"]:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+}
