@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState, useMemo, useRef } from 'react'
 import {
   CalendarClock, Plus, ChevronRight, ChevronLeft, XCircle, Clock, User,
   MapPin, Stethoscope, Building2, CalendarDays, CheckCircle2, Home, Truck,
@@ -82,6 +82,45 @@ function statusBadgeVariant(s: StatusAgendamento): 'active' | 'inactive' | 'defa
   return 'default'
 }
 
+function Pill3D({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
+  const ref = useRef<HTMLButtonElement>(null)
+  const [tilt, setTilt] = useState({ rx: 0, ry: 0 })
+  const [hov, setHov] = useState(false)
+
+  function onMove(e: React.MouseEvent<HTMLButtonElement>) {
+    const el = ref.current; if (!el) return
+    const { left, top, width, height } = el.getBoundingClientRect()
+    const px = (e.clientX - left) / width
+    const py = (e.clientY - top) / height
+    setTilt({ rx: (py - 0.5) * -16, ry: (px - 0.5) * 16 })
+  }
+
+  return (
+    <button
+      ref={ref}
+      type="button"
+      onClick={onClick}
+      onMouseMove={onMove}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => { setHov(false); setTilt({ rx: 0, ry: 0 }) }}
+      style={{
+        transformStyle: 'preserve-3d',
+        transform: `perspective(300px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) scale(${hov ? 1.08 : 1})`,
+        transition: hov ? 'transform 0.07s linear' : 'transform 0.5s cubic-bezier(0.23,1,0.32,1)',
+        boxShadow: hov ? '0 8px 20px rgba(0,0,0,0.18)' : active ? '0 2px 8px rgba(0,0,0,0.12)' : undefined,
+      }}
+      className={cn(
+        'rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors duration-200',
+        active
+          ? 'bg-secondary text-secondary-foreground border-secondary'
+          : 'border-border text-muted-foreground hover:border-primary hover:text-primary',
+      )}
+    >
+      {children}
+    </button>
+  )
+}
+
 function SelectRow({ selected, onClick, children }: { selected: boolean; onClick: () => void; children: React.ReactNode }) {
   return (
     <button type="button" onClick={onClick}
@@ -139,6 +178,24 @@ export function AgendamentosPage() {
   const [origemCancelamento, setOrigemCancelamento] = useState<OrigemCancelamento>('PACIENTE')
   const [motivoCancelamento, setMotivoCancelamento] = useState('')
   const [cancelando, setCancelando] = useState(false)
+
+  // 3D tilt effect
+  const tiltRef = useRef<HTMLDivElement>(null)
+  const [tilt, setTilt] = useState({ rx: 0, ry: 0, gx: 50, gy: 50 })
+  const [hovering3d, setHovering3d] = useState(false)
+
+  function onTiltMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = tiltRef.current
+    if (!el) return
+    const { left, top, width, height } = el.getBoundingClientRect()
+    const px = (e.clientX - left) / width
+    const py = (e.clientY - top) / height
+    setTilt({ rx: (py - 0.5) * -26, ry: (px - 0.5) * 26, gx: px * 100, gy: py * 100 })
+  }
+  function onTiltLeave() {
+    setHovering3d(false)
+    setTilt({ rx: 0, ry: 0, gx: 50, gy: 50 })
+  }
 
   // sugestões de médico
   const sugestoes = useMemo(() => {
@@ -261,13 +318,61 @@ export function AgendamentosPage() {
 
   return (
     <div className="space-y-6">
-      {/* header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Gestão</p>
-          <h1 className="text-3xl font-bold text-secondary mt-0.5">Agendamentos</h1>
+      {/* ── Hero banner ───────────────────────────────────────────────────── */}
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#060e1f] via-[#0a1e3d] to-[#0d2a52] flex items-center justify-between gap-6 min-h-[200px] pr-0">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_50%,rgba(0,210,255,0.18),transparent_65%)] pointer-events-none" />
+
+        <div className="relative z-10 flex flex-col gap-3 p-8">
+          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-cyan-400/70">Gestão</p>
+          <h1 className="text-3xl font-extrabold text-white leading-tight">Agendamentos</h1>
+          <p className="text-sm text-white/50 max-w-xs">Visualize e gerencie todos os agendamentos de consultas e procedimentos.</p>
+          <div className="mt-1">
+            <Button onClick={() => { resetWizard(); setWizardAberto(true) }}><Plus size={16} strokeWidth={2} /> Novo Agendamento</Button>
+          </div>
         </div>
-        <Button onClick={() => { resetWizard(); setWizardAberto(true) }}><Plus size={16} strokeWidth={2} /> Novo Agendamento</Button>
+
+        <div
+          className="relative hidden md:flex items-end justify-end flex-shrink-0 h-[240px] w-[160px] mr-6 cursor-pointer select-none"
+          style={{ perspective: '900px' }}
+        >
+          <div
+            ref={tiltRef}
+            onMouseMove={onTiltMove}
+            onMouseEnter={() => setHovering3d(true)}
+            onMouseLeave={onTiltLeave}
+            style={{
+              transformStyle: 'preserve-3d',
+              transform: `rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) scale(${hovering3d ? 1.08 : 1})`,
+              transition: hovering3d ? 'transform 0.07s linear' : 'transform 0.65s cubic-bezier(0.23,1,0.32,1)',
+              animation: hovering3d ? 'none' : 'img-float 4s ease-in-out infinite',
+            }}
+            className="relative h-full w-full"
+          >
+            <style>{`
+              @keyframes img-float {
+                0%, 100% { transform: translateY(0px) rotateX(4deg) rotateY(-4deg); }
+                50%       { transform: translateY(-10px) rotateX(-4deg) rotateY(4deg); }
+              }
+            `}</style>
+            <img
+              src="/saude-3d.jpg"
+              alt=""
+              aria-hidden="true"
+              className="h-full w-auto object-contain object-bottom"
+              style={{
+                filter: `drop-shadow(0 0 ${hovering3d ? '40px' : '24px'} rgba(0,210,255,${hovering3d ? '0.75' : '0.5'}))`,
+                transition: 'filter 0.3s ease',
+              }}
+            />
+            <div
+              className="absolute inset-0 pointer-events-none rounded-lg"
+              style={{
+                background: `radial-gradient(circle at ${tilt.gx}% ${tilt.gy}%, rgba(255,255,255,${hovering3d ? '0.18' : '0'}), transparent 55%)`,
+                transition: hovering3d ? 'none' : 'background 0.5s ease',
+              }}
+            />
+          </div>
+        </div>
       </div>
 
       {/* filtros */}
@@ -335,11 +440,9 @@ export function AgendamentosPage() {
         {/* filtro status */}
         <div className="flex flex-wrap gap-2">
           {(['', 'PENDENTE', 'CONFIRMADO', 'EM_ANDAMENTO', 'CONCLUIDO', 'CANCELADO'] as const).map((s) => (
-            <button key={s} onClick={() => setFiltroStatus(s as StatusAgendamento | '')}
-              className={cn('rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-wider transition-all duration-200',
-                filtroStatus === s ? 'bg-secondary text-secondary-foreground border-secondary' : 'border-border text-muted-foreground hover:border-primary hover:text-primary')}>
+            <Pill3D key={s} active={filtroStatus === s} onClick={() => setFiltroStatus(s as StatusAgendamento | '')}>
               {s ? STATUS_LABEL[s as StatusAgendamento] : 'Todos'}
-            </button>
+            </Pill3D>
           ))}
         </div>
       </div>

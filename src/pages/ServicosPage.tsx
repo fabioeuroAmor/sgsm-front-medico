@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Plus, Search, Pencil, Trash2, ClipboardList, Clock, Home } from 'lucide-react'
 import { useServicos } from '@/hooks/useServicos'
 import { medicoService } from '@/services/medicoService'
@@ -35,6 +35,24 @@ export function ServicosPage() {
   const [formError, setFormError] = useState<string | null>(null)
   const [confirmandoId, setConfirmandoId] = useState<string | null>(null)
 
+  // 3D tilt effect state
+  const tiltRef = useRef<HTMLDivElement>(null)
+  const [tilt, setTilt] = useState({ rx: 0, ry: 0, gx: 50, gy: 50 })
+  const [hovering3d, setHovering3d] = useState(false)
+
+  function onTiltMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = tiltRef.current
+    if (!el) return
+    const { left, top, width, height } = el.getBoundingClientRect()
+    const px = (e.clientX - left) / width   // 0..1
+    const py = (e.clientY - top) / height   // 0..1
+    setTilt({ rx: (py - 0.5) * -26, ry: (px - 0.5) * 26, gx: px * 100, gy: py * 100 })
+  }
+  function onTiltLeave() {
+    setHovering3d(false)
+    setTilt({ rx: 0, ry: 0, gx: 50, gy: 50 })
+  }
+
   useEffect(() => { medicoService.listar({ ativo: true }).then(setMedicos).catch(() => {}) }, [])
   useEffect(() => { listar({ ativo: filtroAtivo, medicoId: filtroMedicoId || undefined }) }, [filtroAtivo, filtroMedicoId, listar])
 
@@ -67,12 +85,69 @@ export function ServicosPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between gap-4">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Cadastros</p>
-          <h1 className="text-3xl font-bold text-secondary mt-0.5">Serviços Médicos</h1>
+      {/* ── Hero banner ───────────────────────────────────────────────────── */}
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#060e1f] via-[#0a1e3d] to-[#0d2a52] flex items-center justify-between gap-6 min-h-[200px] pr-0">
+        {/* Radial glow behind image */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_50%,rgba(0,210,255,0.18),transparent_65%)] pointer-events-none" />
+
+        {/* Left: title + button */}
+        <div className="relative z-10 flex flex-col gap-3 p-8">
+          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-cyan-400/70">Cadastros</p>
+          <h1 className="text-3xl font-extrabold text-white leading-tight">Serviços Médicos</h1>
+          <p className="text-sm text-white/50 max-w-xs">Gerencie os serviços e procedimentos oferecidos pelos médicos cadastrados.</p>
+          <div className="mt-1">
+            <Button onClick={abrirCadastro}><Plus size={16} strokeWidth={2} /> Novo Serviço</Button>
+          </div>
         </div>
-        <Button onClick={abrirCadastro}><Plus size={16} strokeWidth={2} /> Novo Serviço</Button>
+
+        {/* Right: 3D tilt illustration */}
+        <div
+          className="relative hidden md:flex items-end justify-end flex-shrink-0 h-[240px] w-[160px] mr-6 cursor-pointer select-none"
+          style={{ perspective: '900px' }}
+        >
+          <div
+            ref={tiltRef}
+            onMouseMove={onTiltMove}
+            onMouseEnter={() => setHovering3d(true)}
+            onMouseLeave={onTiltLeave}
+            style={{
+              transformStyle: 'preserve-3d',
+              transform: `rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) scale(${hovering3d ? 1.08 : 1})`,
+              transition: hovering3d
+                ? 'transform 0.07s linear'
+                : 'transform 0.65s cubic-bezier(0.23,1,0.32,1)',
+              animation: hovering3d ? 'none' : 'img-float 4s ease-in-out infinite',
+            }}
+            className="relative h-full w-full"
+          >
+            <style>{`
+              @keyframes img-float {
+                0%, 100% { transform: translateY(0px) rotateX(4deg) rotateY(-4deg); }
+                50%       { transform: translateY(-10px) rotateX(-4deg) rotateY(4deg); }
+              }
+            `}</style>
+
+            <img
+              src="/saude-3d.jpg"
+              alt=""
+              aria-hidden="true"
+              className="h-full w-auto object-contain object-bottom"
+              style={{
+                filter: `drop-shadow(0 0 ${hovering3d ? '40px' : '24px'} rgba(0,210,255,${hovering3d ? '0.75' : '0.5'}))`,
+                transition: 'filter 0.3s ease',
+              }}
+            />
+
+            {/* Glare overlay */}
+            <div
+              className="absolute inset-0 pointer-events-none rounded-lg"
+              style={{
+                background: `radial-gradient(circle at ${tilt.gx}% ${tilt.gy}%, rgba(255,255,255,${hovering3d ? '0.18' : '0'}), transparent 55%)`,
+                transition: hovering3d ? 'none' : 'background 0.5s ease',
+              }}
+            />
+          </div>
+        </div>
       </div>
 
       <Card className="p-4">

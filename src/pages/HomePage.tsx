@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import type { ComponentType } from 'react'
@@ -15,6 +16,98 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/Button'
+
+// ─── ButtonLink (Link com efeito 3D) ──────────────────────────────────────────
+
+function ButtonLink({ to, className, children }: { to: string; className?: string; children: React.ReactNode }) {
+  const ref = useRef<HTMLAnchorElement>(null)
+  const [tilt, setTilt] = useState({ rx: 0, ry: 0 })
+  const [hov, setHov] = useState(false)
+
+  function onMove(e: React.MouseEvent<HTMLAnchorElement>) {
+    const el = ref.current; if (!el) return
+    const { left, top, width, height } = el.getBoundingClientRect()
+    const px = (e.clientX - left) / width
+    const py = (e.clientY - top) / height
+    setTilt({ rx: (py - 0.5) * -16, ry: (px - 0.5) * 16 })
+  }
+
+  return (
+    <Link
+      ref={ref}
+      to={to}
+      onMouseMove={onMove}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => { setHov(false); setTilt({ rx: 0, ry: 0 }) }}
+      className={className}
+      style={{
+        display: 'inline-flex',
+        transformStyle: 'preserve-3d',
+        transform: `perspective(400px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) scale(${hov ? 1.06 : 1})`,
+        transition: hov ? 'transform 0.07s linear' : 'transform 0.5s cubic-bezier(0.23,1,0.32,1)',
+        boxShadow: hov ? '0 12px 28px rgba(0,0,0,0.22), 0 2px 6px rgba(0,0,0,0.12)' : undefined,
+      }}
+    >
+      {children}
+    </Link>
+  )
+}
+
+// ─── TiltBtn3D ────────────────────────────────────────────────────────────────
+
+function TiltBtn3D({ icon: Icon, label, to }: { icon: ComponentType<{ className?: string }>; label: string; to: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [tilt, setTilt] = useState({ rx: 0, ry: 0, gx: 50, gy: 50 })
+  const [hov, setHov] = useState(false)
+
+  function onMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = ref.current; if (!el) return
+    const { left, top, width, height } = el.getBoundingClientRect()
+    const px = (e.clientX - left) / width
+    const py = (e.clientY - top) / height
+    setTilt({ rx: (py - 0.5) * -22, ry: (px - 0.5) * 22, gx: px * 100, gy: py * 100 })
+  }
+
+  return (
+    <Link to={to} className="flex flex-col items-center gap-3 group" style={{ perspective: '500px' }}>
+      <div
+        ref={ref}
+        onMouseMove={onMove}
+        onMouseEnter={() => setHov(true)}
+        onMouseLeave={() => { setHov(false); setTilt({ rx: 0, ry: 0, gx: 50, gy: 50 }) }}
+        style={{
+          transformStyle: 'preserve-3d',
+          transform: `rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) scale(${hov ? 1.12 : 1})`,
+          transition: hov ? 'transform 0.07s linear' : 'transform 0.55s cubic-bezier(0.23,1,0.32,1)',
+          boxShadow: hov
+            ? '0 20px 40px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.25)'
+            : '0 8px 20px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,255,255,0.12)',
+        }}
+        className="relative w-24 h-24 rounded-2xl bg-white/15 backdrop-blur-sm flex items-center justify-center overflow-hidden"
+      >
+        <Icon className="w-10 h-10 text-white relative z-10 drop-shadow-lg" />
+        {/* glare */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: `radial-gradient(circle at ${tilt.gx}% ${tilt.gy}%, rgba(255,255,255,${hov ? '0.28' : '0.08'}), transparent 60%)`,
+            transition: hov ? 'none' : 'background 0.5s ease',
+          }}
+        />
+        {/* bottom edge highlight (simulate 3D depth) */}
+        <div className="absolute inset-x-0 bottom-0 h-[3px] bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+      </div>
+      {label && (
+        <span
+          className="text-white/85 text-sm font-semibold tracking-wide transition-all duration-200"
+          style={{ textShadow: '0 1px 4px rgba(0,0,0,0.5)', transform: hov ? 'translateY(2px)' : 'translateY(0)' }}
+        >
+          {label}
+        </span>
+      )}
+    </Link>
+  )
+}
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -60,6 +153,30 @@ const modules = [
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
+  const cardRef = useRef<HTMLDivElement>(null)
+  const [cardTilt, setCardTilt] = useState({ rx: 0, ry: 0 })
+  const [cardHov, setCardHov] = useState(false)
+
+  function onCardMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = cardRef.current; if (!el) return
+    const { left, top, width, height } = el.getBoundingClientRect()
+    const px = (e.clientX - left) / width
+    const py = (e.clientY - top) / height
+    setCardTilt({ rx: (py - 0.5) * -12, ry: (px - 0.5) * 12 })
+  }
+
+  const modulesRef = useRef<HTMLDivElement>(null)
+  const [modulesTilt, setModulesTilt] = useState({ rx: 0, ry: 0 })
+  const [modulesHov, setModulesHov] = useState(false)
+
+  function onModulesMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = modulesRef.current; if (!el) return
+    const { left, top, width, height } = el.getBoundingClientRect()
+    const px = (e.clientX - left) / width
+    const py = (e.clientY - top) / height
+    setModulesTilt({ rx: (py - 0.5) * -10, ry: (px - 0.5) * 10 })
+  }
+
   return (
     <div className="min-h-screen bg-background">
 
@@ -91,20 +208,31 @@ export default function HomePage() {
             ))}
           </nav>
 
-          <Link
+          <ButtonLink
             to="/pacientes"
             className={cn(buttonVariants({ variant: 'accent', size: 'md' }), 'rounded-full')}
           >
             Acessar Sistema <ArrowRight className="h-4 w-4" />
-          </Link>
+          </ButtonLink>
         </div>
       </header>
 
       <main>
         {/* ── Hero ───────────────────────────────────────────────────────────── */}
-        <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-background">
-          {/* Mint block left — same as horizons */}
-          <div className="absolute top-0 left-0 w-[58%] h-full bg-muted z-0 hidden lg:block rounded-br-[100px]" />
+        <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+          {/* Video background */}
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          >
+            <source src="/bg-hero.mp4" type="video/mp4" />
+          </video>
+
+          {/* Dark overlay for readability */}
+          <div className="absolute inset-0 bg-black/55 z-[1]" />
 
           <div className="max-w-7xl mx-auto relative z-10 px-4 sm:px-6 lg:px-8 py-16 w-full">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -116,30 +244,36 @@ export default function HomePage() {
                 transition={{ duration: 0.6, ease: 'easeOut' }}
                 className="relative hidden lg:block"
               >
-                <div className="rounded-3xl h-[520px] w-full bg-gradient-to-br from-primary to-accent shadow-2xl flex items-center justify-center relative overflow-hidden">
-                  {/* Decorative circles */}
-                  <div className="absolute top-8 right-8 w-40 h-40 rounded-full bg-white/10" />
-                  <div className="absolute bottom-10 left-6 w-24 h-24 rounded-full bg-white/10" />
-                  <div className="absolute top-1/2 left-10 w-5 h-5 rounded-full bg-white/25" />
-                  <div className="absolute top-20 left-1/2 w-3 h-3 rounded-full bg-white/30" />
+                <div
+                  ref={cardRef}
+                  onMouseMove={onCardMove}
+                  onMouseEnter={() => setCardHov(true)}
+                  onMouseLeave={() => { setCardHov(false); setCardTilt({ rx: 0, ry: 0 }) }}
+                  style={{
+                    transformStyle: 'preserve-3d',
+                    transform: `perspective(900px) rotateX(${cardTilt.rx}deg) rotateY(${cardTilt.ry}deg)`,
+                    transition: cardHov ? 'transform 0.1s linear' : 'transform 0.7s cubic-bezier(0.23,1,0.32,1)',
+                    boxShadow: cardHov
+                      ? '0 40px 80px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.12)'
+                      : '0 20px 40px rgba(0,0,0,0.25)',
+                  }}
+                  className="rounded-3xl h-[520px] w-full bg-gradient-to-br from-primary/75 to-accent/75 flex items-center justify-center relative overflow-hidden backdrop-blur-sm"
+                >
+                  {/* Decorative circles — movem em 3D com o card */}
+                  <div className="absolute top-8 right-8 w-40 h-40 rounded-full bg-white/10" style={{ transform: 'translateZ(20px)' }} />
+                  <div className="absolute bottom-10 left-6 w-24 h-24 rounded-full bg-white/10" style={{ transform: 'translateZ(30px)' }} />
+                  <div className="absolute top-1/2 left-10 w-5 h-5 rounded-full bg-white/25" style={{ transform: 'translateZ(45px)' }} />
+                  <div className="absolute top-20 left-1/2 w-3 h-3 rounded-full bg-white/30" style={{ transform: 'translateZ(55px)' }} />
 
-                  <div className="flex flex-col items-center gap-8 relative z-10">
-                    <div className="w-28 h-28 rounded-full bg-white/20 border-2 border-white/30 flex items-center justify-center">
-                      <HeartPulse className="w-14 h-14 text-white" />
-                    </div>
-                    <div className="flex gap-5">
-                      {[
-                        { Icon: Users, label: 'Pacientes' },
-                        { Icon: Stethoscope, label: 'Médicos' },
-                        { Icon: CalendarClock, label: 'Agenda' },
-                      ].map(({ Icon, label }) => (
-                        <div key={label} className="flex flex-col items-center gap-2">
-                          <div className="w-20 h-20 rounded-2xl bg-white/15 border border-white/20 flex items-center justify-center">
-                            <Icon className="w-9 h-9 text-white" />
-                          </div>
-                          <span className="text-white/80 text-xs font-semibold">{label}</span>
-                        </div>
-                      ))}
+                  <div className="flex flex-col items-center gap-10 relative z-10">
+                    {/* Central icon — tilt 3D */}
+                    <TiltBtn3D icon={HeartPulse} label="" to="/" />
+
+                    {/* Navigation buttons row */}
+                    <div className="flex gap-7">
+                      <TiltBtn3D icon={Users}       label="Pacientes" to="/pacientes"    />
+                      <TiltBtn3D icon={Stethoscope}  label="Médicos"   to="/medicos"      />
+                      <TiltBtn3D icon={CalendarClock} label="Agenda"   to="/agendamentos" />
                     </div>
                   </div>
                 </div>
@@ -164,15 +298,15 @@ export default function HomePage() {
                 <p className="text-lg text-foreground/80 mb-10 leading-relaxed" style={{ maxWidth: 'none' }}>
                   Controle pacientes, médicos, estabelecimentos e agendamentos em uma única plataforma. Ágil, integrado e focado na eficiência do atendimento médico.
                 </p>
-                <Link
+                <ButtonLink
                   to="/agendamentos"
                   className={cn(
                     buttonVariants({ variant: 'accent', size: 'lg' }),
-                    'rounded-full px-10 shadow-lg hover:shadow-xl'
+                    'rounded-full px-10'
                   )}
                 >
                   Novo Agendamento <ArrowRight className="h-5 w-5" />
-                </Link>
+                </ButtonLink>
               </motion.div>
 
             </div>
@@ -214,15 +348,15 @@ export default function HomePage() {
             </div>
 
             <div className="text-center">
-              <Link
+              <ButtonLink
                 to="/pacientes"
                 className={cn(
                   buttonVariants({ variant: 'accent', size: 'lg' }),
-                  'rounded-full px-10 shadow-md font-bold'
+                  'rounded-full px-10 font-bold'
                 )}
               >
                 Acessar Sistema
-              </Link>
+              </ButtonLink>
             </div>
           </div>
         </section>
@@ -302,7 +436,7 @@ export default function HomePage() {
                     A Caminho → Chegou → Concluído.
                   </p>
                 </div>
-                <Link
+                <ButtonLink
                   to="/agendamentos"
                   className={cn(
                     buttonVariants({ variant: 'accent', size: 'lg' }),
@@ -310,7 +444,7 @@ export default function HomePage() {
                   )}
                 >
                   Criar Agendamento
-                </Link>
+                </ButtonLink>
               </motion.div>
 
               <motion.div
@@ -318,22 +452,51 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="bg-white/5 border border-white/10 p-10 rounded-3xl backdrop-blur-sm"
+                style={{ perspective: '900px' }}
               >
-                <h4 className="text-2xl font-bold text-white mb-8">Módulos disponíveis:</h4>
-                <ul className="space-y-5">
-                  {modules.map((item, idx) => (
-                    <li key={idx} className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
-                        <CheckCircle2 className="w-5 h-5 text-accent" />
-                      </div>
-                      <div>
-                        <span className="text-base font-semibold text-white block">{item.label}</span>
-                        <span className="text-sm text-white/60">{item.desc}</span>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+                <div
+                  ref={modulesRef}
+                  onMouseMove={onModulesMove}
+                  onMouseEnter={() => setModulesHov(true)}
+                  onMouseLeave={() => { setModulesHov(false); setModulesTilt({ rx: 0, ry: 0 }) }}
+                  style={{
+                    transformStyle: 'preserve-3d',
+                    transform: `rotateX(${modulesTilt.rx}deg) rotateY(${modulesTilt.ry}deg) scale(${modulesHov ? 1.03 : 1})`,
+                    transition: modulesHov ? 'transform 0.08s linear' : 'transform 0.7s cubic-bezier(0.23,1,0.32,1)',
+                    boxShadow: modulesHov
+                      ? '0 32px 64px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.12)'
+                      : '0 8px 24px rgba(0,0,0,0.2)',
+                  }}
+                  className="bg-white/5 border border-white/10 p-10 rounded-3xl backdrop-blur-sm relative overflow-hidden"
+                >
+                  {/* glare */}
+                  <div
+                    className="absolute inset-0 pointer-events-none rounded-3xl"
+                    style={{
+                      background: modulesHov
+                        ? `radial-gradient(circle at ${((modulesTilt.ry / 10) + 0.5) * 100}% ${((-modulesTilt.rx / 10) + 0.5) * 100}%, rgba(255,255,255,0.07), transparent 60%)`
+                        : 'none',
+                    }}
+                  />
+
+                  <h4 className="text-2xl font-bold text-white mb-8 relative z-10">Módulos disponíveis:</h4>
+                  <ul className="space-y-5 relative z-10">
+                    {modules.map((item, idx) => (
+                      <li key={idx} className="flex items-center gap-4">
+                        <div
+                          className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center shrink-0"
+                          style={{ transform: modulesHov ? 'translateZ(18px)' : 'translateZ(0)', transition: 'transform 0.3s ease' }}
+                        >
+                          <CheckCircle2 className="w-5 h-5 text-accent" />
+                        </div>
+                        <div style={{ transform: modulesHov ? 'translateZ(10px)' : 'translateZ(0)', transition: 'transform 0.3s ease' }}>
+                          <span className="text-base font-semibold text-white block">{item.label}</span>
+                          <span className="text-sm text-white/60">{item.desc}</span>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </motion.div>
 
             </div>
