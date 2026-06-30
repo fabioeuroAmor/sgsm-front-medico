@@ -136,10 +136,10 @@ export function MedicosPage() {
   return (
     <div className="space-y-6">
       {/* ── Hero banner ───────────────────────────────────────────────────── */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[hsl(190,100%,10%)] via-[hsl(190,100%,14%)] to-[hsl(190,100%,18%)] flex items-center justify-between gap-6 min-h-[200px] pr-0">
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[hsl(190,100%,10%)] via-[hsl(190,100%,14%)] to-[hsl(190,100%,18%)] flex items-center justify-between gap-6 min-h-[140px] pr-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_50%,rgba(0,210,255,0.18),transparent_65%)] pointer-events-none" />
 
-        <div className="relative z-10 flex flex-col gap-3 p-8">
+        <div className="relative z-10 flex flex-col gap-3 p-6">
           <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-cyan-400/70">Cadastros</p>
           <h1 className="text-3xl font-extrabold text-white leading-tight">Médicos</h1>
           <p className="text-sm text-white/50 max-w-xs">Gerencie os médicos, especialidades e disponibilidade de agenda.</p>
@@ -149,7 +149,7 @@ export function MedicosPage() {
         </div>
 
         <div
-          className="relative hidden md:flex items-end justify-end flex-shrink-0 h-[240px] w-[160px] mr-6 cursor-pointer select-none"
+          className="relative hidden md:flex items-end justify-end flex-shrink-0 h-[145px] w-[110px] mr-6 cursor-pointer select-none"
           style={{ perspective: '900px' }}
         >
           <div

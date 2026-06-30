@@ -288,6 +288,54 @@ export default function HomePage() {
     setCardTilt({ rx: (py - 0.5) * -12, ry: (px - 0.5) * 12 })
   }
 
+  const textCardRef = useRef<HTMLDivElement>(null)
+  const [textCardTilt, setTextCardTilt] = useState({ rx: 0, ry: 0 })
+  const [textCardHov, setTextCardHov] = useState(false)
+
+  function onTextCardMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = textCardRef.current; if (!el) return
+    const { left, top, width, height } = el.getBoundingClientRect()
+    const px = (e.clientX - left) / width
+    const py = (e.clientY - top) / height
+    setTextCardTilt({ rx: (py - 0.5) * -10, ry: (px - 0.5) * 10 })
+  }
+
+  const aboutTextRef = useRef<HTMLDivElement>(null)
+  const [aboutTextTilt, setAboutTextTilt] = useState({ rx: 0, ry: 0 })
+  const [aboutTextHov, setAboutTextHov] = useState(false)
+
+  function onAboutTextMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = aboutTextRef.current; if (!el) return
+    const { left, top, width, height } = el.getBoundingClientRect()
+    const px = (e.clientX - left) / width
+    const py = (e.clientY - top) / height
+    setAboutTextTilt({ rx: (py - 0.5) * -10, ry: (px - 0.5) * 10 })
+  }
+
+  const chatTextRef = useRef<HTMLDivElement>(null)
+  const [chatTextTilt, setChatTextTilt] = useState({ rx: 0, ry: 0 })
+  const [chatTextHov, setChatTextHov] = useState(false)
+
+  function onChatTextMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = chatTextRef.current; if (!el) return
+    const { left, top, width, height } = el.getBoundingClientRect()
+    const px = (e.clientX - left) / width
+    const py = (e.clientY - top) / height
+    setChatTextTilt({ rx: (py - 0.5) * -10, ry: (px - 0.5) * 10 })
+  }
+
+  const featHeaderRef = useRef<HTMLDivElement>(null)
+  const [featHeaderTilt, setFeatHeaderTilt] = useState({ rx: 0, ry: 0 })
+  const [featHeaderHov, setFeatHeaderHov] = useState(false)
+
+  function onFeatHeaderMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = featHeaderRef.current; if (!el) return
+    const { left, top, width, height } = el.getBoundingClientRect()
+    const px = (e.clientX - left) / width
+    const py = (e.clientY - top) / height
+    setFeatHeaderTilt({ rx: (py - 0.5) * -10, ry: (px - 0.5) * 10 })
+  }
+
   const modulesRef = useRef<HTMLDivElement>(null)
   const [modulesTilt, setModulesTilt] = useState({ rx: 0, ry: 0 })
   const [modulesHov, setModulesHov] = useState(false)
@@ -400,34 +448,75 @@ export default function HomePage() {
                 </div>
               </motion.div>
 
-              {/* Right: white card overlay */}
+              {/* Right: white card overlay — 3D tilt container */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
-                className="bg-white p-10 md:p-14 rounded-3xl shadow-2xl lg:-ml-24 relative z-20 border border-border/50"
+                style={{ perspective: '1000px' }}
+                className="lg:-ml-24 relative z-20"
               >
-                <div className="inline-block bg-muted text-primary font-bold text-sm tracking-wider uppercase px-4 py-1.5 rounded-full mb-6">
-                  Sistema de Gestão em Saúde
+                <div
+                  ref={textCardRef}
+                  onMouseMove={onTextCardMove}
+                  onMouseEnter={() => setTextCardHov(true)}
+                  onMouseLeave={() => { setTextCardHov(false); setTextCardTilt({ rx: 0, ry: 0 }) }}
+                  className="bg-white p-10 md:p-14 rounded-3xl shadow-2xl border border-border/50"
+                  style={{
+                    transformStyle: 'preserve-3d',
+                    transform: `rotateX(${textCardTilt.rx}deg) rotateY(${textCardTilt.ry}deg)`,
+                    transition: textCardHov ? 'transform 0.08s linear' : 'transform 0.6s cubic-bezier(0.23,1,0.32,1)',
+                    boxShadow: textCardHov
+                      ? '0 30px 60px rgba(0,0,0,0.2), 0 8px 20px rgba(0,0,0,0.1)'
+                      : '0 20px 40px rgba(0,0,0,0.12)',
+                  }}
+                >
+                  <div
+                    className="inline-block bg-muted text-primary font-bold text-sm tracking-wider uppercase px-4 py-1.5 rounded-full mb-6"
+                    style={{
+                      transform: 'translateZ(16px)',
+                      boxShadow: textCardHov ? '0 4px 12px rgba(0,0,0,0.12)' : 'none',
+                      transition: 'box-shadow 0.3s ease',
+                    }}
+                  >
+                    Sistema de Gestão em Saúde
+                  </div>
+                  <h1
+                    className="text-4xl md:text-5xl font-extrabold text-primary mb-6 leading-[1.1]"
+                    style={{
+                      letterSpacing: '-0.02em',
+                      transform: 'translateZ(30px)',
+                      textShadow: textCardHov
+                        ? '1px 1px 0 hsl(184,80%,20%), 2px 2px 0 hsl(184,80%,18%), 3px 3px 0 hsl(184,80%,15%), 4px 4px 12px rgba(0,0,0,0.2)'
+                        : '0 2px 8px rgba(0,0,0,0.06)',
+                      transition: 'text-shadow 0.3s ease, transform 0.08s linear',
+                    }}
+                  >
+                    Gestão Médica Completa na Palma da Mão
+                  </h1>
+                  <p
+                    className="text-lg text-foreground/80 mb-10 leading-relaxed"
+                    style={{
+                      maxWidth: 'none',
+                      transform: 'translateZ(12px)',
+                      textShadow: textCardHov ? '0 1px 6px rgba(0,0,0,0.08)' : 'none',
+                      transition: 'text-shadow 0.3s ease',
+                    }}
+                  >
+                    Controle pacientes, médicos, estabelecimentos e agendamentos em uma única plataforma. Ágil, integrado e focado na eficiência do atendimento médico.
+                  </p>
+                  <div style={{ transform: 'translateZ(22px)' }}>
+                    <ButtonLink
+                      to="/agendamentos"
+                      className={cn(
+                        buttonVariants({ variant: 'accent', size: 'lg' }),
+                        'rounded-full px-10'
+                      )}
+                    >
+                      Novo Agendamento <ArrowRight className="h-5 w-5" />
+                    </ButtonLink>
+                  </div>
                 </div>
-                <h1
-                  className="text-4xl md:text-5xl font-extrabold text-primary mb-6 leading-[1.1]"
-                  style={{ letterSpacing: '-0.02em' }}
-                >
-                  Gestão Médica Completa na Palma da Mão
-                </h1>
-                <p className="text-lg text-foreground/80 mb-10 leading-relaxed" style={{ maxWidth: 'none' }}>
-                  Controle pacientes, médicos, estabelecimentos e agendamentos em uma única plataforma. Ágil, integrado e focado na eficiência do atendimento médico.
-                </p>
-                <ButtonLink
-                  to="/agendamentos"
-                  className={cn(
-                    buttonVariants({ variant: 'accent', size: 'lg' }),
-                    'rounded-full px-10'
-                  )}
-                >
-                  Novo Agendamento <ArrowRight className="h-5 w-5" />
-                </ButtonLink>
               </motion.div>
 
             </div>
@@ -437,20 +526,55 @@ export default function HomePage() {
         {/* ── Features ───────────────────────────────────────────────────────── */}
         <section id="features" className="py-24 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-3xl mx-auto mb-16">
-              <p
-                className="text-accent font-bold tracking-widest uppercase mb-3"
-                style={{ maxWidth: 'none' }}
+            <div className="text-center max-w-3xl mx-auto mb-16" style={{ perspective: '1000px' }}>
+              <div
+                ref={featHeaderRef}
+                onMouseMove={onFeatHeaderMove}
+                onMouseEnter={() => setFeatHeaderHov(true)}
+                onMouseLeave={() => { setFeatHeaderHov(false); setFeatHeaderTilt({ rx: 0, ry: 0 }) }}
+                style={{
+                  transformStyle: 'preserve-3d',
+                  transform: `rotateX(${featHeaderTilt.rx}deg) rotateY(${featHeaderTilt.ry}deg)`,
+                  transition: featHeaderHov ? 'transform 0.08s linear' : 'transform 0.6s cubic-bezier(0.23,1,0.32,1)',
+                  cursor: 'default',
+                }}
               >
-                Funcionalidades
-              </p>
-              <h2 className="text-4xl md:text-5xl font-extrabold text-primary mb-6">
-                Tudo que você precisa
-              </h2>
-              <p className="text-lg text-foreground/70" style={{ maxWidth: 'none' }}>
-                Uma plataforma completa para gerenciar todos os aspectos da operação médica,
-                do cadastro ao atendimento.
-              </p>
+                <p
+                  className="text-accent font-bold tracking-widest uppercase mb-3"
+                  style={{
+                    maxWidth: 'none',
+                    transform: 'translateZ(12px)',
+                    textShadow: featHeaderHov ? '0 2px 8px rgba(0,0,0,0.12)' : 'none',
+                    transition: 'text-shadow 0.3s ease',
+                  }}
+                >
+                  Funcionalidades
+                </p>
+                <h2
+                  className="text-4xl md:text-5xl font-extrabold text-primary mb-6"
+                  style={{
+                    transform: 'translateZ(28px)',
+                    textShadow: featHeaderHov
+                      ? '1px 1px 0 hsl(184,80%,20%), 2px 2px 0 hsl(184,80%,18%), 3px 3px 0 hsl(184,80%,15%), 4px 4px 12px rgba(0,0,0,0.18)'
+                      : '0 2px 8px rgba(0,0,0,0.05)',
+                    transition: 'text-shadow 0.3s ease',
+                  }}
+                >
+                  Tudo que você precisa
+                </h2>
+                <p
+                  className="text-lg text-foreground/70"
+                  style={{
+                    maxWidth: 'none',
+                    transform: 'translateZ(10px)',
+                    textShadow: featHeaderHov ? '0 1px 6px rgba(0,0,0,0.08)' : 'none',
+                    transition: 'text-shadow 0.3s ease',
+                  }}
+                >
+                  Uma plataforma completa para gerenciar todos os aspectos da operação médica,
+                  do cadastro ao atendimento.
+                </p>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
@@ -495,29 +619,63 @@ export default function HomePage() {
               {/* Icon grande — tilt 3D */}
               <TiltIcon3D size="lg" />
 
-              {/* Text */}
-              <div className="flex-1 text-center lg:text-left">
-                <h3 className="text-2xl font-extrabold text-secondary mb-2">
-                  Assistente Virtual disponível agora
-                </h3>
-                <p className="text-foreground/70 text-base leading-relaxed" style={{ maxWidth: 'none' }}>
-                  Clique no botão <strong className="text-primary">azul-teal</strong> no canto inferior direito e use nosso chatbot para{' '}
-                  <strong>cadastrar um paciente</strong> ou <strong>agendar uma consulta</strong> em poucos passos, sem precisar navegar pelo sistema.
-                </p>
+              {/* Text — 3D tilt */}
+              <div className="flex-1 text-center lg:text-left" style={{ perspective: '800px' }}>
+                <div
+                  ref={chatTextRef}
+                  onMouseMove={onChatTextMove}
+                  onMouseEnter={() => setChatTextHov(true)}
+                  onMouseLeave={() => { setChatTextHov(false); setChatTextTilt({ rx: 0, ry: 0 }) }}
+                  style={{
+                    transformStyle: 'preserve-3d',
+                    transform: `rotateX(${chatTextTilt.rx}deg) rotateY(${chatTextTilt.ry}deg)`,
+                    transition: chatTextHov ? 'transform 0.08s linear' : 'transform 0.6s cubic-bezier(0.23,1,0.32,1)',
+                    cursor: 'default',
+                  }}
+                >
+                  <h3
+                    className="text-2xl font-extrabold text-secondary mb-2"
+                    style={{
+                      transform: 'translateZ(26px)',
+                      textShadow: chatTextHov
+                        ? '1px 1px 0 hsl(190,100%,14%), 2px 2px 0 hsl(190,100%,12%), 3px 3px 10px rgba(0,0,0,0.18)'
+                        : '0 2px 6px rgba(0,0,0,0.05)',
+                      transition: 'text-shadow 0.3s ease',
+                    }}
+                  >
+                    Assistente Virtual disponível agora
+                  </h3>
+                  <p
+                    className="text-foreground/70 text-base leading-relaxed"
+                    style={{
+                      maxWidth: 'none',
+                      transform: 'translateZ(10px)',
+                      textShadow: chatTextHov ? '0 1px 6px rgba(0,0,0,0.08)' : 'none',
+                      transition: 'text-shadow 0.3s ease',
+                    }}
+                  >
+                    Clique no botão <strong className="text-primary">azul-teal</strong> no canto inferior direito e use nosso chatbot para{' '}
+                    <strong>cadastrar um paciente</strong> ou <strong>agendar uma consulta</strong> em poucos passos, sem precisar navegar pelo sistema.
+                  </p>
+                </div>
               </div>
 
               {/* CTA visual */}
               <div className="flex flex-col items-center gap-3 shrink-0">
-                <div className="flex items-center gap-2 text-sm font-semibold text-foreground/60">
-                  <MousePointerClick className="w-4 h-4" />
-                  <span>Clique aqui embaixo</span>
-                </div>
+                <TiltWrap intensity={18}>
+                  <div className="flex items-center gap-2 text-sm font-semibold text-foreground/60">
+                    <MousePointerClick className="w-4 h-4" />
+                    <span>Clique aqui embaixo</span>
+                  </div>
+                </TiltWrap>
                 <div className="relative">
                   {/* Ícone pequeno — tilt 3D */}
                   <TiltIcon3D size="sm" />
                   <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-green-400 border-2 border-white z-10" />
                 </div>
-                <span className="text-xs text-foreground/50">canto inferior direito ↘</span>
+                <TiltWrap intensity={18}>
+                  <span className="text-xs text-foreground/50">canto inferior direito ↘</span>
+                </TiltWrap>
               </div>
             </motion.div>
           </div>
@@ -535,34 +693,80 @@ export default function HomePage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
               >
-                <p
-                  className="text-accent font-bold tracking-widest uppercase mb-3"
-                  style={{ maxWidth: 'none' }}
+                <div
+                  ref={aboutTextRef}
+                  onMouseMove={onAboutTextMove}
+                  onMouseEnter={() => setAboutTextHov(true)}
+                  onMouseLeave={() => { setAboutTextHov(false); setAboutTextTilt({ rx: 0, ry: 0 }) }}
+                  style={{
+                    perspective: '1000px',
+                    transformStyle: 'preserve-3d',
+                    transform: `rotateX(${aboutTextTilt.rx}deg) rotateY(${aboutTextTilt.ry}deg)`,
+                    transition: aboutTextHov ? 'transform 0.08s linear' : 'transform 0.6s cubic-bezier(0.23,1,0.32,1)',
+                    cursor: 'default',
+                  }}
                 >
-                  Fluxo de Atendimento
-                </p>
-                <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6">
-                  Agendamento em 5 etapas
-                </h2>
-                <div className="space-y-4 mb-10">
-                  <p className="text-white/80 text-lg leading-relaxed" style={{ maxWidth: 'none' }}>
-                    O módulo de agendamentos guia o operador em um wizard intuitivo: selecione o
-                    paciente, o serviço, o médico, o slot disponível e confirme.
+                  <p
+                    className="text-accent font-bold tracking-widest uppercase mb-3"
+                    style={{
+                      maxWidth: 'none',
+                      transform: 'translateZ(12px)',
+                      textShadow: aboutTextHov ? '0 2px 10px rgba(0,0,0,0.25)' : 'none',
+                      transition: 'text-shadow 0.3s ease',
+                    }}
+                  >
+                    Fluxo de Atendimento
                   </p>
-                  <p className="text-white/80 text-lg leading-relaxed" style={{ maxWidth: 'none' }}>
-                    Acompanhe cada consulta do agendamento até a conclusão: Agendado → Confirmado →
-                    A Caminho → Chegou → Concluído.
-                  </p>
+                  <h2
+                    className="text-4xl md:text-5xl font-extrabold text-white mb-6"
+                    style={{
+                      transform: 'translateZ(32px)',
+                      textShadow: aboutTextHov
+                        ? '1px 1px 0 rgba(0,0,0,0.3), 2px 2px 0 rgba(0,0,0,0.25), 3px 3px 0 rgba(0,0,0,0.2), 4px 4px 14px rgba(0,0,0,0.35)'
+                        : '0 2px 10px rgba(0,0,0,0.2)',
+                      transition: 'text-shadow 0.3s ease',
+                    }}
+                  >
+                    Agendamento em 5 etapas
+                  </h2>
+                  <div className="space-y-4 mb-10">
+                    <p
+                      className="text-white/80 text-lg leading-relaxed"
+                      style={{
+                        maxWidth: 'none',
+                        transform: 'translateZ(10px)',
+                        textShadow: aboutTextHov ? '0 1px 6px rgba(0,0,0,0.2)' : 'none',
+                        transition: 'text-shadow 0.3s ease',
+                      }}
+                    >
+                      O módulo de agendamentos guia o operador em um wizard intuitivo: selecione o
+                      paciente, o serviço, o médico, o slot disponível e confirme.
+                    </p>
+                    <p
+                      className="text-white/80 text-lg leading-relaxed"
+                      style={{
+                        maxWidth: 'none',
+                        transform: 'translateZ(10px)',
+                        textShadow: aboutTextHov ? '0 1px 6px rgba(0,0,0,0.2)' : 'none',
+                        transition: 'text-shadow 0.3s ease',
+                      }}
+                    >
+                      Acompanhe cada consulta do agendamento até a conclusão: Agendado → Confirmado →
+                      A Caminho → Chegou → Concluído.
+                    </p>
+                  </div>
+                  <div style={{ transform: 'translateZ(20px)' }}>
+                    <ButtonLink
+                      to="/agendamentos"
+                      className={cn(
+                        buttonVariants({ variant: 'accent', size: 'lg' }),
+                        'rounded-full px-10'
+                      )}
+                    >
+                      Criar Agendamento
+                    </ButtonLink>
+                  </div>
                 </div>
-                <ButtonLink
-                  to="/agendamentos"
-                  className={cn(
-                    buttonVariants({ variant: 'accent', size: 'lg' }),
-                    'rounded-full px-10'
-                  )}
-                >
-                  Criar Agendamento
-                </ButtonLink>
               </motion.div>
 
               <motion.div
@@ -625,23 +829,30 @@ export default function HomePage() {
       {/* ── Footer ─────────────────────────────────────────────────────────── */}
       <footer className="bg-secondary border-t border-white/10 py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white/70">
-          <div className="flex items-center gap-2">
-            <div className="bg-primary/20 p-1.5 rounded-lg">
-              <Activity className="h-4 w-4 text-primary" />
+          <TiltWrap intensity={16}>
+            <div className="flex items-center gap-2">
+              <div className="bg-primary/20 p-1.5 rounded-lg">
+                <Activity className="h-4 w-4 text-primary" />
+              </div>
+              <span className="font-extrabold text-white">
+                SGSM <span className="text-primary">Médico</span>
+              </span>
             </div>
-            <span className="font-extrabold text-white">
-              SGSM <span className="text-primary">Médico</span>
-            </span>
-          </div>
-          <p style={{ maxWidth: 'none' }}>
-            © {new Date().getFullYear()} SGSM — Sistema de Gestão em Saúde Médica
-          </p>
-          <Link
-            to="/pacientes"
-            className="text-accent hover:text-accent/80 font-semibold transition-colors"
-          >
-            Acessar Sistema →
-          </Link>
+          </TiltWrap>
+          <TiltWrap intensity={12}>
+            <p style={{ maxWidth: 'none' }}>
+              © {new Date().getFullYear()} SGSM — Sistema de Gestão em Saúde Médica
+            </p>
+          </TiltWrap>
+          <TiltWrap intensity={16}>
+            <Link
+              to="/pacientes"
+              className="text-accent hover:text-accent/80 font-semibold transition-colors"
+              style={{ display: 'inline-block' }}
+            >
+              Acessar Sistema →
+            </Link>
+          </TiltWrap>
         </div>
       </footer>
     </div>
