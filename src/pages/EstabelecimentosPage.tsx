@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Plus, Search, Pencil, Trash2, Building2, MapPin, Stethoscope } from 'lucide-react'
 import { useEstabelecimentos } from '@/hooks/useEstabelecimentos'
 import { medicoService } from '@/services/medicoService'
@@ -44,6 +44,18 @@ export function EstabelecimentosPage() {
   const [loadingMedicos, setLoadingMedicos] = useState(false)
   const [salvandoMedicos, setSalvandoMedicos] = useState(false)
   const [erroMedicos, setErroMedicos] = useState<string | null>(null)
+
+  const tiltRef = useRef<HTMLDivElement>(null)
+  const [tilt, setTilt] = useState({ rx: 0, ry: 0 })
+  const [hovering3d, setHovering3d] = useState(false)
+  function onTiltMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = tiltRef.current; if (!el) return
+    const { left, top, width, height } = el.getBoundingClientRect()
+    const px = (e.clientX - left) / width
+    const py = (e.clientY - top) / height
+    setTilt({ rx: (py - 0.5) * -26, ry: (px - 0.5) * 26 })
+  }
+  function onTiltLeave() { setHovering3d(false); setTilt({ rx: 0, ry: 0 }) }
 
   useEffect(() => { listar({ ativo: filtroAtivo, uf: filtroUf || undefined, cidade: filtroCidade || undefined }) }, [filtroAtivo, filtroUf, filtroCidade, listar])
 
@@ -94,12 +106,36 @@ export function EstabelecimentosPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between gap-4">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Cadastros</p>
-          <h1 className="text-3xl font-bold text-secondary mt-0.5">Estabelecimentos</h1>
+      {/* ── Hero banner ───────────────────────────────────────────────────── */}
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[hsl(190,100%,10%)] via-[hsl(190,100%,14%)] to-[hsl(190,100%,18%)] flex items-center justify-between gap-6 min-h-[200px] pr-0">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_50%,rgba(0,210,255,0.18),transparent_65%)] pointer-events-none" />
+        <div className="relative z-10 flex flex-col gap-3 p-8">
+          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-cyan-400/70">Cadastros</p>
+          <h1 className="text-3xl font-extrabold text-white leading-tight">Estabelecimentos</h1>
+          <p className="text-sm text-white/50 max-w-xs">Clínicas, hospitais e consultórios com localização no mapa.</p>
+          <div className="mt-1"><Button onClick={abrirCadastro}><Plus size={16} strokeWidth={2} /> Novo Estabelecimento</Button></div>
         </div>
-        <Button onClick={abrirCadastro}><Plus size={16} strokeWidth={2} /> Novo Estabelecimento</Button>
+        <div className="relative hidden md:flex items-end justify-end flex-shrink-0 h-[240px] w-[160px] mr-6 cursor-pointer select-none" style={{ perspective: '900px' }}>
+          <div
+            ref={tiltRef}
+            onMouseMove={onTiltMove}
+            onMouseEnter={() => setHovering3d(true)}
+            onMouseLeave={onTiltLeave}
+            style={{
+              transformStyle: 'preserve-3d',
+              transform: `rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) scale(${hovering3d ? 1.08 : 1})`,
+              transition: hovering3d ? 'transform 0.07s linear' : 'transform 0.65s cubic-bezier(0.23,1,0.32,1)',
+              animation: hovering3d ? 'none' : 'img-float 4s ease-in-out infinite',
+            }}
+            className="relative h-full w-full"
+          >
+            <style>{`@keyframes img-float { 0%,100%{transform:translateY(0) rotateX(4deg) rotateY(-4deg)} 50%{transform:translateY(-10px) rotateX(-4deg) rotateY(4deg)} }`}</style>
+            <img src="/medico-3d.jpg" alt="" aria-hidden="true" className="h-full w-auto object-contain object-bottom"
+              style={{ filter: `drop-shadow(0 0 ${hovering3d ? '40px' : '24px'} rgba(0,210,255,${hovering3d ? '0.75' : '0.5'}))`, transition: 'filter 0.3s ease' }} />
+            <div className="absolute inset-0 pointer-events-none rounded-lg"
+              style={{ background: `radial-gradient(circle at 50% 50%, rgba(255,255,255,${hovering3d ? '0.18' : '0'}), transparent 55%)`, transition: hovering3d ? 'none' : 'background 0.5s ease' }} />
+          </div>
+        </div>
       </div>
 
       <Card className="p-4">

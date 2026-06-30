@@ -17,6 +17,129 @@ import {
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/Button'
 
+// ─── TiltWrap (envolve qualquer elemento com efeito 3D) ───────────────────────
+
+function TiltWrap({ children, intensity = 20, className }: { children: React.ReactNode; intensity?: number; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [tilt, setTilt] = useState({ rx: 0, ry: 0 })
+  const [hov, setHov] = useState(false)
+
+  function onMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = ref.current; if (!el) return
+    const { left, top, width, height } = el.getBoundingClientRect()
+    const px = (e.clientX - left) / width
+    const py = (e.clientY - top) / height
+    setTilt({ rx: (py - 0.5) * -intensity, ry: (px - 0.5) * intensity })
+  }
+
+  return (
+    <div style={{ perspective: '400px' }} className={className}>
+      <div
+        ref={ref}
+        onMouseMove={onMove}
+        onMouseEnter={() => setHov(true)}
+        onMouseLeave={() => { setHov(false); setTilt({ rx: 0, ry: 0 }) }}
+        style={{
+          transformStyle: 'preserve-3d',
+          transform: `rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) scale(${hov ? 1.06 : 1})`,
+          transition: hov ? 'transform 0.07s linear' : 'transform 0.5s cubic-bezier(0.23,1,0.32,1)',
+        }}
+      >
+        {children}
+      </div>
+    </div>
+  )
+}
+
+// ─── NavLink3D (links de navegação com efeito 3D) ─────────────────────────────
+
+function NavLink3D({ href, children }: { href: string; children: React.ReactNode }) {
+  const ref = useRef<HTMLAnchorElement>(null)
+  const [tilt, setTilt] = useState({ rx: 0, ry: 0 })
+  const [hov, setHov] = useState(false)
+
+  function onMove(e: React.MouseEvent<HTMLAnchorElement>) {
+    const el = ref.current; if (!el) return
+    const { left, top, width, height } = el.getBoundingClientRect()
+    const px = (e.clientX - left) / width
+    const py = (e.clientY - top) / height
+    setTilt({ rx: (py - 0.5) * -18, ry: (px - 0.5) * 18 })
+  }
+
+  return (
+    <a
+      ref={ref}
+      href={href}
+      onMouseMove={onMove}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => { setHov(false); setTilt({ rx: 0, ry: 0 }) }}
+      style={{
+        display: 'inline-block',
+        transformStyle: 'preserve-3d',
+        transform: `perspective(300px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) scale(${hov ? 1.1 : 1})`,
+        transition: hov ? 'transform 0.07s linear' : 'transform 0.5s cubic-bezier(0.23,1,0.32,1)',
+        textShadow: hov ? '0 4px 12px rgba(0,0,0,0.15)' : 'none',
+      }}
+      className="text-sm font-semibold text-foreground/80 hover:text-primary transition-colors"
+    >
+      {children}
+    </a>
+  )
+}
+
+// ─── TiltIcon3D (ícone chatbot com efeito 3D) ─────────────────────────────────
+
+function TiltIcon3D({ size }: { size: 'lg' | 'sm' }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [tilt, setTilt] = useState({ rx: 0, ry: 0, gx: 50, gy: 50 })
+  const [hov, setHov] = useState(false)
+
+  function onMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = ref.current; if (!el) return
+    const { left, top, width, height } = el.getBoundingClientRect()
+    const px = (e.clientX - left) / width
+    const py = (e.clientY - top) / height
+    setTilt({ rx: (py - 0.5) * -22, ry: (px - 0.5) * 22, gx: px * 100, gy: py * 100 })
+  }
+
+  const isLg = size === 'lg'
+
+  return (
+    <div style={{ perspective: '400px' }} className="shrink-0">
+      <div
+        ref={ref}
+        onMouseMove={onMove}
+        onMouseEnter={() => setHov(true)}
+        onMouseLeave={() => { setHov(false); setTilt({ rx: 0, ry: 0, gx: 50, gy: 50 }) }}
+        style={{
+          transformStyle: 'preserve-3d',
+          transform: `rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) scale(${hov ? 1.12 : 1})`,
+          transition: hov ? 'transform 0.07s linear' : 'transform 0.55s cubic-bezier(0.23,1,0.32,1)',
+          boxShadow: hov
+            ? `0 ${isLg ? 20 : 10}px ${isLg ? 40 : 20}px rgba(0,0,0,0.25)`
+            : `0 ${isLg ? 4 : 2}px ${isLg ? 12 : 8}px rgba(0,0,0,0.15)`,
+        }}
+        className={cn(
+          'relative flex items-center justify-center bg-primary overflow-hidden cursor-pointer',
+          isLg ? 'w-20 h-20 rounded-2xl' : 'w-14 h-14 rounded-full',
+        )}
+      >
+        <MessageCircle className={cn('text-white relative z-10', isLg ? 'w-10 h-10' : 'w-6 h-6')} />
+        {/* glare */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: `radial-gradient(circle at ${tilt.gx}% ${tilt.gy}%, rgba(255,255,255,${hov ? '0.3' : '0.1'}), transparent 60%)`,
+            transition: hov ? 'none' : 'background 0.5s ease',
+          }}
+        />
+        {/* borda inferior 3D */}
+        <div className="absolute inset-x-0 bottom-0 h-[3px] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+      </div>
+    </div>
+  )
+}
+
 // ─── ButtonLink (Link com efeito 3D) ──────────────────────────────────────────
 
 function ButtonLink({ to, className, children }: { to: string; className?: string; children: React.ReactNode }) {
@@ -183,14 +306,16 @@ export default function HomePage() {
       {/* ── Header ─────────────────────────────────────────────────────────── */}
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 group">
-            <div className="bg-primary p-2 rounded-xl group-hover:bg-secondary transition-colors">
-              <Activity className="h-5 w-5 text-white" />
-            </div>
-            <span className="text-xl font-extrabold tracking-tight text-secondary">
-              SGSM <span className="text-primary">Médico</span>
-            </span>
-          </Link>
+          <TiltWrap intensity={18}>
+            <Link to="/" className="flex items-center gap-2 group">
+              <div className="bg-primary p-2 rounded-xl group-hover:bg-secondary transition-colors">
+                <Activity className="h-5 w-5 text-white" />
+              </div>
+              <span className="text-xl font-extrabold tracking-tight text-secondary">
+                SGSM <span className="text-primary">Médico</span>
+              </span>
+            </Link>
+          </TiltWrap>
 
           <nav className="hidden md:flex items-center gap-8">
             {[
@@ -198,13 +323,9 @@ export default function HomePage() {
               { label: 'Funcionalidades', href: '#features' },
               { label: 'Sobre o Sistema', href: '#about' },
             ].map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-sm font-semibold text-foreground/80 hover:text-primary transition-colors"
-              >
+              <NavLink3D key={link.href} href={link.href}>
                 {link.label}
-              </a>
+              </NavLink3D>
             ))}
           </nav>
 
@@ -371,10 +492,8 @@ export default function HomePage() {
               transition={{ duration: 0.5 }}
               className="bg-white rounded-3xl border border-border shadow-lg px-8 py-10 flex flex-col lg:flex-row items-center gap-8"
             >
-              {/* Icon */}
-              <div className="w-20 h-20 rounded-2xl bg-primary flex items-center justify-center shrink-0 shadow-md">
-                <MessageCircle className="w-10 h-10 text-white" />
-              </div>
+              {/* Icon grande — tilt 3D */}
+              <TiltIcon3D size="lg" />
 
               {/* Text */}
               <div className="flex-1 text-center lg:text-left">
@@ -394,10 +513,9 @@ export default function HomePage() {
                   <span>Clique aqui embaixo</span>
                 </div>
                 <div className="relative">
-                  <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center shadow-lg">
-                    <MessageCircle className="w-6 h-6 text-white" />
-                  </div>
-                  <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-green-400 border-2 border-white" />
+                  {/* Ícone pequeno — tilt 3D */}
+                  <TiltIcon3D size="sm" />
+                  <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-green-400 border-2 border-white z-10" />
                 </div>
                 <span className="text-xs text-foreground/50">canto inferior direito ↘</span>
               </div>

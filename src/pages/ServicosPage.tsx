@@ -86,7 +86,7 @@ export function ServicosPage() {
   return (
     <div className="space-y-6">
       {/* ── Hero banner ───────────────────────────────────────────────────── */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#060e1f] via-[#0a1e3d] to-[#0d2a52] flex items-center justify-between gap-6 min-h-[200px] pr-0">
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[hsl(190,100%,10%)] via-[hsl(190,100%,14%)] to-[hsl(190,100%,18%)] flex items-center justify-between gap-6 min-h-[200px] pr-0">
         {/* Radial glow behind image */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_50%,rgba(0,210,255,0.18),transparent_65%)] pointer-events-none" />
 
@@ -128,7 +128,7 @@ export function ServicosPage() {
             `}</style>
 
             <img
-              src="/saude-3d.jpg"
+              src="/medico-3d.jpg"
               alt=""
               aria-hidden="true"
               className="h-full w-auto object-contain object-bottom"
