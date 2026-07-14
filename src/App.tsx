@@ -1,13 +1,30 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Navigate, Outlet, Routes, Route } from 'react-router-dom'
 import { Toaster } from 'sonner'
 import { Layout } from './components/layout/Layout'
 import { ChatbotWidget } from './components/ChatbotWidget'
 import HomePage from './pages/HomePage'
+import { LoginPage } from './pages/LoginPage'
+import { RegisterPage } from './pages/RegisterPage'
 import { PacientesPage } from './pages/PacientesPage'
 import { MedicosPage } from './pages/MedicosPage'
 import { EstabelecimentosPage } from './pages/EstabelecimentosPage'
 import { ServicosPage } from './pages/ServicosPage'
 import { AgendamentosPage } from './pages/AgendamentosPage'
+import { useAuth } from './hooks/useAuth'
+
+function PrivateRoute() {
+  const { isAuthenticated, loading } = useAuth()
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+      </div>
+    )
+  }
+
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />
+}
 
 export default function App() {
   return (
@@ -16,12 +33,16 @@ export default function App() {
       <ChatbotWidget />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route element={<Layout />}>
-          <Route path="/pacientes" element={<PacientesPage />} />
-          <Route path="/medicos" element={<MedicosPage />} />
-          <Route path="/estabelecimentos" element={<EstabelecimentosPage />} />
-          <Route path="/servicos" element={<ServicosPage />} />
-          <Route path="/agendamentos" element={<AgendamentosPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/registrar" element={<RegisterPage />} />
+        <Route element={<PrivateRoute />}>
+          <Route element={<Layout />}>
+            <Route path="/pacientes" element={<PacientesPage />} />
+            <Route path="/medicos" element={<MedicosPage />} />
+            <Route path="/estabelecimentos" element={<EstabelecimentosPage />} />
+            <Route path="/servicos" element={<ServicosPage />} />
+            <Route path="/agendamentos" element={<AgendamentosPage />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

@@ -284,6 +284,51 @@ export type FiltrosAgendamento = {
   medicoId?: string
 }
 
+// ─── Auth ─────────────────────────────────────────────────────────────────────
+
+export interface LoginRequest {
+  email: string
+  senha: string
+}
+
+export interface LoginResponse {
+  accessToken: string
+  refreshToken: string
+  expiresIn: number
+  tipo: string
+}
+
+export interface RegistrarRequest {
+  email: string
+  senha: string
+  tipoPerfil: 'MEDICO' | 'PACIENTE' | 'FUNCIONARIO' | 'DESENVOLVEDOR'
+  referenciaId: string
+}
+
+export interface RegistrarResponse {
+  id: string
+  email: string
+  tipoPerfil: string
+  referenciaId: string
+  criadoEm: string
+}
+
+export interface RefreshResponse {
+  accessToken: string
+  expiresIn: number
+  tipo: string
+}
+
+export interface MeResponse {
+  id: string
+  email: string
+  nome: string
+  perfil: string
+  referenciaId: string
+  roles: string[]
+  permissions: string[]
+}
+
 // ─── Utilitários ─────────────────────────────────────────────────────────────
 
 export interface ApiError {

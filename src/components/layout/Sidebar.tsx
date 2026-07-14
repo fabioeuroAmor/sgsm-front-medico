@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import {
   Users,
   Stethoscope,
@@ -9,9 +9,12 @@ import {
   Menu,
   X,
   Home,
+  LogOut,
 } from 'lucide-react'
 import { useState, useRef } from 'react'
+import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
+import { useAuth } from '@/hooks/useAuth'
 
 const navItems = [
   { to: '/', label: 'Home', icon: Home },
@@ -111,6 +114,17 @@ function LogoTilt() {
 
 export function Sidebar() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const { usuario, logout } = useAuth()
+  const navigate = useNavigate()
+
+  async function handleLogout() {
+    try {
+      await logout()
+      navigate('/login', { replace: true })
+    } catch {
+      toast.error('Erro ao encerrar sessão.')
+    }
+  }
 
   const navContent = (
     <nav className="flex flex-col gap-1 p-3">
@@ -133,10 +147,20 @@ export function Sidebar() {
         {navContent}
 
         {/* Footer */}
-        <div className="mt-auto p-4 border-t border-[hsl(190,100%,20%)]">
-          <p className="text-[hsl(185,59%,50%)] text-xs text-center">
-            localhost:8080
-          </p>
+        <div className="mt-auto p-4 border-t border-[hsl(190,100%,20%)] flex flex-col gap-2">
+          {usuario && (
+            <div className="px-2">
+              <p className="text-[hsl(185,59%,89%)] text-xs font-semibold truncate">{usuario.nome}</p>
+              <p className="text-[hsl(185,59%,50%)] text-xs truncate">{usuario.perfil}</p>
+            </div>
+          )}
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-[hsl(185,59%,65%)] hover:bg-[hsl(190,100%,18%)] hover:text-[hsl(0,80%,70%)] transition-colors w-full"
+          >
+            <LogOut size={15} strokeWidth={1.75} />
+            Sair
+          </button>
         </div>
       </aside>
 
