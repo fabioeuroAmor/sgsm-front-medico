@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { toast } from 'sonner'
-import { LogIn } from 'lucide-react'
+import { LogIn, UserPlus, Sparkles } from 'lucide-react'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { useAuth } from '@/hooks/useAuth'
@@ -64,12 +64,42 @@ export function LoginPage() {
             </Button>
           </form>
 
-          <p className="mt-5 text-center text-xs text-muted-foreground">
-            Novo no sistema?{' '}
-            <Link to="/registrar" className="font-semibold text-primary hover:underline">
-              Criar conta
+          <div className="mt-6">
+            <Link
+              to="/registrar"
+              className="group relative flex items-center justify-center gap-2.5 w-full rounded-xl px-5 py-3.5 text-sm font-semibold text-white transition-all duration-150 select-none"
+              style={{
+                background: 'linear-gradient(135deg, #0f766e 0%, #0d9488 60%, #14b8a6 100%)',
+                boxShadow: '0 6px 0 #0f5f59, 0 8px 16px rgba(13,148,136,0.45)',
+                transform: 'translateY(0px)',
+              }}
+              onMouseEnter={e => {
+                const el = e.currentTarget as HTMLAnchorElement
+                el.style.transform = 'translateY(-2px)'
+                el.style.boxShadow = '0 8px 0 #0f5f59, 0 12px 20px rgba(13,148,136,0.5)'
+              }}
+              onMouseLeave={e => {
+                const el = e.currentTarget as HTMLAnchorElement
+                el.style.transform = 'translateY(0px)'
+                el.style.boxShadow = '0 6px 0 #0f5f59, 0 8px 16px rgba(13,148,136,0.45)'
+              }}
+              onMouseDown={e => {
+                const el = e.currentTarget as HTMLAnchorElement
+                el.style.transform = 'translateY(4px)'
+                el.style.boxShadow = '0 2px 0 #0f5f59, 0 4px 8px rgba(13,148,136,0.3)'
+              }}
+              onMouseUp={e => {
+                const el = e.currentTarget as HTMLAnchorElement
+                el.style.transform = 'translateY(0px)'
+                el.style.boxShadow = '0 6px 0 #0f5f59, 0 8px 16px rgba(13,148,136,0.45)'
+              }}
+            >
+              <Sparkles className="w-4 h-4 opacity-90" />
+              <span>Novo no sistema?</span>
+              <span className="font-bold underline underline-offset-2">Criar conta</span>
+              <UserPlus className="w-4 h-4 opacity-90" />
             </Link>
-          </p>
+          </div>
         </div>
       </div>
     </div>
