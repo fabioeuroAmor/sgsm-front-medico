@@ -17,12 +17,12 @@ import { cn } from '@/lib/utils'
 import { useAuth } from '@/hooks/useAuth'
 
 const navItems = [
-  { to: '/', label: 'Home', icon: Home },
-  { to: '/pacientes', label: 'Pacientes', icon: Users },
-  { to: '/medicos', label: 'Médicos', icon: Stethoscope },
-  { to: '/estabelecimentos', label: 'Estabelecimentos', icon: Building2 },
-  { to: '/servicos', label: 'Serviços', icon: ClipboardList },
-  { to: '/agendamentos', label: 'Agendamentos', icon: CalendarClock },
+  { to: '/', label: 'Home', icon: Home, roles: ['MEDICO', 'PACIENTE', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
+  { to: '/pacientes', label: 'Pacientes', icon: Users, roles: ['MEDICO', 'PACIENTE', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
+  { to: '/medicos', label: 'Médicos', icon: Stethoscope, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
+  { to: '/estabelecimentos', label: 'Estabelecimentos', icon: Building2, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
+  { to: '/servicos', label: 'Serviços', icon: ClipboardList, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
+  { to: '/agendamentos', label: 'Agendamentos', icon: CalendarClock, roles: ['MEDICO', 'PACIENTE', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
 ]
 
 function NavItem3D({ to, label, icon: Icon, onClick }: {
@@ -126,9 +126,12 @@ export function Sidebar() {
     }
   }
 
+  const perfil = usuario?.perfil ?? ''
+  const visibleItems = navItems.filter(item => item.roles.includes(perfil))
+
   const navContent = (
     <nav className="flex flex-col gap-1 p-3">
-      {navItems.map(({ to, label, icon: Icon }) => (
+      {visibleItems.map(({ to, label, icon: Icon }) => (
         <NavItem3D key={to} to={to} label={label} icon={Icon} onClick={() => setMobileOpen(false)} />
       ))}
     </nav>
