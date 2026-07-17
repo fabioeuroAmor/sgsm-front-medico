@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { toast } from 'sonner'
-import { UserRound, Stethoscope, LogIn, Sparkles } from 'lucide-react'
+import { UserRound, Stethoscope, LogIn, Sparkles, UserCog } from 'lucide-react'
 import { Input, SelectField } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { medicoService } from '@/services/medicoService'
@@ -9,7 +9,7 @@ import { pacienteService } from '@/services/pacienteService'
 import { authService } from '@/services/authService'
 import { cn } from '@/lib/utils'
 
-type Tipo = 'MEDICO' | 'PACIENTE'
+type Tipo = 'MEDICO' | 'PACIENTE' | 'FUNCIONARIO'
 
 const ESPECIALIDADES = [
   'Cardiologia', 'Dermatologia', 'Endocrinologia', 'Ginecologia',
@@ -63,15 +63,16 @@ export function RegisterPage() {
 
     setLoading(true)
     try {
-      let referenciaId: string
+      let referenciaId: string | undefined
 
       if (tipo === 'MEDICO') {
         const medico = await medicoService.cadastrar({ nome, crm, crmUf, especialidade, email })
         referenciaId = medico.id
-      } else {
+      } else if (tipo === 'PACIENTE') {
         const paciente = await pacienteService.cadastrar({ nome, cpf, dataNascimento, email })
         referenciaId = paciente.id
       }
+      // FUNCIONARIO: referenciaId resolvido automaticamente pelo backend via email
 
       await authService.registrar({ email, senha, tipoPerfil: tipo, referenciaId })
 
@@ -97,25 +98,36 @@ export function RegisterPage() {
         <div className="bg-card border border-border rounded-2xl shadow-lg p-8">
           {/* Seletor de tipo */}
           <div className="flex gap-3 mb-6">
-            {(['PACIENTE', 'MEDICO'] as Tipo[]).map((t) => (
+            {([
+              { value: 'PACIENTE', label: 'Paciente', icon: <UserRound size={20} /> },
+              { value: 'MEDICO', label: 'Médico', icon: <Stethoscope size={20} /> },
+              { value: 'FUNCIONARIO', label: 'Funcionário', icon: <UserCog size={20} /> },
+            ] as { value: Tipo; label: string; icon: React.ReactNode }[]).map(({ value, label, icon }) => (
               <button
-                key={t}
+                key={value}
                 type="button"
-                onClick={() => setTipo(t)}
+                onClick={() => setTipo(value)}
                 className={cn(
                   'flex-1 flex flex-col items-center gap-2 rounded-xl border-2 py-3 text-xs font-semibold transition-all',
-                  tipo === t
+                  tipo === value
                     ? 'border-primary bg-primary/10 text-primary'
                     : 'border-border text-muted-foreground hover:border-primary/40',
                 )}
               >
-                {t === 'PACIENTE' ? <UserRound size={20} /> : <Stethoscope size={20} />}
-                {t === 'PACIENTE' ? 'Paciente' : 'Médico'}
+                {icon}
+                {label}
               </button>
             ))}
           </div>
 
+          {tipo === 'FUNCIONARIO' && (
+            <div className="mb-2 rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-xs text-primary/80">
+              Seu acesso foi criado pelo médico responsável. Informe o e-mail cadastrado e escolha uma senha para ativar sua conta.
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            {tipo !== 'FUNCIONARIO' && (
             <Input
               label="Nome completo"
               value={nome}
@@ -123,6 +135,7 @@ export function RegisterPage() {
               placeholder={tipo === 'MEDICO' ? 'Dr. João Silva' : 'Maria da Silva'}
               required
             />
+            )}
 
             {tipo === 'PACIENTE' && (
               <>

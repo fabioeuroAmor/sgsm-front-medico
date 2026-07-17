@@ -302,7 +302,7 @@ export interface RegistrarRequest {
   email: string
   senha: string
   tipoPerfil: 'MEDICO' | 'PACIENTE' | 'FUNCIONARIO' | 'DESENVOLVEDOR'
-  referenciaId: string
+  referenciaId?: string
 }
 
 export interface RegistrarResponse {
