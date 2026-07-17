@@ -329,6 +329,42 @@ export interface MeResponse {
   permissions: string[]
 }
 
+// ─── Funcionário ─────────────────────────────────────────────────────────────
+
+export interface FuncionarioResponse {
+  id: string
+  nome: string
+  cpf: string
+  email: string
+  telefone?: string
+  cargo: string
+  estabelecimentoId: string
+  ativo: boolean
+  criadoEm: string
+  atualizadoEm: string
+}
+
+export interface CadastrarFuncionarioRequest {
+  nome: string
+  cpf: string
+  email: string
+  telefone?: string
+  cargo: string
+  estabelecimentoId: string
+}
+
+export interface AtualizarFuncionarioRequest {
+  nome?: string
+  email?: string
+  telefone?: string
+  cargo?: string
+}
+
+export type FiltrosFuncionario = {
+  estabelecimentoId?: string
+  ativo?: boolean
+}
+
 // ─── Utilitários ─────────────────────────────────────────────────────────────
 
 export interface ApiError {
@@ -346,6 +382,7 @@ export type FiltrosEstabelecimento = {
   ativo?: boolean
   uf?: string
   cidade?: string
+  medicoId?: string
 }
 
 export type FiltrosServico = {
