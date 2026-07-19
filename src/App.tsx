@@ -11,6 +11,7 @@ import { EstabelecimentosPage } from './pages/EstabelecimentosPage'
 import { ServicosPage } from './pages/ServicosPage'
 import { AgendamentosPage } from './pages/AgendamentosPage'
 import { FuncionariosPage } from './pages/FuncionariosPage'
+import { IaPage } from './pages/IaPage'
 import { useAuth } from './hooks/useAuth'
 
 function PrivateRoute() {
@@ -44,6 +45,7 @@ export default function App() {
             <Route path="/servicos" element={<ServicosPage />} />
             <Route path="/agendamentos" element={<AgendamentosPage />} />
             <Route path="/funcionarios" element={<FuncionariosPage />} />
+            <Route path="/ia" element={<IaPage />} />
           </Route>
         </Route>
       </Routes>
