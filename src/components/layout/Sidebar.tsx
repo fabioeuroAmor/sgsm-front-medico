@@ -10,6 +10,8 @@ import {
   X,
   Home,
   LogOut,
+  UserCog,
+  Sparkles,
 } from 'lucide-react'
 import { useState, useRef } from 'react'
 import { toast } from 'sonner'
@@ -23,6 +25,8 @@ const navItems = [
   { to: '/estabelecimentos', label: 'Estabelecimentos', icon: Building2, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
   { to: '/servicos', label: 'Serviços', icon: ClipboardList, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
   { to: '/agendamentos', label: 'Agendamentos', icon: CalendarClock, roles: ['MEDICO', 'PACIENTE', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
+  { to: '/funcionarios', label: 'Funcionários', icon: UserCog, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
+  { to: '/ia', label: 'Assistente IA', icon: Sparkles, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
 ]
 
 function NavItem3D({ to, label, icon: Icon, onClick }: {
