@@ -150,7 +150,7 @@ export function ServicosPage() {
         </div>
       </div>
 
-      <Card className="p-4">
+      <Card className="p-4 animate-fade-in-up" style={{ animationDelay: '120ms' }}>
         <div className="flex flex-wrap gap-3">
           <div className="relative flex-1 min-w-52">
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
@@ -176,7 +176,7 @@ export function ServicosPage() {
       {loading ? (
         <div className="flex justify-center py-16"><div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" /></div>
       ) : filtrados.length === 0 ? <EmptyState /> : (
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 stagger-children">
           {filtrados.map((s) => (
             <Card key={s.id} className="flex flex-col gap-4">
               <div className="flex items-start justify-between">

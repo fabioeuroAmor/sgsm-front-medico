@@ -454,7 +454,7 @@ export function AgendamentosPage() {
       ) : agendamentos.length === 0 ? (
         <EmptyState icon={<CalendarClock size={24} strokeWidth={1.5} />} title="Nenhum agendamento encontrado" description="Crie um novo agendamento clicando no botão acima." />
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 stagger-children">
           {agendamentos.map((a) => (
             <Card key={a.id} className="flex flex-col gap-3">
               <div className="flex items-start justify-between gap-2">
