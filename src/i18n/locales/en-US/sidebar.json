@@ -1,0 +1,16 @@
+{
+  "sistema_medico": "Medical System",
+  "sair": "Sign out",
+  "nav": {
+    "home": "Home",
+    "pacientes": "Patients",
+    "medicos": "Doctors",
+    "estabelecimentos": "Locations",
+    "servicos": "Services",
+    "agendamentos": "Appointments",
+    "funcionarios": "Staff",
+    "assistente_ia": "AI Assistant",
+    "crm": "CRM"
+  },
+  "idioma": "Language"
+}

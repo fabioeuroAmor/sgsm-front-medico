@@ -4,6 +4,9 @@ import { toast } from 'sonner'
 import iaApi from '@/services/iaService'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
+import { useTranslation } from 'react-i18next'
+import i18n from '@/i18n'
+import { httpErrorMsg } from '@/lib/httpError'
 
 interface Message {
   id: string
@@ -56,12 +59,13 @@ function KpiCard({ label, value }: { label: string; value: unknown }) {
 type Tab = 'chat' | 'kpis'
 
 export function IaPage() {
+  const { t } = useTranslation('ia')
   const [tab, setTab] = useState<Tab>('chat')
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '0',
       role: 'assistant',
-      content: 'Olá! Sou o assistente inteligente do SGSM. Posso responder perguntas sobre pacientes, médicos, agendamentos, serviços e muito mais. Como posso ajudar?',
+      content: i18n.t('ia:chat.msg_inicial'),
       timestamp: new Date(),
     },
   ])
@@ -108,11 +112,11 @@ export function IaPage() {
         {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
-          content: `Não consegui processar sua pergunta. ${errorMessage}`,
+          content: t('chat.erro_resposta', { erro: httpErrorMsg(err) }),
           timestamp: new Date(),
         },
       ])
-      toast.error('Erro ao consultar o assistente')
+      toast.error(t('toast.erro_chat'))
     } finally {
       setLoading(false)
     }
@@ -124,7 +128,7 @@ export function IaPage() {
       const data = await iaApi.kpis()
       setKpis(data)
     } catch {
-      toast.error('Erro ao carregar KPIs')
+      toast.error(t('toast.erro_kpis'))
     } finally {
       setKpisLoading(false)
     }
@@ -145,8 +149,8 @@ export function IaPage() {
             <Sparkles size={18} className="text-white" />
           </div>
           <div>
-            <h1 className="text-white font-bold text-base leading-none">Assistente IA</h1>
-            <p className="text-[hsl(185,59%,55%)] text-xs mt-0.5">Powered by RAG + Milvus</p>
+            <h1 className="text-white font-bold text-base leading-none">{t('titulo')}</h1>
+            <p className="text-[hsl(185,59%,55%)] text-xs mt-0.5">{t('powered')}</p>
           </div>
         </div>
         <div className="flex items-center gap-1 bg-[hsl(190,100%,14%)] rounded-xl p-1">
@@ -159,7 +163,7 @@ export function IaPage() {
                 : 'text-[hsl(185,59%,65%)] hover:text-[hsl(185,59%,89%)]',
             )}
           >
-            <Bot size={13} /> Chat
+            <Bot size={13} /> {t('tabs.chat')}
           </button>
           <button
             onClick={() => setTab('kpis')}
@@ -170,7 +174,7 @@ export function IaPage() {
                 : 'text-[hsl(185,59%,65%)] hover:text-[hsl(185,59%,89%)]',
             )}
           >
-            <BarChart3 size={13} /> KPIs
+            <BarChart3 size={13} /> {t('tabs.kpis')}
           </button>
         </div>
       </div>
@@ -189,7 +193,7 @@ export function IaPage() {
                 </div>
                 <div className="bg-[hsl(190,100%,16%)] border border-[hsl(190,100%,22%)] rounded-2xl rounded-tl-none px-4 py-3 flex items-center gap-2">
                   <Loader2 size={14} className="animate-spin text-[hsl(184,80%,50%)]" />
-                  <span className="text-[hsl(185,59%,65%)] text-sm">Consultando...</span>
+                  <span className="text-[hsl(185,59%,65%)] text-sm">{t('chat.consultando')}</span>
                 </div>
               </div>
             )}
@@ -209,7 +213,7 @@ export function IaPage() {
                       handleSend()
                     }
                   }}
-                  placeholder="Pergunte sobre pacientes, agendamentos, médicos..."
+                  placeholder={t('chat.placeholder')}
                   rows={1}
                   className="w-full bg-[hsl(190,100%,14%)] border border-[hsl(190,100%,22%)] rounded-xl px-4 py-3 text-sm text-[hsl(185,59%,89%)] placeholder-[hsl(185,59%,40%)] resize-none focus:outline-none focus:border-[hsl(184,80%,40%)] transition-colors leading-relaxed"
                   style={{ minHeight: '48px', maxHeight: '120px' }}
@@ -228,7 +232,7 @@ export function IaPage() {
               </Button>
             </div>
             <p className="text-[hsl(185,59%,40%)] text-xs mt-2 text-center">
-              Enter para enviar · Shift+Enter para nova linha
+              {t('chat.dica')}
             </p>
           </div>
         </>
@@ -238,14 +242,14 @@ export function IaPage() {
       {tab === 'kpis' && (
         <div className="flex-1 overflow-y-auto px-6 py-4">
           <div className="flex items-center justify-between mb-4">
-            <p className="text-[hsl(185,59%,75%)] text-sm font-semibold">Indicadores do Sistema</p>
+            <p className="text-[hsl(185,59%,75%)] text-sm font-semibold">{t('kpis.titulo')}</p>
             <button
               onClick={loadKpis}
               disabled={kpisLoading}
               className="flex items-center gap-1.5 text-xs text-[hsl(185,59%,55%)] hover:text-[hsl(185,59%,89%)] transition-colors"
             >
               <RefreshCw size={12} className={kpisLoading ? 'animate-spin' : ''} />
-              Atualizar
+              {t('kpis.atualizar')}
             </button>
           </div>
 
@@ -258,7 +262,7 @@ export function IaPage() {
           {!kpisLoading && !kpis && (
             <div className="flex flex-col items-center justify-center py-16 gap-3">
               <AlertCircle size={32} className="text-[hsl(185,59%,40%)]" />
-              <p className="text-[hsl(185,59%,55%)] text-sm">Nenhum dado carregado</p>
+              <p className="text-[hsl(185,59%,55%)] text-sm">{t('kpis.nenhum')}</p>
             </div>
           )}
 

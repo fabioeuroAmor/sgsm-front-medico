@@ -1,0 +1,24 @@
+{
+  "titulo": "AI Assistant",
+  "powered": "Powered by RAG + Milvus",
+  "tabs": {
+    "chat": "Chat",
+    "kpis": "KPIs"
+  },
+  "kpis": {
+    "titulo": "System Indicators",
+    "atualizar": "Refresh",
+    "nenhum": "No data loaded"
+  },
+  "chat": {
+    "placeholder": "Ask about patients, appointments, doctors...",
+    "dica": "Enter to send · Shift+Enter for new line",
+    "msg_inicial": "Hello! I am the SGSM intelligent assistant. I can answer questions about patients, doctors, appointments, services and much more. How can I help?",
+    "erro_resposta": "I couldn't process your question. {{erro}}",
+    "consultando": "Querying..."
+  },
+  "toast": {
+    "erro_chat": "Error querying the assistant",
+    "erro_kpis": "Error loading KPIs"
+  }
+}

@@ -5,6 +5,8 @@ import { LogIn, UserPlus, Sparkles } from 'lucide-react'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { useAuth } from '@/hooks/useAuth'
+import { useTranslation } from 'react-i18next'
+import { httpErrorMsg } from '@/lib/httpError'
 
 export function LoginPage() {
   const [email, setEmail] = useState('')
@@ -12,6 +14,8 @@ export function LoginPage() {
   const [loading, setLoading] = useState(false)
   const { login } = useAuth()
   const navigate = useNavigate()
+  const { t } = useTranslation('login')
+  const { t: tc } = useTranslation('common')
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -20,7 +24,7 @@ export function LoginPage() {
       await login({ email, senha })
       navigate('/pacientes', { replace: true })
     } catch (err) {
-      toast.error((err as Error).message)
+      toast.error(httpErrorMsg(err))
     } finally {
       setLoading(false)
     }
@@ -33,25 +37,23 @@ export function LoginPage() {
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary/10 mb-4">
             <LogIn className="w-7 h-7 text-primary" />
           </div>
-          <h1 className="text-2xl font-bold text-foreground">Bem-vindo ao SGSM</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Sistema de Gerenciamento de Serviços Médicos
-          </p>
+          <h1 className="text-2xl font-bold text-foreground">{t('titulo')}</h1>
+          <p className="text-sm text-muted-foreground mt-1">{t('subtitulo')}</p>
         </div>
 
         <div className="bg-card border border-border rounded-2xl shadow-lg p-8">
           <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             <Input
-              label="E-mail"
+              label={tc('email')}
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="medico@clinica.com"
+              placeholder={t('email_placeholder')}
               required
               autoComplete="email"
             />
             <Input
-              label="Senha"
+              label={tc('senha')}
               type="password"
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
@@ -60,7 +62,7 @@ export function LoginPage() {
               autoComplete="current-password"
             />
             <Button type="submit" className="w-full mt-1" disabled={loading}>
-              {loading ? 'Entrando...' : 'Entrar'}
+              {loading ? t('entrando') : t('entrar')}
             </Button>
           </form>
 
@@ -95,8 +97,8 @@ export function LoginPage() {
               }}
             >
               <Sparkles className="w-4 h-4 opacity-90" />
-              <span>Novo no sistema?</span>
-              <span className="font-bold underline underline-offset-2">Criar conta</span>
+              <span>{t('novo_sistema')}</span>
+              <span className="font-bold underline underline-offset-2">{t('criar_conta')}</span>
               <UserPlus className="w-4 h-4 opacity-90" />
             </Link>
           </div>

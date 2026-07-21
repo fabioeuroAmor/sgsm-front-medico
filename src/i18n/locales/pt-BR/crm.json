@@ -1,0 +1,123 @@
+{
+  "secao": "Relacionamento",
+  "titulo": "CRM",
+  "subtitulo": "Leads, visão 360 de pacientes, histórico de contatos e notas clínicas.",
+  "tabs": {
+    "leads": "Leads",
+    "paciente360": "Paciente 360",
+    "churn": "Risco de Churn",
+    "analytics": "Analytics"
+  },
+  "leads": {
+    "novo": "Novo Lead",
+    "nenhum": "Nenhum lead encontrado",
+    "mover": "Mover",
+    "filtros": {
+      "todos": "Todos",
+      "novo": "NOVO",
+      "contatado": "CONTATADO",
+      "qualificado": "QUALIFICADO",
+      "convertido": "CONVERTIDO",
+      "perdido": "PERDIDO"
+    },
+    "tabela": {
+      "nome": "Nome",
+      "contato": "Contato",
+      "interesse": "Interesse",
+      "origem": "Origem",
+      "status": "Status",
+      "criado": "Criado"
+    },
+    "modal_novo": "Novo Lead",
+    "modal_mover": "Mover Lead no Pipeline",
+    "selecionado": "selecionado",
+    "campos": {
+      "nome": "Nome *",
+      "email": "E-mail",
+      "telefone": "Telefone",
+      "interesse": "Interesse",
+      "origem": "Origem",
+      "observacoes": "Observações"
+    },
+    "placeholders": {
+      "nome": "Ana Lima",
+      "interesse": "Consulta cardiológica"
+    }
+  },
+  "paciente360": {
+    "buscar": "Buscar paciente por nome ou CPF…",
+    "nenhum_paciente": "Nenhum paciente encontrado",
+    "selecione": "Selecione um paciente para ver o perfil completo",
+    "tabs": {
+      "tags": "Tags ({{n}})",
+      "contatos": "Contatos ({{n}})",
+      "notas": "Notas ({{n}})"
+    },
+    "tags": {
+      "nenhuma": "Nenhuma tag. Adicione abaixo.",
+      "placeholder": "Nova tag (ex: hipertenso, diabético)…",
+      "adicionar": "Adicionar"
+    },
+    "contatos": {
+      "registrar": "Registrar Contato",
+      "nenhum": "Nenhum contato registrado",
+      "modal_titulo": "Registrar Contato",
+      "tipo": "Tipo",
+      "direcao": "Direção",
+      "duracao": "Duração (segundos)",
+      "descricao": "Descrição *",
+      "placeholder": "Resumo do contato…",
+      "saida": "SAIDA",
+      "entrada": "ENTRADA"
+    },
+    "notas": {
+      "nova": "Nova Nota",
+      "nenhuma": "Nenhuma nota clínica",
+      "modal_titulo": "Nova Nota Clínica",
+      "tipo": "Tipo de Nota",
+      "conteudo": "Conteúdo *",
+      "placeholder": "Evolução do paciente…"
+    }
+  },
+  "churn": {
+    "nenhum": "Nenhum paciente em risco de churn — ótimo sinal!",
+    "ultima_consulta": "Última consulta: {{data}}"
+  },
+  "analytics": {
+    "resumo_executivo": "Resumo Executivo",
+    "faturamento_mensal": "Faturamento Mensal",
+    "funil_medico": "Funil por Médico",
+    "ocupacao": "Ocupação da Agenda",
+    "alto_valor": "Pacientes Alto Valor (LTV)",
+    "cancelamentos": "Cancelamentos por Origem",
+    "agendamentos": "Agendamentos",
+    "taxa_conversao": "Taxa de Conversão",
+    "receita_total": "Receita Total",
+    "total_pacientes": "Total de Pacientes",
+    "medicos_ativos": "Médicos Ativos",
+    "no_shows": "No-shows",
+    "concluidos_cancelados": "{{c}} concluídos · {{x}} cancelados",
+    "ticket_medio": "Ticket médio {{v}}",
+    "novos_30d": "{{n}} novos em 30 dias",
+    "slots_usados": "slots usados",
+    "top20": "Top 20%",
+    "pgtos": "{{n}} pgtos",
+    "funil_headers": {
+      "medico": "Médico",
+      "total": "Total",
+      "concluidos": "Concluídos",
+      "conversao": "Conversão",
+      "receita": "Receita"
+    },
+    "cancel_headers": {
+      "origem": "Origem",
+      "mes": "Mês",
+      "total": "Total",
+      "pacientes": "Pacientes"
+    },
+    "mat_view": "Mat. view atualizada em: {{data}}",
+    "erro": "Erro ao carregar analytics. Verifique se o sgsm-ia está online.",
+    "sem_dados_titulo": "Sem dados analíticos ainda",
+    "sem_dados_desc": "Crie agendamentos e registre pagamentos para ver as métricas aqui."
+  }
+}

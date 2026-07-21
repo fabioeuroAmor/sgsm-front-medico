@@ -1,0 +1,123 @@
+{
+  "secao": "Relationship",
+  "titulo": "CRM",
+  "subtitulo": "Leads, patient 360 view, contact history and clinical notes.",
+  "tabs": {
+    "leads": "Leads",
+    "paciente360": "Patient 360",
+    "churn": "Churn Risk",
+    "analytics": "Analytics"
+  },
+  "leads": {
+    "novo": "New Lead",
+    "nenhum": "No leads found",
+    "mover": "Move",
+    "filtros": {
+      "todos": "All",
+      "novo": "NEW",
+      "contatado": "CONTACTED",
+      "qualificado": "QUALIFIED",
+      "convertido": "CONVERTED",
+      "perdido": "LOST"
+    },
+    "tabela": {
+      "nome": "Name",
+      "contato": "Contact",
+      "interesse": "Interest",
+      "origem": "Source",
+      "status": "Status",
+      "criado": "Created"
+    },
+    "modal_novo": "New Lead",
+    "modal_mover": "Move Lead in Pipeline",
+    "selecionado": "selected",
+    "campos": {
+      "nome": "Name *",
+      "email": "E-mail",
+      "telefone": "Phone",
+      "interesse": "Interest",
+      "origem": "Source",
+      "observacoes": "Notes"
+    },
+    "placeholders": {
+      "nome": "Ana Lima",
+      "interesse": "Cardiology consultation"
+    }
+  },
+  "paciente360": {
+    "buscar": "Search patient by name or CPF…",
+    "nenhum_paciente": "No patients found",
+    "selecione": "Select a patient to view the full profile",
+    "tabs": {
+      "tags": "Tags ({{n}})",
+      "contatos": "Contacts ({{n}})",
+      "notas": "Notes ({{n}})"
+    },
+    "tags": {
+      "nenhuma": "No tags. Add one below.",
+      "placeholder": "New tag (e.g.: hypertensive, diabetic)…",
+      "adicionar": "Add"
+    },
+    "contatos": {
+      "registrar": "Log Contact",
+      "nenhum": "No contacts logged",
+      "modal_titulo": "Log Contact",
+      "tipo": "Type",
+      "direcao": "Direction",
+      "duracao": "Duration (seconds)",
+      "descricao": "Description *",
+      "placeholder": "Contact summary…",
+      "saida": "OUTBOUND",
+      "entrada": "INBOUND"
+    },
+    "notas": {
+      "nova": "New Note",
+      "nenhuma": "No clinical notes",
+      "modal_titulo": "New Clinical Note",
+      "tipo": "Note type",
+      "conteudo": "Content *",
+      "placeholder": "Patient progress…"
+    }
+  },
+  "churn": {
+    "nenhum": "No patients at churn risk — great sign!",
+    "ultima_consulta": "Last appointment: {{data}}"
+  },
+  "analytics": {
+    "resumo_executivo": "Executive Summary",
+    "faturamento_mensal": "Monthly Revenue",
+    "funil_medico": "Funnel by Doctor",
+    "ocupacao": "Schedule Occupancy",
+    "alto_valor": "High-Value Patients (LTV)",
+    "cancelamentos": "Cancellations by Source",
+    "agendamentos": "Appointments",
+    "taxa_conversao": "Conversion Rate",
+    "receita_total": "Total Revenue",
+    "total_pacientes": "Total Patients",
+    "medicos_ativos": "Active Doctors",
+    "no_shows": "No-shows",
+    "concluidos_cancelados": "{{c}} completed · {{x}} cancelled",
+    "ticket_medio": "Avg. ticket {{v}}",
+    "novos_30d": "{{n}} new in 30 days",
+    "slots_usados": "slots used",
+    "top20": "Top 20%",
+    "pgtos": "{{n}} payments",
+    "funil_headers": {
+      "medico": "Doctor",
+      "total": "Total",
+      "concluidos": "Completed",
+      "conversao": "Conversion",
+      "receita": "Revenue"
+    },
+    "cancel_headers": {
+      "origem": "Source",
+      "mes": "Month",
+      "total": "Total",
+      "pacientes": "Patients"
+    },
+    "mat_view": "Mat. view updated at: {{data}}",
+    "erro": "Error loading analytics. Check if sgsm-ia is online.",
+    "sem_dados_titulo": "No analytics data yet",
+    "sem_dados_desc": "Create appointments and register payments to see metrics here."
+  }
+}

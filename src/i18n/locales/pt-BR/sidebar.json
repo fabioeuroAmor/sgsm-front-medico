@@ -1,0 +1,16 @@
+{
+  "sistema_medico": "Sistema Médico",
+  "sair": "Sair",
+  "nav": {
+    "home": "Home",
+    "pacientes": "Pacientes",
+    "medicos": "Médicos",
+    "estabelecimentos": "Estabelecimentos",
+    "servicos": "Serviços",
+    "agendamentos": "Agendamentos",
+    "funcionarios": "Funcionários",
+    "assistente_ia": "Assistente IA",
+    "crm": "CRM"
+  },
+  "idioma": "Idioma"
+}

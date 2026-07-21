@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/Badge'
 import { Input } from '@/components/ui/Input'
 import { Modal } from '@/components/ui/Modal'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { useTranslation } from 'react-i18next'
 
 function formatCpf(cpf: string) {
   const d = cpf.replace(/\D/g, '')
@@ -39,6 +40,8 @@ const emptyForm: CadastrarPacienteRequest = {
 }
 
 export function PacientesPage() {
+  const { t } = useTranslation('pacientes')
+  const { t: tc } = useTranslation('common')
   const { pacientes, loading, error, listar, cadastrar, atualizar, remover } = usePacientes()
   const [busca, setBusca] = useState('')
   const [filtroAtivo, setFiltroAtivo] = useState<boolean | undefined>(undefined)
@@ -146,10 +149,10 @@ export function PacientesPage() {
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[hsl(190,100%,10%)] via-[hsl(190,100%,14%)] to-[hsl(190,100%,18%)] flex items-center justify-between gap-6 min-h-[140px] pr-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_50%,rgba(0,210,255,0.18),transparent_65%)] pointer-events-none" />
         <div className="relative z-10 flex flex-col gap-3 p-6">
-          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-cyan-400/70">Cadastros</p>
-          <h1 className="text-3xl font-extrabold text-white leading-tight">Pacientes</h1>
-          <p className="text-sm text-white/50 max-w-xs">Gerencie o cadastro de pacientes com integração ViaCEP.</p>
-          <div className="mt-1"><Button onClick={abrirCadastro}><Plus size={16} strokeWidth={2} /> Novo Paciente</Button></div>
+          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-cyan-400/70">{t('secao')}</p>
+          <h1 className="text-3xl font-extrabold text-white leading-tight">{t('titulo')}</h1>
+          <p className="text-sm text-white/50 max-w-xs">{t('subtitulo')}</p>
+          <div className="mt-1"><Button onClick={abrirCadastro}><Plus size={16} strokeWidth={2} /> {t('novo')}</Button></div>
         </div>
         <div className="relative hidden md:flex items-end justify-end flex-shrink-0 h-[145px] w-[110px] mr-6 cursor-pointer select-none" style={{ perspective: '900px' }}>
           <div
@@ -181,7 +184,7 @@ export function PacientesPage() {
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <input
               type="text"
-              placeholder="Buscar por nome, CPF ou e-mail…"
+              placeholder={t('buscar_placeholder')}
               value={busca}
               onChange={(e) => setBusca(e.target.value)}
               className="w-full rounded-xl border border-border bg-input py-2 pl-9 pr-4 text-sm text-foreground outline-none transition-all focus:ring-2 focus:ring-ring placeholder:text-muted-foreground/60"
@@ -192,9 +195,9 @@ export function PacientesPage() {
             onChange={(e) => setFiltroAtivo(e.target.value === '' ? undefined : e.target.value === 'true')}
             className="rounded-xl border border-border bg-input px-4 py-2 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring"
           >
-            <option value="">Todos os status</option>
-            <option value="true">Ativos</option>
-            <option value="false">Inativos</option>
+            <option value="">{tc('todos_status')}</option>
+            <option value="true">{tc('ativos')}</option>
+            <option value="false">{tc('inativos')}</option>
           </select>
         </div>
       </Card>
@@ -207,7 +210,7 @@ export function PacientesPage() {
 
       {!loading && filtrados.length > 0 && (
         <p className="text-xs text-muted-foreground">
-          {filtrados.length} paciente{filtrados.length !== 1 ? 's' : ''} encontrado{filtrados.length !== 1 ? 's' : ''}
+          {t('contador', { n: filtrados.length })}
         </p>
       )}
 
@@ -216,7 +219,7 @@ export function PacientesPage() {
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
         </div>
       ) : filtrados.length === 0 ? (
-        <EmptyState title="Nenhum paciente encontrado" description="Tente ajustar os filtros ou cadastre um novo paciente." />
+        <EmptyState title={t('nenhum_titulo')} description={t('nenhum_desc')} />
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 stagger-children">
           {filtrados.map((p) => {
@@ -228,7 +231,7 @@ export function PacientesPage() {
                     <UserRound size={18} className="text-primary" />
                   </div>
                   <Badge variant={p.ativo ? 'active' : 'inactive'}>
-                    {p.ativo ? 'Ativo' : 'Inativo'}
+                    {p.ativo ? tc('ativo') : tc('inativo')}
                   </Badge>
                 </div>
 
@@ -267,7 +270,7 @@ export function PacientesPage() {
 
                 <div className="flex gap-2 mt-auto">
                   <Button variant="ghost" size="sm" onClick={() => abrirEdicao(p)} className="flex-1">
-                    <Pencil size={12} /> Editar
+                    <Pencil size={12} /> {tc('editar')}
                   </Button>
                   <Button variant="danger" size="sm" onClick={() => setConfirmandoId(p.id)} disabled={!p.ativo}>
                     <Trash2 size={12} />
@@ -283,40 +286,40 @@ export function PacientesPage() {
       <Modal
         open={modalAberto}
         onClose={() => { setModalAberto(false); setEditando(null) }}
-        title={editando ? 'Editar Paciente' : 'Novo Paciente'}
+        title={editando ? t('modal_editar') : t('modal_novo')}
         footer={
           <>
-            <Button variant="ghost" size="sm" onClick={() => { setModalAberto(false); setEditando(null) }}>Cancelar</Button>
-            <Button onClick={salvar} disabled={salvando} size="sm">{salvando ? 'Salvando…' : 'Salvar'}</Button>
+            <Button variant="ghost" size="sm" onClick={() => { setModalAberto(false); setEditando(null) }}>{tc('cancelar')}</Button>
+            <Button onClick={salvar} disabled={salvando} size="sm">{salvando ? tc('salvando') : tc('salvar')}</Button>
           </>
         }
       >
         <div className="flex flex-col gap-4">
           {formError && <div className="rounded-xl border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive">{formError}</div>}
-          <Input label="Nome completo" value={form.nome} onChange={(e) => setForm((f) => ({ ...f, nome: e.target.value }))} placeholder="Maria da Silva" />
-          <Input label="CPF" value={cpfDisplay} onChange={(e) => handleCpfChange(e.target.value)} placeholder="000.000.000-00" disabled={!!editando} />
-          <Input label="Data de nascimento" type="date" value={form.dataNascimento} onChange={(e) => setForm((f) => ({ ...f, dataNascimento: e.target.value }))} />
-          <Input label="E-mail" type="email" value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} placeholder="maria@email.com" />
-          <Input label="Telefone (opcional)" value={form.telefone ?? ''} onChange={(e) => setForm((f) => ({ ...f, telefone: e.target.value }))} placeholder="(11) 99999-0000" />
+          <Input label={tc('nome_completo')} value={form.nome} onChange={(e) => setForm((f) => ({ ...f, nome: e.target.value }))} placeholder="Maria da Silva" />
+          <Input label={t('cpf')} value={cpfDisplay} onChange={(e) => handleCpfChange(e.target.value)} placeholder="000.000.000-00" disabled={!!editando} />
+          <Input label={t('nascimento')} type="date" value={form.dataNascimento} onChange={(e) => setForm((f) => ({ ...f, dataNascimento: e.target.value }))} />
+          <Input label={tc('email')} type="email" value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} placeholder="maria@email.com" />
+          <Input label={tc('telefone_opcional')} value={form.telefone ?? ''} onChange={(e) => setForm((f) => ({ ...f, telefone: e.target.value }))} placeholder="(11) 99999-0000" />
 
           <div className="border-t border-border pt-3">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">Endereço (opcional)</p>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">{t('endereco')}</p>
             <div className="flex gap-2 items-end">
               <div className="flex-1">
-                <Input label="CEP" value={form.cep ?? ''} onChange={(e) => setForm((f) => ({ ...f, cep: e.target.value.replace(/\D/g, '').slice(0, 8) }))} onBlur={(e) => buscarCep(e.target.value)} placeholder="00000000" maxLength={8} />
+                <Input label={t('cep')} value={form.cep ?? ''} onChange={(e) => setForm((f) => ({ ...f, cep: e.target.value.replace(/\D/g, '').slice(0, 8) }))} onBlur={(e) => buscarCep(e.target.value)} placeholder="00000000" maxLength={8} />
               </div>
               {cepBuscando && <div className="mb-1 h-5 w-5 animate-spin rounded-full border-2 border-primary border-t-transparent" />}
             </div>
             <div className="mt-3 space-y-3">
-              <Input label="Logradouro" value={form.logradouro ?? ''} onChange={(e) => setForm((f) => ({ ...f, logradouro: e.target.value }))} placeholder="Rua das Flores" />
+              <Input label={t('logradouro')} value={form.logradouro ?? ''} onChange={(e) => setForm((f) => ({ ...f, logradouro: e.target.value }))} placeholder="Rua das Flores" />
               <div className="flex gap-2">
-                <div className="w-24"><Input label="Número" value={form.numero ?? ''} onChange={(e) => setForm((f) => ({ ...f, numero: e.target.value }))} placeholder="123" /></div>
-                <div className="flex-1"><Input label="Complemento" value={form.complemento ?? ''} onChange={(e) => setForm((f) => ({ ...f, complemento: e.target.value }))} placeholder="Apto 42" /></div>
+                <div className="w-24"><Input label={t('numero')} value={form.numero ?? ''} onChange={(e) => setForm((f) => ({ ...f, numero: e.target.value }))} placeholder="123" /></div>
+                <div className="flex-1"><Input label={t('complemento')} value={form.complemento ?? ''} onChange={(e) => setForm((f) => ({ ...f, complemento: e.target.value }))} placeholder="Apto 42" /></div>
               </div>
-              <Input label="Bairro" value={form.bairro ?? ''} onChange={(e) => setForm((f) => ({ ...f, bairro: e.target.value }))} placeholder="Centro" />
+              <Input label={t('bairro')} value={form.bairro ?? ''} onChange={(e) => setForm((f) => ({ ...f, bairro: e.target.value }))} placeholder="Centro" />
               <div className="flex gap-2">
-                <div className="flex-1"><Input label="Cidade" value={form.cidade ?? ''} onChange={(e) => setForm((f) => ({ ...f, cidade: e.target.value }))} placeholder="São Paulo" /></div>
-                <div className="w-20"><Input label="UF" value={form.uf ?? ''} onChange={(e) => setForm((f) => ({ ...f, uf: e.target.value.toUpperCase().slice(0, 2) }))} placeholder="SP" maxLength={2} /></div>
+                <div className="flex-1"><Input label={t('cidade')} value={form.cidade ?? ''} onChange={(e) => setForm((f) => ({ ...f, cidade: e.target.value }))} placeholder="São Paulo" /></div>
+                <div className="w-20"><Input label={t('uf')} value={form.uf ?? ''} onChange={(e) => setForm((f) => ({ ...f, uf: e.target.value.toUpperCase().slice(0, 2) }))} placeholder="SP" maxLength={2} /></div>
               </div>
             </div>
           </div>
@@ -327,31 +330,29 @@ export function PacientesPage() {
       <Modal
         open={!!confirmandoId}
         onClose={() => setConfirmandoId(null)}
-        title="Inativar Paciente"
+        title={t('modal_inativar_titulo')}
         size="sm"
         footer={
           <>
-            <Button variant="ghost" size="sm" onClick={() => setConfirmandoId(null)}>Cancelar</Button>
-            <Button variant="danger" size="sm" onClick={async () => { if (confirmandoId) { await remover(confirmandoId); setConfirmandoId(null) } }}>Inativar</Button>
+            <Button variant="ghost" size="sm" onClick={() => setConfirmandoId(null)}>{tc('cancelar')}</Button>
+            <Button variant="danger" size="sm" onClick={async () => { if (confirmandoId) { await remover(confirmandoId); setConfirmandoId(null) } }}>{t('inativar')}</Button>
           </>
         }
       >
-        <p className="text-sm text-foreground/70">
-          O paciente será <strong>inativado</strong> e não aparecerá nas listagens padrão. O histórico é preservado.
-        </p>
+        <p className="text-sm text-foreground/70">{t('modal_inativar_desc')}</p>
       </Modal>
 
       {/* Modal detalhe */}
       <Modal
         open={!!detalhe}
         onClose={() => setDetalhe(null)}
-        title="Detalhes do Paciente"
+        title={t('modal_detalhe')}
         footer={
           <>
-            <Button variant="ghost" size="sm" onClick={() => setDetalhe(null)}>Fechar</Button>
+            <Button variant="ghost" size="sm" onClick={() => setDetalhe(null)}>{tc('fechar')}</Button>
             {detalhe && (
               <Button size="sm" onClick={() => { setDetalhe(null); abrirEdicao(detalhe) }}>
-                <Pencil size={12} /> Editar
+                <Pencil size={12} /> {tc('editar')}
               </Button>
             )}
           </>
@@ -359,19 +360,19 @@ export function PacientesPage() {
       >
         {detalhe && (
           <div className="space-y-3">
-            <DetailRow label="Nome" value={detalhe.nome} />
-            <DetailRow label="CPF" value={formatCpf(detalhe.cpf)} mono />
-            <DetailRow label="Nascimento" value={`${formatDate(detalhe.dataNascimento)} — ${calcIdade(detalhe.dataNascimento)} anos`} />
-            <DetailRow label="E-mail" value={detalhe.email} />
-            {detalhe.telefone && <DetailRow label="Telefone" value={detalhe.telefone} />}
-            <DetailRow label="Status" value={detalhe.ativo ? 'Ativo' : 'Inativo'} />
+            <DetailRow label={t('detalhe_nome')} value={detalhe.nome} />
+            <DetailRow label={t('detalhe_cpf')} value={formatCpf(detalhe.cpf)} mono />
+            <DetailRow label={t('detalhe_nascimento')} value={`${formatDate(detalhe.dataNascimento)} — ${calcIdade(detalhe.dataNascimento)} anos`} />
+            <DetailRow label={t('detalhe_email')} value={detalhe.email} />
+            {detalhe.telefone && <DetailRow label={t('detalhe_telefone')} value={detalhe.telefone} />}
+            <DetailRow label={t('detalhe_status')} value={detalhe.ativo ? tc('ativo') : tc('inativo')} />
             {(detalhe.logradouro || detalhe.cidade) && (
               <div className="border-t border-border pt-3 space-y-2">
-                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Endereço</p>
-                {detalhe.logradouro && <DetailRow label="Logradouro" value={[detalhe.logradouro, detalhe.numero, detalhe.complemento].filter(Boolean).join(', ')} />}
-                {detalhe.bairro && <DetailRow label="Bairro" value={detalhe.bairro} />}
-                {detalhe.cidade && <DetailRow label="Cidade / UF" value={[detalhe.cidade, detalhe.uf].filter(Boolean).join(' — ')} />}
-                {detalhe.cep && <DetailRow label="CEP" value={detalhe.cep} mono />}
+                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">{t('detalhe_endereco')}</p>
+                {detalhe.logradouro && <DetailRow label={t('detalhe_logradouro')} value={[detalhe.logradouro, detalhe.numero, detalhe.complemento].filter(Boolean).join(', ')} />}
+                {detalhe.bairro && <DetailRow label={t('detalhe_bairro')} value={detalhe.bairro} />}
+                {detalhe.cidade && <DetailRow label={t('detalhe_cidade_uf')} value={[detalhe.cidade, detalhe.uf].filter(Boolean).join(' — ')} />}
+                {detalhe.cep && <DetailRow label={t('cep')} value={detalhe.cep} mono />}
               </div>
             )}
           </div>

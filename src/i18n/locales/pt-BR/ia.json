@@ -1,0 +1,24 @@
+{
+  "titulo": "Assistente IA",
+  "powered": "Powered by RAG + Milvus",
+  "tabs": {
+    "chat": "Chat",
+    "kpis": "KPIs"
+  },
+  "kpis": {
+    "titulo": "Indicadores do Sistema",
+    "atualizar": "Atualizar",
+    "nenhum": "Nenhum dado carregado"
+  },
+  "chat": {
+    "placeholder": "Pergunte sobre pacientes, agendamentos, médicos...",
+    "dica": "Enter para enviar · Shift+Enter para nova linha",
+    "msg_inicial": "Olá! Sou o assistente inteligente do SGSM. Posso responder perguntas sobre pacientes, médicos, agendamentos, serviços e muito mais. Como posso ajudar?",
+    "erro_resposta": "Não consegui processar sua pergunta. {{erro}}",
+    "consultando": "Consultando..."
+  },
+  "toast": {
+    "erro_chat": "Erro ao consultar o assistente",
+    "erro_kpis": "Erro ao carregar KPIs"
+  }
+}

@@ -18,18 +18,46 @@ import { useState, useRef } from 'react'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/hooks/useAuth'
+import { useTranslation } from 'react-i18next'
+import i18n from '@/i18n'
 
-const navItems = [
-  { to: '/', label: 'Home', icon: Home, roles: ['MEDICO', 'PACIENTE', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
-  { to: '/pacientes', label: 'Pacientes', icon: Users, roles: ['MEDICO', 'PACIENTE', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
-  { to: '/medicos', label: 'Médicos', icon: Stethoscope, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
-  { to: '/estabelecimentos', label: 'Estabelecimentos', icon: Building2, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
-  { to: '/servicos', label: 'Serviços', icon: ClipboardList, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
-  { to: '/agendamentos', label: 'Agendamentos', icon: CalendarClock, roles: ['MEDICO', 'PACIENTE', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
-  { to: '/funcionarios', label: 'Funcionários', icon: UserCog, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
-  { to: '/ia', label: 'Assistente IA', icon: Sparkles, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
-  { to: '/crm', label: 'CRM', icon: BarChart2, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
+const NAV_KEYS = [
+  { to: '/', key: 'home', icon: Home, roles: ['MEDICO', 'PACIENTE', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
+  { to: '/pacientes', key: 'pacientes', icon: Users, roles: ['MEDICO', 'PACIENTE', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
+  { to: '/medicos', key: 'medicos', icon: Stethoscope, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
+  { to: '/estabelecimentos', key: 'estabelecimentos', icon: Building2, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
+  { to: '/servicos', key: 'servicos', icon: ClipboardList, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
+  { to: '/agendamentos', key: 'agendamentos', icon: CalendarClock, roles: ['MEDICO', 'PACIENTE', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
+  { to: '/funcionarios', key: 'funcionarios', icon: UserCog, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
+  { to: '/ia', key: 'assistente_ia', icon: Sparkles, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
+  { to: '/crm', key: 'crm', icon: BarChart2, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
 ]
+
+function LanguageSwitcher() {
+  const currentLang = i18n.language
+  function change(lang: string) {
+    i18n.changeLanguage(lang)
+    localStorage.setItem('sgsm-lang', lang)
+  }
+  return (
+    <div className="flex items-center gap-2 px-2 py-1">
+      <button
+        onClick={() => change('pt-BR')}
+        title="Português (Brasil)"
+        className={cn('text-lg transition-opacity', currentLang === 'pt-BR' ? 'opacity-100' : 'opacity-30 hover:opacity-70')}
+      >
+        🇧🇷
+      </button>
+      <button
+        onClick={() => change('en-US')}
+        title="English (US)"
+        className={cn('text-lg transition-opacity', currentLang === 'en-US' ? 'opacity-100' : 'opacity-30 hover:opacity-70')}
+      >
+        🇺🇸
+      </button>
+    </div>
+  )
+}
 
 function NavItem3D({ to, label, icon: Icon, onClick }: {
   to: string; label: string
@@ -79,7 +107,7 @@ function NavItem3D({ to, label, icon: Icon, onClick }: {
   )
 }
 
-function LogoTilt() {
+function LogoTilt({ subtitle }: { subtitle: string }) {
   const ref = useRef<HTMLDivElement>(null)
   const [tilt, setTilt] = useState({ rx: 0, ry: 0 })
   const [hov, setHov] = useState(false)
@@ -111,7 +139,7 @@ function LogoTilt() {
         </div>
         <div style={{ transform: hov ? 'translateZ(8px)' : 'translateZ(0)', transition: 'transform 0.3s ease' }}>
           <p className="text-white font-extrabold text-base tracking-tight leading-none">SGSM</p>
-          <p className="text-[hsl(185,59%,65%)] text-xs font-medium mt-0.5">Sistema Médico</p>
+          <p className="text-[hsl(185,59%,65%)] text-xs font-medium mt-0.5">{subtitle}</p>
         </div>
       </div>
     </div>
@@ -122,23 +150,24 @@ export function Sidebar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const { usuario, logout } = useAuth()
   const navigate = useNavigate()
+  const { t } = useTranslation(['sidebar', 'common'])
 
   async function handleLogout() {
     try {
       await logout()
       navigate('/login', { replace: true })
     } catch {
-      toast.error('Erro ao encerrar sessão.')
+      toast.error(t('common:erro_sessao'))
     }
   }
 
   const perfil = usuario?.perfil ?? ''
-  const visibleItems = navItems.filter(item => item.roles.includes(perfil))
+  const visibleItems = NAV_KEYS.filter(item => item.roles.includes(perfil))
 
   const navContent = (
     <nav className="flex flex-col gap-1 p-3">
-      {visibleItems.map(({ to, label, icon: Icon }) => (
-        <NavItem3D key={to} to={to} label={label} icon={Icon} onClick={() => setMobileOpen(false)} />
+      {visibleItems.map(({ to, key, icon: Icon }) => (
+        <NavItem3D key={to} to={to} label={t(`nav.${key}`)} icon={Icon} onClick={() => setMobileOpen(false)} />
       ))}
     </nav>
   )
@@ -149,7 +178,7 @@ export function Sidebar() {
       <aside className="hidden lg:flex flex-col w-64 shrink-0 min-h-screen bg-[hsl(190,100%,12%)] border-r border-[hsl(190,100%,20%)]">
         {/* Logo */}
         <div className="px-6 py-5 border-b border-[hsl(190,100%,20%)]">
-          <LogoTilt />
+          <LogoTilt subtitle={t('sistema_medico')} />
         </div>
 
         {/* Nav */}
@@ -163,12 +192,13 @@ export function Sidebar() {
               <p className="text-[hsl(185,59%,50%)] text-xs truncate">{usuario.perfil}</p>
             </div>
           )}
+          <LanguageSwitcher />
           <button
             onClick={handleLogout}
             className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-[hsl(185,59%,65%)] hover:bg-[hsl(190,100%,18%)] hover:text-[hsl(0,80%,70%)] transition-colors w-full"
           >
             <LogOut size={15} strokeWidth={1.75} />
-            Sair
+            {t('sair')}
           </button>
         </div>
       </aside>
@@ -199,7 +229,7 @@ export function Sidebar() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="px-6 py-5 border-b border-[hsl(190,100%,20%)]">
-              <LogoTilt />
+              <LogoTilt subtitle={t('sistema_medico')} />
             </div>
             {navContent}
           </aside>

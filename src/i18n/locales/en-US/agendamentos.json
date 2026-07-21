@@ -1,0 +1,90 @@
+{
+  "secao": "Management",
+  "titulo": "Appointments",
+  "subtitulo": "View and manage all consultation and procedure appointments.",
+  "novo": "New Appointment",
+  "buscar_medico": "License or doctor name…",
+  "buscar_paciente": "CPF or patient name…",
+  "nenhum_titulo": "No appointments found",
+  "nenhum_desc": "Create a new appointment by clicking the button above.",
+  "acompanhar_medico": "Track doctor",
+  "status": {
+    "PENDENTE": "Pending",
+    "AGUARDANDO_PAGAMENTO": "Awaiting Payment",
+    "CONFIRMADO": "Confirmed",
+    "EM_ANDAMENTO": "In Progress",
+    "A_CAMINHO": "On the Way",
+    "CHEGOU": "Arrived",
+    "CONCLUIDO": "Completed",
+    "CANCELADO": "Cancelled",
+    "NO_SHOW": "No Show"
+  },
+  "tipo": {
+    "PRESENCIAL": "In-person",
+    "DOMICILIAR": "Home visit",
+    "TELEMEDICINA": "Telemedicine"
+  },
+  "proximo": {
+    "PENDENTE": "Confirm",
+    "AGUARDANDO_PAGAMENTO": "Confirm",
+    "CONFIRMADO": "Confirm",
+    "A_CAMINHO": "On the Way",
+    "EM_ANDAMENTO": "Start",
+    "CHEGOU": "Arrived",
+    "CONCLUIDO": "Complete"
+  },
+  "wizard": {
+    "passo1": "Step 1 / 5 — Patient",
+    "passo2": "Step 2 / 5 — Medical Service",
+    "passo3": "Step 3 / 5 — Type & Location",
+    "passo4": "Step 4 / 5 — Date & Time",
+    "passo5": "Step 5 / 5 — Confirmation",
+    "buscar_paciente": "Search by name or CPF…",
+    "nenhum_paciente": "No patients found",
+    "buscar_servico": "Search by service or doctor…",
+    "nenhum_servico": "No services found",
+    "tipo_atendimento": "Appointment type",
+    "endereco_paciente": "Patient address",
+    "estabelecimento": "Location",
+    "end_nao_cadastrado": "Address not registered. Confirm before the appointment.",
+    "nenhum_estabelecimento": "No location found for this doctor",
+    "data_consulta": "Appointment date",
+    "horarios_disponiveis": "Available slots",
+    "carregando_horarios": "Loading slots…",
+    "sem_horarios": "No slots available on this date",
+    "paciente": "Patient",
+    "servico": "Service",
+    "tipo_local": "Type / Location",
+    "data_hora": "Date & time",
+    "duracao": "Duration",
+    "valor": "Price",
+    "minutos": "{{n}} minutes",
+    "observacoes": "Notes (optional)",
+    "obs_placeholder": "Additional information for the doctor…"
+  },
+  "modal_caminho": {
+    "titulo": "Share Location",
+    "passo1": "1. Open Google Maps on your phone",
+    "passo2": "2. Tap 'Share location' (pin icon)",
+    "passo3": "3. Select 'Until I turn this off' and copy the link",
+    "passo4": "4. Paste the link below and confirm",
+    "abrir_maps": "Open Google Maps",
+    "link_label": "Real-time location link",
+    "confirmar": "Confirm departure",
+    "confirmando": "Confirming…"
+  },
+  "modal_cancelar": {
+    "titulo": "Cancel Appointment",
+    "origem": "Source",
+    "motivo": "Reason",
+    "motivo_placeholder": "Enter the cancellation reason…",
+    "origens": {
+      "PACIENTE": "Patient",
+      "MEDICO": "Doctor",
+      "ESTABELECIMENTO": "Location",
+      "SISTEMA": "System"
+    },
+    "confirmar": "Confirm Cancellation",
+    "cancelando": "Cancelling…"
+  }
+}
