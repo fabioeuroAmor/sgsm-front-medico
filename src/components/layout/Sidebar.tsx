@@ -12,6 +12,7 @@ import {
   LogOut,
   UserCog,
   Sparkles,
+  BarChart2,
 } from 'lucide-react'
 import { useState, useRef } from 'react'
 import { toast } from 'sonner'
@@ -27,6 +28,7 @@ const navItems = [
   { to: '/agendamentos', label: 'Agendamentos', icon: CalendarClock, roles: ['MEDICO', 'PACIENTE', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
   { to: '/funcionarios', label: 'Funcionários', icon: UserCog, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
   { to: '/ia', label: 'Assistente IA', icon: Sparkles, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
+  { to: '/crm', label: 'CRM', icon: BarChart2, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
 ]
 
 function NavItem3D({ to, label, icon: Icon, onClick }: {
