@@ -61,7 +61,7 @@ export function IaPage() {
     {
       id: '0',
       role: 'assistant',
-      content: 'Olá! Sou o assistente inteligente do SGSM. Posso responder perguntas sobre pacientes, médicos, agendamentos, serviços e muito mais. Como posso ajudar?',
+      content: 'Olá! Sou o assistente inteligente do SGSM. Posso responder perguntas sobre pacientes, médicos, agendamentos, serviços e também sobre o CRM Analítico — faturamento, churn, funil de conversão, ocupação de agenda e outros indicadores. Como posso ajudar?',
       timestamp: new Date(),
     },
   ])
@@ -209,7 +209,7 @@ export function IaPage() {
                       handleSend()
                     }
                   }}
-                  placeholder="Pergunte sobre pacientes, agendamentos, médicos..."
+                  placeholder="Pergunte sobre pacientes, agendamentos, médicos, faturamento, churn..."
                   rows={1}
                   className="w-full bg-[hsl(190,100%,14%)] border border-[hsl(190,100%,22%)] rounded-xl px-4 py-3 text-sm text-[hsl(185,59%,89%)] placeholder-[hsl(185,59%,40%)] resize-none focus:outline-none focus:border-[hsl(184,80%,40%)] transition-colors leading-relaxed"
                   style={{ minHeight: '48px', maxHeight: '120px' }}
