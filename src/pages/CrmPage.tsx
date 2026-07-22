@@ -577,7 +577,7 @@ function ChurnTab() {
     <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3 stagger-children">
       {lista.map((row, i) => {
         const nome = String(row['nome'] ?? row['paciente_nome'] ?? '—')
-        const dias = row['dias_sem_consulta'] ?? row['dias'] ?? '?'
+        const dias = String(row['dias_sem_consulta'] ?? row['dias'] ?? '?')
         const email = String(row['email'] ?? '')
         const ultimaConsulta = String(row['ultima_consulta'] ?? row['ultimo_agendamento'] ?? '')
         return (

@@ -13,6 +13,7 @@ import {
   UserCog,
   Sparkles,
   BarChart2,
+  type LucideIcon,
 } from 'lucide-react'
 import { useState, useRef } from 'react'
 import { toast } from 'sonner'
@@ -33,7 +34,7 @@ const navItems = [
 
 function NavItem3D({ to, label, icon: Icon, onClick }: {
   to: string; label: string
-  icon: React.ComponentType<{ size?: number; strokeWidth?: number }>
+  icon: LucideIcon
   onClick?: () => void
 }) {
   const ref = useRef<HTMLAnchorElement>(null)
