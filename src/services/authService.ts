@@ -23,4 +23,13 @@ export const authService = {
 
   logout: (refreshToken: string) =>
     api.post('/auth/logout', { refreshToken }),
+
+  esqueciSenha: (email: string) =>
+    api.post('/auth/esqueci-senha', { email }),
+
+  resetarSenha: (token: string, novaSenha: string) =>
+    api.post('/auth/resetar-senha', { token, novaSenha }),
+
+  alterarSenha: (senhaAtual: string, novaSenha: string) =>
+    api.post('/auth/alterar-senha', { senhaAtual, novaSenha }),
 }

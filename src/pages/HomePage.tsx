@@ -508,7 +508,7 @@ export default function HomePage() {
                   >
                     Controle pacientes, médicos, estabelecimentos e agendamentos em uma única plataforma. Ágil, integrado e focado na eficiência do atendimento médico.
                   </p>
-                  <div style={{ transform: 'translateZ(22px)' }}>
+                  <div style={{ transform: 'translateZ(22px)', display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
                     <ButtonLink
                       to="/agendamentos"
                       className={cn(
@@ -518,6 +518,12 @@ export default function HomePage() {
                     >
                       Novo Agendamento <ArrowRight className="h-5 w-5" />
                     </ButtonLink>
+                    <Link
+                      to="/world"
+                      className="text-primary/70 hover:text-primary text-sm font-semibold transition-colors inline-flex items-center gap-1.5 self-start"
+                    >
+                      ✦ Explorar o mundo do sistema
+                    </Link>
                   </div>
                 </div>
                 </div>
