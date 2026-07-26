@@ -40,7 +40,8 @@ interface SceneDef {
   body: string
   tags: string[]
   accent: string
-  bgColor: string          // base background
+  bgColor: string
+  bgImage?: string
   orbs: OrbDef[]
   floaters: FloaterDef[]
   CenterIcon: IconComp
@@ -58,6 +59,7 @@ const SCENES: SceneDef[] = [
     tags: ['Moderno', 'Integrado', 'Completo'],
     accent: '#52B788',
     bgColor: '#02282B',
+    bgImage: '/medico-3d.jpg',
     orbs: [
       { color: '#0D7377', size: 700, x: '50%',  y: '40%',  blur: 120, opacity: 0.9,  duration: 8 },
       { color: '#52B788', size: 400, x: '20%',  y: '70%',  blur: 100, opacity: 0.45, duration: 6 },
@@ -279,7 +281,9 @@ function WorldFloor() {
 
 // ─── Central large world icon ───────────────────────────────────────────────────
 
-function WorldIcon({ Icon }: { Icon: IconComp }) {
+function WorldIcon({ Icon, bright = false }: { Icon: IconComp; bright?: boolean }) {
+  const baseOpacity = bright ? 0.12 : 0.06
+  const peakOpacity = bright ? 0.18 : 0.10
   return (
     <div
       style={{
@@ -292,7 +296,7 @@ function WorldIcon({ Icon }: { Icon: IconComp }) {
       }}
     >
       <motion.div
-        animate={{ scale: [1, 1.04, 1], opacity: [0.06, 0.1, 0.06] }}
+        animate={{ scale: [1, 1.04, 1], opacity: [baseOpacity, peakOpacity, baseOpacity] }}
         transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
       >
         <Icon style={{ width: '55vmin', height: '55vmin', color: 'white' }} />
@@ -362,14 +366,30 @@ function SceneBg({ scene, index, scrollYProgress }: SceneLayerProps) {
   // Slight upward drift — camera moving forward
   const yShift = useTransform(scrollYProgress, [s, e], ['0%', '-8%'])
 
+  const hasImage = Boolean(scene.bgImage)
+
   return (
-    <motion.div
-      style={{ position: 'absolute', inset: 0, opacity }}
-    >
-      {/* Base bg */}
+    <motion.div style={{ position: 'absolute', inset: 0, opacity }}>
+      {/* Layer 1: base color */}
       <div style={{ position: 'absolute', inset: 0, background: scene.bgColor }} />
 
-      {/* Zooming world container */}
+      {/* Layer 2: photo — fills viewport and zooms with the camera */}
+      {hasImage && (
+        <motion.div
+          style={{
+            position: 'absolute',
+            top: 0, left: 0, right: 0, bottom: 0,
+            backgroundImage: `url(${scene.bgImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center 25%',
+            scale,
+            y: yShift,
+            transformOrigin: 'center 55%',
+          }}
+        />
+      )}
+
+      {/* Layer 3: orbs + effects */}
       <motion.div
         style={{
           position: 'absolute',
@@ -377,19 +397,19 @@ function SceneBg({ scene, index, scrollYProgress }: SceneLayerProps) {
           scale,
           y: yShift,
           transformOrigin: 'center 55%',
+          overflow: 'hidden',
         }}
       >
-        {/* Orbs (lighting) */}
-        {scene.orbs.map((orb, i) => <Orb key={i} {...orb} />)}
-
-        {/* Large central icon */}
-        <WorldIcon Icon={scene.CenterIcon} />
-
-        {/* Isometric floor grid */}
+        {scene.orbs.map((orb, i) => (
+          <Orb key={i} {...orb} opacity={hasImage ? orb.opacity * 0.15 : orb.opacity} />
+        ))}
+        {!hasImage && <WorldIcon Icon={scene.CenterIcon} bright={false} />}
         <WorldFloor />
       </motion.div>
 
-      {/* Vignette — stays fixed */}
+      {/* ── Fixed overlays (don't zoom) ── */}
+
+      {/* Vignette */}
       <div
         style={{
           position: 'absolute',
@@ -399,20 +419,33 @@ function SceneBg({ scene, index, scrollYProgress }: SceneLayerProps) {
         }}
       />
 
-      {/* Top atmosphere fade */}
+      {/* Bottom gradient — merges into next scene */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: '28%',
+          background: `linear-gradient(to top, ${scene.bgColor}, transparent)`,
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* Top gradient — nav area */}
       <div
         style={{
           position: 'absolute',
           top: 0,
           left: 0,
           right: 0,
-          height: '35%',
+          height: '30%',
           background: `linear-gradient(to bottom, ${scene.bgColor}CC, transparent)`,
           pointerEvents: 'none',
         }}
       />
 
-      {/* Floating cards (outside zoom div so they float naturally) */}
+      {/* Floating cards */}
       {scene.floaters.map((f, i) => (
         <FloatingIcon key={i} {...f} />
       ))}
@@ -504,15 +537,16 @@ function SceneText({ scene, index, scrollYProgress }: SceneLayerProps) {
             <span
               key={tag}
               style={{
-                background: `${scene.accent}18`,
-                border: `1px solid ${scene.accent}50`,
-                color: scene.accent,
-                padding: '5px 18px',
+                background: `${scene.accent}44`,
+                border: `1px solid ${scene.accent}CC`,
+                color: '#ffffff',
+                padding: '6px 20px',
                 borderRadius: 100,
-                fontSize: 12,
-                fontWeight: 600,
-                backdropFilter: 'blur(8px)',
-                boxShadow: `0 0 12px ${scene.accent}22`,
+                fontSize: 13,
+                fontWeight: 700,
+                backdropFilter: 'blur(12px)',
+                boxShadow: `0 0 16px ${scene.accent}55`,
+                textShadow: '0 1px 4px rgba(0,0,0,0.5)',
               }}
             >
               {tag}
