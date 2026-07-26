@@ -13,6 +13,8 @@ import { AgendamentosPage } from './pages/AgendamentosPage'
 import { FuncionariosPage } from './pages/FuncionariosPage'
 import { IaPage } from './pages/IaPage'
 import { CrmPage } from './pages/CrmPage'
+import { EsqueciSenhaPage } from './pages/EsqueciSenhaPage'
+import { ResetarSenhaPage } from './pages/ResetarSenhaPage'
 import { useAuth } from './hooks/useAuth'
 
 function PrivateRoute() {
@@ -38,6 +40,8 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/registrar" element={<RegisterPage />} />
+        <Route path="/esqueci-senha" element={<EsqueciSenhaPage />} />
+        <Route path="/resetar-senha" element={<ResetarSenhaPage />} />
         <Route element={<PrivateRoute />}>
           <Route element={<Layout />}>
             <Route path="/pacientes" element={<PacientesPage />} />
