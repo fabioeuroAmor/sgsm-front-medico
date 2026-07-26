@@ -3,6 +3,7 @@ import { Toaster } from 'sonner'
 import { Layout } from './components/layout/Layout'
 import { ChatbotWidget } from './components/ChatbotWidget'
 import HomePage from './pages/HomePage'
+import WorldPage from './pages/WorldPage'
 import { LoginPage } from './pages/LoginPage'
 import { RegisterPage } from './pages/RegisterPage'
 import { PacientesPage } from './pages/PacientesPage'
@@ -38,6 +39,7 @@ export default function App() {
       <ChatbotWidget />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/world" element={<WorldPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/registrar" element={<RegisterPage />} />
         <Route path="/esqueci-senha" element={<EsqueciSenhaPage />} />
