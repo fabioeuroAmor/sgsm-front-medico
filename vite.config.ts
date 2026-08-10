@@ -20,6 +20,14 @@ export default defineConfig({
         target: 'http://localhost:8080',
         changeOrigin: true,
       },
+      '/ia': {
+        target: 'http://localhost:8082',
+        changeOrigin: true,
+      },
+      '/crm': {
+        target: 'http://localhost:8082',
+        changeOrigin: true,
+      },
     },
   },
 })

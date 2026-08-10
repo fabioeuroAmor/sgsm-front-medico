@@ -10,6 +10,10 @@ import {
   X,
   Home,
   LogOut,
+  UserCog,
+  Sparkles,
+  BarChart2,
+  type LucideIcon,
 } from 'lucide-react'
 import { useState, useRef } from 'react'
 import { toast } from 'sonner'
@@ -23,11 +27,14 @@ const navItems = [
   { to: '/estabelecimentos', label: 'Estabelecimentos', icon: Building2, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
   { to: '/servicos', label: 'Serviços', icon: ClipboardList, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
   { to: '/agendamentos', label: 'Agendamentos', icon: CalendarClock, roles: ['MEDICO', 'PACIENTE', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
+  { to: '/funcionarios', label: 'Funcionários', icon: UserCog, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
+  { to: '/ia', label: 'Assistente IA', icon: Sparkles, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
+  { to: '/crm', label: 'CRM', icon: BarChart2, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
 ]
 
 function NavItem3D({ to, label, icon: Icon, onClick }: {
   to: string; label: string
-  icon: React.ComponentType<{ size?: number; strokeWidth?: number }>
+  icon: LucideIcon
   onClick?: () => void
 }) {
   const ref = useRef<HTMLAnchorElement>(null)

@@ -413,6 +413,7 @@ export default function HomePage() {
                 transition={{ duration: 0.6, ease: 'easeOut' }}
                 className="relative hidden lg:block"
               >
+                <div style={{ animation: cardHov ? 'none' : 'float 4s ease-in-out infinite' }}>
                 <div
                   ref={cardRef}
                   onMouseMove={onCardMove}
@@ -446,6 +447,7 @@ export default function HomePage() {
                     </div>
                   </div>
                 </div>
+                </div>
               </motion.div>
 
               {/* Right: white card overlay — 3D tilt container */}
@@ -456,6 +458,7 @@ export default function HomePage() {
                 style={{ perspective: '1000px' }}
                 className="lg:-ml-24 relative z-20"
               >
+                <div style={{ animation: textCardHov ? 'none' : 'float 4s ease-in-out 1.5s infinite' }}>
                 <div
                   ref={textCardRef}
                   onMouseMove={onTextCardMove}
@@ -505,7 +508,7 @@ export default function HomePage() {
                   >
                     Controle pacientes, médicos, estabelecimentos e agendamentos em uma única plataforma. Ágil, integrado e focado na eficiência do atendimento médico.
                   </p>
-                  <div style={{ transform: 'translateZ(22px)' }}>
+                  <div style={{ transform: 'translateZ(22px)', display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
                     <ButtonLink
                       to="/agendamentos"
                       className={cn(
@@ -515,7 +518,14 @@ export default function HomePage() {
                     >
                       Novo Agendamento <ArrowRight className="h-5 w-5" />
                     </ButtonLink>
+                    <Link
+                      to="/world"
+                      className="text-primary/70 hover:text-primary text-sm font-semibold transition-colors inline-flex items-center gap-1.5 self-start"
+                    >
+                      ✦ Explorar o mundo do sistema
+                    </Link>
                   </div>
+                </div>
                 </div>
               </motion.div>
 
@@ -540,7 +550,7 @@ export default function HomePage() {
                 }}
               >
                 <p
-                  className="text-accent font-bold tracking-widest uppercase mb-3"
+                  className="overline text-accent mb-3"
                   style={{
                     maxWidth: 'none',
                     transform: 'translateZ(12px)',
@@ -586,6 +596,7 @@ export default function HomePage() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   className="h-full"
+                  style={{ animation: `float 4s ease-in-out ${index * 0.8}s infinite` }}
                 >
                   <FeatureCard {...feature} />
                 </motion.div>
@@ -614,8 +625,11 @@ export default function HomePage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="bg-white rounded-3xl border border-border shadow-lg px-8 py-10 flex flex-col lg:flex-row items-center gap-8"
             >
+              <div
+                className="bg-white rounded-3xl border border-border shadow-lg px-8 py-10 flex flex-col lg:flex-row items-center gap-8"
+                style={{ animation: 'float 5s ease-in-out 0.3s infinite' }}
+              >
               {/* Icon grande — tilt 3D */}
               <TiltIcon3D size="lg" />
 
@@ -677,6 +691,7 @@ export default function HomePage() {
                   <span className="text-xs text-foreground/50">canto inferior direito ↘</span>
                 </TiltWrap>
               </div>
+              </div>
             </motion.div>
           </div>
         </section>
@@ -693,6 +708,7 @@ export default function HomePage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
               >
+                <div style={{ animation: aboutTextHov ? 'none' : 'float 4.5s ease-in-out 0.9s infinite' }}>
                 <div
                   ref={aboutTextRef}
                   onMouseMove={onAboutTextMove}
@@ -707,7 +723,7 @@ export default function HomePage() {
                   }}
                 >
                   <p
-                    className="text-accent font-bold tracking-widest uppercase mb-3"
+                    className="overline text-accent mb-3"
                     style={{
                       maxWidth: 'none',
                       transform: 'translateZ(12px)',
@@ -767,6 +783,7 @@ export default function HomePage() {
                     </ButtonLink>
                   </div>
                 </div>
+                </div>
               </motion.div>
 
               <motion.div
@@ -776,6 +793,7 @@ export default function HomePage() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 style={{ perspective: '900px' }}
               >
+                <div style={{ animation: modulesHov ? 'none' : 'float 4.5s ease-in-out 0.6s infinite' }}>
                 <div
                   ref={modulesRef}
                   onMouseMove={onModulesMove}
@@ -789,7 +807,7 @@ export default function HomePage() {
                       ? '0 32px 64px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.12)'
                       : '0 8px 24px rgba(0,0,0,0.2)',
                   }}
-                  className="bg-white/5 border border-white/10 p-10 rounded-3xl backdrop-blur-sm relative overflow-hidden"
+                  className="glass-dark p-10 rounded-3xl relative overflow-hidden"
                 >
                   {/* glare */}
                   <div
@@ -818,6 +836,7 @@ export default function HomePage() {
                       </li>
                     ))}
                   </ul>
+                </div>
                 </div>
               </motion.div>
 
@@ -871,7 +890,7 @@ function FeatureCard({
   description: string
 }) {
   return (
-    <div className="group h-full border border-border/60 bg-card rounded-2xl overflow-hidden relative transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
+    <div className="group h-full border border-border/60 bg-card rounded-2xl overflow-hidden relative transition-shadow duration-500 hover:shadow-2xl hover:border-primary/20">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       <div className="absolute bottom-0 left-0 h-1 bg-primary w-0 group-hover:w-full transition-all duration-500 ease-out" />
       <div className="p-8 flex flex-col h-full relative">

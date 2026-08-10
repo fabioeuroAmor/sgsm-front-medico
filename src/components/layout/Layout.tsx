@@ -1,8 +1,11 @@
 import type { ReactNode } from 'react'
 import { Outlet } from 'react-router-dom'
 import { Sidebar } from './Sidebar'
+import { useScrollReveal } from '@/hooks/useScrollReveal'
 
 export function Layout({ children }: { children?: ReactNode }) {
+  useScrollReveal()
+
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar />

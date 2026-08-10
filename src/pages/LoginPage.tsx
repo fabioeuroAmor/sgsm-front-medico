@@ -62,6 +62,14 @@ export function LoginPage() {
             <Button type="submit" className="w-full mt-1" disabled={loading}>
               {loading ? 'Entrando...' : 'Entrar'}
             </Button>
+            <div className="text-center">
+              <Link
+                to="/esqueci-senha"
+                className="text-sm text-muted-foreground hover:text-primary transition-colors"
+              >
+                Esqueci minha senha
+              </Link>
+            </div>
           </form>
 
           <div className="mt-6">
