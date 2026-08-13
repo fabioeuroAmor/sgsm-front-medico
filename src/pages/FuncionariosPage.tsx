@@ -24,6 +24,63 @@ const emptyForm: CadastrarFuncionarioRequest = {
   estabelecimentoId: '',
 }
 
+const emptyErros = { cpf: '', email: '', telefone: '' }
+
+function maskCPF(v: string) {
+  const d = v.replace(/\D/g, '').slice(0, 11)
+  if (d.length <= 3) return d
+  if (d.length <= 6) return `${d.slice(0, 3)}.${d.slice(3)}`
+  if (d.length <= 9) return `${d.slice(0, 3)}.${d.slice(3, 6)}.${d.slice(6)}`
+  return `${d.slice(0, 3)}.${d.slice(3, 6)}.${d.slice(6, 9)}-${d.slice(9)}`
+}
+
+function maskTelefone(v: string) {
+  const d = v.replace(/\D/g, '').slice(0, 11)
+  if (d.length <= 2) return d.length ? `(${d}` : ''
+  if (d.length <= 6) return `(${d.slice(0, 2)}) ${d.slice(2)}`
+  if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`
+  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`
+}
+
+function validarCPF(cpf: string): boolean {
+  const d = cpf.replace(/\D/g, '')
+  if (d.length !== 11 || /^(\d)\1{10}$/.test(d)) return false
+  const calc = (len: number) => {
+    let sum = 0
+    for (let i = 0; i < len; i++) sum += parseInt(d[i]) * (len + 1 - i)
+    const r = (sum * 10) % 11
+    return r === 10 || r === 11 ? 0 : r
+  }
+  return calc(9) === parseInt(d[9]) && calc(10) === parseInt(d[10])
+}
+
+function validarEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
+
+const DDD_VALIDOS = new Set([
+  11, 12, 13, 14, 15, 16, 17, 18, 19,
+  21, 22, 24, 27, 28,
+  31, 32, 33, 34, 35, 37, 38,
+  41, 42, 43, 44, 45, 46, 47, 48, 49,
+  51, 53, 54, 55,
+  61, 62, 63, 64, 65, 66, 67, 68, 69,
+  71, 73, 74, 75, 77, 79,
+  81, 82, 83, 84, 85, 86, 87, 88, 89,
+  91, 92, 93, 94, 95, 96, 97, 98, 99,
+])
+
+function validarTelefone(tel: string): boolean {
+  const d = tel.replace(/\D/g, '')
+  if (d.length !== 10 && d.length !== 11) return false
+  const ddd = parseInt(d.slice(0, 2))
+  if (!DDD_VALIDOS.has(ddd)) return false
+  const numero = d.slice(2)
+  if (/^(\d)\1+$/.test(numero)) return false
+  if (d.length === 11 && numero[0] !== '9') return false
+  return true
+}
+
 export function FuncionariosPage() {
   const { funcionarios, loading, error, listar, cadastrar, atualizar, remover } = useFuncionarios()
   const { usuario } = useAuth()
@@ -37,6 +94,7 @@ export function FuncionariosPage() {
   const [salvando, setSalvando] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
   const [confirmandoId, setConfirmandoId] = useState<string | null>(null)
+  const [campoErros, setCampoErros] = useState(emptyErros)
 
   const tiltRef = useRef<HTMLDivElement>(null)
   const [tilt, setTilt] = useState({ rx: 0, ry: 0 })
@@ -75,6 +133,7 @@ export function FuncionariosPage() {
     setEditando(null)
     setForm(emptyForm)
     setFormError(null)
+    setCampoErros(emptyErros)
     setModalAberto(true)
   }
 
@@ -82,23 +141,55 @@ export function FuncionariosPage() {
     setEditando(func)
     setForm({
       nome: func.nome,
-      cpf: func.cpf,
+      cpf: maskCPF(func.cpf),
       email: func.email,
-      telefone: func.telefone ?? '',
+      telefone: func.telefone ? maskTelefone(func.telefone) : '',
       cargo: func.cargo,
       estabelecimentoId: func.estabelecimentoId,
     })
     setFormError(null)
+    setCampoErros(emptyErros)
     setModalAberto(true)
   }
 
   async function salvar() {
-    if (!form.nome || !form.cpf || !form.email || !form.cargo || !form.estabelecimentoId) {
+    const erros = { ...emptyErros }
+    let valido = true
+
+    if (!form.nome || !form.cargo || !form.estabelecimentoId) {
       setFormError('Preencha todos os campos obrigatórios.')
-      return
+      valido = false
+    } else {
+      setFormError(null)
     }
+
+    if (!editando) {
+      if (!form.cpf) {
+        erros.cpf = 'CPF obrigatório'
+        valido = false
+      } else if (!validarCPF(form.cpf)) {
+        erros.cpf = 'CPF inválido'
+        valido = false
+      }
+    }
+
+    if (!form.email) {
+      erros.email = 'E-mail obrigatório'
+      valido = false
+    } else if (!validarEmail(form.email)) {
+      erros.email = 'E-mail inválido'
+      valido = false
+    }
+
+    if (form.telefone && !validarTelefone(form.telefone)) {
+      erros.telefone = 'Use o formato (11) 99999-0000'
+      valido = false
+    }
+
+    setCampoErros(erros)
+    if (!valido) return
+
     setSalvando(true)
-    setFormError(null)
     try {
       if (editando) {
         await atualizar(editando.id, {
@@ -241,7 +332,7 @@ export function FuncionariosPage() {
       {/* Modal cadastro/edição */}
       <Modal
         open={modalAberto}
-        onClose={() => { setModalAberto(false); setEditando(null) }}
+        onClose={() => { setModalAberto(false); setEditando(null); setCampoErros(emptyErros) }}
         title={editando ? 'Editar Funcionário' : 'Novo Funcionário'}
         footer={
           <>
@@ -256,12 +347,47 @@ export function FuncionariosPage() {
           )}
           <Input label="Nome *" value={form.nome} onChange={(e) => setField('nome', e.target.value)} placeholder="Maria da Silva" />
           <div className="grid grid-cols-2 gap-3">
-            <Input label="CPF *" value={form.cpf} onChange={(e) => setField('cpf', e.target.value)} placeholder="000.000.000-00" disabled={!!editando} />
+            <Input
+              label="CPF *"
+              value={form.cpf}
+              onChange={(e) => { setField('cpf', maskCPF(e.target.value)); setCampoErros((p) => ({ ...p, cpf: '' })) }}
+              onBlur={() => {
+                if (form.cpf && !validarCPF(form.cpf))
+                  setCampoErros((p) => ({ ...p, cpf: 'CPF inválido' }))
+              }}
+              placeholder="000.000.000-00"
+              disabled={!!editando}
+              error={campoErros.cpf}
+            />
             <Input label="Cargo *" value={form.cargo} onChange={(e) => setField('cargo', e.target.value)} placeholder="Recepcionista" />
           </div>
           <div className="grid grid-cols-2 gap-3">
-            <Input label="E-mail *" type="email" value={form.email} onChange={(e) => setField('email', e.target.value)} placeholder="maria@clinica.com" />
-            <Input label="Telefone" value={form.telefone ?? ''} onChange={(e) => setField('telefone', e.target.value)} placeholder="(11) 99999-0000" />
+            <Input
+              label="E-mail *"
+              type="text"
+              value={form.email}
+              onChange={(e) => { setField('email', e.target.value); setCampoErros((p) => ({ ...p, email: '' })) }}
+              onBlur={() => {
+                if (!form.email) {
+                  setCampoErros((p) => ({ ...p, email: 'E-mail obrigatório' }))
+                } else if (!validarEmail(form.email)) {
+                  setCampoErros((p) => ({ ...p, email: 'E-mail inválido' }))
+                }
+              }}
+              placeholder="maria@clinica.com"
+              error={campoErros.email}
+            />
+            <Input
+              label="Telefone"
+              value={form.telefone ?? ''}
+              onChange={(e) => { setField('telefone', maskTelefone(e.target.value)); setCampoErros((p) => ({ ...p, telefone: '' })) }}
+              onBlur={() => {
+                if (form.telefone && !validarTelefone(form.telefone))
+                  setCampoErros((p) => ({ ...p, telefone: 'Use o formato (11) 99999-0000' }))
+              }}
+              placeholder="(11) 99999-0000"
+              error={campoErros.telefone}
+            />
           </div>
           <SelectField
             label="Estabelecimento *"
