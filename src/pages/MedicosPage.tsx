@@ -13,6 +13,7 @@ import { Badge } from '@/components/ui/Badge'
 import { Input, SelectField } from '@/components/ui/Input'
 import { Modal } from '@/components/ui/Modal'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { validateMedicoForm, type MedicoFormErrors } from '@/utils/validateMedico'
 
 const DIAS: { value: DiaSemana; label: string }[] = [
   { value: 'SEGUNDA', label: 'Segunda-feira' }, { value: 'TERCA', label: 'Terça-feira' },
@@ -43,6 +44,8 @@ export function MedicosPage() {
   const [modalAberto, setModalAberto] = useState(false)
   const [editando, setEditando] = useState<MedicoResponse | null>(null)
   const [form, setForm] = useState<CadastrarMedicoRequest>(emptyForm)
+  const [fieldErrors, setFieldErrors] = useState<MedicoFormErrors>({})
+  const [touched, setTouched] = useState<Partial<Record<keyof CadastrarMedicoRequest, boolean>>>({})
   const [salvando, setSalvando] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
   const [confirmandoId, setConfirmandoId] = useState<string | null>(null)
@@ -83,15 +86,44 @@ export function MedicosPage() {
     m.email.toLowerCase().includes(busca.toLowerCase()),
   )
 
-  function abrirCadastro() { setEditando(null); setForm(emptyForm); setFormError(null); setModalAberto(true) }
+  function abrirCadastro() {
+    setEditando(null); setForm(emptyForm); setFormError(null)
+    setFieldErrors({}); setTouched({}); setModalAberto(true)
+  }
 
   function abrirEdicao(m: MedicoResponse) {
     setEditando(m)
     setForm({ nome: m.nome, crm: m.crm, crmUf: m.crmUf, especialidade: m.especialidade, email: m.email, telefone: m.telefone ?? '' })
-    setFormError(null); setModalAberto(true)
+    setFormError(null); setFieldErrors({}); setTouched({}); setModalAberto(true)
+  }
+
+  // Atualiza um campo do form e revalida ao vivo (erro só aparece nos campos já "tocados")
+  function atualizarCampo(campo: keyof CadastrarMedicoRequest, valor: string) {
+    const novoForm = { ...form, [campo]: valor }
+    setForm(novoForm)
+    setFieldErrors(validateMedicoForm(novoForm))
+  }
+
+  function marcarTocado(campo: keyof CadastrarMedicoRequest) {
+    setTouched((t) => ({ ...t, [campo]: true }))
+  }
+
+  function erroDoCampo(campo: keyof CadastrarMedicoRequest): string | undefined {
+    // Na edição, campo vazio significa "não alterar" — não bloqueia como obrigatório
+    if (editando) return undefined
+    return touched[campo] ? fieldErrors[campo] : undefined
   }
 
   async function salvar() {
+    if (!editando) {
+      const erros = validateMedicoForm(form)
+      if (Object.keys(erros).length > 0) {
+        setFieldErrors(erros)
+        setTouched({ nome: true, crm: true, crmUf: true, especialidade: true, email: true, telefone: true })
+        return
+      }
+    }
+
     setSalvando(true); setFormError(null)
     try {
       if (editando) {
@@ -251,19 +283,19 @@ export function MedicosPage() {
         footer={<><Button variant="ghost" size="sm" onClick={() => { setModalAberto(false); setEditando(null) }}>Cancelar</Button><Button onClick={salvar} disabled={salvando} size="sm">{salvando ? 'Salvando…' : 'Salvar'}</Button></>}>
         <div className="flex flex-col gap-4">
           {formError && <div className="rounded-xl border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive">{formError}</div>}
-          <Input label="Nome completo" value={form.nome} onChange={(e) => setForm((f) => ({ ...f, nome: e.target.value }))} placeholder="Dr. João Silva" />
+          <Input label="Nome completo" value={form.nome} onChange={(e) => atualizarCampo('nome', e.target.value)} onBlur={() => marcarTocado('nome')} error={erroDoCampo('nome')} placeholder="Dr. João Silva" />
           <div className="grid grid-cols-2 gap-3">
-            <Input label="CRM" value={form.crm} onChange={(e) => setForm((f) => ({ ...f, crm: e.target.value }))} placeholder="123456" disabled={!!editando} />
-            <SelectField label="UF do CRM" value={form.crmUf} onChange={(e) => setForm((f) => ({ ...f, crmUf: e.target.value }))} disabled={!!editando}>
+            <Input label="CRM" value={form.crm} onChange={(e) => atualizarCampo('crm', e.target.value)} onBlur={() => marcarTocado('crm')} error={erroDoCampo('crm')} placeholder="123456" disabled={!!editando} />
+            <SelectField label="UF do CRM" value={form.crmUf} onChange={(e) => atualizarCampo('crmUf', e.target.value)} onBlur={() => marcarTocado('crmUf')} error={erroDoCampo('crmUf')} disabled={!!editando}>
               {UFS.map((uf) => <option key={uf}>{uf}</option>)}
             </SelectField>
           </div>
-          <SelectField label="Especialidade" value={form.especialidade} onChange={(e) => setForm((f) => ({ ...f, especialidade: e.target.value }))}>
+          <SelectField label="Especialidade" value={form.especialidade} onChange={(e) => atualizarCampo('especialidade', e.target.value)} onBlur={() => marcarTocado('especialidade')} error={erroDoCampo('especialidade')}>
             <option value="">Selecione…</option>
             {ESPECIALIDADES.map((e) => <option key={e}>{e}</option>)}
           </SelectField>
-          <Input label="E-mail" type="email" value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} placeholder="joao@clinica.com" />
-          <Input label="Telefone (opcional)" value={form.telefone ?? ''} onChange={(e) => setForm((f) => ({ ...f, telefone: e.target.value }))} placeholder="(11) 99999-0000" />
+          <Input label="E-mail" type="email" value={form.email} onChange={(e) => atualizarCampo('email', e.target.value)} onBlur={() => marcarTocado('email')} error={erroDoCampo('email')} placeholder="joao@clinica.com" />
+          <Input label="Telefone (opcional)" value={form.telefone ?? ''} onChange={(e) => atualizarCampo('telefone', e.target.value)} onBlur={() => marcarTocado('telefone')} error={erroDoCampo('telefone')} placeholder="(11) 99999-0000" />
         </div>
       </Modal>
 
