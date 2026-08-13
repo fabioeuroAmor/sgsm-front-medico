@@ -20,12 +20,20 @@ api.interceptors.request.use((config) => {
   return config
 })
 
+// Endpoints de autenticação: um 401 aqui é uma resposta de negócio normal (credenciais
+// inválidas, refresh token expirado), não uma sessão que precisa ser renovada — não deve
+// disparar o fluxo de refresh/redirect abaixo.
+const ROTAS_AUTH_SEM_REFRESH = ['/auth/login', '/auth/registrar', '/auth/refresh']
+
 api.interceptors.response.use(
   (res) => res,
   async (err) => {
     const originalRequest = err.config as RetryableConfig
+    const isRotaAuthSemRefresh = ROTAS_AUTH_SEM_REFRESH.some((rota) =>
+      originalRequest?.url?.includes(rota),
+    )
 
-    if (err.response?.status === 401 && !originalRequest._isRetry) {
+    if (err.response?.status === 401 && !originalRequest._isRetry && !isRotaAuthSemRefresh) {
       originalRequest._isRetry = true
       const refreshToken = localStorage.getItem('refresh_token')
 

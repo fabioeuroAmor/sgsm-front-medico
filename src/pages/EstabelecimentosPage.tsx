@@ -19,6 +19,57 @@ function buildMapsUrl(est: EstabelecimentoResponse) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(partes.join(', '))}`
 }
 
+function formatCnpj(cnpj: string) {
+  const d = cnpj.replace(/\D/g, '').slice(0, 14)
+  if (d.length > 12) return `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5, 8)}/${d.slice(8, 12)}-${d.slice(12)}`
+  if (d.length > 8) return `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5, 8)}/${d.slice(8)}`
+  if (d.length > 5) return `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5)}`
+  if (d.length > 2) return `${d.slice(0, 2)}.${d.slice(2)}`
+  return d
+}
+
+function isValidCnpj(cnpj: string) {
+  const d = cnpj.replace(/\D/g, '')
+  if (d.length !== 14 || /^(\d)\1{13}$/.test(d)) return false
+  const digits = d.split('').map(Number)
+  const calcDv = (weights: number[]) => {
+    const sum = weights.reduce((acc, w, i) => acc + w * digits[i], 0)
+    const rest = sum % 11
+    return rest < 2 ? 0 : 11 - rest
+  }
+  const dv1 = calcDv([5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2])
+  const dv2 = calcDv([6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2])
+  return dv1 === digits[12] && dv2 === digits[13]
+}
+
+function formatTelefone(telefone: string) {
+  const d = telefone.replace(/\D/g, '').slice(0, 11)
+  if (d.length > 10) return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`
+  if (d.length > 6) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`
+  if (d.length > 2) return `(${d.slice(0, 2)}) ${d.slice(2)}`
+  if (d.length > 0) return `(${d}`
+  return d
+}
+
+function isValidTelefone(telefone: string) {
+  const d = telefone.replace(/\D/g, '')
+  return d.length === 10 || d.length === 11
+}
+
+function isValidEmail(email: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
+
+function formatCep(cep: string) {
+  const d = cep.replace(/\D/g, '').slice(0, 8)
+  if (d.length > 5) return `${d.slice(0, 5)}-${d.slice(5)}`
+  return d
+}
+
+function isValidCep(cep: string) {
+  return cep.replace(/\D/g, '').length === 8
+}
+
 const UFS = ['AC','AL','AM','AP','BA','CE','DF','ES','GO','MA','MG','MS','MT','PA','PB','PE','PI','PR','RJ','RN','RO','RR','RS','SC','SE','SP','TO']
 const emptyForm: CadastrarEstabelecimentoRequest = {
   nome: '', cnpj: '', telefone: '', email: '', logradouro: '', numero: '',
@@ -36,6 +87,7 @@ export function EstabelecimentosPage() {
   const [form, setForm] = useState<CadastrarEstabelecimentoRequest>(emptyForm)
   const [salvando, setSalvando] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
   const [confirmandoId, setConfirmandoId] = useState<string | null>(null)
 
   const [modalMedicosEstab, setModalMedicosEstab] = useState<EstabelecimentoResponse | null>(null)
@@ -69,15 +121,26 @@ export function EstabelecimentosPage() {
     setForm((f) => ({ ...f, [key]: value }))
   }
 
-  function abrirCadastro() { setEditando(null); setForm(emptyForm); setFormError(null); setModalAberto(true) }
+  function abrirCadastro() { setEditando(null); setForm(emptyForm); setFormError(null); setFieldErrors({}); setModalAberto(true) }
 
   function abrirEdicao(est: EstabelecimentoResponse) {
     setEditando(est)
-    setForm({ nome: est.nome, cnpj: est.cnpj, telefone: est.telefone ?? '', email: est.email ?? '', logradouro: est.logradouro, numero: est.numero, complemento: est.complemento ?? '', bairro: est.bairro, cidade: est.cidade, uf: est.uf, cep: est.cep })
-    setFormError(null); setModalAberto(true)
+    setForm({ nome: est.nome, cnpj: formatCnpj(est.cnpj), telefone: est.telefone ? formatTelefone(est.telefone) : '', email: est.email ?? '', logradouro: est.logradouro, numero: est.numero, complemento: est.complemento ?? '', bairro: est.bairro, cidade: est.cidade, uf: est.uf, cep: formatCep(est.cep) })
+    setFormError(null); setFieldErrors({}); setModalAberto(true)
+  }
+
+  function validarForm() {
+    const errors: Record<string, string> = {}
+    if (!isValidCnpj(form.cnpj)) errors.cnpj = 'CNPJ inválido'
+    if (form.telefone && !isValidTelefone(form.telefone)) errors.telefone = 'Telefone inválido'
+    if (form.email && !isValidEmail(form.email)) errors.email = 'E-mail inválido'
+    if (!isValidCep(form.cep)) errors.cep = 'CEP inválido'
+    setFieldErrors(errors)
+    return Object.keys(errors).length === 0
   }
 
   async function salvar() {
+    if (!validarForm()) { setFormError('Corrija os campos destacados.'); return }
     setSalvando(true); setFormError(null)
     try {
       if (editando) {
@@ -208,10 +271,10 @@ export function EstabelecimentosPage() {
         <div className="flex flex-col gap-4">
           {formError && <div className="rounded-xl border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive">{formError}</div>}
           <Input label="Nome" value={form.nome} onChange={(e) => setField('nome', e.target.value)} placeholder="Clínica São Lucas" />
-          <Input label="CNPJ" value={form.cnpj} onChange={(e) => setField('cnpj', e.target.value)} placeholder="00.000.000/0001-00" disabled={!!editando} />
+          <Input label="CNPJ" value={form.cnpj} onChange={(e) => setField('cnpj', formatCnpj(e.target.value))} placeholder="00.000.000/0001-00" disabled={!!editando} error={fieldErrors.cnpj} maxLength={18} />
           <div className="grid grid-cols-2 gap-3">
-            <Input label="Telefone" value={form.telefone ?? ''} onChange={(e) => setField('telefone', e.target.value)} placeholder="(11) 3333-0000" />
-            <Input label="E-mail" type="email" value={form.email ?? ''} onChange={(e) => setField('email', e.target.value)} placeholder="contato@clinica.com" />
+            <Input label="Telefone" value={form.telefone ?? ''} onChange={(e) => setField('telefone', formatTelefone(e.target.value))} placeholder="(11) 3333-0000" error={fieldErrors.telefone} maxLength={15} />
+            <Input label="E-mail" type="email" value={form.email ?? ''} onChange={(e) => setField('email', e.target.value)} placeholder="contato@clinica.com" error={fieldErrors.email} />
           </div>
           <div className="grid grid-cols-3 gap-3">
             <div className="col-span-2"><Input label="Logradouro" value={form.logradouro} onChange={(e) => setField('logradouro', e.target.value)} placeholder="Rua das Flores" /></div>
@@ -220,7 +283,7 @@ export function EstabelecimentosPage() {
           <Input label="Complemento" value={form.complemento ?? ''} onChange={(e) => setField('complemento', e.target.value)} placeholder="Sala 42" />
           <div className="grid grid-cols-2 gap-3">
             <Input label="Bairro" value={form.bairro} onChange={(e) => setField('bairro', e.target.value)} placeholder="Jardins" />
-            <Input label="CEP" value={form.cep} onChange={(e) => setField('cep', e.target.value)} placeholder="01310-100" />
+            <Input label="CEP" value={form.cep} onChange={(e) => setField('cep', formatCep(e.target.value))} placeholder="01310-100" error={fieldErrors.cep} maxLength={9} />
           </div>
           <div className="grid grid-cols-3 gap-3">
             <div className="col-span-2"><Input label="Cidade" value={form.cidade} onChange={(e) => setField('cidade', e.target.value)} placeholder="São Paulo" /></div>
