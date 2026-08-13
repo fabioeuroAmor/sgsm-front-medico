@@ -9,6 +9,77 @@ import { Input } from '@/components/ui/Input'
 import { Modal } from '@/components/ui/Modal'
 import { EmptyState } from '@/components/ui/EmptyState'
 
+// ── UFs válidas ─────────────────────────────────────────────────────────────
+const UFS_VALIDAS = new Set([
+  'AC','AL','AP','AM','BA','CE','DF','ES','GO','MA',
+  'MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN',
+  'RS','RO','RR','SC','SP','SE','TO',
+])
+
+// ── Validadores ──────────────────────────────────────────────────────────────
+function validarCpfDigitos(digits: string): boolean {
+  if (digits.length !== 11) return false
+  if (/^(\d)\1{10}$/.test(digits)) return false   // todos iguais: 111.111.111-11
+  let sum = 0
+  for (let i = 0; i < 9; i++) sum += +digits[i] * (10 - i)
+  let rem = (sum * 10) % 11
+  if (rem >= 10) rem = 0
+  if (rem !== +digits[9]) return false
+  sum = 0
+  for (let i = 0; i < 10; i++) sum += +digits[i] * (11 - i)
+  rem = (sum * 10) % 11
+  if (rem >= 10) rem = 0
+  return rem === +digits[10]
+}
+
+function validarEmail(email: string): string | null {
+  if (!email) return 'E-mail é obrigatório'
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return 'E-mail inválido'
+  return null
+}
+
+function validarTelefoneDigitos(digits: string): string | null {
+  if (!digits) return null   // opcional
+  if (digits.length < 10 || digits.length > 11) return 'Telefone deve ter DDD + 8 ou 9 dígitos'
+  if (digits.length === 11 && digits[2] !== '9') return 'Celular deve começar com 9 após o DDD'
+  return null
+}
+
+function validarCepDigitos(digits: string): string | null {
+  if (!digits) return null   // opcional
+  if (digits.length !== 8) return 'CEP deve ter 8 dígitos'
+  return null
+}
+
+function validarNumero(num: string): string | null {
+  if (!num) return null   // opcional
+  if (!/^[a-zA-Z0-9\s/\-]+$/.test(num)) return 'Número inválido (use apenas letras, números e /-)'
+  return null
+}
+
+function validarUf(uf: string): string | null {
+  if (!uf) return null   // opcional
+  if (!UFS_VALIDAS.has(uf.toUpperCase())) return 'UF inválida'
+  return null
+}
+
+// ── Máscaras ────────────────────────────────────────────────────────────────
+function maskTelefone(raw: string): string {
+  const d = raw.replace(/\D/g, '').slice(0, 11)
+  if (d.length === 0) return ''
+  if (d.length <= 2)  return `(${d}`
+  if (d.length <= 6)  return `(${d.slice(0, 2)}) ${d.slice(2)}`
+  if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`
+  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`
+}
+
+function maskCep(raw: string): string {
+  const d = raw.replace(/\D/g, '').slice(0, 8)
+  if (d.length <= 5) return d
+  return `${d.slice(0, 5)}-${d.slice(5)}`
+}
+
+// ── Helpers de display ───────────────────────────────────────────────────────
 function formatCpf(cpf: string) {
   const d = cpf.replace(/\D/g, '')
   if (d.length !== 11) return cpf
@@ -33,6 +104,12 @@ function calcIdade(iso: string) {
   return idade
 }
 
+// ── Tipos locais ────────────────────────────────────────────────────────────
+type FormErrors = Partial<Record<
+  'nome' | 'cpf' | 'dataNascimento' | 'email' | 'telefone' | 'cep' | 'numero' | 'uf',
+  string
+>>
+
 const emptyForm: CadastrarPacienteRequest = {
   nome: '', cpf: '', dataNascimento: '', email: '', telefone: '',
   logradouro: '', numero: '', complemento: '', bairro: '', cidade: '', uf: '', cep: '',
@@ -46,9 +123,12 @@ export function PacientesPage() {
   const [editando, setEditando] = useState<PacienteResponse | null>(null)
   const [form, setForm] = useState<CadastrarPacienteRequest>(emptyForm)
   const [cpfDisplay, setCpfDisplay] = useState('')
+  const [telefoneDisplay, setTelefoneDisplay] = useState('')
+  const [cepDisplay, setCepDisplay] = useState('')
   const [cepBuscando, setCepBuscando] = useState(false)
   const [salvando, setSalvando] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
+  const [formErrors, setFormErrors] = useState<FormErrors>({})
   const [confirmandoId, setConfirmandoId] = useState<string | null>(null)
   const [detalhe, setDetalhe] = useState<PacienteResponse | null>(null)
 
@@ -76,7 +156,14 @@ export function PacientesPage() {
   })
 
   function abrirCadastro() {
-    setEditando(null); setForm(emptyForm); setCpfDisplay(''); setFormError(null); setModalAberto(true)
+    setEditando(null)
+    setForm(emptyForm)
+    setCpfDisplay('')
+    setTelefoneDisplay('')
+    setCepDisplay('')
+    setFormError(null)
+    setFormErrors({})
+    setModalAberto(true)
   }
 
   function abrirEdicao(p: PacienteResponse) {
@@ -88,10 +175,14 @@ export function PacientesPage() {
       uf: p.uf ?? '', cep: p.cep ?? '',
     })
     setCpfDisplay(formatCpf(p.cpf))
+    setTelefoneDisplay(maskTelefone(p.telefone ?? ''))
+    setCepDisplay(maskCep(p.cep ?? ''))
     setFormError(null)
+    setFormErrors({})
     setModalAberto(true)
   }
 
+  // ── Handlers de campos com máscara ────────────────────────────────────────
   function handleCpfChange(raw: string) {
     const digits = raw.replace(/\D/g, '').slice(0, 11)
     let mask = digits
@@ -100,6 +191,123 @@ export function PacientesPage() {
     else if (digits.length > 3) mask = `${digits.slice(0, 3)}.${digits.slice(3)}`
     setCpfDisplay(mask)
     setForm((f) => ({ ...f, cpf: digits }))
+    setFormErrors((e) => ({ ...e, cpf: undefined }))
+  }
+
+  function handleTelefoneChange(raw: string) {
+    const digits = raw.replace(/\D/g, '').slice(0, 11)
+    setTelefoneDisplay(maskTelefone(digits))
+    setForm((f) => ({ ...f, telefone: digits }))
+    setFormErrors((e) => ({ ...e, telefone: undefined }))
+  }
+
+  function handleCepChange(raw: string) {
+    const digits = raw.replace(/\D/g, '').slice(0, 8)
+    setCepDisplay(maskCep(digits))
+    setForm((f) => ({ ...f, cep: digits }))
+    setFormErrors((e) => ({ ...e, cep: undefined }))
+  }
+
+  // ── Validação de campo individual (blur) ──────────────────────────────────
+  function validarCampo(campo: keyof FormErrors) {
+    setFormErrors((prev) => {
+      const erros = { ...prev }
+      switch (campo) {
+        case 'cpf': {
+          const d = form.cpf.replace(/\D/g, '')
+          if (!editando) {
+            if (d.length !== 11) erros.cpf = 'CPF deve ter 11 dígitos'
+            else if (!validarCpfDigitos(d)) erros.cpf = 'CPF inválido'
+            else delete erros.cpf
+          }
+          break
+        }
+        case 'email': {
+          const err = validarEmail(form.email)
+          if (err) erros.email = err; else delete erros.email
+          break
+        }
+        case 'telefone': {
+          const err = validarTelefoneDigitos((form.telefone ?? '').replace(/\D/g, ''))
+          if (err) erros.telefone = err; else delete erros.telefone
+          break
+        }
+        case 'cep': {
+          const err = validarCepDigitos((form.cep ?? '').replace(/\D/g, ''))
+          if (err) erros.cep = err; else delete erros.cep
+          break
+        }
+        case 'numero': {
+          const err = validarNumero(form.numero ?? '')
+          if (err) erros.numero = err; else delete erros.numero
+          break
+        }
+        case 'uf': {
+          const err = validarUf(form.uf ?? '')
+          if (err) erros.uf = err; else delete erros.uf
+          break
+        }
+        case 'nome': {
+          if (!form.nome.trim()) erros.nome = 'Nome é obrigatório'
+          else delete erros.nome
+          break
+        }
+        case 'dataNascimento': {
+          if (!form.dataNascimento) {
+            erros.dataNascimento = 'Data de nascimento é obrigatória'
+          } else {
+            const nasc = new Date(form.dataNascimento)
+            const hoje = new Date(); hoje.setHours(0,0,0,0)
+            const minDate = new Date(); minDate.setFullYear(minDate.getFullYear() - 130)
+            if (nasc >= hoje) erros.dataNascimento = 'Data de nascimento não pode ser hoje ou futura'
+            else if (nasc < minDate) erros.dataNascimento = 'Data de nascimento inválida (mais de 130 anos)'
+            else delete erros.dataNascimento
+          }
+          break
+        }
+      }
+      return erros
+    })
+  }
+
+  // ── Validação completa antes de salvar ────────────────────────────────────
+  function validarTudo(): boolean {
+    const erros: FormErrors = {}
+
+    if (!form.nome.trim()) erros.nome = 'Nome é obrigatório'
+    if (!form.dataNascimento) {
+      erros.dataNascimento = 'Data de nascimento é obrigatória'
+    } else {
+      const nasc = new Date(form.dataNascimento)
+      const hoje = new Date(); hoje.setHours(0,0,0,0)
+      const minDate = new Date(); minDate.setFullYear(minDate.getFullYear() - 130)
+      if (nasc >= hoje) erros.dataNascimento = 'Data de nascimento não pode ser hoje ou futura'
+      else if (nasc < minDate) erros.dataNascimento = 'Data de nascimento inválida (mais de 130 anos)'
+    }
+
+    if (!editando) {
+      const d = form.cpf.replace(/\D/g, '')
+      if (d.length !== 11) erros.cpf = 'CPF deve ter 11 dígitos'
+      else if (!validarCpfDigitos(d)) erros.cpf = 'CPF inválido'
+    }
+
+    const emailErr = validarEmail(form.email)
+    if (emailErr) erros.email = emailErr
+
+    const telErr = validarTelefoneDigitos((form.telefone ?? '').replace(/\D/g, ''))
+    if (telErr) erros.telefone = telErr
+
+    const cepErr = validarCepDigitos((form.cep ?? '').replace(/\D/g, ''))
+    if (cepErr) erros.cep = cepErr
+
+    const numErr = validarNumero(form.numero ?? '')
+    if (numErr) erros.numero = numErr
+
+    const ufErr = validarUf(form.uf ?? '')
+    if (ufErr) erros.uf = ufErr
+
+    setFormErrors(erros)
+    return Object.keys(erros).length === 0
   }
 
   async function buscarCep(cep: string) {
@@ -118,11 +326,15 @@ export function PacientesPage() {
           uf: data.uf ?? f.uf,
           cep: digits,
         }))
+        setFormErrors((e) => ({ ...e, cep: undefined }))
+      } else {
+        setFormErrors((e) => ({ ...e, cep: 'CEP não encontrado' }))
       }
     } catch { /* ViaCEP offline */ } finally { setCepBuscando(false) }
   }
 
   async function salvar() {
+    if (!validarTudo()) return
     setSalvando(true); setFormError(null)
     try {
       if (editando) {
@@ -254,7 +466,7 @@ export function PacientesPage() {
                   {p.telefone && (
                     <div className="flex items-center gap-2 text-xs text-foreground/70">
                       <Phone size={12} className="shrink-0 text-muted-foreground" />
-                      <span>{p.telefone}</span>
+                      <span>{maskTelefone(p.telefone)}</span>
                     </div>
                   )}
                   {p.cidade && (
@@ -279,7 +491,7 @@ export function PacientesPage() {
         </div>
       )}
 
-      {/* Modal cadastro/edição */}
+      {/* ── Modal cadastro/edição ─────────────────────────────────────────── */}
       <Modal
         open={modalAberto}
         onClose={() => { setModalAberto(false); setEditando(null) }}
@@ -292,31 +504,144 @@ export function PacientesPage() {
         }
       >
         <div className="flex flex-col gap-4">
-          {formError && <div className="rounded-xl border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive">{formError}</div>}
-          <Input label="Nome completo" value={form.nome} onChange={(e) => setForm((f) => ({ ...f, nome: e.target.value }))} placeholder="Maria da Silva" />
-          <Input label="CPF" value={cpfDisplay} onChange={(e) => handleCpfChange(e.target.value)} placeholder="000.000.000-00" disabled={!!editando} />
-          <Input label="Data de nascimento" type="date" value={form.dataNascimento} onChange={(e) => setForm((f) => ({ ...f, dataNascimento: e.target.value }))} />
-          <Input label="E-mail" type="email" value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} placeholder="maria@email.com" />
-          <Input label="Telefone (opcional)" value={form.telefone ?? ''} onChange={(e) => setForm((f) => ({ ...f, telefone: e.target.value }))} placeholder="(11) 99999-0000" />
+          {formError && (
+            <div className="rounded-xl border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive">
+              {formError}
+            </div>
+          )}
+
+          {/* Nome */}
+          <Input
+            label="Nome completo"
+            value={form.nome}
+            onChange={(e) => { setForm((f) => ({ ...f, nome: e.target.value })); setFormErrors((fe) => ({ ...fe, nome: undefined })) }}
+            onBlur={() => validarCampo('nome')}
+            placeholder="Maria da Silva"
+            error={formErrors.nome}
+          />
+
+          {/* CPF */}
+          <Input
+            label="CPF"
+            value={cpfDisplay}
+            onChange={(e) => handleCpfChange(e.target.value)}
+            onBlur={() => validarCampo('cpf')}
+            placeholder="000.000.000-00"
+            disabled={!!editando}
+            error={formErrors.cpf}
+          />
+
+          {/* Data de nascimento */}
+          <Input
+            label="Data de nascimento"
+            type="date"
+            value={form.dataNascimento}
+            onChange={(e) => { setForm((f) => ({ ...f, dataNascimento: e.target.value })); setFormErrors((fe) => ({ ...fe, dataNascimento: undefined })) }}
+            onBlur={() => validarCampo('dataNascimento')}
+            error={formErrors.dataNascimento}
+          />
+
+          {/* E-mail */}
+          <Input
+            label="E-mail"
+            type="email"
+            value={form.email}
+            onChange={(e) => { setForm((f) => ({ ...f, email: e.target.value })); setFormErrors((fe) => ({ ...fe, email: undefined })) }}
+            onBlur={() => validarCampo('email')}
+            placeholder="maria@email.com"
+            error={formErrors.email}
+          />
+
+          {/* Telefone */}
+          <Input
+            label="Telefone (opcional)"
+            value={telefoneDisplay}
+            onChange={(e) => handleTelefoneChange(e.target.value)}
+            onBlur={() => validarCampo('telefone')}
+            placeholder="(11) 99999-0000"
+            error={formErrors.telefone}
+          />
 
           <div className="border-t border-border pt-3">
             <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">Endereço (opcional)</p>
+
+            {/* CEP */}
             <div className="flex gap-2 items-end">
               <div className="flex-1">
-                <Input label="CEP" value={form.cep ?? ''} onChange={(e) => setForm((f) => ({ ...f, cep: e.target.value.replace(/\D/g, '').slice(0, 8) }))} onBlur={(e) => buscarCep(e.target.value)} placeholder="00000000" maxLength={8} />
+                <Input
+                  label="CEP"
+                  value={cepDisplay}
+                  onChange={(e) => handleCepChange(e.target.value)}
+                  onBlur={(e) => { validarCampo('cep'); buscarCep(e.target.value) }}
+                  placeholder="00000-000"
+                  maxLength={9}
+                  error={formErrors.cep}
+                />
               </div>
               {cepBuscando && <div className="mb-1 h-5 w-5 animate-spin rounded-full border-2 border-primary border-t-transparent" />}
             </div>
+
             <div className="mt-3 space-y-3">
-              <Input label="Logradouro" value={form.logradouro ?? ''} onChange={(e) => setForm((f) => ({ ...f, logradouro: e.target.value }))} placeholder="Rua das Flores" />
+              <Input
+                label="Logradouro"
+                value={form.logradouro ?? ''}
+                onChange={(e) => setForm((f) => ({ ...f, logradouro: e.target.value }))}
+                placeholder="Rua das Flores"
+              />
+
               <div className="flex gap-2">
-                <div className="w-24"><Input label="Número" value={form.numero ?? ''} onChange={(e) => setForm((f) => ({ ...f, numero: e.target.value }))} placeholder="123" /></div>
-                <div className="flex-1"><Input label="Complemento" value={form.complemento ?? ''} onChange={(e) => setForm((f) => ({ ...f, complemento: e.target.value }))} placeholder="Apto 42" /></div>
+                {/* Número */}
+                <div className="w-24">
+                  <Input
+                    label="Número"
+                    value={form.numero ?? ''}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/\D/g, '')
+                      setForm((f) => ({ ...f, numero: val }))
+                      setFormErrors((fe) => ({ ...fe, numero: undefined }))
+                    }}
+                    placeholder="123"
+                    inputMode="numeric"
+                  />
+                </div>
+                <div className="flex-1">
+                  <Input
+                    label="Complemento"
+                    value={form.complemento ?? ''}
+                    onChange={(e) => setForm((f) => ({ ...f, complemento: e.target.value }))}
+                    placeholder="Apto 42"
+                  />
+                </div>
               </div>
-              <Input label="Bairro" value={form.bairro ?? ''} onChange={(e) => setForm((f) => ({ ...f, bairro: e.target.value }))} placeholder="Centro" />
+
+              <Input
+                label="Bairro"
+                value={form.bairro ?? ''}
+                onChange={(e) => setForm((f) => ({ ...f, bairro: e.target.value }))}
+                placeholder="Centro"
+              />
+
               <div className="flex gap-2">
-                <div className="flex-1"><Input label="Cidade" value={form.cidade ?? ''} onChange={(e) => setForm((f) => ({ ...f, cidade: e.target.value }))} placeholder="São Paulo" /></div>
-                <div className="w-20"><Input label="UF" value={form.uf ?? ''} onChange={(e) => setForm((f) => ({ ...f, uf: e.target.value.toUpperCase().slice(0, 2) }))} placeholder="SP" maxLength={2} /></div>
+                <div className="flex-1">
+                  <Input
+                    label="Cidade"
+                    value={form.cidade ?? ''}
+                    onChange={(e) => setForm((f) => ({ ...f, cidade: e.target.value }))}
+                    placeholder="São Paulo"
+                  />
+                </div>
+                {/* UF */}
+                <div className="w-20">
+                  <Input
+                    label="UF"
+                    value={form.uf ?? ''}
+                    onChange={(e) => { setForm((f) => ({ ...f, uf: e.target.value.toUpperCase().slice(0, 2) })); setFormErrors((fe) => ({ ...fe, uf: undefined })) }}
+                    onBlur={() => validarCampo('uf')}
+                    placeholder="SP"
+                    maxLength={2}
+                    error={formErrors.uf}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -363,7 +688,7 @@ export function PacientesPage() {
             <DetailRow label="CPF" value={formatCpf(detalhe.cpf)} mono />
             <DetailRow label="Nascimento" value={`${formatDate(detalhe.dataNascimento)} — ${calcIdade(detalhe.dataNascimento)} anos`} />
             <DetailRow label="E-mail" value={detalhe.email} />
-            {detalhe.telefone && <DetailRow label="Telefone" value={detalhe.telefone} />}
+            {detalhe.telefone && <DetailRow label="Telefone" value={maskTelefone(detalhe.telefone)} />}
             <DetailRow label="Status" value={detalhe.ativo ? 'Ativo' : 'Inativo'} />
             {(detalhe.logradouro || detalhe.cidade) && (
               <div className="border-t border-border pt-3 space-y-2">
@@ -371,7 +696,7 @@ export function PacientesPage() {
                 {detalhe.logradouro && <DetailRow label="Logradouro" value={[detalhe.logradouro, detalhe.numero, detalhe.complemento].filter(Boolean).join(', ')} />}
                 {detalhe.bairro && <DetailRow label="Bairro" value={detalhe.bairro} />}
                 {detalhe.cidade && <DetailRow label="Cidade / UF" value={[detalhe.cidade, detalhe.uf].filter(Boolean).join(' — ')} />}
-                {detalhe.cep && <DetailRow label="CEP" value={detalhe.cep} mono />}
+                {detalhe.cep && <DetailRow label="CEP" value={maskCep(detalhe.cep)} mono />}
               </div>
             )}
           </div>
