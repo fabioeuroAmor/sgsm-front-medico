@@ -33,6 +33,7 @@ export function ServicosPage() {
   const [form, setForm] = useState<CadastrarServicoMedicoRequest>(emptyForm)
   const [salvando, setSalvando] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
   const [confirmandoId, setConfirmandoId] = useState<string | null>(null)
 
   // 3D tilt effect state
@@ -65,15 +66,27 @@ export function ServicosPage() {
     return medicos.find((m) => m.id === id)?.nome ?? id.slice(0, 8) + '…'
   }
 
-  function abrirCadastro() { setEditando(null); setForm(emptyForm); setFormError(null); setModalAberto(true) }
+  function abrirCadastro() { setEditando(null); setForm(emptyForm); setFormError(null); setFieldErrors({}); setModalAberto(true) }
 
   function abrirEdicao(s: ServicoMedicoResponse) {
     setEditando(s)
     setForm({ medicoId: s.medicoId, nome: s.nome, descricao: s.descricao ?? '', preco: s.preco, duracaoMinutos: s.duracaoMinutos, domiciliar: s.domiciliar ?? false, taxaDeslocamento: s.taxaDeslocamento })
-    setFormError(null); setModalAberto(true)
+    setFormError(null); setFieldErrors({}); setModalAberto(true)
+  }
+
+  function validarForm() {
+    const errors: Record<string, string> = {}
+    if (!editando && (!form.medicoId || !medicos.some((m) => m.id === form.medicoId))) errors.medicoId = 'Selecione um médico cadastrado no sistema'
+    if (!form.nome.trim()) errors.nome = 'Nome do serviço é obrigatório'
+    if (!(form.preco > 0)) errors.preco = 'Preço deve ser maior que zero'
+    if (form.duracaoMinutos !== undefined && !(form.duracaoMinutos > 0)) errors.duracaoMinutos = 'Duração deve ser maior que zero'
+    if (form.domiciliar && form.taxaDeslocamento !== undefined && form.taxaDeslocamento < 0) errors.taxaDeslocamento = 'Taxa de deslocamento não pode ser negativa'
+    setFieldErrors(errors)
+    return Object.keys(errors).length === 0
   }
 
   async function salvar() {
+    if (!validarForm()) { setFormError('Corrija os campos destacados.'); return }
     setSalvando(true); setFormError(null)
     try {
       if (editando) {
@@ -218,19 +231,19 @@ export function ServicosPage() {
         footer={<><Button variant="ghost" size="sm" onClick={() => { setModalAberto(false); setEditando(null) }}>Cancelar</Button><Button onClick={salvar} disabled={salvando} size="sm">{salvando ? 'Salvando…' : 'Salvar'}</Button></>}>
         <div className="flex flex-col gap-4">
           {formError && <div className="rounded-xl border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive">{formError}</div>}
-          <SelectField label="Médico" value={form.medicoId} onChange={(e) => setForm((f) => ({ ...f, medicoId: e.target.value }))} disabled={!!editando}>
+          <SelectField label="Médico" value={form.medicoId} onChange={(e) => setForm((f) => ({ ...f, medicoId: e.target.value }))} disabled={!!editando} error={fieldErrors.medicoId}>
             <option value="">Selecione o médico…</option>
             {medicos.map((m) => <option key={m.id} value={m.id}>{m.nome} — {m.especialidade}</option>)}
           </SelectField>
-          <Input label="Nome do Serviço" value={form.nome} onChange={(e) => setForm((f) => ({ ...f, nome: e.target.value }))} placeholder="Consulta de Rotina" />
+          <Input label="Nome do Serviço" value={form.nome} onChange={(e) => setForm((f) => ({ ...f, nome: e.target.value }))} placeholder="Consulta de Rotina" error={fieldErrors.nome} />
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Descrição (opcional)</label>
             <textarea value={form.descricao ?? ''} onChange={(e) => setForm((f) => ({ ...f, descricao: e.target.value }))} placeholder="Descreva brevemente o serviço…" rows={3}
               className="w-full rounded-xl border border-border bg-input px-3 py-2.5 text-sm text-foreground outline-none resize-none transition-all focus:ring-2 focus:ring-ring placeholder:text-muted-foreground/60" />
           </div>
           <div className="grid grid-cols-2 gap-3">
-            <Input label="Preço (R$)" type="number" min={0} step={0.01} value={form.preco} onChange={(e) => setForm((f) => ({ ...f, preco: Number(e.target.value) }))} placeholder="150.00" />
-            <Input label="Duração (min)" type="number" min={0} value={form.duracaoMinutos ?? ''} onChange={(e) => setForm((f) => ({ ...f, duracaoMinutos: e.target.value ? Number(e.target.value) : undefined }))} placeholder="30" />
+            <Input label="Preço (R$)" type="number" min={0} step={0.01} value={form.preco} onChange={(e) => setForm((f) => ({ ...f, preco: Number(e.target.value) }))} placeholder="150.00" error={fieldErrors.preco} />
+            <Input label="Duração (min)" type="number" min={0} value={form.duracaoMinutos ?? ''} onChange={(e) => setForm((f) => ({ ...f, duracaoMinutos: e.target.value ? Number(e.target.value) : undefined }))} placeholder="30" error={fieldErrors.duracaoMinutos} />
           </div>
           <label className="flex items-center gap-3 cursor-pointer select-none">
             <div onClick={() => setForm((f) => ({ ...f, domiciliar: !f.domiciliar }))}
@@ -240,7 +253,7 @@ export function ServicosPage() {
             <span className="text-sm font-medium text-foreground">Atendimento domiciliar</span>
           </label>
           {form.domiciliar && (
-            <Input label="Taxa de deslocamento (R$)" type="number" min={0} step={0.01} value={form.taxaDeslocamento ?? ''} onChange={(e) => setForm((f) => ({ ...f, taxaDeslocamento: e.target.value ? Number(e.target.value) : undefined }))} placeholder="50.00" />
+            <Input label="Taxa de deslocamento (R$)" type="number" min={0} step={0.01} value={form.taxaDeslocamento ?? ''} onChange={(e) => setForm((f) => ({ ...f, taxaDeslocamento: e.target.value ? Number(e.target.value) : undefined }))} placeholder="50.00" error={fieldErrors.taxaDeslocamento} />
           )}
         </div>
       </Modal>
