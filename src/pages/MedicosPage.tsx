@@ -14,6 +14,7 @@ import { Input, SelectField } from '@/components/ui/Input'
 import { Modal } from '@/components/ui/Modal'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { validateMedicoForm, type MedicoFormErrors } from '@/utils/validateMedico'
+import { onlyDigits, formatTelefone, formatNomePessoa } from '@/utils/masks'
 
 const DIAS: { value: DiaSemana; label: string }[] = [
   { value: 'SEGUNDA', label: 'Segunda-feira' }, { value: 'TERCA', label: 'Terça-feira' },
@@ -99,9 +100,14 @@ export function MedicosPage() {
 
   // Atualiza um campo do form e revalida ao vivo (erro só aparece nos campos já "tocados")
   function atualizarCampo(campo: keyof CadastrarMedicoRequest, valor: string) {
-    const novoForm = { ...form, [campo]: valor }
+    let valorTratado = valor
+    if (campo === 'nome') valorTratado = formatNomePessoa(valor)
+    else if (campo === 'crm') valorTratado = onlyDigits(valor, 9)
+    else if (campo === 'telefone') valorTratado = formatTelefone(valor)
+
+    const novoForm = { ...form, [campo]: valorTratado }
     setForm(novoForm)
-    setFieldErrors(validateMedicoForm(novoForm))
+    setFieldErrors(validateMedicoForm(novoForm, !!editando))
   }
 
   function marcarTocado(campo: keyof CadastrarMedicoRequest) {
@@ -109,25 +115,26 @@ export function MedicosPage() {
   }
 
   function erroDoCampo(campo: keyof CadastrarMedicoRequest): string | undefined {
-    // Na edição, campo vazio significa "não alterar" — não bloqueia como obrigatório
-    if (editando) return undefined
     return touched[campo] ? fieldErrors[campo] : undefined
   }
 
   async function salvar() {
-    if (!editando) {
-      const erros = validateMedicoForm(form)
-      if (Object.keys(erros).length > 0) {
-        setFieldErrors(erros)
-        setTouched({ nome: true, crm: true, crmUf: true, especialidade: true, email: true, telefone: true })
-        return
-      }
+    const erros = validateMedicoForm(form, !!editando)
+    if (Object.keys(erros).length > 0) {
+      setFieldErrors(erros)
+      setTouched({ nome: true, crm: true, crmUf: true, especialidade: true, email: true, telefone: true })
+      return
     }
 
     setSalvando(true); setFormError(null)
     try {
       if (editando) {
-        await atualizar(editando.id, { nome: form.nome || undefined, especialidade: form.especialidade || undefined, email: form.email || undefined, telefone: form.telefone || undefined })
+        await atualizar(editando.id, {
+          nome: form.nome || undefined,
+          especialidade: form.especialidade || undefined,
+          email: form.email || undefined,
+          telefone: form.telefone?.trim() ? form.telefone : null,
+        })
       } else { await cadastrar(form) }
       setModalAberto(false); setEditando(null)
     } catch (err) { setFormError((err as Error).message) } finally { setSalvando(false) }

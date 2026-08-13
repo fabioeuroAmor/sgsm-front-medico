@@ -14,6 +14,7 @@ import { Input, SelectField } from '@/components/ui/Input'
 import { Modal } from '@/components/ui/Modal'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { validateEstabelecimentoForm, type EstabelecimentoFormErrors } from '@/utils/validateEstabelecimento'
+import { onlyDigits, formatTelefone, formatCnpj, formatCep, formatCidade } from '@/utils/masks'
 
 function buildMapsUrl(est: EstabelecimentoResponse) {
   const partes = [est.logradouro, est.numero, est.complemento, est.bairro, est.cidade, est.uf, est.cep, 'Brasil'].filter(Boolean)
@@ -69,9 +70,16 @@ export function EstabelecimentosPage() {
   )
 
   function setField<K extends keyof CadastrarEstabelecimentoRequest>(key: K, value: CadastrarEstabelecimentoRequest[K]) {
-    const novoForm = { ...form, [key]: value }
+    let valorTratado = value as string
+    if (key === 'cnpj') valorTratado = formatCnpj(valorTratado)
+    else if (key === 'telefone') valorTratado = formatTelefone(valorTratado)
+    else if (key === 'cep') valorTratado = formatCep(valorTratado)
+    else if (key === 'numero') valorTratado = onlyDigits(valorTratado)
+    else if (key === 'cidade') valorTratado = formatCidade(valorTratado)
+
+    const novoForm = { ...form, [key]: valorTratado }
     setForm(novoForm)
-    setFieldErrors(validateEstabelecimentoForm(novoForm))
+    setFieldErrors(validateEstabelecimentoForm(novoForm, !!editando))
   }
 
   function marcarTocado(campo: keyof CadastrarEstabelecimentoRequest) {
@@ -79,8 +87,6 @@ export function EstabelecimentosPage() {
   }
 
   function erroDoCampo(campo: keyof CadastrarEstabelecimentoRequest): string | undefined {
-    // Na edição, campo vazio significa "não alterar" — não bloqueia como obrigatório
-    if (editando) return undefined
     return touched[campo] ? fieldErrors[campo] : undefined
   }
 
@@ -96,22 +102,31 @@ export function EstabelecimentosPage() {
   }
 
   async function salvar() {
-    if (!editando) {
-      const erros = validateEstabelecimentoForm(form)
-      if (Object.keys(erros).length > 0) {
-        setFieldErrors(erros)
-        setTouched({
-          nome: true, cnpj: true, telefone: true, email: true, logradouro: true,
-          numero: true, complemento: true, bairro: true, cep: true, cidade: true, uf: true,
-        })
-        return
-      }
+    const erros = validateEstabelecimentoForm(form, !!editando)
+    if (Object.keys(erros).length > 0) {
+      setFieldErrors(erros)
+      setTouched({
+        nome: true, cnpj: true, telefone: true, email: true, logradouro: true,
+        numero: true, complemento: true, bairro: true, cep: true, cidade: true, uf: true,
+      })
+      return
     }
 
     setSalvando(true); setFormError(null)
     try {
       if (editando) {
-        await atualizar(editando.id, { nome: form.nome || undefined, telefone: form.telefone || undefined, email: form.email || undefined, logradouro: form.logradouro || undefined, numero: form.numero || undefined, complemento: form.complemento || undefined, bairro: form.bairro || undefined, cidade: form.cidade || undefined, uf: form.uf || undefined, cep: form.cep || undefined })
+        await atualizar(editando.id, {
+          nome: form.nome || undefined,
+          telefone: form.telefone?.trim() ? form.telefone : null,
+          email: form.email?.trim() ? form.email : null,
+          logradouro: form.logradouro || undefined,
+          numero: form.numero || undefined,
+          complemento: form.complemento?.trim() ? form.complemento : null,
+          bairro: form.bairro || undefined,
+          cidade: form.cidade || undefined,
+          uf: form.uf || undefined,
+          cep: form.cep || undefined,
+        })
       } else { await cadastrar(form) }
       setModalAberto(false); setEditando(null)
     } catch (err) { setFormError((err as Error).message) } finally { setSalvando(false) }
