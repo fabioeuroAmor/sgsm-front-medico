@@ -13,6 +13,8 @@ import { Badge } from '@/components/ui/Badge'
 import { Input, SelectField } from '@/components/ui/Input'
 import { Modal } from '@/components/ui/Modal'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { validateEstabelecimentoForm, type EstabelecimentoFormErrors } from '@/utils/validateEstabelecimento'
+import { onlyDigits, formatTelefone, formatCnpj, formatCep, formatCidade } from '@/utils/masks'
 
 function buildMapsUrl(est: EstabelecimentoResponse) {
   const partes = [est.logradouro, est.numero, est.complemento, est.bairro, est.cidade, est.uf, est.cep, 'Brasil'].filter(Boolean)
@@ -34,6 +36,8 @@ export function EstabelecimentosPage() {
   const [modalAberto, setModalAberto] = useState(false)
   const [editando, setEditando] = useState<EstabelecimentoResponse | null>(null)
   const [form, setForm] = useState<CadastrarEstabelecimentoRequest>(emptyForm)
+  const [fieldErrors, setFieldErrors] = useState<EstabelecimentoFormErrors>({})
+  const [touched, setTouched] = useState<Partial<Record<keyof CadastrarEstabelecimentoRequest, boolean>>>({})
   const [salvando, setSalvando] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
   const [confirmandoId, setConfirmandoId] = useState<string | null>(null)
@@ -66,22 +70,63 @@ export function EstabelecimentosPage() {
   )
 
   function setField<K extends keyof CadastrarEstabelecimentoRequest>(key: K, value: CadastrarEstabelecimentoRequest[K]) {
-    setForm((f) => ({ ...f, [key]: value }))
+    let valorTratado = value as string
+    if (key === 'cnpj') valorTratado = formatCnpj(valorTratado)
+    else if (key === 'telefone') valorTratado = formatTelefone(valorTratado)
+    else if (key === 'cep') valorTratado = formatCep(valorTratado)
+    else if (key === 'numero') valorTratado = onlyDigits(valorTratado)
+    else if (key === 'cidade') valorTratado = formatCidade(valorTratado)
+
+    const novoForm = { ...form, [key]: valorTratado }
+    setForm(novoForm)
+    setFieldErrors(validateEstabelecimentoForm(novoForm, !!editando))
   }
 
-  function abrirCadastro() { setEditando(null); setForm(emptyForm); setFormError(null); setModalAberto(true) }
+  function marcarTocado(campo: keyof CadastrarEstabelecimentoRequest) {
+    setTouched((t) => ({ ...t, [campo]: true }))
+  }
+
+  function erroDoCampo(campo: keyof CadastrarEstabelecimentoRequest): string | undefined {
+    return touched[campo] ? fieldErrors[campo] : undefined
+  }
+
+  function abrirCadastro() {
+    setEditando(null); setForm(emptyForm); setFormError(null)
+    setFieldErrors({}); setTouched({}); setModalAberto(true)
+  }
 
   function abrirEdicao(est: EstabelecimentoResponse) {
     setEditando(est)
     setForm({ nome: est.nome, cnpj: est.cnpj, telefone: est.telefone ?? '', email: est.email ?? '', logradouro: est.logradouro, numero: est.numero, complemento: est.complemento ?? '', bairro: est.bairro, cidade: est.cidade, uf: est.uf, cep: est.cep })
-    setFormError(null); setModalAberto(true)
+    setFormError(null); setFieldErrors({}); setTouched({}); setModalAberto(true)
   }
 
   async function salvar() {
+    const erros = validateEstabelecimentoForm(form, !!editando)
+    if (Object.keys(erros).length > 0) {
+      setFieldErrors(erros)
+      setTouched({
+        nome: true, cnpj: true, telefone: true, email: true, logradouro: true,
+        numero: true, complemento: true, bairro: true, cep: true, cidade: true, uf: true,
+      })
+      return
+    }
+
     setSalvando(true); setFormError(null)
     try {
       if (editando) {
-        await atualizar(editando.id, { nome: form.nome || undefined, telefone: form.telefone || undefined, email: form.email || undefined, logradouro: form.logradouro || undefined, numero: form.numero || undefined, complemento: form.complemento || undefined, bairro: form.bairro || undefined, cidade: form.cidade || undefined, uf: form.uf || undefined, cep: form.cep || undefined })
+        await atualizar(editando.id, {
+          nome: form.nome || undefined,
+          telefone: form.telefone?.trim() ? form.telefone : null,
+          email: form.email?.trim() ? form.email : null,
+          logradouro: form.logradouro || undefined,
+          numero: form.numero || undefined,
+          complemento: form.complemento?.trim() ? form.complemento : null,
+          bairro: form.bairro || undefined,
+          cidade: form.cidade || undefined,
+          uf: form.uf || undefined,
+          cep: form.cep || undefined,
+        })
       } else { await cadastrar(form) }
       setModalAberto(false); setEditando(null)
     } catch (err) { setFormError((err as Error).message) } finally { setSalvando(false) }
@@ -207,24 +252,24 @@ export function EstabelecimentosPage() {
         footer={<><Button variant="ghost" size="sm" onClick={() => { setModalAberto(false); setEditando(null) }}>Cancelar</Button><Button onClick={salvar} disabled={salvando} size="sm">{salvando ? 'Salvando…' : 'Salvar'}</Button></>}>
         <div className="flex flex-col gap-4">
           {formError && <div className="rounded-xl border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive">{formError}</div>}
-          <Input label="Nome" value={form.nome} onChange={(e) => setField('nome', e.target.value)} placeholder="Clínica São Lucas" />
-          <Input label="CNPJ" value={form.cnpj} onChange={(e) => setField('cnpj', e.target.value)} placeholder="00.000.000/0001-00" disabled={!!editando} />
+          <Input label="Nome" value={form.nome} onChange={(e) => setField('nome', e.target.value)} onBlur={() => marcarTocado('nome')} error={erroDoCampo('nome')} placeholder="Clínica São Lucas" />
+          <Input label="CNPJ" value={form.cnpj} onChange={(e) => setField('cnpj', e.target.value)} onBlur={() => marcarTocado('cnpj')} error={erroDoCampo('cnpj')} placeholder="00.000.000/0001-00" disabled={!!editando} />
           <div className="grid grid-cols-2 gap-3">
-            <Input label="Telefone" value={form.telefone ?? ''} onChange={(e) => setField('telefone', e.target.value)} placeholder="(11) 3333-0000" />
-            <Input label="E-mail" type="email" value={form.email ?? ''} onChange={(e) => setField('email', e.target.value)} placeholder="contato@clinica.com" />
+            <Input label="Telefone" value={form.telefone ?? ''} onChange={(e) => setField('telefone', e.target.value)} onBlur={() => marcarTocado('telefone')} error={erroDoCampo('telefone')} placeholder="(11) 3333-0000" />
+            <Input label="E-mail" type="email" value={form.email ?? ''} onChange={(e) => setField('email', e.target.value)} onBlur={() => marcarTocado('email')} error={erroDoCampo('email')} placeholder="contato@clinica.com" />
           </div>
           <div className="grid grid-cols-3 gap-3">
-            <div className="col-span-2"><Input label="Logradouro" value={form.logradouro} onChange={(e) => setField('logradouro', e.target.value)} placeholder="Rua das Flores" /></div>
-            <Input label="Número" value={form.numero} onChange={(e) => setField('numero', e.target.value)} placeholder="123" />
+            <div className="col-span-2"><Input label="Logradouro" value={form.logradouro} onChange={(e) => setField('logradouro', e.target.value)} onBlur={() => marcarTocado('logradouro')} error={erroDoCampo('logradouro')} placeholder="Rua das Flores" /></div>
+            <Input label="Número" value={form.numero} onChange={(e) => setField('numero', e.target.value)} onBlur={() => marcarTocado('numero')} error={erroDoCampo('numero')} placeholder="123" />
           </div>
-          <Input label="Complemento" value={form.complemento ?? ''} onChange={(e) => setField('complemento', e.target.value)} placeholder="Sala 42" />
+          <Input label="Complemento" value={form.complemento ?? ''} onChange={(e) => setField('complemento', e.target.value)} onBlur={() => marcarTocado('complemento')} error={erroDoCampo('complemento')} placeholder="Sala 42" />
           <div className="grid grid-cols-2 gap-3">
-            <Input label="Bairro" value={form.bairro} onChange={(e) => setField('bairro', e.target.value)} placeholder="Jardins" />
-            <Input label="CEP" value={form.cep} onChange={(e) => setField('cep', e.target.value)} placeholder="01310-100" />
+            <Input label="Bairro" value={form.bairro} onChange={(e) => setField('bairro', e.target.value)} onBlur={() => marcarTocado('bairro')} error={erroDoCampo('bairro')} placeholder="Jardins" />
+            <Input label="CEP" value={form.cep} onChange={(e) => setField('cep', e.target.value)} onBlur={() => marcarTocado('cep')} error={erroDoCampo('cep')} placeholder="01310-100" />
           </div>
           <div className="grid grid-cols-3 gap-3">
-            <div className="col-span-2"><Input label="Cidade" value={form.cidade} onChange={(e) => setField('cidade', e.target.value)} placeholder="São Paulo" /></div>
-            <SelectField label="UF" value={form.uf} onChange={(e) => setField('uf', e.target.value)}>
+            <div className="col-span-2"><Input label="Cidade" value={form.cidade} onChange={(e) => setField('cidade', e.target.value)} onBlur={() => marcarTocado('cidade')} error={erroDoCampo('cidade')} placeholder="São Paulo" /></div>
+            <SelectField label="UF" value={form.uf} onChange={(e) => setField('uf', e.target.value)} onBlur={() => marcarTocado('uf')} error={erroDoCampo('uf')}>
               {UFS.map((uf) => <option key={uf}>{uf}</option>)}
             </SelectField>
           </div>
