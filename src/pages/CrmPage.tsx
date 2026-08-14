@@ -76,6 +76,7 @@ function LeadsTab() {
   const [novoStatus, setNovoStatus] = useState('')
   const [form, setForm] = useState({ nome: '', email: '', telefone: '', interesse: '', origem: 'OUTRO', observacoes: '' })
   const [salvando, setSalvando] = useState(false)
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
 
   async function carregar() {
     setLoading(true)
@@ -86,16 +87,24 @@ function LeadsTab() {
 
   useEffect(() => { carregar() }, [filtroStatus])
 
+  function validarForm() {
+    const errors: Record<string, string> = {}
+    if (!form.nome.trim()) errors.nome = 'Nome é obrigatório'
+    if (form.email && !isValidEmail(form.email)) errors.email = 'E-mail inválido'
+    if (form.telefone && !isValidTelefone(form.telefone)) errors.telefone = 'Telefone inválido'
+    if (form.interesse && form.interesse.trim().length < 3) errors.interesse = 'Interesse deve ter pelo menos 3 caracteres'
+    setFieldErrors(errors)
+    return Object.keys(errors).length === 0
+  }
+
   async function salvarLead() {
-    if (!form.nome.trim()) { toast.error('Nome é obrigatório'); return }
-    if (form.email && !isValidEmail(form.email)) { toast.error('E-mail inválido'); return }
-    if (form.telefone && !isValidTelefone(form.telefone)) { toast.error('Telefone inválido'); return }
-    if (form.interesse && form.interesse.trim().length < 3) { toast.error('Interesse deve ter pelo menos 3 caracteres'); return }
+    if (!validarForm()) return
     setSalvando(true)
     try {
       await crmService.criarLead(form)
       toast.success('Lead criado')
       setModalCriar(false)
+      setFieldErrors({})
       setForm({ nome: '', email: '', telefone: '', interesse: '', origem: 'OUTRO', observacoes: '' })
       carregar()
     } catch (e) { toast.error((e as Error).message) } finally { setSalvando(false) }
@@ -133,7 +142,7 @@ function LeadsTab() {
           ))}
         </div>
         <div className="ml-auto">
-          <Button onClick={() => setModalCriar(true)} size="sm">
+          <Button onClick={() => { setFieldErrors({}); setModalCriar(true) }} size="sm">
             <UserPlus size={14} /> Novo Lead
           </Button>
         </div>
@@ -185,21 +194,21 @@ function LeadsTab() {
       )}
 
       {/* Modal Criar Lead */}
-      <Modal open={modalCriar} onClose={() => setModalCriar(false)} title="Novo Lead"
+      <Modal open={modalCriar} onClose={() => { setModalCriar(false); setFieldErrors({}) }} title="Novo Lead"
         footer={
           <>
-            <Button variant="ghost" size="sm" onClick={() => setModalCriar(false)}>Cancelar</Button>
+            <Button variant="ghost" size="sm" onClick={() => { setModalCriar(false); setFieldErrors({}) }}>Cancelar</Button>
             <Button onClick={salvarLead} disabled={salvando} size="sm">{salvando ? 'Salvando…' : 'Salvar'}</Button>
           </>
         }
       >
         <div className="flex flex-col gap-3">
-          <Input label="Nome *" value={form.nome} onChange={(e) => setForm((f) => ({ ...f, nome: e.target.value }))} placeholder="Ana Lima" />
+          <Input label="Nome *" value={form.nome} onChange={(e) => setForm((f) => ({ ...f, nome: e.target.value }))} placeholder="Ana Lima" error={fieldErrors.nome} />
           <div className="grid grid-cols-2 gap-3">
-            <Input label="E-mail" type="email" value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} />
-            <Input label="Telefone" value={form.telefone} onChange={(e) => setForm((f) => ({ ...f, telefone: e.target.value }))} />
+            <Input label="E-mail" type="email" value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} error={fieldErrors.email} />
+            <Input label="Telefone" value={form.telefone} onChange={(e) => setForm((f) => ({ ...f, telefone: e.target.value }))} error={fieldErrors.telefone} />
           </div>
-          <Input label="Interesse" value={form.interesse} onChange={(e) => setForm((f) => ({ ...f, interesse: e.target.value }))} placeholder="Consulta cardiológica" />
+          <Input label="Interesse" value={form.interesse} onChange={(e) => setForm((f) => ({ ...f, interesse: e.target.value }))} placeholder="Consulta cardiológica" error={fieldErrors.interesse} />
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Origem</label>
             <select value={form.origem} onChange={(e) => setForm((f) => ({ ...f, origem: e.target.value }))}
