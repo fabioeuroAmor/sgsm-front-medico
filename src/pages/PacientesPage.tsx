@@ -130,6 +130,7 @@ export function PacientesPage() {
   const [formError, setFormError] = useState<string | null>(null)
   const [formErrors, setFormErrors] = useState<FormErrors>({})
   const [confirmandoId, setConfirmandoId] = useState<string | null>(null)
+  const [erroInativacao, setErroInativacao] = useState<string | null>(null)
   const [detalhe, setDetalhe] = useState<PacienteResponse | null>(null)
 
   const tiltRef = useRef<HTMLDivElement>(null)
@@ -148,9 +149,10 @@ export function PacientesPage() {
 
   const filtrados = pacientes.filter((p) => {
     const t = busca.toLowerCase()
+    const cpfDigits = busca.replace(/\D/g, '')
     return (
       p.nome.toLowerCase().includes(t) ||
-      p.cpf.replace(/\D/g, '').includes(busca.replace(/\D/g, '')) ||
+      (cpfDigits.length > 0 && p.cpf.replace(/\D/g, '').includes(cpfDigits)) ||
       p.email.toLowerCase().includes(t)
     )
   })
@@ -651,19 +653,35 @@ export function PacientesPage() {
       {/* Modal confirmação inativação */}
       <Modal
         open={!!confirmandoId}
-        onClose={() => setConfirmandoId(null)}
+        onClose={() => { setConfirmandoId(null); setErroInativacao(null) }}
         title="Inativar Paciente"
         size="sm"
         footer={
           <>
-            <Button variant="ghost" size="sm" onClick={() => setConfirmandoId(null)}>Cancelar</Button>
-            <Button variant="danger" size="sm" onClick={async () => { if (confirmandoId) { await remover(confirmandoId); setConfirmandoId(null) } }}>Inativar</Button>
+            <Button variant="ghost" size="sm" onClick={() => { setConfirmandoId(null); setErroInativacao(null) }}>Cancelar</Button>
+            <Button variant="danger" size="sm" onClick={async () => {
+              if (!confirmandoId) return
+              try {
+                await remover(confirmandoId)
+                setConfirmandoId(null)
+                setErroInativacao(null)
+              } catch (err) {
+                setErroInativacao((err as Error).message)
+              }
+            }}>Inativar</Button>
           </>
         }
       >
-        <p className="text-sm text-foreground/70">
-          O paciente será <strong>inativado</strong> e não aparecerá nas listagens padrão. O histórico é preservado.
-        </p>
+        <div className="flex flex-col gap-3">
+          <p className="text-sm text-foreground/70">
+            O paciente será <strong>inativado</strong> e não aparecerá nas listagens padrão. O histórico é preservado.
+          </p>
+          {erroInativacao && (
+            <div className="rounded-xl border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive">
+              {erroInativacao}
+            </div>
+          )}
+        </div>
       </Modal>
 
       {/* Modal detalhe */}
