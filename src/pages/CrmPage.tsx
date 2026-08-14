@@ -56,6 +56,15 @@ function fmtPct(v: number | null | undefined) {
   return Number(v).toFixed(1) + '%'
 }
 
+function isValidEmail(email: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
+
+function isValidTelefone(telefone: string) {
+  const d = telefone.replace(/\D/g, '')
+  return d.length === 10 || d.length === 11
+}
+
 // ── Leads Tab ────────────────────────────────────────────────────────────────
 
 function LeadsTab() {
@@ -78,7 +87,10 @@ function LeadsTab() {
   useEffect(() => { carregar() }, [filtroStatus])
 
   async function salvarLead() {
-    if (!form.nome) { toast.error('Nome é obrigatório'); return }
+    if (!form.nome.trim()) { toast.error('Nome é obrigatório'); return }
+    if (form.email && !isValidEmail(form.email)) { toast.error('E-mail inválido'); return }
+    if (form.telefone && !isValidTelefone(form.telefone)) { toast.error('Telefone inválido'); return }
+    if (form.interesse && form.interesse.trim().length < 3) { toast.error('Interesse deve ter pelo menos 3 caracteres'); return }
     setSalvando(true)
     try {
       await crmService.criarLead(form)
