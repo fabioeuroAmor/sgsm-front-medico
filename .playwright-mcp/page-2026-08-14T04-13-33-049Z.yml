@@ -1,0 +1,117 @@
+- generic [ref=f9e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f9e3] [cursor=pointer]
+  - generic [ref=f9e8]:
+    - complementary [ref=f9e9]:
+      - generic [ref=f9e16] [cursor=pointer]:
+        - paragraph [ref=f9e17]: SGSM
+        - paragraph [ref=f9e18]: Sistema Médico
+      - navigation [ref=f9e19]:
+        - link "Home" [ref=f9e21] [cursor=pointer]:
+          - /url: /
+        - link "Pacientes" [ref=f9e26] [cursor=pointer]:
+          - /url: /pacientes
+        - link "Médicos" [ref=f9e33] [cursor=pointer]:
+          - /url: /medicos
+        - link "Estabelecimentos" [ref=f9e39] [cursor=pointer]:
+          - /url: /estabelecimentos
+        - link "Serviços" [ref=f9e45] [cursor=pointer]:
+          - /url: /servicos
+        - link "Agendamentos" [ref=f9e50] [cursor=pointer]:
+          - /url: /agendamentos
+        - link "Funcionários" [ref=f9e56] [cursor=pointer]:
+          - /url: /funcionarios
+        - link "Assistente IA" [ref=f9e70] [cursor=pointer]:
+          - /url: /ia
+        - link "CRM" [ref=f9e74] [cursor=pointer]:
+          - /url: /crm
+      - generic [ref=f9e76]:
+        - generic [ref=f9e77]:
+          - paragraph [ref=f9e78]: Fabio Monteiro Amorim
+          - paragraph [ref=f9e79]: MEDICO
+        - button "Sair" [ref=f9e80] [cursor=pointer]
+    - main [ref=f9e85]:
+      - generic [ref=f9e86]:
+        - generic [ref=f9e87]:
+          - generic [ref=f9e88]:
+            - paragraph [ref=f9e89]: Gestão de Equipe
+            - heading "Funcionários" [level=1] [ref=f9e90]
+            - paragraph [ref=f9e91]: Gerencie os funcionários dos seus estabelecimentos.
+            - button "Novo Funcionário" [ref=f9e93] [cursor=pointer]
+          - generic [ref=f9e95] [cursor=pointer]
+        - generic [ref=f9e99]:
+          - textbox "Buscar por nome, CPF, cargo ou e-mail…" [ref=f9e104]
+          - combobox [ref=f9e105]:
+            - option "Todos os estabelecimentos"
+            - option "Clinica São Lucas" [selected]
+          - combobox [ref=f9e106]:
+            - option "Todos os status" [selected]
+            - option "Ativos"
+            - option "Inativos"
+        - generic [ref=f9e107]:
+          - generic [ref=f9e213]:
+            - generic [ref=f9e214]: Ativo
+            - generic [ref=f9e229]:
+              - heading "Lucas Ruela" [level=3] [ref=f9e230]
+              - paragraph [ref=f9e231]: Recepcionista
+            - generic [ref=f9e232]:
+              - paragraph [ref=f9e233]: "CPF: 47812549623"
+              - paragraph [ref=f9e234]: "E-mail: lucas@gmail.com"
+              - paragraph [ref=f9e235]: "Tel: 619910424589"
+              - paragraph [ref=f9e236]: "Estabelecimento: Clinica São Lucas"
+            - generic [ref=f9e237]:
+              - button "Editar" [ref=f9e238] [cursor=pointer]
+              - button [ref=f9e242] [cursor=pointer]
+          - generic [ref=f9e246]:
+            - generic [ref=f9e247]: Ativo
+            - generic [ref=f9e262]:
+              - heading "Zenilda" [level=3] [ref=f9e263]
+              - paragraph [ref=f9e264]: Telefonista
+            - generic [ref=f9e265]:
+              - paragraph [ref=f9e266]: "CPF: 47812549627"
+              - paragraph [ref=f9e267]: "E-mail: zeze@gmail.com"
+              - paragraph [ref=f9e268]: "Tel: 61991042778"
+              - paragraph [ref=f9e269]: "Estabelecimento: Clinica São Lucas"
+            - generic [ref=f9e270]:
+              - button "Editar" [ref=f9e271] [cursor=pointer]
+              - button [ref=f9e275] [cursor=pointer]
+        - generic [ref=f9e176]:
+          - generic [ref=f9e177]:
+            - heading "Novo Funcionário" [level=2] [ref=f9e178]
+            - button [ref=f9e179] [cursor=pointer]
+          - generic [ref=f9e184]:
+            - generic [ref=f9e208]: Preencha todos os campos obrigatórios.
+            - generic [ref=f9e185]:
+              - generic [ref=f9e186]: Nome *
+              - textbox "Nome *" [ref=f9e187]:
+                - /placeholder: Maria da Silva
+                - text: Teste QA
+            - generic [ref=f9e188]:
+              - generic [ref=f9e189]:
+                - generic [ref=f9e190]: CPF *
+                - textbox "CPF *" [ref=f9e191]:
+                  - /placeholder: 000.000.000-00
+                  - text: 529.982.247-25
+              - generic [ref=f9e192]:
+                - generic [ref=f9e193]: Cargo *
+                - textbox "Cargo *" [ref=f9e194]:
+                  - /placeholder: Recepcionista
+                  - text: Auxiliar
+            - generic [ref=f9e195]:
+              - generic [ref=f9e196]:
+                - generic [ref=f9e197]: E-mail *
+                - textbox "E-mail *" [ref=f9e198]:
+                  - /placeholder: maria@clinica.com
+                  - text: qa@test.com
+              - generic [ref=f9e199]:
+                - generic [ref=f9e200]: Telefone
+                - textbox "Telefone" [ref=f9e201]:
+                  - /placeholder: (11) 99999-0000
+            - generic [ref=f9e202]:
+              - generic [ref=f9e203]: Estabelecimento *
+              - combobox "Estabelecimento *" [ref=f9e204]:
+                - option "Selecione…"
+                - option "Clinica São Lucas" [selected]
+          - generic [ref=f9e205]:
+            - button "Cancelar" [ref=f9e206] [cursor=pointer]
+            - button "Salvar" [ref=f9e207] [cursor=pointer]

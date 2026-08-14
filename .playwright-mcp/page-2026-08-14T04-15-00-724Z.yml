@@ -1,0 +1,89 @@
+- generic [ref=f12e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f12e3] [cursor=pointer]
+  - generic [ref=f12e8]:
+    - complementary [ref=f12e9]:
+      - generic [ref=f12e16] [cursor=pointer]:
+        - paragraph [ref=f12e17]: SGSM
+        - paragraph [ref=f12e18]: Sistema Médico
+      - navigation [ref=f12e19]:
+        - link "Home" [ref=f12e21] [cursor=pointer]:
+          - /url: /
+        - link "Pacientes" [ref=f12e26] [cursor=pointer]:
+          - /url: /pacientes
+        - link "Médicos" [ref=f12e33] [cursor=pointer]:
+          - /url: /medicos
+        - link "Estabelecimentos" [ref=f12e39] [cursor=pointer]:
+          - /url: /estabelecimentos
+        - link "Serviços" [ref=f12e45] [cursor=pointer]:
+          - /url: /servicos
+        - link "Agendamentos" [ref=f12e50] [cursor=pointer]:
+          - /url: /agendamentos
+        - link "Funcionários" [ref=f12e56] [cursor=pointer]:
+          - /url: /funcionarios
+        - link "Assistente IA" [ref=f12e70] [cursor=pointer]:
+          - /url: /ia
+        - link "CRM" [ref=f12e74] [cursor=pointer]:
+          - /url: /crm
+      - generic [ref=f12e76]:
+        - generic [ref=f12e77]:
+          - paragraph [ref=f12e78]: Fabio Monteiro Amorim
+          - paragraph [ref=f12e79]: MEDICO
+        - button "Sair" [ref=f12e80] [cursor=pointer]
+    - main [ref=f12e85]:
+      - generic [ref=f12e86]:
+        - generic [ref=f12e87]:
+          - generic [ref=f12e88]:
+            - paragraph [ref=f12e89]: Gestão de Equipe
+            - heading "Funcionários" [level=1] [ref=f12e90]
+            - paragraph [ref=f12e91]: Gerencie os funcionários dos seus estabelecimentos.
+            - button "Novo Funcionário" [ref=f12e93] [cursor=pointer]
+          - generic [ref=f12e95] [cursor=pointer]
+        - generic [ref=f12e99]:
+          - textbox "Buscar por nome, CPF, cargo ou e-mail…" [ref=f12e104]
+          - combobox [ref=f12e105]:
+            - option "Todos os estabelecimentos" [selected]
+            - option "Clinica São Lucas"
+          - combobox [ref=f12e106]:
+            - option "Todos os status" [selected]
+            - option "Ativos"
+            - option "Inativos"
+        - generic [ref=f12e107]:
+          - generic [ref=f12e108]:
+            - generic [ref=f12e109]: Ativo
+            - generic [ref=f12e124]:
+              - heading "Lucas Ruela" [level=3] [ref=f12e125]
+              - paragraph [ref=f12e126]: Recepcionista
+            - generic [ref=f12e127]:
+              - paragraph [ref=f12e128]: "CPF: 47812549623"
+              - paragraph [ref=f12e129]: "E-mail: lucas@gmail.com"
+              - paragraph [ref=f12e130]: "Tel: 619910424589"
+              - paragraph [ref=f12e131]: "Estabelecimento: Clinica São Lucas"
+            - generic [ref=f12e132]:
+              - button "Editar" [ref=f12e133] [cursor=pointer]
+              - button [ref=f12e137] [cursor=pointer]
+          - generic [ref=f12e141]:
+            - generic [ref=f12e142]: Ativo
+            - generic [ref=f12e157]:
+              - heading "Zenilda" [level=3] [ref=f12e158]
+              - paragraph [ref=f12e159]: Telefonista
+            - generic [ref=f12e160]:
+              - paragraph [ref=f12e161]: "CPF: 47812549627"
+              - paragraph [ref=f12e162]: "E-mail: zeze@gmail.com"
+              - paragraph [ref=f12e163]: "Tel: 61991042778"
+              - paragraph [ref=f12e164]: "Estabelecimento: Clinica São Lucas"
+            - generic [ref=f12e165]:
+              - button "Editar" [ref=f12e166] [cursor=pointer]
+              - button [ref=f12e170] [cursor=pointer]
+          - generic [ref=f12e174]:
+            - generic [ref=f12e175]: Ativo
+            - generic [ref=f12e190]:
+              - heading "Teste QA" [level=3] [ref=f12e191]
+              - paragraph [ref=f12e192]: Auxiliar
+            - generic [ref=f12e193]:
+              - paragraph [ref=f12e194]: "CPF: 529.982.247-25"
+              - paragraph [ref=f12e195]: "E-mail: qa@test.com"
+              - paragraph [ref=f12e196]: "Estabelecimento: Clinica São Lucas"
+            - generic [ref=f12e197]:
+              - button "Editar" [ref=f12e198] [cursor=pointer]
+              - button [ref=f12e202] [cursor=pointer]
