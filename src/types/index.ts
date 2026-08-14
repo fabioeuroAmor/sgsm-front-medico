@@ -26,7 +26,7 @@ export interface AtualizarMedicoRequest {
   nome?: string
   especialidade?: string
   email?: string
-  telefone?: string
+  telefone?: string | null
 }
 
 // ─── Estabelecimento ──────────────────────────────────────────────────────────
@@ -69,11 +69,11 @@ export interface AssociarMedicosRequest {
 
 export interface AtualizarEstabelecimentoRequest {
   nome?: string
-  telefone?: string
-  email?: string
+  telefone?: string | null
+  email?: string | null
   logradouro?: string
   numero?: string
-  complemento?: string
+  complemento?: string | null
   bairro?: string
   cidade?: string
   uf?: string
