@@ -1,0 +1,344 @@
+- generic [ref=f15e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f15e3] [cursor=pointer]
+  - generic [ref=f15e35]:
+    - complementary [ref=f15e36]:
+      - generic [ref=f15e43] [cursor=pointer]:
+        - paragraph [ref=f15e44]: SGSM
+        - paragraph [ref=f15e45]: Sistema Médico
+      - navigation [ref=f15e46]:
+        - link "Home" [ref=f15e48] [cursor=pointer]:
+          - /url: /
+        - link "Pacientes" [ref=f15e53] [cursor=pointer]:
+          - /url: /pacientes
+        - link "Médicos" [ref=f15e60] [cursor=pointer]:
+          - /url: /medicos
+        - link "Estabelecimentos" [ref=f15e66] [cursor=pointer]:
+          - /url: /estabelecimentos
+        - link "Serviços" [ref=f15e72] [cursor=pointer]:
+          - /url: /servicos
+        - link "Agendamentos" [ref=f15e77] [cursor=pointer]:
+          - /url: /agendamentos
+        - link "Funcionários" [ref=f15e83] [cursor=pointer]:
+          - /url: /funcionarios
+        - link "Assistente IA" [ref=f15e97] [cursor=pointer]:
+          - /url: /ia
+        - link "CRM" [ref=f15e101] [cursor=pointer]:
+          - /url: /crm
+      - generic [ref=f15e103]:
+        - generic [ref=f15e104]:
+          - paragraph [ref=f15e105]: Fabio Monteiro Amorim
+          - paragraph [ref=f15e106]: MEDICO
+        - button "Sair" [ref=f15e107] [cursor=pointer]
+    - main [ref=f15e112]:
+      - generic [ref=f15e113]:
+        - generic [ref=f15e114]:
+          - generic [ref=f15e115]:
+            - paragraph [ref=f15e116]: Cadastros
+            - heading "Pacientes" [level=1] [ref=f15e117]
+            - paragraph [ref=f15e118]: Gerencie o cadastro de pacientes com integração ViaCEP.
+            - button "Novo Paciente" [ref=f15e120] [cursor=pointer]
+          - generic [ref=f15e122] [cursor=pointer]
+        - generic [ref=f15e126]:
+          - textbox "Buscar por nome, CPF ou e-mail…" [ref=f15e131]
+          - combobox [ref=f15e132]:
+            - option "Todos os status" [selected]
+            - option "Ativos"
+            - option "Inativos"
+        - paragraph [ref=f15e133]: 17 pacientes encontrados
+        - generic [ref=f15e134]:
+          - generic [ref=f15e135] [cursor=pointer]:
+            - generic [ref=f15e136]: Ativo
+            - generic [ref=f15e142]:
+              - heading "Tereza Rossi" [level=3] [ref=f15e143]
+              - paragraph [ref=f15e144]: 471.258.963-41
+            - generic [ref=f15e145]:
+              - generic [ref=f15e149]:
+                - text: 02/02/1959
+                - generic [ref=f15e150]: (67 anos)
+              - generic [ref=f15e151]: tereza@gmail.com
+            - generic [ref=f15e156]:
+              - button "Editar" [ref=f15e157]
+              - button [ref=f15e161]
+          - generic [ref=f15e165] [cursor=pointer]:
+            - generic [ref=f15e166]: Ativo
+            - generic [ref=f15e172]:
+              - heading "Zildinha Ruela" [level=3] [ref=f15e173]
+              - paragraph [ref=f15e174]: 043.141.421-12
+            - generic [ref=f15e175]:
+              - generic [ref=f15e179]:
+                - text: 19/01/1984
+                - generic [ref=f15e180]: (42 anos)
+              - generic [ref=f15e181]: zildinha@gmail.com
+              - generic [ref=f15e186]: (61) 99104-2778
+              - generic [ref=f15e190]: Brasília — DF
+            - generic [ref=f15e195]:
+              - button "Editar" [ref=f15e196]
+              - button [ref=f15e200]
+          - generic [ref=f15e204] [cursor=pointer]:
+            - generic [ref=f15e205]: Ativo
+            - generic [ref=f15e211]:
+              - heading "Zilma Ruela" [level=3] [ref=f15e212]
+              - paragraph [ref=f15e213]: 945.231.794-56
+            - generic [ref=f15e214]:
+              - generic [ref=f15e218]:
+                - text: 22/11/1994
+                - generic [ref=f15e219]: (31 anos)
+              - generic [ref=f15e220]: zilma@gmail.com
+              - generic [ref=f15e225]: (61) 99871-3039
+              - generic [ref=f15e229]: Brasília — DF
+            - generic [ref=f15e234]:
+              - button "Editar" [ref=f15e235]
+              - button [ref=f15e239]
+          - generic [ref=f15e243] [cursor=pointer]:
+            - generic [ref=f15e244]: Ativo
+            - generic [ref=f15e250]:
+              - heading "MARIA SILVA" [level=3] [ref=f15e251]
+              - paragraph [ref=f15e252]: 947.523.641-23
+            - generic [ref=f15e253]:
+              - generic [ref=f15e257]:
+                - text: 05/05/2015
+                - generic [ref=f15e258]: (11 anos)
+              - generic [ref=f15e259]: mariasilva@gmail.com
+              - generic [ref=f15e264]: (61) 99874-5632
+              - generic [ref=f15e268]: BRASILIA — DF
+            - generic [ref=f15e273]:
+              - button "Editar" [ref=f15e274]
+              - button [ref=f15e278]
+          - generic [ref=f15e282] [cursor=pointer]:
+            - generic [ref=f15e283]: Ativo
+            - generic [ref=f15e289]:
+              - heading "FABIO SERGIO" [level=3] [ref=f15e290]
+              - paragraph [ref=f15e291]: 043.141.421-18
+            - generic [ref=f15e292]:
+              - generic [ref=f15e296]:
+                - text: 12/12/1956
+                - generic [ref=f15e297]: (69 anos)
+              - generic [ref=f15e298]: eduardodac.santoss@gmail.com
+              - generic [ref=f15e303]: (61) 99104-2778
+              - generic [ref=f15e307]: Brasília — DF
+            - generic [ref=f15e312]:
+              - button "Editar" [ref=f15e313]
+              - button [ref=f15e317]
+          - generic [ref=f15e321] [cursor=pointer]:
+            - generic [ref=f15e322]: Ativo
+            - generic [ref=f15e328]:
+              - heading "Massaru Oroshi" [level=3] [ref=f15e329]
+              - paragraph [ref=f15e330]: 471.258.963-49
+            - generic [ref=f15e331]:
+              - generic [ref=f15e335]:
+                - text: 06/09/1978
+                - generic [ref=f15e336]: (47 anos)
+              - generic [ref=f15e337]: joaovictorlc46@gmail.com
+            - generic [ref=f15e342]:
+              - button "Editar" [ref=f15e343]
+              - button [ref=f15e347]
+          - generic [ref=f15e351] [cursor=pointer]:
+            - generic [ref=f15e352]: Ativo
+            - generic [ref=f15e358]:
+              - heading "antonia" [level=3] [ref=f15e359]
+              - paragraph [ref=f15e360]: 123.542.889-36
+            - generic [ref=f15e361]:
+              - generic [ref=f15e365]:
+                - text: 20/05/1956
+                - generic [ref=f15e366]: (70 anos)
+              - generic [ref=f15e367]: rebecca.sabrina@hotmail.com
+            - generic [ref=f15e372]:
+              - button "Editar" [ref=f15e373]
+              - button [ref=f15e377]
+          - generic [ref=f15e381] [cursor=pointer]:
+            - generic [ref=f15e382]: Ativo
+            - generic [ref=f15e388]:
+              - heading "raimundas ergia" [level=3] [ref=f15e389]
+              - paragraph [ref=f15e390]: 405.201.452-02
+            - generic [ref=f15e391]:
+              - generic [ref=f15e395]:
+                - text: 05/07/1945
+                - generic [ref=f15e396]: (81 anos)
+              - generic [ref=f15e397]: rebecca.sabrinarp@gmail.com
+            - generic [ref=f15e402]:
+              - button "Editar" [ref=f15e403]
+              - button [ref=f15e407]
+          - generic [ref=f15e411] [cursor=pointer]:
+            - generic [ref=f15e412]: Ativo
+            - generic [ref=f15e418]:
+              - heading "fabiola sergia" [level=3] [ref=f15e419]
+              - paragraph [ref=f15e420]: 400.550.861-87
+            - generic [ref=f15e421]:
+              - generic [ref=f15e425]:
+                - text: 12/05/1945
+                - generic [ref=f15e426]: (81 anos)
+              - generic [ref=f15e427]: zenildaruela@gmail.com
+            - generic [ref=f15e432]:
+              - button "Editar" [ref=f15e433]
+              - button [ref=f15e437]
+          - generic [ref=f15e441] [cursor=pointer]:
+            - generic [ref=f15e442]: Ativo
+            - generic [ref=f15e448]:
+              - heading "fabiolo sergio" [level=3] [ref=f15e449]
+              - paragraph [ref=f15e450]: 296.767.181-49
+            - generic [ref=f15e451]:
+              - generic [ref=f15e455]:
+                - text: 03/05/1963
+                - generic [ref=f15e456]: (63 anos)
+              - generic [ref=f15e457]: fabiosergiosp@gmail.com
+            - generic [ref=f15e462]:
+              - button "Editar" [ref=f15e463]
+              - button [ref=f15e467]
+          - generic [ref=f15e471] [cursor=pointer]:
+            - generic [ref=f15e472]: Ativo
+            - generic [ref=f15e478]:
+              - heading "Biel souza" [level=3] [ref=f15e479]
+              - paragraph [ref=f15e480]: 043.141.589-66
+            - generic [ref=f15e481]:
+              - generic [ref=f15e485]:
+                - text: 13/07/2015
+                - generic [ref=f15e486]: (11 anos)
+              - generic [ref=f15e487]: biel@gmailcom
+            - generic [ref=f15e492]:
+              - button "Editar" [ref=f15e493]
+              - button [ref=f15e497]
+          - generic [ref=f15e501] [cursor=pointer]:
+            - generic [ref=f15e502]: Ativo
+            - generic [ref=f15e508]:
+              - heading "Julia Tardino" [level=3] [ref=f15e509]
+              - paragraph [ref=f15e510]: 025.366.978-56
+            - generic [ref=f15e511]:
+              - generic [ref=f15e515]:
+                - text: 02/07/2022
+                - generic [ref=f15e516]: (4 anos)
+              - generic [ref=f15e517]: julia@gmail.com
+            - generic [ref=f15e522]:
+              - button "Editar" [ref=f15e523]
+              - button [ref=f15e527]
+          - generic [ref=f15e531] [cursor=pointer]:
+            - generic [ref=f15e532]: Ativo
+            - generic [ref=f15e538]:
+              - heading "Julia Tardino" [level=3] [ref=f15e539]
+              - paragraph [ref=f15e540]: "6987361245"
+            - generic [ref=f15e541]:
+              - generic [ref=f15e545]:
+                - text: 02/07/2022
+                - generic [ref=f15e546]: (4 anos)
+              - generic [ref=f15e547]: julia2@gmail.com
+            - generic [ref=f15e552]:
+              - button "Editar" [ref=f15e553]
+              - button [ref=f15e557]
+          - generic [ref=f15e561] [cursor=pointer]:
+            - generic [ref=f15e562]: Ativo
+            - generic [ref=f15e568]:
+              - heading "Julia Tardino" [level=3] [ref=f15e569]
+              - paragraph [ref=f15e570]: 698.736.124-59
+            - generic [ref=f15e571]:
+              - generic [ref=f15e575]:
+                - text: 02/07/2022
+                - generic [ref=f15e576]: (4 anos)
+              - generic [ref=f15e577]: julia3@gmail.com
+            - generic [ref=f15e582]:
+              - button "Editar" [ref=f15e583]
+              - button [ref=f15e587]
+          - generic [ref=f15e591] [cursor=pointer]:
+            - generic [ref=f15e592]: Ativo
+            - generic [ref=f15e598]:
+              - heading "João Pereira Teste" [level=3] [ref=f15e599]
+              - paragraph [ref=f15e600]: 123.456.789-01
+            - generic [ref=f15e601]:
+              - generic [ref=f15e605]:
+                - text: 15/05/1990
+                - generic [ref=f15e606]: (36 anos)
+              - generic [ref=f15e607]: joao.pereira.teste@email.com
+              - generic [ref=f15e612]: (11) 98888-1111
+              - generic [ref=f15e616]: São Paulo — SP
+            - generic [ref=f15e621]:
+              - button "Editar" [ref=f15e622]
+              - button [ref=f15e626]
+          - generic [ref=f15e630] [cursor=pointer]:
+            - generic [ref=f15e631]: Ativo
+            - generic [ref=f15e637]:
+              - heading "Ana Beatriz Souza" [level=3] [ref=f15e638]
+              - paragraph [ref=f15e639]: 987.654.321-00
+            - generic [ref=f15e640]:
+              - generic [ref=f15e644]:
+                - text: 20/11/1985
+                - generic [ref=f15e645]: (40 anos)
+              - generic [ref=f15e646]: ana.beatriz.souza@email.com
+              - generic [ref=f15e651]: (21) 97777-2222
+              - generic [ref=f15e655]: Rio de Janeiro — RJ
+            - generic [ref=f15e660]:
+              - button "Editar" [ref=f15e661]
+              - button [ref=f15e665]
+          - generic [ref=f15e669] [cursor=pointer]:
+            - generic [ref=f15e670]: Ativo
+            - generic [ref=f15e676]:
+              - heading "asasz" [level=3] [ref=f15e677]
+              - paragraph [ref=f15e678]: 896.767.181-49
+            - generic [ref=f15e679]:
+              - generic [ref=f15e683]:
+                - text: 13/08/2026
+                - generic [ref=f15e684]: (0 anos)
+              - generic [ref=f15e685]: fabioeuro@gmail.com
+              - generic [ref=f15e690]: (11) 1234-5678
+              - generic [ref=f15e694]: Brasília — DF
+            - generic [ref=f15e699]:
+              - button "Editar" [ref=f15e700]
+              - button [ref=f15e704]
+        - generic [ref=f15e710]:
+          - generic [ref=f15e711]:
+            - heading "Novo Paciente" [level=2] [ref=f15e712]
+            - button [ref=f15e713] [cursor=pointer]
+          - generic [ref=f15e718]:
+            - generic [ref=f15e719]:
+              - generic [ref=f15e720]: Nome completo
+              - textbox "Nome completo" [ref=f15e721]:
+                - /placeholder: Maria da Silva
+            - generic [ref=f15e722]:
+              - generic [ref=f15e723]: CPF
+              - textbox "CPF" [ref=f15e724]:
+                - /placeholder: 000.000.000-00
+            - generic [ref=f15e725]:
+              - generic [ref=f15e726]: Data de nascimento
+              - textbox "Data de nascimento" [ref=f15e727]
+            - generic [ref=f15e728]:
+              - generic [ref=f15e729]: E-mail
+              - textbox "E-mail" [ref=f15e730]:
+                - /placeholder: maria@email.com
+            - generic [ref=f15e731]:
+              - generic [ref=f15e732]: Telefone (opcional)
+              - textbox "Telefone (opcional)" [ref=f15e733]:
+                - /placeholder: (11) 99999-0000
+            - generic [ref=f15e734]:
+              - paragraph [ref=f15e735]: Endereço (opcional)
+              - generic [ref=f15e738]:
+                - generic [ref=f15e739]: CEP
+                - textbox "CEP" [ref=f15e740]:
+                  - /placeholder: 00000-000
+              - generic [ref=f15e741]:
+                - generic [ref=f15e742]:
+                  - generic [ref=f15e743]: Logradouro
+                  - textbox "Logradouro" [ref=f15e744]:
+                    - /placeholder: Rua das Flores
+                - generic [ref=f15e745]:
+                  - generic [ref=f15e747]:
+                    - generic [ref=f15e748]: Número
+                    - textbox "Número" [ref=f15e749]:
+                      - /placeholder: "123"
+                  - generic [ref=f15e751]:
+                    - generic [ref=f15e752]: Complemento
+                    - textbox "Complemento" [ref=f15e753]:
+                      - /placeholder: Apto 42
+                - generic [ref=f15e754]:
+                  - generic [ref=f15e755]: Bairro
+                  - textbox "Bairro" [ref=f15e756]:
+                    - /placeholder: Centro
+                - generic [ref=f15e757]:
+                  - generic [ref=f15e759]:
+                    - generic [ref=f15e760]: Cidade
+                    - textbox "Cidade" [ref=f15e761]:
+                      - /placeholder: São Paulo
+                  - generic [ref=f15e763]:
+                    - generic [ref=f15e764]: UF
+                    - textbox "UF" [ref=f15e765]:
+                      - /placeholder: SP
+          - generic [ref=f15e766]:
+            - button "Cancelar" [ref=f15e767] [cursor=pointer]
+            - button "Salvar" [ref=f15e768] [cursor=pointer]

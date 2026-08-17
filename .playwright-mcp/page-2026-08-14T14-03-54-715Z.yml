@@ -1,0 +1,77 @@
+- generic [ref=f18e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f18e3] [cursor=pointer]
+  - generic [ref=f18e35]:
+    - complementary [ref=f18e36]:
+      - generic [ref=f18e43] [cursor=pointer]:
+        - paragraph [ref=f18e44]: SGSM
+        - paragraph [ref=f18e45]: Sistema Médico
+      - navigation [ref=f18e46]:
+        - link "Home" [ref=f18e48] [cursor=pointer]:
+          - /url: /
+        - link "Pacientes" [ref=f18e53] [cursor=pointer]:
+          - /url: /pacientes
+        - link "Médicos" [ref=f18e60] [cursor=pointer]:
+          - /url: /medicos
+        - link "Estabelecimentos" [ref=f18e66] [cursor=pointer]:
+          - /url: /estabelecimentos
+        - link "Serviços" [ref=f18e72] [cursor=pointer]:
+          - /url: /servicos
+        - link "Agendamentos" [ref=f18e77] [cursor=pointer]:
+          - /url: /agendamentos
+        - link "Funcionários" [ref=f18e83] [cursor=pointer]:
+          - /url: /funcionarios
+        - link "Assistente IA" [ref=f18e97] [cursor=pointer]:
+          - /url: /ia
+        - link "CRM" [ref=f18e101] [cursor=pointer]:
+          - /url: /crm
+      - generic [ref=f18e103]:
+        - generic [ref=f18e104]:
+          - paragraph [ref=f18e105]: Fabio Monteiro Amorim
+          - paragraph [ref=f18e106]: MEDICO
+        - button "Sair" [ref=f18e107] [cursor=pointer]
+    - main [ref=f18e112]:
+      - generic [ref=f18e113]:
+        - generic [ref=f18e114]:
+          - generic [ref=f18e115]:
+            - paragraph [ref=f18e116]: Cadastros
+            - heading "Pacientes" [level=1] [ref=f18e117]
+            - paragraph [ref=f18e118]: Gerencie o cadastro de pacientes com integração ViaCEP.
+            - button "Novo Paciente" [ref=f18e120] [cursor=pointer]
+          - generic [ref=f18e122] [cursor=pointer]
+        - generic [ref=f18e126]:
+          - textbox "Buscar por nome, CPF ou e-mail…" [active] [ref=f18e131]: QA
+          - combobox [ref=f18e132]:
+            - option "Todos os status" [selected]
+            - option "Ativos"
+            - option "Inativos"
+        - paragraph [ref=f18e133]: 2 pacientes encontrados
+        - generic [ref=f18e134]:
+          - generic [ref=f18e738] [cursor=pointer]:
+            - generic [ref=f18e739]: Ativo
+            - generic [ref=f18e745]:
+              - heading "Teste Duplo P028" [level=3] [ref=f18e746]
+              - paragraph [ref=f18e747]: 445.364.105-20
+            - generic [ref=f18e748]:
+              - generic [ref=f18e752]:
+                - text: 01/01/1990
+                - generic [ref=f18e753]: (36 anos)
+              - generic [ref=f18e754]: p028@qa.com
+              - generic [ref=f18e759]: São Paulo —
+            - generic [ref=f18e764]:
+              - button "Editar" [ref=f18e765]
+              - button [ref=f18e769]
+          - generic [ref=f18e773] [cursor=pointer]:
+            - generic [ref=f18e774]: Ativo
+            - generic [ref=f18e780]:
+              - heading "QA Regressão P032" [level=3] [ref=f18e781]
+              - paragraph [ref=f18e782]: 111.444.777-35
+            - generic [ref=f18e783]:
+              - generic [ref=f18e787]:
+                - text: 15/06/1985
+                - generic [ref=f18e788]: (41 anos)
+              - generic [ref=f18e789]: p032@qa.com
+              - generic [ref=f18e794]: (11) 98765-4321
+            - generic [ref=f18e798]:
+              - button "Editar" [ref=f18e799]
+              - button [ref=f18e803]
