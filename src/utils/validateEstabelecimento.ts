@@ -54,20 +54,18 @@ export function validateEstabelecimentoForm(form: CadastrarEstabelecimentoReques
     }
   }
 
+  // Telefone é opcional em qualquer modo — só valida formato se houver valor (mesmo padrão do Complemento)
   const telefone = form.telefone?.trim() ?? ''
-  if (!isEdicao || telefone) {
-    if (!TELEFONE_REGEX.test(telefone)) {
-      errors.telefone = 'Telefone deve estar no formato (11) 3333-4444 (fixo) ou (11) 98888-7777 (celular)'
-    }
+  if (telefone && !TELEFONE_REGEX.test(telefone)) {
+    errors.telefone = 'Telefone deve estar no formato (11) 3333-4444 (fixo) ou (11) 98888-7777 (celular)'
   }
 
+  // E-mail é sempre obrigatório, inclusive na edição — não segue a regra geral de "vazio = não alterar"
   const email = form.email?.trim() ?? ''
-  if (!isEdicao || email) {
-    if (!email) {
-      errors.email = 'E-mail é obrigatório'
-    } else if (!EMAIL_REGEX.test(email)) {
-      errors.email = 'E-mail inválido'
-    }
+  if (!email) {
+    errors.email = 'E-mail é obrigatório'
+  } else if (!EMAIL_REGEX.test(email)) {
+    errors.email = 'E-mail inválido'
   }
 
   const logradouro = form.logradouro?.trim() ?? ''

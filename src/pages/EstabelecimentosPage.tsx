@@ -14,7 +14,7 @@ import { Input, SelectField } from '@/components/ui/Input'
 import { Modal } from '@/components/ui/Modal'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { validateEstabelecimentoForm, type EstabelecimentoFormErrors } from '@/utils/validateEstabelecimento'
-import { onlyDigits, formatTelefone, formatCnpj, formatCep, formatCidade } from '@/utils/masks'
+import { onlyDigits, formatTelefone, formatCnpj, formatCep } from '@/utils/masks'
 
 function buildMapsUrl(est: EstabelecimentoResponse) {
   const partes = [est.logradouro, est.numero, est.complemento, est.bairro, est.cidade, est.uf, est.cep, 'Brasil'].filter(Boolean)
@@ -75,7 +75,6 @@ export function EstabelecimentosPage() {
     else if (key === 'telefone') valorTratado = formatTelefone(valorTratado)
     else if (key === 'cep') valorTratado = formatCep(valorTratado)
     else if (key === 'numero') valorTratado = onlyDigits(valorTratado)
-    else if (key === 'cidade') valorTratado = formatCidade(valorTratado)
 
     const novoForm = { ...form, [key]: valorTratado }
     setForm(novoForm)
