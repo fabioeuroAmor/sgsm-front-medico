@@ -1,0 +1,10 @@
+81. [GET] http://localhost:3001/v1/api/agenda-medico?medicoId=e9d2fa53-3ff6-42fc-8987-7673fb4b1754 => [200] OK
+83. [GET] http://localhost:3001/v1/api/agenda-medico?medicoId=e9d2fa53-3ff6-42fc-8987-7673fb4b1754 => [403] Forbidden
+85. [GET] http://localhost:3001/v1/api/agenda-medico?medicoId=e9d2fa53-3ff6-42fc-8987-7673fb4b1754 => [200] OK
+87. [POST] http://localhost:3001/v1/api/agenda-medico => [201] Created
+88. [POST] http://localhost:3001/v1/api/agenda-medico => [201] Created
+89. [POST] http://localhost:3001/v1/api/agenda-medico => [400] Bad Request
+90. [POST] http://localhost:3001/v1/api/agenda-medico => [201] Created
+91. [DELETE] http://localhost:3001/v1/api/agenda-medico/7ab2afdd-4337-43f5-be44-1eb86063e0be => [204] No Content
+
+Note: 71 static requests not shown, run with "static" option to see them.

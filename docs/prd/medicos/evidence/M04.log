@@ -1,0 +1,8 @@
+69. [POST] http://localhost:3001/v1/api/auth/refresh => [200] OK
+70. [POST] http://localhost:3001/v1/api/auth/refresh => [200] OK
+72. [GET] http://localhost:3001/v1/api/auth/me => [200] OK
+73. [GET] http://localhost:3001/v1/api/auth/me => [200] OK
+76. [GET] http://localhost:3001/v1/api/medicos => [200] OK
+77. [GET] http://localhost:3001/v1/api/medicos => [200] OK
+
+Note: 71 static requests not shown, run with "static" option to see them.

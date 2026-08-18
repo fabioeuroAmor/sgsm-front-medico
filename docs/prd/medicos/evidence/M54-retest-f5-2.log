@@ -1,0 +1,3 @@
+69. [POST] http://localhost:3001/v1/api/auth/refresh => [401] Unauthorized
+
+Note: 71 static requests not shown, run with "static" option to see them.

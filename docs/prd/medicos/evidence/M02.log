@@ -1,0 +1,4 @@
+79. [GET] http://localhost:3001/v1/api/medicos => [200] OK
+80. [GET] http://localhost:3001/v1/api/medicos => [200] OK
+
+Note: 74 static requests not shown, run with "static" option to see them.

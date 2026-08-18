@@ -1,0 +1,27 @@
+#91 [DELETE] http://localhost:3001/v1/api/agenda-medico/7ab2afdd-4337-43f5-be44-1eb86063e0be
+
+  General
+    status:    [204] No Content
+    duration:  65ms
+    type:      xhr
+
+  Request headers
+    accept: application/json, text/plain, */*
+    authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJlMzMxMjM2YS1iYTU1LTRjYjUtYmZmYi1hZTcyNjUyMDRmZmEiLCJzdWIiOiI3ZmY3NzcxZi1jYTQ1LTRjYzQtODNiYS1lNTNiMDA3MDljMTAiLCJlbWFpbCI6ImVkdWFyZGFzaWx2YUBnbWFpbC5jb20iLCJub21lIjoiZWR1YXJkYSBzaWx2YSIsInBlcmZpbCI6Ik1FRElDTyIsInJlZmVyZW5jaWFJZCI6IjZmMzY2ODc1LTMyNmQtNDJhNi1hNWQ4LTdhMTliOWFiNmFkNCIsInJvbGVzIjpbIk1FRElDTyJdLCJwZXJtaXNzaW9ucyI6WyJhZ2VuZGFtZW50bzp3cml0ZSIsImFnZW5kYW1lbnRvOnN0YXR1cyIsImFnZW5kYW1lbnRvOnJlYWQiLCJzZXJ2aWNvOnJlYWQiLCJhZ2VuZGE6cmVhZCIsImFnZW5kYTp3cml0ZSIsInBhY2llbnRlOnJlYWQiXSwiaWF0IjoxNzg3MDEzOTQ0LCJleHAiOjE3ODcwMTQ4NDR9.naKFaaUObnV0_zvehjSZ6hgr391OlmwtCyEdfkaaZl2-zaEaA3z9j96TNJGvGbB9-gM7L0Sn9VnWWfavffd9mQ
+    referer: 
+    user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36
+    sec-ch-ua: "Not=A?Brand";v="99", "Google Chrome";v="151", "Chromium";v="151"
+    sec-ch-ua-mobile: ?0
+    sec-ch-ua-platform: "Windows"
+
+  Response headers
+    access-control-allow-origin: http://localhost:3001
+    vary: Origin
+    cache-control: no-cache, no-store, max-age=0, must-revalidate
+    connection: close
+    date: Tue, 18 Aug 2026 00:58:47 GMT
+    expires: 0
+    pragma: no-cache
+    x-content-type-options: nosniff
+    x-frame-options: DENY
+    x-xss-protection: 0
