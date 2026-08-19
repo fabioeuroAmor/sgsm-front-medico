@@ -1,0 +1,40 @@
+C26 — RETESTE (rodada 2) — Reproduz o duplo clique síncrono em "Salvar" no modal "Novo Lead" que,
+na rodada 1, disparou 2 requisições POST /crm/leads e criou um lead duplicado.
+
+Metodologia (igual à rodada 1, documentada em qa-results.md): dois cliques nativos do Playwright
+processam uma renderização entre eles (o guard React só teria efeito visível depois do primeiro
+re-render), então o clique duplo foi disparado via `page.evaluate` chamando `.click()` duas vezes
+no MESMO tick de JS síncrono sobre o elemento DOM do botão "Salvar", sem esperar entre as chamadas:
+
+  const btn = [...document.querySelectorAll('button')].find(b => b.textContent.trim() === 'Salvar');
+  btn.click();
+  btn.click();
+
+Passos:
+1. Login, navegação para /crm (aba Leads).
+2. "Novo Lead" -> preenchido campo Nome com "QA CRM Retest C26 Duplo Clique v3" via setter nativo do
+   input + evento "input" (para o React registrar a mudança corretamente).
+3. Disparo de 2 cliques síncronos em "Salvar" no mesmo tick (código acima).
+4. waitForTimeout(2000) para deixar qualquer requisição em voo completar.
+
+Resultado no network (filtro "crm", requisições não-estáticas, em ordem cronológica):
+77. [GET]  /crm/leads => 200 OK   (carga inicial da tabela)
+78. [GET]  /crm/leads => 200 OK   (segunda chamada, efeito de montagem duplo do React)
+80. [POST] /crm/leads => 201 Created   <-- ÚNICA chamada de criação, apesar dos 2 cliques
+81. [GET]  /crm/leads => 200 OK   (refresh da lista após criação bem-sucedida)
+
+-> Apenas 1 POST /crm/leads foi disparado (id 80), não 2 como na rodada 1.
+
+Payload do POST (request-body, id 80):
+{"nome":"QA CRM Retest C26 Duplo Clique v3","email":"","telefone":"","interesse":"","origem":"OUTRO","observacoes":""}
+
+Toast exibido: "Lead criado" (uma única vez, visível no snapshot pós-ação).
+
+Verificação da tabela (snapshot pós-ação): apenas 1 linha com o nome
+"QA CRM Retest C26 Duplo Clique v3" aparece na tabela de leads — sem duplicata.
+
+Console (nível debug): 3 mensagens, todas de bootstrap do Vite/React DevTools, zero erros/warnings.
+
+Veredito: APROVADO (rodada 2). O guard de clique duplo (useRef) no formulário "Novo Lead" funciona —
+2 cliques síncronos no botão "Salvar" resultam em apenas 1 POST /crm/leads e 1 lead criado, corrigindo
+o bug de duplicação documentado em evidence/C26.png / qa-results.md (rodada 1).

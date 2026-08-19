@@ -1,0 +1,36 @@
+C54 — RETESTE (rodada 2) — Reproduz o passo a passo original: com o paciente "QA CRM Paciente
+Teste" (id a3fe87c7-de40-4270-9365-859b24bae372) selecionado, abrir "Nova Nota" (aba Notas), preencher
+"Conteúdo" só com espaços ("   ", 3 espaços) e tentar salvar. Esperado após a correção (`.trim()` na
+validação): NENHUM POST disparado. Conforme instruído, conteúdo VÁLIDO não foi testado aqui — esse
+cenário já está documentado como bloqueado por bug de backend em C55/C56 (POST /crm/paciente/{id}/notas
+retorna 500 mesmo com payload válido), não repetido neste reteste.
+
+Passos:
+1. Paciente "QA CRM Paciente Teste" selecionado, aba "Notas" ativa -> "Notas (0)" / "Nenhuma nota
+   clínica" confirmado (nenhuma nota pré-existente, coerente com o bloqueio de backend documentado
+   em C55/C56 na rodada 1).
+2. "Nova Nota" -> modal "Nova Nota Clínica" abre com Tipo=OBSERVACAO, Conteúdo vazio.
+3. Campo Conteúdo (textarea[placeholder="Evolução do paciente…"]) preenchido com "   " (3 espaços)
+   via setter nativo + evento "input". Valor confirmado: "   " (length 3).
+4. Clique em "Salvar".
+5. Aguardado 1.5s: modal continuou aberto (`modalStillOpen: true`).
+
+Network requests (filtro "notas", antes e depois da tentativa de salvar):
+90. [GET] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/notas => 200 OK
+-> Única requisição relacionada a "notas" durante todo o teste (carga inicial da lista, vazia).
+   NENHUM POST /crm/paciente/{id}/notas foi disparado ao tentar salvar com conteúdo só de espaços.
+
+Confirmação adicional: o contador "Notas (0)" no cabeçalho do card permaneceu em "Notas (0)" antes e
+depois da tentativa de salvar.
+
+Console (nível debug): 3 mensagens de bootstrap, 0 erros, 0 warnings.
+
+Diferente da rodada 1 (evidence/C54.png / C54-detail.log), onde a mesma ação (Conteúdo só de espaços +
+Salvar) disparava `POST /crm/paciente/{id}/notas`, que retornava 500 do backend (diferente do
+comportamento de Contatos/C48, que retornava 201 com o backend aceitando o registro em branco).
+
+Veredito: APROVADO (rodada 2). A validação de "Conteúdo" no formulário "Nova Nota Clínica" agora usa
+`.trim()` antes de checar obrigatoriedade — conteúdo só de espaços é bloqueado da mesma forma que
+conteúdo vazio, sem disparar POST, corrigindo o bug documentado em qa-results.md (rodada 1). O bug de
+backend que faz POST de nota clínica retornar 500 mesmo com payload válido (C55/C56) permanece
+fora do escopo deste reteste de front-end e não foi reavaliado aqui.

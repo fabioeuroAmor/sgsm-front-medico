@@ -1,0 +1,18 @@
+C54 — Aprovado (bloqueio de vazio) + Reprovado (aceita só espaços, backend quebra com 500 bruto)
+
+Parte 1 (vazio real, ""): confirmado que salvar com "Conteúdo" vazio não dispara nenhum POST
+/crm/paciente/{id}/notas (`salvarNota` checa `!formNota.conteudo`) — comportamento correto.
+
+Parte 2 (só espaços, "   "): preencher "Conteúdo" com 3 espaços e salvar DISPARA o POST (front-end não usa
+trim() na validação, mesmo padrão de C48/C25). Body enviado: {"tipo":"OBSERVACAO","conteudo":"   "}
+(C54.log). Desta vez, diferente do endpoint de contatos (que aceitou com 201), o backend de notas respondeu
+500 Internal Server Error com corpo genérico {"detail":"Erro interno. Tente novamente mais tarde."} —
+sugerindo uma constraint de banco (ex.: CHECK conteudo <> '' ou similar) sendo violada e reportada como
+exceção não tratada, em vez de uma validação limpa com 400.
+
+Classificação: bug de front-end (falta de trim() na validação do campo Conteúdo) + bug/lacuna de backend
+(erro 500 genérico em vez de validação com mensagem clara para um caso de entrada previsível). O modal
+permaneceu aberto após o erro; nenhuma mensagem de erro específica e amigável foi observada além do padrão
+genérico de toast já documentado em outros itens.
+
+Evidência bruta: C54.png, C54.log (payload com conteudo: "   "), C54-console.log.

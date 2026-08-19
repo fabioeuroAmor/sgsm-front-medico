@@ -1,0 +1,16 @@
+C44 — Documentado: tag duplicada não gera duplicata na lista (backend deduplica silenciosamente)
+
+Cenário: paciente já tinha a tag "qa crm hipertenso" (criada anteriormente). Repeti a adição da mesma tag
+(mesmo texto, "QA CRM hipertenso", que é normalizado para minúsculas pelo backend).
+
+Resultado: POST /crm/paciente/{id}/tags respondeu 201 Created (corpo vazio, content-length: 0) como se uma
+nova tag tivesse sido criada, mas a chamada GET /crm/paciente/{id}/tags logo em seguida retornou apenas 2
+tags únicas (qa crm diabetico, qa crm hipertenso) — sem duplicata. Ou seja, o backend efetivamente
+deduplica/ignora a tentativa de duplicata (provavelmente um upsert ou constraint única em
+paciente_id+tag), mas o código de status HTTP retornado (201) sugere indevidamente que um novo recurso foi
+criado, quando na prática nada mudou.
+
+Classificação: não é um bug funcional visível ao usuário (a lista de tags permanece correta, sem
+duplicatas) — é um detalhe de contrato de API do backend (201 em vez de um código mais preciso como 200/204
+ou 409 para indicar "já existe"), fora do escopo deste repositório front-end. Do ponto de vista do usuário
+final, o comportamento é o esperado/desejável.

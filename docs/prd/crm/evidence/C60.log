@@ -1,0 +1,4 @@
+91. [GET] http://localhost:3001/ia/kpis => [200] OK
+92. [GET] http://localhost:3001/ia/kpis => [200] OK
+
+Note: 76 static requests not shown, run with "static" option to see them.
