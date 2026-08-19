@@ -1,0 +1,8 @@
+Total messages: 7 (Errors: 4, Warnings: 0)
+Returning 5 messages for level "info"
+
+[INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:21608
+[ERROR] Failed to load resource: the server responded with a status of 403 (Forbidden) @ http://localhost:3001/v1/api/medicos:0
+[ERROR] Failed to load resource: the server responded with a status of 403 (Forbidden) @ http://localhost:3001/v1/api/medicos/e9d2fa53-3ff6-42fc-8987-7673fb4b1754:0
+[ERROR] Failed to load resource: the server responded with a status of 403 (Forbidden) @ http://localhost:3001/v1/api/agenda-medico?medicoId=e9d2fa53-3ff6-42fc-8987-7673fb4b1754:0
+[ERROR] Failed to load resource: the server responded with a status of 403 (Forbidden) @ http://localhost:3001/v1/api/agendamentos/medico/e9d2fa53-3ff6-42fc-8987-7673fb4b1754/estabelecimentos:0

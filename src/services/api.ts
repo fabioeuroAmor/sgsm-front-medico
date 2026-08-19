@@ -13,6 +13,25 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
 })
 
+let refreshPromise: Promise<string> | null = null
+
+export function refreshAccessToken(): Promise<string> {
+  const refreshToken = localStorage.getItem('refresh_token')
+  if (!refreshToken) return Promise.reject(new Error('Não autenticado.'))
+
+  if (!refreshPromise) {
+    refreshPromise = axios
+      .post<RefreshResponse>('/v1/api/auth/refresh', { refreshToken })
+      .then((res) => {
+        tokenStore.set(res.data.accessToken)
+        localStorage.setItem('refresh_token', res.data.refreshToken)
+        return res.data.accessToken
+      })
+      .finally(() => { refreshPromise = null })
+  }
+  return refreshPromise
+}
+
 api.interceptors.request.use((config) => {
   const token = tokenStore.get()
   if (token) {
@@ -28,27 +47,16 @@ api.interceptors.response.use(
 
     if (err.response?.status === 401 && !originalRequest._isRetry) {
       originalRequest._isRetry = true
-      const refreshToken = localStorage.getItem('refresh_token')
 
-      if (refreshToken) {
-        try {
-          const res = await axios.post<RefreshResponse>(
-            '/v1/api/auth/refresh',
-            { refreshToken },
-          )
-          tokenStore.set(res.data.accessToken)
-          localStorage.setItem('refresh_token', res.data.refreshToken)
-          originalRequest.headers.Authorization = `Bearer ${res.data.accessToken}`
-          return api(originalRequest)
-        } catch {
-          tokenStore.clear()
-          localStorage.removeItem('refresh_token')
-          window.location.href = '/login'
-          return Promise.reject(new Error('Sessão expirada. Faça login novamente.'))
-        }
-      } else {
+      try {
+        const accessToken = await refreshAccessToken()
+        originalRequest.headers.Authorization = `Bearer ${accessToken}`
+        return api(originalRequest)
+      } catch {
+        tokenStore.clear()
+        localStorage.removeItem('refresh_token')
         window.location.href = '/login'
-        return Promise.reject(new Error('Não autenticado.'))
+        return Promise.reject(new Error('Sessão expirada. Faça login novamente.'))
       }
     }
 

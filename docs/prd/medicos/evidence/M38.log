@@ -1,0 +1,4 @@
+86. [GET] http://localhost:3001/v1/api/agenda-medico?medicoId=6f366875-326d-42a6-a5d8-7a19b9ab6ad4 => [200] OK
+87. [GET] http://localhost:3001/v1/api/agendamentos/medico/6f366875-326d-42a6-a5d8-7a19b9ab6ad4/estabelecimentos => [200] OK
+
+Note: 72 static requests not shown, run with "static" option to see them.

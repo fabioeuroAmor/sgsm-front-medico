@@ -1,0 +1,9 @@
+69. [POST] http://localhost:3001/v1/api/auth/refresh => [200] OK
+71. [GET] http://localhost:3001/v1/api/auth/me => [200] OK
+74. [GET] http://localhost:3001/v1/api/medicos => [200] OK
+75. [GET] http://localhost:3001/v1/api/medicos => [200] OK
+76. [POST] http://localhost:3001/v1/api/medicos => [201] Created
+77. [GET] http://localhost:3001/v1/api/agenda-medico?medicoId=1c59fbdf-94ea-4af9-ad8d-d9d658d75f24 => [200] OK
+78. [GET] http://localhost:3001/v1/api/agendamentos/medico/1c59fbdf-94ea-4af9-ad8d-d9d658d75f24/estabelecimentos => [200] OK
+
+Note: 71 static requests not shown, run with "static" option to see them.
