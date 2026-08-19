@@ -1,0 +1,48 @@
+[     231ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:21608
+[   54197ms] [LOG] 0 DIV flex flex-col gap-1.5 @ :7
+[   54197ms] [LOG] 1 DIV flex flex-col gap-4 @ :7
+[   54197ms] [LOG] 2 DIV flex-1 overflow-y-auto px-6 py-5 @ :7
+[   54197ms] [LOG] 3 DIV relative w-full bg-card rounded-2xl shadow-2xl border border-border flex flex-co @ :7
+[   54197ms] [LOG] 4 DIV fixed inset-0 z-50 flex items-center justify-center p-4 @ :7
+[   54197ms] [LOG] 5 DIV space-y-6 @ :7
+[   54197ms] [LOG] 6 MAIN flex-1 p-6 lg:p-8 animate-fade-in @ :7
+[   54197ms] [LOG] 7 DIV flex flex-col flex-1 min-w-0 @ :7
+[   54197ms] [LOG] 8 DIV flex min-h-screen bg-background @ :7
+[   54197ms] [LOG] 9 DIV  @ :7
+[  205728ms] [ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://localhost:3001/v1/api/pacientes:0
+[  232878ms] [ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://localhost:3001/v1/api/pacientes:0
+[  264734ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3001/v1/api/pacientes:0
+[  322161ms] [ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://localhost:3001/v1/api/pacientes:0
+[  367799ms] [ERROR] Failed to load resource: the server responded with a status of 403 (Forbidden) @ http://localhost:3001/v1/api/pacientes/37440ddd-f3f7-4a54-b059-de4fd971dadb:0
+[  367808ms] Error: Request failed with status code 403
+    at http://localhost:3001/src/services/api.ts:43:27
+    at async Axios.request (http://localhost:3001/node_modules/.vite/deps/axios.js?v=7d2d3819:2739:14)
+    at async http://localhost:3001/src/hooks/usePacientes.ts:30:5
+    at async onClick (http://localhost:3001/src/pages/PacientesPage.tsx:1149:15)
+[  725612ms] [ERROR] Failed to load resource: the server responded with a status of 403 (Forbidden) @ http://localhost:3001/v1/api/pacientes/2fbefa06-29db-45b9-a9ee-2ad8a97acf95:0
+[  724579ms] Error: Request failed with status code 403
+    at http://localhost:3001/src/services/api.ts:43:27
+    at async Axios.request (http://localhost:3001/node_modules/.vite/deps/axios.js?v=7d2d3819:2739:14)
+    at async http://localhost:3001/src/hooks/usePacientes.ts:30:5
+    at async onClick (http://localhost:3001/src/pages/PacientesPage.tsx:1149:15)
+[  820776ms] [ERROR] Failed to load resource: the server responded with a status of 403 (Forbidden) @ http://localhost:3001/v1/api/pacientes/2fbefa06-29db-45b9-a9ee-2ad8a97acf95:0
+[  820776ms] Error: Request failed with status code 403
+    at http://localhost:3001/src/services/api.ts:43:27
+    at async Axios.request (http://localhost:3001/node_modules/.vite/deps/axios.js?v=7d2d3819:2739:14)
+    at async http://localhost:3001/src/hooks/usePacientes.ts:30:5
+    at async onClick (http://localhost:3001/src/pages/PacientesPage.tsx:1149:15)
+[  857376ms] [ERROR] Failed to load resource: the server responded with a status of 403 (Forbidden) @ http://localhost:3001/v1/api/pacientes/2fbefa06-29db-45b9-a9ee-2ad8a97acf95:0
+[  857376ms] Error: Request failed with status code 403
+    at http://localhost:3001/src/services/api.ts:43:27
+    at async Axios.request (http://localhost:3001/node_modules/.vite/deps/axios.js?v=7d2d3819:2739:14)
+    at async http://localhost:3001/src/hooks/usePacientes.ts:30:5
+    at async onClick (http://localhost:3001/src/pages/PacientesPage.tsx:1149:15)
+[  865435ms] [ERROR] Failed to load resource: the server responded with a status of 403 (Forbidden) @ http://localhost:3001/v1/api/pacientes/2fbefa06-29db-45b9-a9ee-2ad8a97acf95:0
+[  865435ms] Error: Request failed with status code 403
+    at http://localhost:3001/src/services/api.ts:43:27
+    at async Axios.request (http://localhost:3001/node_modules/.vite/deps/axios.js?v=7d2d3819:2739:14)
+    at async http://localhost:3001/src/hooks/usePacientes.ts:30:5
+    at async onClick (http://localhost:3001/src/pages/PacientesPage.tsx:1149:15)
+[  999995ms] [ERROR] Failed to load resource: the server responded with a status of 403 (Forbidden) @ http://localhost:3001/v1/api/pacientes:0
+[ 1000002ms] [ERROR] Failed to load resource: the server responded with a status of 403 (Forbidden) @ http://localhost:3001/v1/api/pacientes:0
+[ 1007216ms] [ERROR] Failed to load resource: the server responded with a status of 403 (Forbidden) @ http://localhost:3001/v1/api/pacientes:0

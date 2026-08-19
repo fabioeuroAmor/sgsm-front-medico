@@ -1,0 +1,12 @@
+[      90ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:21608
+[   35579ms] [ERROR] Failed to load resource: the server responded with a status of 403 (Forbidden) @ http://localhost:3001/v1/api/pacientes/a0f80ea2-591c-4ea8-b365-a55498f55714:0
+[10923216ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:3001/@vite/client:963
+[10925581ms] [ERROR] WebSocket connection to 'ws://localhost:3001/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3001/@vite/client:1034
+[10928927ms] [ERROR] WebSocket connection to 'ws://localhost:3001/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3001/@vite/client:1034
+[10932294ms] [ERROR] WebSocket connection to 'ws://localhost:3001/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3001/@vite/client:1034
+[10943476ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:21608
+[10943594ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/v1/api/auth/refresh:0
+[10943597ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/v1/api/auth/refresh:0
+[10943609ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/v1/api/auth/refresh:0
+[10943616ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/v1/api/auth/refresh:0
+[10943727ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:21608
