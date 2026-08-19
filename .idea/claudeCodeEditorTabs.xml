@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ClaudeCodeEditorTabs">
-    <option name="activeSessionId" value="7300f89f-4052-4140-b231-08f1e2268297" />
+    <option name="activeSessionId" value="2723ebaa-2a48-4bec-b392-466b820804f9" />
     <option name="openSessionIds">
       <list>
         <option value="7300f89f-4052-4140-b231-08f1e2268297" />
+        <option value="2723ebaa-2a48-4bec-b392-466b820804f9" />
       </list>
     </option>
     <option name="sessionPaths">
       <map>
-        <entry key="7300f89f-4052-4140-b231-08f1e2268297" value="/switch-account" />
+        <entry key="2723ebaa-2a48-4bec-b392-466b820804f9" value="/sessions/02d70288-39f3-4d22-b7d2-1f37f0d93b0a" />
+        <entry key="7300f89f-4052-4140-b231-08f1e2268297" value="/sessions/02d70288-39f3-4d22-b7d2-1f37f0d93b0a" />
       </map>
     </option>
     <option name="sessionTitles">
       <map>
-        <entry key="7300f89f-4052-4140-b231-08f1e2268297" value="localhost:62856/switch-account?workingDir=C%3A%2FAmbienteDev%2Fsgsm-front-medico&amp;panelId=5e05105b-db59-4f8f-bf34-fc766a802b95&amp;theme=dark" />
+        <entry key="2723ebaa-2a48-4bec-b392-466b820804f9" value="teste" />
+        <entry key="7300f89f-4052-4140-b231-08f1e2268297" value="teste" />
       </map>
     </option>
   </component>
