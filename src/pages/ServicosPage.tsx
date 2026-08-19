@@ -70,7 +70,7 @@ export function ServicosPage() {
 
   function abrirEdicao(s: ServicoMedicoResponse) {
     setEditando(s)
-    setForm({ medicoId: s.medicoId, nome: s.nome, descricao: s.descricao ?? '', preco: s.preco, duracaoMinutos: s.duracaoMinutos, domiciliar: s.domiciliar ?? false, taxaDeslocamento: s.taxaDeslocamento })
+    setForm({ medicoId: s.medicoId, nome: s.nome, descricao: s.descricao ?? '', preco: s.preco, duracaoMinutos: s.duracaoMinutos ?? undefined, domiciliar: s.domiciliar ?? false, taxaDeslocamento: s.taxaDeslocamento ?? undefined })
     setFormError(null); setFieldErrors({}); setModalAberto(true)
   }
 
