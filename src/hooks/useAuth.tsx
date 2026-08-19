@@ -27,6 +27,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       .refresh(refreshToken)
       .then((res) => {
         tokenStore.set(res.accessToken)
+        localStorage.setItem('refresh_token', res.refreshToken)
         return authService.me()
       })
       .then((me) => setUsuario(me))

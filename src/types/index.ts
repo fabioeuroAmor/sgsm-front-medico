@@ -315,6 +315,7 @@ export interface RegistrarResponse {
 
 export interface RefreshResponse {
   accessToken: string
+  refreshToken: string
   expiresIn: number
   tipo: string
 }

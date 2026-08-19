@@ -1,6 +1,7 @@
 import axios from 'axios'
 import type { InternalAxiosRequestConfig } from 'axios'
 import { tokenStore } from './tokenStore'
+import type { RefreshResponse } from '@/types'
 
 interface RetryableConfig extends InternalAxiosRequestConfig {
   _isRetry?: boolean
@@ -31,11 +32,12 @@ api.interceptors.response.use(
 
       if (refreshToken) {
         try {
-          const res = await axios.post<{ accessToken: string }>(
+          const res = await axios.post<RefreshResponse>(
             '/v1/api/auth/refresh',
             { refreshToken },
           )
           tokenStore.set(res.data.accessToken)
+          localStorage.setItem('refresh_token', res.data.refreshToken)
           originalRequest.headers.Authorization = `Bearer ${res.data.accessToken}`
           return api(originalRequest)
         } catch {
