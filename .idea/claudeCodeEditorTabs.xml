@@ -5,16 +5,22 @@
     <option name="openSessionIds">
       <list>
         <option value="8e2e87e6-f12b-48eb-b2a2-414a12a566de" />
+        <option value="7300f89f-4052-4140-b231-08f1e2268297" />
+        <option value="2723ebaa-2a48-4bec-b392-466b820804f9" />
       </list>
     </option>
     <option name="sessionPaths">
       <map>
         <entry key="8e2e87e6-f12b-48eb-b2a2-414a12a566de" value="/sessions/44f12f44-07a7-4d68-8148-827560a5f2b7" />
+        <entry key="2723ebaa-2a48-4bec-b392-466b820804f9" value="/sessions/02d70288-39f3-4d22-b7d2-1f37f0d93b0a" />
+        <entry key="7300f89f-4052-4140-b231-08f1e2268297" value="/sessions/02d70288-39f3-4d22-b7d2-1f37f0d93b0a" />
       </map>
     </option>
     <option name="sessionTitles">
       <map>
         <entry key="8e2e87e6-f12b-48eb-b2a2-414a12a566de" value="a branch: qa/pacientes-regressao já esta mergiada" />
+        <entry key="2723ebaa-2a48-4bec-b392-466b820804f9" value="teste" />
+        <entry key="7300f89f-4052-4140-b231-08f1e2268297" value="teste" />
       </map>
     </option>
   </component>

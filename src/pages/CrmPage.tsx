@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   UserPlus, Users, AlertTriangle, Plus, X, Phone, Mail,
   MessageSquare, FileText, ChevronDown, Search, Loader2,
@@ -67,6 +67,8 @@ function isValidTelefone(telefone: string) {
 
 // ── Leads Tab ────────────────────────────────────────────────────────────────
 
+const FORM_LEAD_VAZIO = { nome: '', email: '', telefone: '', interesse: '', origem: 'OUTRO', observacoes: '' }
+
 function LeadsTab() {
   const [leads, setLeads] = useState<Lead[]>([])
   const [filtroStatus, setFiltroStatus] = useState('')
@@ -74,31 +76,52 @@ function LeadsTab() {
   const [modalCriar, setModalCriar] = useState(false)
   const [modalStatus, setModalStatus] = useState<Lead | null>(null)
   const [novoStatus, setNovoStatus] = useState('')
-  const [form, setForm] = useState({ nome: '', email: '', telefone: '', interesse: '', origem: 'OUTRO', observacoes: '' })
+  const [form, setForm] = useState(FORM_LEAD_VAZIO)
   const [salvando, setSalvando] = useState(false)
+  const salvandoRef = useRef(false)
+  const requestIdRef = useRef(0)
 
   async function carregar() {
+    const requestId = ++requestIdRef.current
     setLoading(true)
     try {
-      setLeads(await crmService.listarLeads(filtroStatus || undefined))
-    } catch { toast.error('Erro ao carregar leads') } finally { setLoading(false) }
+      const dados = await crmService.listarLeads(filtroStatus || undefined)
+      if (requestId !== requestIdRef.current) return
+      setLeads(dados)
+    } catch {
+      if (requestId !== requestIdRef.current) return
+      toast.error('Erro ao carregar leads')
+    } finally {
+      if (requestId === requestIdRef.current) setLoading(false)
+    }
   }
 
   useEffect(() => { carregar() }, [filtroStatus])
+
+  function abrirModalCriar() {
+    setForm(FORM_LEAD_VAZIO)
+    setModalCriar(true)
+  }
+
+  function fecharModalCriar() {
+    setModalCriar(false)
+    setForm(FORM_LEAD_VAZIO)
+  }
 
   async function salvarLead() {
     if (!form.nome.trim()) { toast.error('Nome é obrigatório'); return }
     if (form.email && !isValidEmail(form.email)) { toast.error('E-mail inválido'); return }
     if (form.telefone && !isValidTelefone(form.telefone)) { toast.error('Telefone inválido'); return }
     if (form.interesse && form.interesse.trim().length < 3) { toast.error('Interesse deve ter pelo menos 3 caracteres'); return }
+    if (salvandoRef.current) return
+    salvandoRef.current = true
     setSalvando(true)
     try {
       await crmService.criarLead(form)
       toast.success('Lead criado')
-      setModalCriar(false)
-      setForm({ nome: '', email: '', telefone: '', interesse: '', origem: 'OUTRO', observacoes: '' })
+      fecharModalCriar()
       carregar()
-    } catch (e) { toast.error((e as Error).message) } finally { setSalvando(false) }
+    } catch (e) { toast.error((e as Error).message) } finally { salvandoRef.current = false; setSalvando(false) }
   }
 
   async function salvarStatus() {
@@ -133,7 +156,7 @@ function LeadsTab() {
           ))}
         </div>
         <div className="ml-auto">
-          <Button onClick={() => setModalCriar(true)} size="sm">
+          <Button onClick={abrirModalCriar} size="sm">
             <UserPlus size={14} /> Novo Lead
           </Button>
         </div>
@@ -185,10 +208,10 @@ function LeadsTab() {
       )}
 
       {/* Modal Criar Lead */}
-      <Modal open={modalCriar} onClose={() => setModalCriar(false)} title="Novo Lead"
+      <Modal open={modalCriar} onClose={fecharModalCriar} title="Novo Lead"
         footer={
           <>
-            <Button variant="ghost" size="sm" onClick={() => setModalCriar(false)}>Cancelar</Button>
+            <Button variant="ghost" size="sm" onClick={fecharModalCriar}>Cancelar</Button>
             <Button onClick={salvarLead} disabled={salvando} size="sm">{salvando ? 'Salvando…' : 'Salvar'}</Button>
           </>
         }
@@ -307,7 +330,11 @@ function Paciente360Tab() {
   }
 
   async function salvarContato() {
-    if (!selecionado || !formContato.descricao) return
+    if (!selecionado || !formContato.descricao.trim()) return
+    if (formContato.duracaoSegundos && Number(formContato.duracaoSegundos) < 0) {
+      toast.error('Duração não pode ser negativa')
+      return
+    }
     setSalvando(true)
     try {
       await crmService.registrarContato(selecionado.id, {
@@ -324,7 +351,7 @@ function Paciente360Tab() {
   }
 
   async function salvarNota() {
-    if (!selecionado || !formNota.conteudo) return
+    if (!selecionado || !formNota.conteudo.trim()) return
     setSalvando(true)
     try {
       await crmService.adicionarNota(selecionado.id, formNota)
@@ -530,7 +557,7 @@ function Paciente360Tab() {
               </select>
             </div>
           </div>
-          <Input label="Duração (segundos)" type="number" value={formContato.duracaoSegundos}
+          <Input label="Duração (segundos)" type="number" min={0} value={formContato.duracaoSegundos}
             onChange={(e) => setFormContato((f) => ({ ...f, duracaoSegundos: e.target.value }))} placeholder="120" />
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Descrição *</label>

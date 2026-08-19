@@ -1,0 +1,27 @@
+C71 — RETESTE (rodada 2) — Mesmo bug crítico de C03/C04. Login, navegação client-side (clique
+sidebar "CRM") para /crm, clique em "Novo Lead", preenchido Nome = "QA CRM Retest F5 Modal Aberto" e
+Interesse = "Teste F5 com modal aberto" no formulário, depois UM reload real de página inteira via
+`location.reload()` (equivalente a F5 — ver nota metodológica em C04-retest.log sobre por que não usei
+page.keyboard.press('F5')).
+
+Resultado do reload:
+- Page URL após reload: http://localhost:3001/crm (mantido, SEM cair para /login nem erro bruto)
+- Page Title: "SGSM — Médico"
+- Console (nível debug, desde o reload): 3 mensagens, ZERO erros.
+- Network (requisições-chave):
+  157. [POST] /v1/api/auth/refresh => 200 OK
+  159. [GET]  /v1/api/auth/me => 200 OK
+  160. [GET]  /crm/leads => 200 OK
+  161. [GET]  /crm/leads => 200 OK
+- Snapshot pós-reload confirma a tela CRM renderizada normalmente (sidebar, tabs, pílulas, tabela de
+  leads com os 7 leads existentes) e o MODAL "Novo Lead" FECHADO — ou seja, os dados digitados
+  (Nome/Interesse) foram perdidos, que é o comportamento esperado de uma SPA em reload completo (o
+  estado React é todo recriado do zero). O importante: a aplicação NÃO quebrou, não houve erro bruto
+  de navegador, apenas o modal fechou e o formulário voltou ao estado inicial vazio.
+
+Nenhum erro bruto de navegador (net::ERR_HTTP_RESPONSE_CODE_FAILURE / "HTTP ERROR 403") — diferente da
+rodada 1 (evidence/C71.png / C71-detail.log), onde o mesmo cenário (F5 com modal aberto e dados
+preenchidos) quebrava a aplicação inteira, não apenas fechava o modal.
+
+Veredito: APROVADO. F5 com o modal "Novo Lead" aberto e preenchido agora recarrega normalmente,
+perdendo apenas os dados do formulário (comportamento esperado de SPA), sem quebrar a aplicação.

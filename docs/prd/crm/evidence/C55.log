@@ -1,0 +1,5 @@
+89. [GET] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/notas => [200] OK
+96. [POST] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/notas => [500] Internal Server Error
+97. [POST] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/notas => [500] Internal Server Error
+
+Note: 76 static requests not shown, run with "static" option to see them.

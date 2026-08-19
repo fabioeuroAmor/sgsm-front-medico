@@ -1,0 +1,13 @@
+72. [POST] http://localhost:3001/v1/api/auth/refresh => [200] OK
+74. [GET] http://localhost:3001/v1/api/auth/me => [200] OK
+79. [GET] http://localhost:3001/crm/leads => [200] OK
+80. [GET] http://localhost:3001/crm/leads => [200] OK
+82. [GET] http://localhost:3001/crm/leads?status=CONTATADO => [200] OK
+83. [GET] http://localhost:3001/crm/leads?status=QUALIFICADO => [200] OK
+84. [GET] http://localhost:3001/crm/leads?status=CONVERTIDO => [200] OK
+85. [GET] http://localhost:3001/crm/leads?status=PERDIDO => [200] OK
+86. [GET] http://localhost:3001/crm/leads => [200] OK
+87. [GET] http://localhost:3001/crm/leads?status=NOVO => [401] Unauthorized
+88. [POST] http://localhost:3001/v1/api/auth/refresh => [401] Unauthorized
+
+Note: 148 static requests not shown, run with "static" option to see them.

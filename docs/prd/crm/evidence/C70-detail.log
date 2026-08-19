@@ -1,0 +1,24 @@
+C70 — Documentado: estado da aba Paciente 360 é perdido ao trocar de aba e voltar
+
+Passo a passo:
+1. Na aba Paciente 360, buscar e selecionar o paciente de teste (fica com card + tags/contatos/notas
+   visíveis).
+2. Trocar para a aba "Leads" (ou qualquer outra), fazer algo lá (não obrigatório), depois voltar para
+   "Paciente 360".
+
+Resultado observado: a busca volta vazia e a tela mostra novamente "Selecione um paciente para ver o perfil
+completo" — o paciente selecionado anteriormente NÃO é mantido (ver C70.png). Confirma a suspeita do
+test-plan: cada `*Tab` (LeadsTab, Paciente360Tab, ChurnTab, AnalyticsTab) é desmontado ao trocar de aba
+principal (renderização condicional simples tipo `{tab === 'x' && <XTab />}`), perdendo todo o estado local
+do componente (busca, paciente selecionado, sub-aba ativa, tags/contatos/notas carregados). O mesmo já foi
+confirmado para a aba "Risco de Churn" (C59: um novo GET /crm/churn foi disparado ao voltar para essa aba,
+confirmando remontagem).
+
+Classificação: comportamento documentado (item pede documentação, não tem resultado certo/errado
+predefinido) — do ponto de vista de UX, é uma perda de trabalho perceptível: se o médico está no meio de
+adicionar tags/notas de um paciente e precisa checar algo rapidamente em "Leads", ao voltar precisa buscar o
+paciente de novo. Não chega a ser um bug crítico (não há perda de dados já salvos, só do estado de UI/seleção
+em memória), mas é uma oportunidade de melhoria de UX (ex.: manter estado no componente pai `CrmPage`, ou
+usar `display:none` em vez de desmontar as abas inativas).
+
+Evidência: C70.png (aba Paciente 360 resetada após ida e volta).

@@ -1,0 +1,11 @@
+82. [GET] http://localhost:3001/crm/leads?status=CONTATADO => [200] OK
+83. [GET] http://localhost:3001/crm/leads?status=QUALIFICADO => [200] OK
+84. [GET] http://localhost:3001/crm/leads?status=CONVERTIDO => [200] OK
+85. [GET] http://localhost:3001/crm/leads?status=PERDIDO => [200] OK
+87. [GET] http://localhost:3001/crm/leads?status=NOVO => [401] Unauthorized
+171. [GET] http://localhost:3001/crm/leads?status=NOVO => [500] Internal Server Error
+183. [PATCH] http://localhost:3001/crm/leads/8ad02fce-e6a5-43f6-bebd-c4c2fe291ac4/status => [204] No Content
+185. [PATCH] http://localhost:3001/crm/leads/8ad02fce-e6a5-43f6-bebd-c4c2fe291ac4/status => [403] Forbidden
+186. [PATCH] http://localhost:3001/crm/leads/8ad02fce-e6a5-43f6-bebd-c4c2fe291ac4/status => [403] Forbidden
+
+Note: 151 static requests not shown, run with "static" option to see them.

@@ -1,0 +1,13 @@
+C66 — Não testável ao vivo: sem dados de faturamento no ambiente
+
+O payload real de GET /ia/kpis no ambiente de teste retornou "faturamentoMensal":[] (array vazio) — ver
+C62-payload.log. Como a seção "Faturamento Mensal" só é renderizada quando esse array tem pelo menos 1 item
+(comportamento confirmado em C62), a seção nunca apareceu na tela durante este QA, e não foi possível
+testar ao vivo o hover nas barras, a formatação de valores em R$ pt-BR, nem o comportamento de barras
+pequenas (<25% do máximo) mostrando o valor ao lado.
+
+Não foi criado nenhum agendamento com pagamento neste QA para gerar dados de faturamento, pois isso estava
+fora do escopo do teste de CRM (envolveria criar agendamentos e pagamentos completos em outras telas do
+sistema, um esforço desproporcional para um item de exibição). Recomenda-se reteste ao vivo se o ambiente
+ganhar dados de faturamento mensal futuramente, ou avaliação isolada com dados sintéticos inseridos
+diretamente no banco pela equipe de backend.

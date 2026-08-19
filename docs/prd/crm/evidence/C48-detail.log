@@ -1,0 +1,20 @@
+C48 — Aprovado (bloqueio de vazio) + Reprovado (aceita apenas espaços): validação de "Descrição" no
+Registrar Contato usa checagem falsy sem trim
+
+Parte 1 (vazio real, ""): confirmado que salvar com "Descrição" vazia não dispara nenhum POST
+/crm/paciente/{id}/contatos (ver C48.log/C48.png) — comportamento correto.
+
+Parte 2 (só espaços, "   "): preencher "Descrição" com 3 espaços e salvar CRIA o contato normalmente.
+POST /crm/paciente/{id}/contatos com body {"tipo":"LIGACAO","direcao":"SAIDA","descricao":"   "} respondeu
+201 Created (request #253), e o contato passou a aparecer na lista com o chip "LIGACAO"/"SAIDA" e nenhum
+texto de descrição visível (só espaços em branco) — ver C48-whitespace.png.
+
+Confirma exatamente a suspeita do test-plan: `salvarContato` checa apenas `!formContato.descricao` (falsy),
+que só bloqueia string vazia (""), mas não bloqueia string só de espaços (que é truthy em JS).
+
+Classificação: bug de front-end (falta de `.trim()` na validação de obrigatoriedade do campo Descrição em
+src/pages/CrmPage.tsx, função `salvarContato`). Permite registrar contatos sem conteúdo útil, poluindo o
+histórico do paciente.
+
+Evidência bruta: C48.png/C48.log (bloqueio correto do caso vazio), C48-whitespace.png/C48-whitespace.log
+(caso de só espaços sendo aceito indevidamente).

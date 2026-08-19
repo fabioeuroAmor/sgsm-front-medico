@@ -1,0 +1,22 @@
+C27 — Parcialmente reprovado (bug de front-end: estado do formulário não é limpo ao reabrir)
+
+Passo a passo para reproduzir:
+1. Clicar em "Novo Lead".
+2. Preencher o campo "Nome" com "QA CRM Lead Descartado Cancelar" (demais campos em branco).
+3. Clicar em "Cancelar". O modal fecha (confirmado, sem POST disparado — ver C27.log).
+4. Clicar em "Novo Lead" novamente para reabrir o modal.
+
+Resultado esperado (test-plan): "reabrir 'Novo Lead' depois mostra o formulário limpo novamente".
+
+Resultado observado: o modal reabre com o campo "Nome" AINDA preenchido com o valor digitado antes do
+cancelamento ("QA CRM Lead Descartado Cancelar") — ver C27.png. O estado do formulário não é resetado nem
+ao clicar em "Cancelar" nem ao fechar/reabrir o modal; só é limpo após um salvamento bem-sucedido (o
+componente aparentemente mantém o estado do formulário no componente pai, e o modal apenas
+monta/desmonta visualmente sem resetar esse estado).
+
+Classificação: bug de front-end (estado de formulário React não resetado on-cancel/on-close). Não é
+bloqueante (não corrompe dados, não dispara requisição indevida), mas é uma falha de UX que pode confundir
+o usuário (dados de uma tentativa anterior cancelada reaparecem em uma nova tentativa de cadastro).
+
+Evidência bruta: C27.png (modal reaberto mostrando "QA CRM Lead Descartado Cancelar" ainda no campo Nome),
+C27.log (nenhum POST /crm/leads disparado pelo Cancelar), C27-console.log.
