@@ -1,0 +1,9 @@
+224. [GET] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/tags => [200] OK
+227. [GET] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/tags => [403] Forbidden
+243. [GET] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/tags => [200] OK
+246. [POST] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/tags => [201] Created
+247. [GET] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/tags => [200] OK
+248. [POST] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/tags => [201] Created
+249. [GET] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/tags => [200] OK
+
+Note: 164 static requests not shown, run with "static" option to see them.

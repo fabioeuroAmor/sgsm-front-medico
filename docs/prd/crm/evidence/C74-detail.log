@@ -1,0 +1,21 @@
+C74 — Aprovado (sem vazamento técnico) + achado recorrente: erro 500 é mostrado como "Nenhum lead
+encontrado", indistinguível de lista genuinamente vazia
+
+Passo a passo: interceptar GET /crm/leads (sem query) para responder 500 com corpo
+{"detail":"Erro interno do servidor"}, e forçar remontagem da aba Leads (trocar para Paciente 360 e voltar).
+
+Resultado observado: nenhuma informação técnica crua (stack trace, JSON de erro bruto, código de status)
+foi exposta na tela — item aprovado quanto ao requisito específico do test-plan. Porém a mensagem exibida
+foi exatamente "Nenhum lead encontrado" (a mesma mensagem de C08/C13 para filtro sem resultados), idêntica
+ao estado de lista genuinamente vazia. Um toast de erro pode ter aparecido e desaparecido rapidamente (não
+capturado no momento do screenshot), mas não há nenhuma distinção visual persistente entre "não há leads"
+e "não foi possível carregar os leads por um erro". Mesmo padrão já observado em C59 (Risco de Churn) e
+C13-relacionado (estado vazio herdado de estado inicial ao falhar o primeiro fetch de uma aba recém-
+montada).
+
+Classificação: aprovado quanto ao critério literal do item (sem exposição de informação técnica), mas
+reforça um achado de qualidade transversal a várias telas do CRM: erros de carregamento tendem a colapsar
+para o mesmo estado visual de "lista vazia", potencialmente escondendo do usuário que houve uma falha real
+e não apenas ausência de dados.
+
+Evidência bruta: C74.png ("Nenhum lead encontrado" após 500), C74.log, C74-console.log.

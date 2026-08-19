@@ -1,0 +1,26 @@
+C50 — Reprovado: duração negativa é enviada ao backend sem validação no front-end, e o backend quebra com
+500 bruto em vez de rejeitar com validação limpa
+
+Passo a passo:
+1. Abrir "Registrar Contato" para o paciente de teste.
+2. Tipo=EMAIL, Direção=ENTRADA, Duração (segundos)=-30, Descrição="QA CRM contato email entrada duracao
+   negativa".
+3. Clicar em "Salvar".
+
+Resultado observado: o campo "Duração (segundos)" é `type="number"` sem atributo `min`, e o front-end não
+faz nenhuma validação client-side do valor antes de enviar — POST /crm/paciente/{id}/contatos com body
+{"tipo":"EMAIL","direcao":"ENTRADA","descricao":"...","duracaoSegundos":-30} (confirmado em C50.log). O
+backend respondeu 500 Internal Server Error com corpo genérico {"detail":"Erro interno. Tente novamente
+mais tarde.", "status":500, "title":"Erro interno", ...} — sugerindo uma exceção não tratada no servidor
+(provavelmente uma constraint de banco tipo CHECK duracao_segundos >= 0 estourando como erro 500 cru, em vez
+de o backend validar antes e devolver 400 com mensagem clara). O modal permaneceu aberto (não fechou), sem
+nenhum toast de erro visível capturado no momento da checagem (pode ter aparecido e desaparecido rápido,
+consistente com o padrão de timing curto de toast já observado em outros itens).
+
+Classificação: bug de front-end (ausência de validação client-side do campo Duração, permitindo enviar
+valores negativos) + bug/lacuna de backend (deveria validar e devolver 400 com mensagem clara, não deixar
+vazar um 500 genérico de "Erro interno" para um caso de validação de entrada previsível). O usuário final
+não recebe nenhuma explicação real do que deu errado.
+
+Evidência bruta: C50.png (modal ainda aberto após tentativa), C50.log (payload com duracaoSegundos: -30),
+C50-console.log.

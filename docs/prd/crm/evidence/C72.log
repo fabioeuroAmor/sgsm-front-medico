@@ -1,0 +1,8 @@
+80. [GET] http://localhost:3001/crm/leads => [200] OK
+81. [GET] http://localhost:3001/crm/leads => [200] OK
+82. [POST] http://localhost:3001/crm/leads => [201] Created
+83. [GET] http://localhost:3001/crm/leads => [200] OK
+88. [GET] http://localhost:3001/crm/leads => [200] OK
+89. [GET] http://localhost:3001/crm/leads => [200] OK
+
+Note: 78 static requests not shown, run with "static" option to see them.

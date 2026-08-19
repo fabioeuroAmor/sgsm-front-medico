@@ -1,0 +1,5 @@
+79. [GET] http://localhost:3001/crm/leads => [200] OK
+80. [GET] http://localhost:3001/crm/leads => [200] OK
+82. [GET] http://localhost:3001/crm/leads?status=CONTATADO => [200] OK
+
+Note: 75 static requests not shown, run with "static" option to see them.

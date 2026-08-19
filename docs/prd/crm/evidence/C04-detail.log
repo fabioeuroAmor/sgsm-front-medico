@@ -1,0 +1,32 @@
+C04 — Reprovado (mesmo bug crítico de C03, mas ainda mais grave: afeta usuário LOGADO)
+
+Passo a passo para reproduzir:
+1. Login com eduardasilva@gmail.com / joaozinh7.
+2. Navegar para /crm clicando no link "CRM" do menu lateral (navegação SPA — funciona normalmente, tela
+   carrega com a aba Leads e a tabela de leads).
+3. Pressionar F5 (ou page.reload()) com a sessão ativa, ainda em /crm.
+
+Resultado esperado (test-plan): mantém a sessão, mantém a aba Leads (padrão) e a lista de leads recarrega
+do zero (loading state visível).
+
+Resultado observado: o F5 dispara uma requisição de navegação de página inteira para /crm, que cai na MESMA
+colisão de proxy descrita em C03-detail.log (regra '/crm' -> http://localhost:8082 no vite.config.ts).
+O resultado é "net::ERR_HTTP_RESPONSE_CODE_FAILURE" / página de erro do Chrome "HTTP ERROR 403", mesmo com
+o usuário autenticado e com token válido no localStorage — porque a requisição de navegação do browser não
+carrega o Authorization header (isso só é injetado pelo axios em chamadas XHR feitas pelo JS da aplicação,
+que nunca chega a executar porque o HTML da SPA nem é servido).
+
+Ou seja: **qualquer F5 na tela /crm quebra a aplicação por completo**, tirando o usuário da tela e mostrando
+um erro de rede do navegador, não uma tela de erro da aplicação. Isso é mais grave que C03 porque afeta o
+fluxo normal de um usuário legítimo já logado, não só o cenário de sessão limpa.
+
+Console: 1 erro "[ERROR] Failed to load resource: the server responded with a status of 403 () @
+chrome-error://chromewebdata/:0" (C04-console.log).
+
+Classificação: bug de front-end (mesmo arquivo vite.config.ts) — crítico, bloqueia também C71 (F5 com modal
+aberto) e qualquer outro cenário de teste que dependa de reload de página inteira em /crm. Cenários de
+navegação puramente client-side (SPA: clicar em links, trocar abas dentro da tela, iniciar de /pacientes ou
+outra rota e navegar internamente para /crm) NÃO são afetados e continuam funcionando normalmente — o
+problema é específico a full page load/navigation com destino literal "/crm".
+
+Evidência bruta: C04.png, C04.log (network), C04-console.log.

@@ -1,0 +1,40 @@
+C04 — RETESTE (rodada 2) — Metodologia final: login (eduardasilva@gmail.com), navegação para /crm
+via clique no link "CRM" da sidebar (client-side, SPA, sem full reload — igual C02), depois UM reload
+real de página inteira via `location.reload()` (equivalente a F5; ver nota metodológica abaixo sobre
+por que não usei `page.keyboard.press('F5')`).
+
+Nota metodológica importante: `page.keyboard.press('F5')` via CDP NÃO disparou um reload real neste
+ambiente (confirmado: nenhuma nova requisição de rede após o "F5", nem mudança de referência de
+elementos no snapshot). Passei a usar `page.evaluate(() => location.reload())`, que é a forma
+correta/robusta de simular F5 em automação e de fato dispara um reload completo de página (confirmado
+por "Page Title: Loading http://localhost:3001/crm" durante o reload).
+
+Resultado do reload real:
+- Page URL após reload: http://localhost:3001/crm (mantido)
+- Page Title: "SGSM — Médico"
+- Console (nível debug, só desde o reload): 3 mensagens, ZERO erros (apenas vite HMR/React DevTools).
+- Network (requisições-chave, em ordem):
+  238. [POST] /v1/api/auth/refresh => 200 OK   (sessão renovada com sucesso)
+  240. [GET]  /v1/api/auth/me => 200 OK
+  241. [GET]  /crm/leads => 200 OK
+  242. [GET]  /crm/leads => 200 OK
+- Tela renderizou normalmente (print C04-retest.png): sidebar completa, hero "CRM", tabs, pílulas de
+  status, tabela de leads com os dados existentes.
+
+Nenhum erro bruto de navegador (net::ERR_HTTP_RESPONSE_CODE_FAILURE / "HTTP ERROR 403") — diferente da
+rodada 1 (evidence/C04.png / C04-detail.log), onde o mesmo cenário quebrava a aplicação inteira.
+
+Achado colateral (NÃO faz parte do escopo deste reteste, apenas registrado por transparência):
+Ao tentar um SEGUNDO reload completo em sequência rápida (por exemplo full navigate + F5 quase
+imediato, sem passar por navegação client-side no meio), o segundo `POST /v1/api/auth/refresh`
+retornou 401 "Refresh token revogado" (mesmo refreshToken do primeiro reload, reenviado porque
+`src/services/api.ts` (refreshAccessToken) só salva o novo accessToken em memória — nunca persiste um
+novo refresh_token no localStorage — então dois reloads completos consecutivos reusam o mesmo
+refresh_token, que o backend já rotacionou/revogou no primeiro uso). Isso reproduziu o auto-logout
+(redirect limpo para /login, sem erro bruto de navegador) e é a MESMA causa raiz do achado crítico #2
+já documentado na rodada 1 ("sessão expira sem recuperação automática") — não é uma regressão do fix
+de proxy do vite.config.ts, e não estava no escopo dos 9 itens deste reteste. Mantido como bloqueador
+crítico já conhecido no resumo final atualizado.
+
+Veredito C04: APROVADO. Um F5/reload real na tela /crm com sessão ativa mantém a sessão e recarrega a
+tela normalmente, sem o erro bruto de navegador da rodada 1.

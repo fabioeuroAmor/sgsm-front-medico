@@ -1,0 +1,37 @@
+C27 — RETESTE (rodada 2) — Reproduz o passo a passo original: com o modal "Novo Lead" aberto,
+preencher o campo "Nome" com "QA CRM Retest C27 Nao Deveria Persistir", clicar "Cancelar", reabrir
+"Novo Lead" e verificar se o campo "Nome" veio vazio (esperado, após a correção de reset do estado
+do formulário) ou ainda mostra o valor anterior (comportamento reprovado na rodada 1).
+
+Passos executados (via Playwright, clique disparado por dispatch de evento nativo no DOM porque o
+clique padrão do Playwright estava sofrendo timeout de "elemento estável" nesta sessão, provavelmente
+por uma animação/transição do botão flutuante "Assistente virtual" sobreposto):
+1. Login com eduardasilva@gmail.com / joaozinh7 -> OK.
+2. Navegação client-side para /crm (aba Leads ativa por padrão).
+3. Clique em "Novo Lead" -> modal abre com formulário em branco.
+4. input[placeholder="Ana Lima"] (campo Nome) preenchido com "QA CRM Retest C27 Nao Deveria Persistir".
+   Valor confirmado antes de cancelar: "QA CRM Retest C27 Nao Deveria Persistir".
+5. Clique em "Cancelar" -> modal fecha (confirmado: input desaparece do DOM).
+6. Clique em "Novo Lead" novamente -> modal reabre.
+7. Valor do campo "Nome" logo após reabrir: "" (STRING VAZIA).
+
+Resultado (JSON retornado pelo script de teste):
+{"valueBeforeCancel":"QA CRM Retest C27 Nao Deveria Persistir","modalGoneAfterCancel":true,"valueAfterReopen":""}
+
+Network requests (não-estáticas) no momento do teste — nenhuma chamada de POST /crm/leads foi
+disparada por esse fluxo (Cancelar não deveria e não persistiu nada):
+74. [POST] http://localhost:3001/v1/api/auth/refresh => [200] OK   (refresh de sessão, não relacionado)
+76. [GET]  http://localhost:3001/v1/api/auth/me => [200] OK
+77. [GET]  http://localhost:3001/crm/leads => [200] OK   (carga inicial da aba Leads)
+78. [GET]  http://localhost:3001/crm/leads => [200] OK   (segunda chamada, efeito de montagem)
+-> SEM nenhum POST /crm/leads disparado durante o fluxo de preencher+cancelar+reabrir, como esperado.
+
+Console (nível debug, desde a navegação):
+[DEBUG] [vite] connecting...
+[DEBUG] [vite] connected.
+[INFO] Download the React DevTools for a better development experience...
+-> Nenhum erro/warning no console durante o fluxo.
+
+Veredito: APROVADO (rodada 2). O formulário "Novo Lead" agora reseta corretamente ao cancelar — o
+campo "Nome" volta a ficar vazio na próxima abertura do modal, corrigindo o bug documentado em
+evidence/C27.png / qa-results.md (rodada 1).
