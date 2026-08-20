@@ -1,0 +1,45 @@
+RS013/RS021 — Reteste pós-correção — Item 1b: token real, usado uma vez com sucesso e depois
+reutilizado (usuário GENUINAMENTE anônimo em ambas as tentativas)
+==============================================================================================
+Data: 2026-08-20
+Token real obtido via fluxo real: POST /esqueci-senha (via UI, e-mail fabioeuro@gmail.com) + leitura
+somente-SELECT em auth.reset_senha_token via psql (nunca inserido/fabricado):
+  token = 21b9e006802a470089a3520900a22f08
+  criado_em = 2026-08-20 08:48:37 -03
+  expira_em = 2026-08-20 10:48:37 -03
+  usado (antes do teste) = f
+
+PRIMEIRO USO (deslogado, localStorage.clear() confirmado vazio antes de navegar):
+- Navegar para /resetar-senha?token=21b9e006802a470089a3520900a22f08
+- Preencher senha válida coincidente "TesteQA2026Reteste!" (>=8 caracteres) e submeter.
+- Rede: [POST] http://localhost:3001/v1/api/auth/resetar-senha => [204] No Content
+- UI: toast verde "Senha redefinida com sucesso!", navegação automática para /login (comportamento
+  ESPERADO em caso de sucesso — só o caso de ERRO é que não deve mais navegar).
+  Screenshot: RS021-retest2-primeiro-uso-sucesso.png
+- ATENÇÃO: este passo ALTERA de fato a senha real da conta fabioeuro@gmail.com para
+  "TesteQA2026Reteste!" — restauração documentada ao final da rodada 2 (ver
+  RS_restauracao_senha-retest2.txt).
+
+SEGUNDO USO / REUSO DO MESMO TOKEN (deslogado de novo — localStorage.clear() confirmado vazio):
+- Navegar de novo para /resetar-senha?token=21b9e006802a470089a3520900a22f08
+- Preencher senha válida coincidente diferente "OutraSenhaValida789!" e submeter.
+- Rede: [POST] http://localhost:3001/v1/api/auth/resetar-senha => [400] Bad Request
+- Corpo da resposta (response-body):
+  {"detail":"Este link já foi utilizado.","instance":"/v1/api/auth/resetar-senha","status":400,
+   "title":"Link de redefinição inválido","type":"https://sgsm.com.br/erros/token-reset-invalido"}
+- URL após o submit permaneceu em /resetar-senha?token=21b9e006802a470089a3520900a22f08 (SEM
+  navegação para /login).
+- Toast vermelho "Este link já foi utilizado." visível na tela.
+  Screenshot: RS021-retest2-reuso-token.png
+- Confirmado via banco (SELECT, somente leitura) que o token continua com usado=t (não houve
+  segunda gravação/uso indevido):
+    token=21b9e006802a470089a3520900a22f08 | usado=t
+
+ANTES da correção (RS021 original), o mesmo cenário de reuso com usuário anônimo produzia 401
+Unauthorized e redirecionamento silencioso para /login (mesma causa raiz do RS013, interceptor
+axios tratando 401 de negócio como sessão expirada). Agora o backend retorna 400 e o interceptor
+não intercepta mais essa resposta.
+
+CONCLUSÃO: correção confirmada também para o cenário de reuso de token. Usuário anônimo real vê o
+toast de erro correto ("Este link já foi utilizado.") sem redirecionamento silencioso, e a senha
+NÃO foi alterada pela segunda tentativa (banco confirma usado=t sem segunda escrita bem-sucedida).

@@ -1,0 +1,37 @@
+RS017 — Reteste pós-correção — Item 2b: bypass da UI via fetch() real direto ao backend, com
+token real e válido
+==============================================================================================
+Data: 2026-08-20
+
+Token real obtido via fluxo real: POST /esqueci-senha (via UI, e-mail fabioeuro@gmail.com) + leitura
+somente-SELECT em auth.reset_senha_token via psql:
+  token = 4ab1860d4f7b47bf8b495a7cdd3d3460
+  criado_em = 2026-08-20 08:50:46 -03
+  usado (antes do teste) = f
+
+Chamada real disparada via mcp__playwright__browser_evaluate (fetch() nativo do navegador, execução
+real no contexto da página carregada em localhost:3001, sem mock/interceptação):
+
+  await fetch('/v1/api/auth/resetar-senha', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token: '4ab1860d4f7b47bf8b495a7cdd3d3460', novaSenha: 'abc' })
+  })
+
+Resposta real (via res.status / res.text()):
+  status: 400
+  statusText: Bad Request
+  body: {"detail":"A senha deve ter no mínimo 8 caracteres.","instance":"/v1/api/auth/resetar-senha",
+         "status":400,"title":"Requisição inválida",
+         "type":"https://sgsm.com.br/erros/argumento-invalido"}
+
+Confirmação pós-chamada (SELECT, somente leitura) de que o token NÃO foi consumido pela tentativa
+rejeitada (a validação de tamanho de senha em ResetSenhaService.resetarSenha() roda ANTES da busca
+do token, então uma senha curta nunca chega a marcar o token como usado):
+  token=4ab1860d4f7b47bf8b495a7cdd3d3460 | usado=f
+
+CONCLUSÃO: correção do backend confirmada de forma independente da UI — mesmo contornando
+completamente o frontend (fetch direto, sem passar pela validação client-side de
+ResetarSenhaPage.tsx), o backend (ResetSenhaService.resetarSenha(), linhas 63-64) rejeita qualquer
+senha com menos de 8 caracteres com 400 Bad Request e IllegalArgumentException, mesmo com um token
+de reset genuinamente válido e não expirado.

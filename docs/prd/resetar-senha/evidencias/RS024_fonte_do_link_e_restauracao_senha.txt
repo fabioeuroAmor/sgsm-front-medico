@@ -1,0 +1,37 @@
+RS024 - Fluxo ponta a ponta e fonte do link de reset
+
+Fonte do link usado neste teste (documentado conforme pedido pelo item RS024):
+O ambiente de teste tem uma limitação real e conhecida de SMTP (SMTP_PASSWORD não configurado
+para o provedor mailersend.net usado por EmailService), documentada no topo do test-plan.md.
+O envio de e-mail é assíncrono (@Async) e não bloqueia a resposta HTTP da API, então
+POST /esqueci-senha responde 200 normalmente mas o e-mail nunca chega de fato. Por isso, o link
+real usado neste teste foi obtido consultando diretamente a tabela auth.reset_senha_token no
+Postgres local logo após a chamada real (via UI) a /esqueci-senha:
+  PGPASSWORD=postgres psql -h localhost -U postgres -d postgres -c
+    "SELECT t.token, t.usado, t.criado_em, t.expira_em FROM auth.reset_senha_token t
+     JOIN auth.usuario u ON u.id=t.usuario_id WHERE u.email='fabioeuro@gmail.com'
+     ORDER BY t.criado_em DESC LIMIT 1;"
+Isso não é mock: é a leitura do estado real que a própria chamada de API real já havia persistido.
+
+Fluxo executado (screenshots em ordem):
+1. RS024_01_login_para_esqueci_senha.png - a partir de /login, clique em "Esqueci minha senha"
+   navega para /esqueci-senha.
+2. RS024_02_email_enviado.png - e-mail fabioeuro@gmail.com submetido, tela "E-mail enviado!".
+3. Token real obtido via psql (bdaba89e279a4b1db3524db49faa8038, criado 2026-08-20 08:34:01-03).
+4. Navegação para /resetar-senha?token=bdaba89e279a4b1db3524db49faa8038 -> formulário exibido.
+5. RS024_03_reset_sucesso_toast.png - senha redefinida para "famor966" (a senha ORIGINAL da conta,
+   restaurando-a propositalmente neste mesmo passo - ver nota de restauração abaixo), POST retornou
+   204 No Content, redirecionado para /login.
+6. RS024_04_login_senha_restaurada_sucesso.png - login com e-mail fabioeuro@gmail.com e senha
+   famor966 retornou 200 OK e navegou para /pacientes (dentro do sistema), confirmando que a senha
+   foi realmente restaurada e o fluxo de ponta a ponta funciona.
+
+NOTA IMPORTANTE - RESTAURAÇÃO DA SENHA DA CONTA COMPARTILHADA:
+Durante a execução de RS017/RS018/RS019/RS020/RS021 a senha real da conta fabioeuro@gmail.com foi
+alterada várias vezes (para "1" em RS017, depois "NovaSenhaQA2026!" em RS018/RS019/RS020) como
+parte necessária dos testes reais de troca de senha (sem mock, a única forma de provar que a troca
+teve efeito é realmente trocando e fazendo login). Aproveitando o próprio fluxo de RS024, a
+ÚLTIMA redefinição de senha executada nesta QA (passo 5 acima) definiu a senha de volta para o
+valor ORIGINAL "famor966", e o login subsequente (passo 6) confirma com prova real (200 OK) que a
+conta está de volta ao estado original antes do início desta QA. Nenhuma etapa adicional de
+restauração é necessária após este ponto.

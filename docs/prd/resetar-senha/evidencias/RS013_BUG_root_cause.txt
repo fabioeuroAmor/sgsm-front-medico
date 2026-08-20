@@ -1,0 +1,69 @@
+RS013 - BUG CONFIRMADO (severidade ALTA)
+
+Cenário 1 (sessão com tokens de login residuais no localStorage, herdados de outra sessão de QA
+compartilhando o mesmo browser): submeter /resetar-senha com token inválido resulta em toast
+"Link inválido." visível, formulário permanece, SEM navegação para /login.
+  - Evidência: RS013_toast_token_invalido.png
+  - Network: 2 requisições POST /v1/api/auth/resetar-senha, ambas 401, com Authorization Bearer
+    diferentes entre a 1a e a 2a (a 2a usa um access token recém "refreshed").
+
+Cenário 2 (usuário REALMENTE anônimo/deslogado - localStorage.clear() executado antes do teste,
+que é o cenário real do fluxo "esqueci minha senha", já que quem usa essa tela por definição não
+consegue logar): submeter /resetar-senha com o MESMO token inválido resulta em REDIRECIONAMENTO
+SILENCIOSO para /login, sem exibir nenhum toast de erro.
+  - Evidência: RS013_BUG_redirect_login_anonimo.png (mostra a tela de /login, não a de erro)
+  - Network: 1 requisição POST /v1/api/auth/resetar-senha => 401, nenhuma segunda tentativa
+    (porque não há refresh_token no localStorage para tentar renovar).
+  - Console: nenhum erro logado (a navegação via window.location.href descarta o toast antes que
+    ele apareça).
+
+CAUSA RAIZ (confirmada por leitura de código, sem edição):
+
+1) Backend - C:\AmbienteDev\ms-sboot-auth\src\main\java\br\com\sgsm\auth\exception\GlobalExceptionHandler.java
+   linhas 21-24:
+     @ExceptionHandler(TokenInvalidoException.class)
+     public ResponseEntity<ProblemDetail> handleTokenInvalido(...) {
+         return problem(HttpStatus.UNAUTHORIZED, "token-invalido", ...);
+     }
+   -> Erros de NEGÓCIO ("token de reset inválido/expirado/já usado") são mapeados para HTTP 401,
+      o mesmo código usado para "sessão/access-token expirado".
+
+2) Frontend - C:\AmbienteDev\sgsm-front-medico-resetar-senha\src\services\api.ts linhas 43-67:
+     api.interceptors.response.use(
+       (res) => res,
+       async (err) => {
+         const originalRequest = err.config;
+         if (err.response?.status === 401 && !originalRequest._isRetry) {
+           originalRequest._isRetry = true;
+           try {
+             const accessToken = await refreshAccessToken();
+             ...
+             return api(originalRequest);
+           } catch {
+             tokenStore.clear();
+             localStorage.removeItem('refresh_token');
+             window.location.href = '/login';   // <-- REDIRECIONAMENTO GLOBAL AQUI
+             return Promise.reject(new Error('Sessão expirada. Faça login novamente.'));
+           }
+         }
+         ...
+       },
+     )
+   -> O interceptor axios global trata QUALQUER 401 (de qualquer chamada da aplicação, sem
+      distinguir endpoint) como "sessão expirada" e, se não conseguir renovar (o que é sempre o
+      caso para um usuário deslogado, pois refreshAccessToken() rejeita imediatamente quando não
+      há refresh_token no localStorage), força window.location.href = '/login', destruindo o
+      estado da SPA (incluindo o toast de erro) antes que o usuário veja a mensagem real
+      ("Link inválido.").
+
+IMPACTO: Este bug atinge RS013 e RS021 (reutilização de token, que também retorna 401 do backend).
+Qualquer usuário anônimo (o público-alvo real de "esqueci minha senha") que tentar redefinir a
+senha com um link inválido, expirado ou já usado é silenciosamente chutado para a tela de login,
+sem nenhuma explicação do que aconteceu — parece que o site simplesmente "voltou para o login" sem
+motivo aparente, uma experiência confusa e sem mensagem de erro.
+
+RECOMENDAÇÃO (não implementada nesta QA, apenas documentada): o backend deveria usar um status
+HTTP diferente de 401 para erros de token-de-reset-de-senha (ex.: 400 ou 410 Gone), OU o
+interceptor do frontend deveria excluir as rotas /esqueci-senha, /resetar-senha (e talvez
+/registrar, /login) do fluxo de refresh-and-redirect automático, tratando o 401 dessas rotas como
+um erro de negócio comum a ser exibido via toast.

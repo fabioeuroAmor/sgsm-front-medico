@@ -1,0 +1,23 @@
+#76 [POST] http://localhost:3001/v1/api/auth/esqueci-senha
+Body: naoexisteusuario999@teste.com (usuário NÃO cadastrado)
+
+  General
+    status:    [200] OK   <-- IDÊNTICO ao caso de e-mail existente (RS005, também 200)
+    duration:  7ms
+    type:      xhr
+
+  Response headers
+    content-length: 0     <-- corpo vazio, igual ao caso existente
+    cache-control: no-cache, no-store, max-age=0, must-revalidate
+    access-control-allow-origin: http://localhost:3001
+
+UI: tela mudou para "E-mail enviado!" -- IDÊNTICA à tela do e-mail existente.
+
+Confirmação via banco (prova de que a API não vaza a existência do e-mail):
+  SELECT count(*) FROM auth.usuario WHERE email='naoexisteusuario999@teste.com';  => 0 (usuário não existe)
+  SELECT ... FROM auth.reset_senha_token ...  => nenhum token novo criado para essa tentativa
+  (apenas os 2 tokens de fabioeuro@gmail.com, de testes RS005 e execução anterior)
+
+CONCLUSÃO: RS006 PASSOU. Backend responde 200 com corpo vazio tanto para e-mail
+existente quanto inexistente, e não persiste token para e-mail inexistente.
+Não há vulnerabilidade de enumeração de e-mail neste endpoint.

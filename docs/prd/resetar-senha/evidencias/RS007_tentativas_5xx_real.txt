@@ -1,0 +1,33 @@
+RS007 - Tentativa de reproduzir um erro 5xx REAL (sem mock) em POST /v1/api/auth/esqueci-senha
+
+Executado via fetch() real no browser (Playwright evaluate), contra o backend real ms-sboot-auth :8081
+(proxy /v1/api/auth), sem interceptação de rede nem simulação.
+
+Resultados:
+1) Body {} (sem campo email)              => 200, body vazio
+2) Body malformado ("{email: naoJSON")    => 400 Bad Request, {"detail":"Failed to read request",...}
+3) Body {"email": 12345} (número)         => 200, body vazio
+4) Body {"email": "aaa...(5000 chars)@teste.com"} => 200, body vazio
+5) Body {"email": null}                   => 200, body vazio
+
+Análise de causa raiz (leitura de código, sem edição):
+- AuthController.esqueciSenha() -> ResetSenhaService.solicitarReset(email)
+- solicitarReset() faz usuarioRepository.findByEmail(email).ifPresent(...) - se não encontrar
+  (incluindo email null/número/gigante que nunca vai bater), simplesmente não faz nada e retorna 200.
+- O envio de e-mail (EmailService, SMTP) é @Async e não bloqueia nem propaga exceção pra o controller,
+  então mesmo a falha conhecida de SMTP (SMTP_PASSWORD não configurado) não vira 5xx na resposta HTTP.
+- GlobalExceptionHandler.java só devolve 500 (erro-interno) para qualquer Exception não mapeada
+  explicitamente (linhas 41-45) - mas nenhuma das entradas acima chegou a lançar uma exceção não tratada
+  no fluxo síncrono do controller.
+
+CONCLUSÃO: RS007 fica BLOQUEADO / NÃO REPRODUZIDO. Não foi possível provocar um 5xx real no endpoint
+/esqueci-senha através de nenhuma entrada malformada testada (todas as variações testadas resultaram em
+200 ou 400, nunca 500). Não é possível forçar um 5xx sem: (a) mockar/interceptar a rede (proibido pelo
+enunciado - "sem mocks"), ou (b) derrubar o backend ms-sboot-auth ou o Postgres compartilhado, o que
+afetaria outros agentes de QA rodando em paralelo no mesmo ambiente (evidenciado por tráfego real de
+outra sessão em localhost:3010 observado durante esta execução). Por segurança do ambiente compartilhado,
+essa ação destrutiva não foi realizada.
+O toast de erro genérico ("Erro ao processar solicitação. Tente novamente.") existe no código
+(EsqueciSenhaPage.tsx linha 21, catch do authService.esqueciSenha) e seria exibido corretamente SE a
+API retornasse erro - isso foi confirmado por leitura de código, mas não pôde ser exercitado ao vivo
+contra um 5xx real dentro do escopo e das restrições desta QA.

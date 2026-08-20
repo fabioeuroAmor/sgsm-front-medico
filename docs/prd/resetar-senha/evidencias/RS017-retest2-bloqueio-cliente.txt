@@ -1,0 +1,22 @@
+RS017 — Reteste pós-correção — Item 2a: bloqueio client-side de senha curta via UI normal
+==============================================================================================
+Data: 2026-08-20
+
+Passos:
+1. Navegar para /resetar-senha?token=tokenParaRetestRS017 (token qualquer, só precisa estar
+   presente para renderizar o formulário — não chega a ser usado nesta etapa).
+2. Preencher "Nova senha" e "Confirmar nova senha" com "1" (1 caractere).
+3. Clicar em "Redefinir senha".
+
+Resultado observado:
+- Toast vermelho "A senha deve ter no mínimo 8 caracteres." exibido imediatamente (ver
+  RS017-retest2-bloqueio-cliente.png).
+- URL permaneceu em /resetar-senha?token=tokenParaRetestRS017 (sem navegação).
+- Rede: NENHUM novo POST para /v1/api/auth/resetar-senha foi disparado — a lista de requisições de
+  rede (mcp__playwright__browser_network_requests, filtro "resetar-senha") continuou mostrando como
+  última entrada a requisição #74, a mesma do teste anterior (RS021, reuso de token); nenhuma nova
+  entrada #75 apareceu após este clique. Confirma que a validação `novaSenha.length < 8` em
+  ResetarSenhaPage.tsx (linha 26) bloqueia a chamada à API antes mesmo dela ser disparada.
+
+CONCLUSÃO: correção do frontend confirmada — senha "1" é bloqueada no cliente, sem nenhuma
+chamada de rede.
