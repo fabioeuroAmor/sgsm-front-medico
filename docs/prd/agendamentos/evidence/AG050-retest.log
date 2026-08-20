@@ -1,0 +1,40 @@
+AG050 retest — double-booking (concorrencia real via fetch(), Promise.all)
+
+Ambiente: dev server http://localhost:3010 (worktree C:\AmbienteDev\sgsm-front-medico-agendamentos,
+branch qa/agendamentos, commit ab1ca6b), backend real sgsm :8080 (reiniciado com a correção em
+AgendamentoService.cadastrar()), sem mocks. Bearer token real extraido de uma requisicao legitima
+recem-feita pela propria aplicacao logada (fabioeuro@gmail.com, perfil MEDICO), disparado via
+fetch() no console do navegador (nao e mock — sao 2 requisicoes HTTP reais e simultaneas contra o
+backend real).
+
+Payload base (mesmo medico ff9a2400-2217-48fa-ac91-b81a4032f2db, mesmo servico
+9738ec83-5265-4aca-ba6a-4033f78dfe28 "Consulta de Rotina" ativo, mesmo estabelecimento
+655759aa-bf83-417e-a45b-b06258c4458f "Clinica São Lucas", mesmo horario exato
+2026-08-27T12:00:00Z, pacientes diferentes):
+
+  p1 = { pacienteId: "a0f80ea2-591c-4ea8-b365-a55498f55714" (Tereza Rossi), ... }
+  p2 = { pacienteId: "5c82c873-9a9d-49f9-ba2f-a986742cc5d2" (Zildinha Ruela), ... }
+
+Promise.all([POST(p1), POST(p2)]) — resultado:
+
+  r1: 201 Created
+    { "id":"b4425df0-9551-446b-84d4-1a32cde31f42", "pacienteNome":"Tereza Rossi",
+      "medicoNome":"Fabio Monteiro Amorim", "dataHoraInicio":"2026-08-27T12:00:00Z",
+      "dataHoraFim":"2026-08-27T12:30:00Z", "status":"PENDENTE", ... }
+
+  r2: 400 Bad Request
+    { "detail":"Horário indisponível: já existe agendamento para este médico neste período.",
+      "status":400, "title":"Requisição inválida",
+      "type":"https://sgsm.com.br/erros/argumento-invalido" }
+
+Resultado: apenas 1 dos 2 POSTs concorrentes retornou 201 (criou o agendamento). O outro foi
+corretamente rejeitado com 400 e a mensagem "Horário indisponível...", exatamente como esperado
+pela correção descrita em AgendamentoService.cadastrar() (revalidação de disponibilidade + lock por
+médico + saveAndFlush).
+
+Comparação com a rodada 1 (bug original): na rodada 1, o mesmo tipo de teste (2 POSTs concorrentes,
+mesmo médico/horário, pacientes diferentes) retornou 201 Created NOS DOIS, criando dois
+agendamentos sobrepostos (double-booking real). Agora, com o mesmo método de teste, só 1 dos 2
+retorna 201.
+
+Conclusão: AG050 CONFIRMADO CORRIGIDO.

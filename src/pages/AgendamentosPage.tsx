@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo, useRef } from 'react'
 import {
   CalendarClock, Plus, ChevronRight, ChevronLeft, XCircle, Clock, User,
   MapPin, Stethoscope, Building2, CalendarDays, CheckCircle2, Home, Truck,
-  CreditCard, Search,
+  CreditCard, Search, Video,
 } from 'lucide-react'
 import { useAgendamentos } from '@/hooks/useAgendamentos'
 import { pacienteService } from '@/services/pacienteService'
@@ -44,6 +44,13 @@ function formatTime(iso: string) {
 
 function formatBRL(v: number) {
   return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(v)
+}
+
+function hojeLocal() {
+  const d = new Date()
+  const mes = String(d.getMonth() + 1).padStart(2, '0')
+  const dia = String(d.getDate()).padStart(2, '0')
+  return `${d.getFullYear()}-${mes}-${dia}`
 }
 
 const STATUS_LABEL: Record<StatusAgendamento, string> = {
@@ -305,7 +312,8 @@ export function AgendamentosPage() {
 
   const pacientesFiltrados = todosOsPacientes.filter((p) => {
     const q = buscaPaciente.toLowerCase()
-    return p.nome.toLowerCase().includes(q) || p.cpf.includes(q) || p.cpf.replace(/\D/g, '').includes(q.replace(/\D/g, ''))
+    const qDigits = q.replace(/\D/g, '')
+    return p.nome.toLowerCase().includes(q) || (qDigits.length > 0 && p.cpf.replace(/\D/g, '').includes(qDigits))
   })
 
   const servicosFiltrados = todosOsServicos.filter((s) => {
@@ -468,11 +476,15 @@ export function AgendamentosPage() {
               <div className="space-y-1.5 text-sm text-foreground/70">
                 <div className="flex items-center gap-2"><Stethoscope size={13} className="text-muted-foreground shrink-0" /><span className="truncate">{a.medicoNome ?? '—'}</span></div>
                 <div className="flex items-center gap-2">
-                  {a.tipo === 'DOMICILIAR' ? <Home size={13} className="text-muted-foreground shrink-0" /> : <MapPin size={13} className="text-muted-foreground shrink-0" />}
+                  {a.tipo === 'DOMICILIAR' ? <Home size={13} className="text-muted-foreground shrink-0" />
+                    : a.tipo === 'TELEMEDICINA' ? <Video size={13} className="text-muted-foreground shrink-0" />
+                    : <MapPin size={13} className="text-muted-foreground shrink-0" />}
                   {a.tipo === 'DOMICILIAR' ? (
                     a.pacienteEndereco
                       ? <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(a.pacienteEndereco)}`} target="_blank" rel="noopener noreferrer" className="truncate hover:text-primary hover:underline transition-colors">Domiciliar — {a.pacienteEndereco}</a>
                       : <span className="text-muted-foreground italic">Domiciliar</span>
+                  ) : a.tipo === 'TELEMEDICINA' ? (
+                    <span className="truncate">{TIPO_LABEL.TELEMEDICINA}</span>
                   ) : a.estabelecimentoEndereco
                     ? <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(a.estabelecimentoEndereco)}`} target="_blank" rel="noopener noreferrer" className="truncate hover:text-primary hover:underline transition-colors">{a.estabelecimentoNome ?? '—'}</a>
                     : <span className="truncate">{a.estabelecimentoNome ?? TIPO_LABEL[a.tipo]}</span>}
@@ -609,7 +621,7 @@ export function AgendamentosPage() {
 
         {passo === 4 && (
           <div className="space-y-4">
-            <Input label="Data da consulta" type="date" value={dataSelecionada} min={new Date().toISOString().slice(0, 10)} onChange={(e) => setDataSelecionada(e.target.value)} />
+            <Input label="Data da consulta" type="date" value={dataSelecionada} min={hojeLocal()} onChange={(e) => setDataSelecionada(e.target.value)} />
             {dataSelecionada && (
               <div>
                 <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Horários disponíveis</p>
