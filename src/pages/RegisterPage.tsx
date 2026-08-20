@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { toast } from 'sonner'
 import { UserRound, Stethoscope, LogIn, Sparkles, UserCog } from 'lucide-react'
@@ -21,6 +21,7 @@ const UFS = ['AC','AL','AM','AP','BA','CE','DF','ES','GO','MA','MG','MS','MT','P
 export function RegisterPage() {
   const [tipo, setTipo] = useState<Tipo>('PACIENTE')
   const [loading, setLoading] = useState(false)
+  const enviandoRef = useRef(false)
   const navigate = useNavigate()
 
   // campos comuns
@@ -38,6 +39,17 @@ export function RegisterPage() {
   const [crm, setCrm] = useState('')
   const [crmUf, setCrmUf] = useState('SP')
   const [especialidade, setEspecialidade] = useState('')
+
+  function validarCPF(digits: string): boolean {
+    if (digits.length !== 11 || /^(\d)\1{10}$/.test(digits)) return false
+    const calc = (len: number) => {
+      let sum = 0
+      for (let i = 0; i < len; i++) sum += parseInt(digits[i]) * (len + 1 - i)
+      const r = (sum * 10) % 11
+      return r === 10 || r === 11 ? 0 : r
+    }
+    return calc(9) === parseInt(digits[9]) && calc(10) === parseInt(digits[10])
+  }
 
   function handleCpfChange(raw: string) {
     const digits = raw.replace(/\D/g, '').slice(0, 11)
@@ -60,9 +72,28 @@ export function RegisterPage() {
       toast.error('A senha deve ter no mínimo 8 caracteres.')
       return
     }
+    if (tipo === 'PACIENTE') {
+      if (!validarCPF(cpf)) {
+        toast.error('CPF inválido.')
+        return
+      }
+      if (dataNascimento && new Date(dataNascimento) > new Date()) {
+        toast.error('Data de nascimento não pode ser no futuro.')
+        return
+      }
+    }
+
+    if (enviandoRef.current) return
+    enviandoRef.current = true
 
     setLoading(true)
     try {
+      const disponivel = await authService.emailDisponivel(email)
+      if (!disponivel) {
+        toast.error('Este e-mail já está cadastrado. Faça login ou use outro e-mail.')
+        return
+      }
+
       let referenciaId: string | undefined
 
       if (tipo === 'MEDICO') {
@@ -81,6 +112,7 @@ export function RegisterPage() {
     } catch (err) {
       toast.error((err as Error).message)
     } finally {
+      enviandoRef.current = false
       setLoading(false)
     }
   }
