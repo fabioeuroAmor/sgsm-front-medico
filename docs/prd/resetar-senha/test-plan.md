@@ -1,11 +1,12 @@
 # Test Plan — Recuperação de Senha (`/esqueci-senha` → `/resetar-senha`)
 
 > URLs: `http://localhost:3001/esqueci-senha` e `http://localhost:3001/resetar-senha?token=...`
-> Backend: `sgsm-auth` `:8081` (via proxy `/v1/api/auth`) — sem mocks.
-> Conta de teste com e-mail conhecido: `fabioeuro@gmail.com`.
+> Backend real: `ms-sboot-auth` `:8081` (via proxy `/v1/api/auth`) — este é o serviço de autenticação de verdade (não confundir com o repositório `sgsm-auth`, que é outro projeto não utilizado). Sem mocks.
+> Conta de teste com e-mail conhecido: `fabioeuro@gmail.com` / `famor966`.
 
-> **BLOQUEADOR CONHECIDO, LER ANTES DE EXECUTAR**: em 2026-08-20, o backend `sgsm-auth` que estava rodando na porta 8081 respondia `200`/`500` para `POST /v1/api/auth/esqueci-senha` e `/v1/api/auth/resetar-senha`, mas **nenhuma dessas rotas existe no código-fonte do repositório `sgsm-auth`** (branch `develop`, nem em nenhuma outra branch/commit do histórico) — só existem `/registrar`, `/login`, `/refresh`, `/logout`, `/me` em `AuthController.java`. Ou seja, o processo que estava rodando não correspondia ao código no disco. Decisão tomada com o usuário: reiniciar o backend a partir do `develop` atual antes de executar este plano. **Se após o restart as rotas voltarem 404, isso confirma que a funcionalidade de recuperação de senha não está implementada no backend** — nesse caso, todos os itens que dependem de chamada real à API devem ser marcados como reprovados/bloqueados com causa raiz "endpoint inexistente no backend", não deve ser inventado nenhum comportamento.
-> Executado em: (preencher na execução, incluindo se o backend estava rodando a partir do código-fonte confirmado)
+> **ATUALIZAÇÃO (resolvida)**: a feature de recuperação de senha EXISTE de verdade em `ms-sboot-auth` (`AuthController.java` → `ResetSenhaService.java`, rotas `/esqueci-senha`, `/resetar-senha`, `/alterar-senha`). O 500 inicial era causado por uma migration nunca aplicada (`db/V4__reset_senha_token.sql`, tabela `auth.reset_senha_token` não existia no Postgres) — já aplicada manualmente, confirmado que `POST /esqueci-senha` agora responde `200` e persiste um token real na tabela.
+> **Limitação real que PERMANECE**: o envio de e-mail em si (`EmailService`, via SMTP `mailersend.net`) falha com `AuthenticationFailedException` porque a variável `SMTP_PASSWORD` não está configurada nesta sessão — isso é assíncrono (`@Async`) e não bloqueia a resposta da API, só o e-mail nunca chega de verdade. Para obter um token real sem inventar nada: consulte diretamente a tabela `auth.reset_senha_token` no Postgres local (usuário `postgres`/`postgres`, `psql -h localhost -U postgres -d postgres -c "SELECT token FROM auth.reset_senha_token ORDER BY criado_em DESC LIMIT 1;"`, executável de `C:\Program Files\PostgreSQL\18\bin\psql.exe`) logo após chamar `/esqueci-senha` — isso é inspecionar estado real persistido pela própria chamada de API real, não é mock. Documente essa limitação de SMTP como bloqueio real (não simule o envio nem invente confirmação de recebimento de e-mail).
+> Executado em: (preencher na execução)
 
 ---
 
