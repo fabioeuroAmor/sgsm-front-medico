@@ -1,0 +1,8 @@
+79. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+81. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+82. [POST] http://localhost:3001/v1/api/funcionarios => [201] Created
+83. [POST] http://localhost:3001/v1/api/funcionarios => [201] Created
+84. [PUT] http://localhost:3001/v1/api/funcionarios/e80c6e3f-a72b-46af-96b7-7a291df485c2 => [200] OK
+85. [DELETE] http://localhost:3001/v1/api/funcionarios/e80c6e3f-a72b-46af-96b7-7a291df485c2 => [204] No Content
+
+Note: 75 static requests not shown, run with "static" option to see them.

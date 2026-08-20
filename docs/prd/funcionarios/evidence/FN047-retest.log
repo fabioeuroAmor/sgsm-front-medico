@@ -1,0 +1,34 @@
+FN047 — RETESTE (pós-correção) — duplo submit sem guard síncrono
+Data: 2026-08-20
+Ambiente: app real http://localhost:3001, front-end reflete o código atual de FuncionariosPage.tsx
+(guard síncrono `salvandoRef` = useRef(false), linhas 99, 196-197, 216).
+
+Repro usada (mesma da rodada 1): abrir "Novo Funcionário", preencher formulário válido (Nome "QA Retest
+FN047", CPF novo 257.148.396-09, Cargo "Auxiliar QA Retest FN047", E-mail "qafn047retest@test.com",
+Estabelecimento "Clinica São Lucas") e, via `browser_run_code_unsafe` (Playwright), chamar duas vezes
+`el.click()` no botão Salvar na mesma tick de JavaScript, sem aguardar re-render entre as chamadas:
+
+  const btn = page.getByRole('button', { name: 'Salvar' });
+  await btn.evaluate((el) => { el.click(); el.click(); });
+
+Requisições de rede capturadas (listener em `page.on('request', ...)` filtrando
+POST /v1/api/funcionarios) durante essa ação:
+
+[
+  {
+    "url": "http://localhost:3001/v1/api/funcionarios",
+    "method": "POST",
+    "postData": "{\"nome\":\"QA Retest FN047\",\"cpf\":\"257.148.396-09\",\"email\":\"qafn047retest@test.com\",\"telefone\":\"\",\"cargo\":\"Auxiliar QA Retest FN047\",\"estabelecimentoId\":\"655759aa-bf83-417e-a45b-b06258c4458f\"}"
+  }
+]
+
+Apenas 1 (um) POST foi disparado, apesar das duas chamadas síncronas de `.click()`. Confirmado também via
+`browser_network_requests` (única entrada nova: #83, POST -> 201 Created) e via a listagem, que mostra
+apenas 1 card "QA Retest FN047" (nenhum duplicado).
+
+Resposta do POST único:
+Status: 201 Created
+
+Resultado: CORRIGIDO. O guard síncrono `salvandoRef` em `salvar()` (FuncionariosPage.tsx) bloqueia a
+segunda chamada antes mesmo do primeiro `await`, então duas invocações de `click()` na mesma tick agora
+resultam em apenas 1 requisição de rede, não mais 2.
