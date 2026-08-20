@@ -127,7 +127,7 @@ def add_table(headers, rows, col_widths=None, accent="1a56db"):
 
 # ── Capa ──────────────────────────────────────────────────────────────────────
 title("Cobertura de QA Funcional — Front-end")
-subtitle("sgsm-front-medico  ·  Skill executa-testes-funcionais-qa-front-end  ·  19/08/2026")
+subtitle("sgsm-front-medico  ·  Skill executa-testes-funcionais-qa-front-end  ·  atualizado em 20/08/2026")
 
 body(
     "Este relatório consolida quais telas do sistema já passaram por execução de QA funcional "
@@ -136,8 +136,15 @@ body(
     "no repositório sgsm-front-medico e as branches qa/* existentes no remoto até a data acima."
 )
 
+note(
+    "Atualização de 20/08/2026: mais 4 telas passaram por QA funcional completa desde a versão "
+    "anterior deste relatório (Funcionários, Agendamentos, Esqueci/Resetar Senha, Registrar) — "
+    "15 bugs novos encontrados e corrigidos, todos retestados ao vivo e mergeados em develop.",
+    color="15803d",
+)
+
 # ── Casos de uso testados ───────────────────────────────────────────────────────
-heading1("Casos de uso testados")
+heading1("Casos de uso testados (9 telas)")
 
 add_table(
     ["Página / Rota", "Branch(es)", "Casos executados", "Resultado", "PR"],
@@ -153,25 +160,32 @@ add_table(
         ["/servicos", "qa/servico-medico",
          "65 (61 aprovados, 3 bloqueados\npor limitação de ambiente,\n1 falha conhecida fora de escopo)",
          "Aprovado", "#19 (mergiado)"],
+        ["/funcionarios", "qa/funcionarios",
+         "70 (65 aprovados, 1 parcial,\n4 bloqueados por falta\nde credencial)",
+         "Aprovado, 5 bugs\ncorrigidos", "front #20 + sgsm #14\n(mergiados)"],
+        ["/agendamentos", "qa/agendamentos",
+         "75 (62 aprovados, 2 parciais,\n5 bloqueados por limitação\nde ambiente)",
+         "Aprovado, 6 bugs\ncorrigidos", "front #21 + sgsm #15\n(mergiados)"],
+        ["/esqueci-senha\n/resetar-senha", "qa/resetar-senha",
+         "26 (22 aprovados, 1 parcial,\n1 bloqueado, 1 não-testável\npor escopo de tempo)",
+         "Aprovado, 2 bugs\ncorrigidos", "front #22 + ms-sboot-auth #8\n(mergiados)"],
+        ["/registrar", "qa/registrar",
+         "35 (30 aprovados, 4 bugs\ncorrigidos, 1 hipótese\nrefutada por evidência)",
+         "Aprovado, 4 bugs\ncorrigidos", "front #23 + sgsm #16\n+ ms-sboot-auth #9\n(mergiados)"],
     ],
-    col_widths=[3.2, 3.3, 4.3, 3.0, 3.2],
+    col_widths=[2.8, 3.0, 4.3, 3.0, 3.9],
 )
 note("* qa/pacientes-validacao não corresponde a uma branch remota própria; o test-plan de validação de campos foi executado e documentado dentro do histórico que resultou na branch qa/pacientes-regressao.")
 
 # ── Casos de uso faltando ────────────────────────────────────────────────────────
-heading1("Casos de uso faltando")
+heading1("Casos de uso faltando (4 telas)")
 
 add_table(
     ["Página / Rota", "Componente", "Observação"],
     [
         ["/", "HomePage", "Dashboard inicial — sem QA funcional registrada"],
         ["/world", "WorldPage", "Landing/apresentação — sem QA funcional registrada"],
-        ["/login", "LoginPage", "Porta de entrada do sistema — nunca testada"],
-        ["/registrar", "RegisterPage", "Fluxo de autocadastro — nunca testado"],
-        ["/esqueci-senha", "EsqueciSenhaPage", "Fluxo de recuperação de senha — nunca testado"],
-        ["/resetar-senha", "ResetarSenhaPage", "Fluxo de recuperação de senha — nunca testado"],
-        ["/agendamentos", "AgendamentosPage", "Agenda médica, horários e conflitos — sem cobertura"],
-        ["/funcionarios", "FuncionariosPage", "Sem cobertura"],
+        ["/login", "LoginPage", "Porta de entrada do sistema — nunca testada; agora é o maior risco, já que /registrar e /resetar-senha (fluxos vizinhos) já foram cobertos"],
         ["/ia", "IaPage", "Integração com sgsm-ia — sem cobertura"],
     ],
     col_widths=[3.4, 3.6, 10.0],
@@ -205,14 +219,43 @@ add_table(
 )
 note("Conclusão: nenhuma pendência de backend restante do qa/medicos.", color="15803d")
 
+# ── Bugs encontrados nas QAs de Funcionários, Agendamentos, Resetar Senha e Registrar ──
+heading1("Bugs encontrados e corrigidos — rodada de 20/08/2026")
+
+body(
+    "Os 15 bugs abaixo foram encontrados nas 4 QAs mais recentes, todos corrigidos, retestados "
+    "ao vivo com evidência fresca confirmando a correção, e mergeados em develop nos repositórios "
+    "correspondentes (ver relatorio-prs-pendentes-2026-08-20.docx para o detalhe de cada PR)."
+)
+
+add_table(
+    ["Módulo", "Bugs", "Achado de maior severidade", "Repositório(s) corrigido(s)"],
+    [
+        ["Funcionários", "5",
+         "E-mail duplicado aceito no cadastro (sem checagem\nde unicidade, ao contrário da edição)",
+         "sgsm + sgsm-front-medico"],
+        ["Agendamentos", "6",
+         "Double-booking: dois agendamentos concorrentes\npara o mesmo médico/horário eram ambos aceitos",
+         "sgsm + sgsm-front-medico"],
+        ["Resetar Senha", "2",
+         "Token de reset inválido/expirado retornava 401,\nconfundido pelo interceptor com sessão expirada\ne redirecionando o usuário anônimo para /login\nsem mostrar o erro real",
+         "ms-sboot-auth + sgsm-front-medico"],
+        ["Registrar", "4",
+         "Cadastro de médico/paciente ficava órfão (sem\nconta de login) quando o e-mail já estava em uso\npor outro perfil",
+         "sgsm + ms-sboot-auth + sgsm-front-medico"],
+    ],
+    col_widths=[3.0, 1.5, 8.5, 4.0],
+)
+note("Total: 15 bugs encontrados e corrigidos nesta rodada, mais os 5 já corrigidos do qa/medicos (seção anterior) — 20 bugs de backend/front-end corrigidos ao longo de todo o ciclo de QA funcional.", color="15803d")
+
 # ── Observações e recomendações ─────────────────────────────────────────────────
 heading1("Observações e recomendações")
 
-bullet("O fluxo completo de autenticação (login, registro, esqueci/resetar senha) nunca passou por QA funcional dedicada — é o maior risco identificado, por ser a porta de entrada de todo o sistema.")
-bullet("Agendamentos é provavelmente o módulo mais crítico ainda sem cobertura, por envolver agenda médica, horários e conflitos de marcação.")
-bullet("qa/servico-medico foi mergiada na develop (PR #19) — os 5 módulos com QA funcional executada (Pacientes, Médicos, Estabelecimentos, CRM, Serviços) estão todos na develop.")
-bullet("A tela de Médicos (qa/medicos) foi mergiada diretamente na develop, sem passar por Pull Request no GitHub — fora do padrão observado nas demais QAs.")
+bullet("Restam apenas 4 telas sem QA funcional: HomePage, WorldPage, LoginPage e IaPage. LoginPage é agora o maior risco isolado, por ser a porta de entrada do sistema — os fluxos vizinhos (/registrar, /esqueci-senha, /resetar-senha) já foram cobertos nesta rodada.")
+bullet("Das 9 telas já testadas, todas as correções de bug identificadas foram aplicadas e mergeadas em develop — não há PR pendente de nenhuma das QAs concluídas até o momento deste relatório.")
+bullet("A tela de Médicos (qa/medicos) continua sendo a única mergeada diretamente em develop sem passar por Pull Request no GitHub — fora do padrão observado em todas as demais QAs, incluindo as 4 mais recentes.")
 bullet("Os bugs de backend do qa/medicos (M15, M16, M18, M55, M54) já foram todos corrigidos e mergiados — ver seção dedicada acima. O achado de Serviços (limpar Duração em edição não persiste) segue como limitação conhecida e deliberadamente não corrigida, por ser convenção global do backend (ModelMapper Conditions.isNotNull()) que afeta todos os endpoints de update do sistema, não só Serviços.")
+bullet("A instalação e autenticação do GitHub CLI (gh) nesta sessão permitiu abrir e mergear os 9 PRs da rodada de 20/08 diretamente por linha de comando — ver relatorio-prs-pendentes-2026-08-20.docx para o detalhe completo do processo.")
 
 p = doc.add_paragraph()
 p.paragraph_format.space_before = Pt(24)
