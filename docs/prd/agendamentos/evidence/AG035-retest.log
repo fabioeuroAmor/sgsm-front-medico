@@ -1,0 +1,51 @@
+AG035 retest — min do input de data (Passo 4 do wizard)
+
+Ambiente: http://localhost:3010 (dev server iniciado a partir do worktree
+C:\AmbienteDev\sgsm-front-medico-agendamentos, branch qa/agendamentos, que contém o commit
+ab1ca6b "fix(agendamentos): corrige 3 bugs achados em QA funcional"), backends reais sgsm :8080 /
+sgsm-auth :8081, sem mocks.
+
+Horário real do sistema no momento do teste: Thu Aug 20 2026 01:15:52 GMT-0300 (Horário Padrão de
+Brasília) — new Date().toString() executado ao vivo no console do navegador.
+
+Verificação ao vivo (browser_evaluate):
+  document.querySelector('input[type="date"]').min
+  => "2026-08-20"
+  (data local real no momento = 2026-08-20, Thursday)
+
+Resultado: min bate com a data local de hoje, não com a de amanhã.
+
+Limitação importante e como foi coberta:
+O bug original (AG035) só é observável na janela das ~21h-23:59 hora local, quando
+`new Date().toISOString()` (UTC) já aponta para o dia seguinte por causa do fuso America/Sao_Paulo
+(UTC-3). O horário real de execução deste reteste (01:15 da madrugada) está FORA dessa janela — o
+dia UTC e o dia local já coincidem nesse horário, então a checagem ao vivo sozinha não seria
+suficiente para distinguir código corrigido de código com bug (ambos dariam o mesmo resultado
+"2026-08-20" agora).
+
+Por isso, o reteste combina a checagem ao vivo acima com leitura do código-fonte da correção,
+confirmando que a implementação elimina estruturalmente a dependência de UTC (não é um patch
+pontual só para a janela de risco):
+
+  C:\AmbienteDev\sgsm-front-medico-agendamentos\src\pages\AgendamentosPage.tsx, linhas 49-54:
+
+  function hojeLocal() {
+    const d = new Date()
+    const mes = String(d.getMonth() + 1).padStart(2, '0')
+    const dia = String(d.getDate()).padStart(2, '0')
+    return `${d.getFullYear()}-${mes}-${dia}`
+  }
+
+  linha 624: min={hojeLocal()}
+
+`hojeLocal()` usa exclusivamente getters de componentes locais do Date (getFullYear/getMonth/
+getDate) — nunca chama toISOString() nem qualquer conversão para UTC. Isso é matematicamente
+correto para qualquer hora do dia, incluindo a janela de risco original (21h-23:59), porque o
+cálculo nunca depende do fuso UTC. Comparar com o código antigo (ainda presente no checkout
+principal C:\AmbienteDev\sgsm-front-medico\src\pages\AgendamentosPage.tsx, branch qa/funcionarios,
+NÃO tem esse fix): `min={new Date().toISOString().slice(0, 10)}` — esse sim depende de UTC e
+reproduz o bug na janela de risco.
+
+Conclusão: AG035 CONFIRMADO CORRIGIDO — verificação ao vivo (min = hoje local, 2026-08-20) +
+verificação estrutural do código-fonte (fix elimina a causa raiz para qualquer horário, não so
+para o instante testado).
