@@ -1,0 +1,37 @@
+79. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+81. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+82. [POST] http://localhost:3001/v1/api/funcionarios => [400] Bad Request
+83. [POST] http://localhost:3001/v1/api/funcionarios => [201] Created
+84. [POST] http://localhost:3001/v1/api/funcionarios => [201] Created
+85. [POST] http://localhost:3001/v1/api/funcionarios => [201] Created
+86. [POST] http://localhost:3001/v1/api/funcionarios => [201] Created
+87. [POST] http://localhost:3001/v1/api/funcionarios => [400] Bad Request
+
+Note: 75 static requests not shown, run with "static" option to see them.
+
+=== Teste 1: dblclick nativo do Playwright (evento de mouse real, requisicao #85) ===
+page.getByRole('button', { name: 'Salvar' }).dblclick() em formulario valido (QA Duplo Clique FN047, CPF 321.654.987-91)
+Resultado: APENAS 1 POST /v1/api/funcionarios (#85, 201 Created).
+Motivo: o intervalo real entre os dois eventos de clique (mesmo dblclick rapido do Playwright) foi suficiente para o
+React re-renderizar o botao com disabled=true (via setSalvando(true), sincrono antes do await) antes do segundo
+clique chegar. Um <button disabled> nao dispara evento click no DOM, entao o segundo clique do dblclick nao
+chegou a invocar salvar() de novo.
+
+=== Teste 2: duplo clique sincrono via JS (2x button.click() na mesma tick, sem esperar o React re-renderizar) ===
+Formulario valido: QA Duplo Clique Sync, CPF 159.357.246-85, email qafn047sync@test.com
+Codigo executado: salvar.click(); salvar.click();  (nenhum await entre as duas chamadas)
+Resultado: DOIS POSTs /v1/api/funcionarios disparados:
+  #86 -> 201 Created (corpo: {"id":"1a624782-836c-45c4-8dc7-b6668b3d569a","nome":"QA Duplo Clique Sync","cpf":"159.357.246-85","email":"qafn047sync@test.com",...})
+  #87 -> 400 Bad Request (corpo: {"detail":"CPF já cadastrado: 159.357.246-85","instance":"/v1/api/funcionarios","status":400,...})
+
+CONCLUSAO (BUG CONFIRMADO): a funcao salvar() em FuncionariosPage.tsx (linha 155) NAO tem nenhum guard sincrono
+(tipo useRef) contra chamadas concorrentes/duplicadas, diferente do padrao ja corrigido em outras telas do
+sistema (ex.: Medicos, M24, que usa um guard via useRef antes mesmo do primeiro re-render). O unico mecanismo de
+protecao e o estado assincrono `salvando` (setSalvando(true) + disabled={salvando}), que so tem efeito depois que
+o React processa o re-render — o que normalmente acontece a tempo de bloquear um segundo clique fisico real do
+usuario (Teste 1), mas NAO bloqueia duas invocacoes sincronas da funcao no mesmo ciclo de eventos (Teste 2, que
+simula por exemplo um duplo-clique extremamente rapido, um evento disparado por script, ou uma race condition
+de teclado+mouse). Como o CPF tem constraint de unicidade no backend (FuncionarioService.existsByCpf), a segunda
+chamada foi rejeitada com 400 nesse teste especifico — mas se o duplo-clique ocorrer com um formulario cujo unico
+campo predisposto a colisao seja o e-mail (que NAO tem checagem de unicidade no cadastro, ver bug FN034), as DUAS
+requisicoes teriam sucesso, criando dois funcionarios duplicados.

@@ -1,0 +1,25 @@
+78. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+80. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+160. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+162. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+239. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+241. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+319. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+321. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+399. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+401. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+479. [GET] http://localhost:3001/v1/api/funcionarios
+481. [GET] http://localhost:3001/v1/api/funcionarios
+559. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+561. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+563. [GET] http://localhost:3001/v1/api/funcionarios?estabelecimentoId=655759aa-bf83-417e-a45b-b06258c4458f => [200] OK
+564. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+565. [GET] http://localhost:3001/v1/api/funcionarios?ativo=true => [200] OK
+566. [GET] http://localhost:3001/v1/api/funcionarios?ativo=false => [200] OK
+567. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+568. [GET] http://localhost:3001/v1/api/funcionarios?estabelecimentoId=655759aa-bf83-417e-a45b-b06258c4458f => [200] OK
+569. [GET] http://localhost:3001/v1/api/funcionarios?estabelecimentoId=655759aa-bf83-417e-a45b-b06258c4458f&ativo=true => [200] OK
+570. [GET] http://localhost:3001/v1/api/funcionarios?ativo=true => [200] OK
+571. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+
+Note: 520 static requests not shown, run with "static" option to see them.

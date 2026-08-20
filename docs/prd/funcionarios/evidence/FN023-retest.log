@@ -1,0 +1,21 @@
+FN023 — RETESTE (pós-correção) — nome só com espaços em branco
+Data: 2026-08-20
+Ambiente: app real http://localhost:3001, front-end reflete o código atual de FuncionariosPage.tsx
+(validação em `salvar()` usando `form.nome.trim()` / `form.cargo.trim()`, linha 164).
+
+Ação: "Novo Funcionário" -> Nome "   " (três espaços), CPF válido novo (904.382.571-97), Cargo "Auxiliar
+QA Retest FN023", E-mail "qafn023retest@test.com", Estabelecimento "Clinica São Lucas" -> Salvar.
+
+Resultado observado na UI: mensagem "Preencha todos os campos obrigatórios." exibida no topo do modal
+(formError). Modal permanece aberto, dados preservados.
+
+Rede: nenhum novo POST /v1/api/funcionarios disparado por essa ação (browser_network_requests filtrado
+por "funcionarios" mostra só o POST anterior do teste FN034, índice #82, nenhum novo request após o
+clique em Salvar deste teste).
+
+Console: nenhum novo erro de console gerado por esta ação (contagem de erros do navegador permaneceu
+em 1, o mesmo erro 400 já registrado pelo teste FN034 anterior).
+
+Resultado: CORRIGIDO. Nome preenchido só com espaços é bloqueado no cadastro (`form.nome.trim()` vazio
+cai na validação de campos obrigatórios), igual ao comportamento de nome vazio (FN022). Nenhum funcionário
+com nome em branco foi criado.
