@@ -1,0 +1,23 @@
+#79 [POST] http://localhost:3001/v1/api/auth/esqueci-senha
+Email enviado (body): fabioeuro@gmail.com
+
+  General
+    status:    [200] OK
+    duration:  12ms
+    type:      xhr
+
+  Response headers
+    cache-control: no-cache, no-store, max-age=0, must-revalidate
+    pragma: no-cache
+    connection: close
+    x-content-type-options: nosniff
+    expires: 0
+    access-control-allow-origin: http://localhost:3001
+    content-length: 0
+    x-xss-protection: 0
+    date: Thu, 20 Aug 2026 04:31:51 GMT
+    vary: Origin
+    x-frame-options: DENY
+
+UI: tela mudou para "E-mail enviado!" com texto "Se este e-mail estiver cadastrado, você receberá as instruções
+para redefinir sua senha. O link expira em 2 horas."

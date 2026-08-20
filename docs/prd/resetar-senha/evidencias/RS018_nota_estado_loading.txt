@@ -1,0 +1,36 @@
+RS018 - Nota sobre limitação de captura do estado "Salvando..."
+
+Tentativas reais feitas (sem mock) para capturar visualmente o texto "Salvando..." e o atributo
+disabled do botão durante a chamada de POST /v1/api/auth/resetar-senha:
+
+1) Screenshot imediatamente após o clique (mesmo bloco de chamadas do MCP) -> a navegação para
+   /login já havia ocorrido no momento da captura (requisição local completou em 6-30ms nas
+   medições de RS013/RS017).
+2) Hook de atraso artificial no XMLHttpRequest (delay de 2500ms na resolução do callback
+   onreadystatechange/addEventListener('load'), instalado via window.XMLHttpRequest override antes
+   do submit) -> mesmo assim a navegação para /login já havia ocorrido quando o resultado do clique
+   retornou pela ferramenta Playwright MCP. A requisição de rede real (Network log) mostrou
+   duration: 263ms, ou seja, o hook não conseguiu atrasar o instante em que a Promise do
+   axios/XHR é resolvida do ponto de vista observável pela ferramenta.
+
+CONCLUSÃO: neste ambiente local (frontend Vite dev server + backend Spring Boot local + Postgres
+local, tudo em localhost), o ciclo completo de clique -> POST -> resposta -> toast -> navigate()
+ocorre em uma janela de tempo menor do que a latência de round-trip da própria ferramenta de
+automação, tornando impraticável capturar um screenshot cru do estado transitório "Salvando..."
+com as ferramentas disponíveis nesta QA.
+
+Evidência indireta (real, não mockada) de que o estado de loading está implementado corretamente:
+- Leitura de código: ResetarSenhaPage.tsx linha 92 - <Button type="submit" disabled={loading}> e
+  linha 93 - {loading ? 'Salvando...' : 'Redefinir senha'}. O mesmo padrão (variável de estado
+  React `loading`, setada true antes do await e false no finally) já foi usado com sucesso e
+  observável no fluxo de /esqueci-senha, cujo texto "Enviando..." também não foi capturável ao
+  vivo pelo mesmo motivo de velocidade, mas cuja implementação idêntica está confirmada no código
+  fonte (EsqueciSenhaPage.tsx linhas 70-72).
+- Prova real de que o clique de fato disparou a chamada e o botão funcionou fim-a-fim: rede real
+  (200/204), toast de sucesso capturado com print (RS019_toast_sucesso_redirect_login.png) e
+  confirmação via banco (reset_senha_token.usado = true).
+
+Por rigor, o sub-item "botão mostra Salvando..., desabilitado durante a chamada" fica marcado como
+NÃO COMPROVADO POR PRINT AO VIVO (apenas por leitura de código) nesta execução, embora o fluxo
+funcional mais amplo de RS018 (submissão bem-sucedida com senhas válidas e coincidentes) esteja
+plenamente comprovado.

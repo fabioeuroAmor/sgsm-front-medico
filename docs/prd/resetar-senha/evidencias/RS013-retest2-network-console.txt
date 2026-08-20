@@ -1,0 +1,54 @@
+RS013/RS021 — Reteste pós-correção — Item 1a: token inventado, usuário GENUINAMENTE anônimo
+==============================================================================================
+Data: 2026-08-20
+Pré-condição: localStorage.clear() + sessionStorage.clear() confirmados vazios antes do teste
+(localStorage keys: [] — verificado via browser_evaluate antes de navegar).
+
+Passos:
+1. Navegar para http://localhost:3001/login e limpar localStorage/sessionStorage (usuário 100% anônimo).
+2. Navegar para http://localhost:3001/resetar-senha?token=umTokenInventadoQualquer
+3. Preencher "Nova senha" e "Confirmar nova senha" com "SenhaValida123!" (válida, >=8 caracteres, coincidente).
+4. Clicar em "Redefinir senha".
+
+Rede (via mcp__playwright__browser_network_requests):
+  [POST] http://localhost:3001/v1/api/auth/resetar-senha => [400] Bad Request
+
+Corpo da resposta (via mcp__playwright__browser_network_request, response-body):
+  {"detail":"Link inválido.","instance":"/v1/api/auth/resetar-senha","status":400,
+   "title":"Link de redefinição inválido","type":"https://sgsm.com.br/erros/token-reset-invalido"}
+
+ANTES da correção, o mesmo cenário (mesmo teste, RS013 original) produzia:
+  [POST] http://localhost:3001/v1/api/auth/resetar-senha => [401] Unauthorized
+  (ver linhas de console antigas nesta mesma sessão do navegador, preservadas no histórico:
+   "Failed to load resource: the server responded with a status of 401 (Unauthorized) @
+   http://localhost:3001/v1/api/auth/resetar-senha")
+  e o interceptor axios (src/services/api.ts) tratava esse 401 como sessão expirada,
+  redirecionando silenciosamente para /login sem exibir toast.
+
+Console (mcp__playwright__browser_console_messages, nível debug, sessão completa) — evidência da
+mudança de comportamento, comparando entradas antigas (401) desta mesma sessão do navegador com a
+entrada nova (400) gerada por este reteste:
+
+  [ANTES, de execuções anteriores nesta sessão do browser — token diferente, mesmo bug]
+  [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+    @ http://localhost:3001/v1/api/auth/resetar-senha:0
+  (repetido em várias entradas anteriores do log, com tokens de teste diferentes)
+
+  [AGORA, reteste com token=umTokenInventadoQualquer]
+  [VERBOSE] [DOM] Password forms should have (optionally hidden) username fields for accessibility
+    @ http://localhost:3001/resetar-senha?token=umTokenInventadoQualquer:0
+  [ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request)
+    @ http://localhost:3001/v1/api/auth/resetar-senha:0
+  (x2, uma para cada tentativa de submit nesta rodada — primeira sem captura visual do toast,
+   segunda com captura visual do toast "Link inválido." em RS013-retest2-toast.png)
+
+Resultado observado:
+- URL após o submit permaneceu em http://localhost:3001/resetar-senha?token=umTokenInventadoQualquer
+  (SEM navegação para /login).
+- Toast vermelho "Link inválido." visível na tela (ver RS013-retest2-toast.png).
+- Nenhuma chamada a /v1/api/auth/refresh nem a /login foi disparada (confirmado na lista de rede:
+  única requisição relevante foi o POST /resetar-senha => 400).
+
+CONCLUSÃO: correção confirmada. O backend agora retorna 400 (não mais 401 genérico) para token de
+reset inválido, o interceptor axios não intercepta mais essa resposta como "sessão expirada", e o
+usuário anônimo real vê o toast de erro correto sem ser redirecionado silenciosamente para /login.
