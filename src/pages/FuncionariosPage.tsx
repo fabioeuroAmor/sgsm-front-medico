@@ -78,6 +78,7 @@ function validarTelefone(tel: string): boolean {
   const numero = d.slice(2)
   if (/^(\d)\1+$/.test(numero)) return false
   if (d.length === 11 && numero[0] !== '9') return false
+  if (d.length === 10 && !/^[2-5]/.test(numero)) return false
   return true
 }
 
@@ -95,6 +96,7 @@ export function FuncionariosPage() {
   const [formError, setFormError] = useState<string | null>(null)
   const [confirmandoId, setConfirmandoId] = useState<string | null>(null)
   const [campoErros, setCampoErros] = useState(emptyErros)
+  const salvandoRef = useRef(false)
 
   const tiltRef = useRef<HTMLDivElement>(null)
   const [tilt, setTilt] = useState({ rx: 0, ry: 0 })
@@ -118,12 +120,15 @@ export function FuncionariosPage() {
     listar({ estabelecimentoId: filtroEstab || undefined, ativo: filtroAtivo })
   }, [filtroEstab, filtroAtivo, listar])
 
-  const filtrados = funcionarios.filter((f) =>
-    f.nome.toLowerCase().includes(busca.toLowerCase()) ||
-    f.cpf.includes(busca) ||
-    f.cargo.toLowerCase().includes(busca.toLowerCase()) ||
-    f.email.toLowerCase().includes(busca.toLowerCase()),
-  )
+  const filtrados = funcionarios.filter((f) => {
+    const buscaDigits = busca.replace(/\D/g, '')
+    return (
+      f.nome.toLowerCase().includes(busca.toLowerCase()) ||
+      (buscaDigits.length > 0 && f.cpf.replace(/\D/g, '').includes(buscaDigits)) ||
+      f.cargo.toLowerCase().includes(busca.toLowerCase()) ||
+      f.email.toLowerCase().includes(busca.toLowerCase())
+    )
+  })
 
   function setField<K extends keyof CadastrarFuncionarioRequest>(key: K, value: CadastrarFuncionarioRequest[K]) {
     setForm((f) => ({ ...f, [key]: value }))
@@ -156,7 +161,7 @@ export function FuncionariosPage() {
     const erros = { ...emptyErros }
     let valido = true
 
-    if (!form.nome || !form.cargo || !form.estabelecimentoId) {
+    if (!form.nome.trim() || !form.cargo.trim() || !form.estabelecimentoId) {
       setFormError('Preencha todos os campos obrigatórios.')
       valido = false
     } else {
@@ -188,24 +193,27 @@ export function FuncionariosPage() {
 
     setCampoErros(erros)
     if (!valido) return
+    if (salvandoRef.current) return
+    salvandoRef.current = true
 
     setSalvando(true)
     try {
       if (editando) {
         await atualizar(editando.id, {
-          nome: form.nome || undefined,
+          nome: form.nome.trim() || undefined,
           email: form.email || undefined,
           telefone: form.telefone || undefined,
-          cargo: form.cargo || undefined,
+          cargo: form.cargo.trim() || undefined,
         })
       } else {
-        await cadastrar(form)
+        await cadastrar({ ...form, nome: form.nome.trim(), cargo: form.cargo.trim() })
       }
       setModalAberto(false)
       setEditando(null)
     } catch (err) {
       setFormError((err as Error).message)
     } finally {
+      salvandoRef.current = false
       setSalvando(false)
     }
   }
