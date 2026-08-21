@@ -297,13 +297,13 @@ export function FuncionariosPage() {
       )}
 
       {loading ? (
-        <div className="flex justify-center py-16">
+        <div key="loading" className="flex justify-center py-16">
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
         </div>
       ) : filtrados.length === 0 ? (
         <EmptyState />
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 stagger-children">
+        <div key="grid" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 stagger-children">
           {filtrados.map((func) => (
             <Card key={func.id} className="flex flex-col gap-4">
               <div className="flex items-start justify-between">
