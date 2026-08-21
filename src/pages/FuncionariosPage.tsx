@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
-import { Plus, Search, Pencil, Trash2, UserCog } from 'lucide-react'
+import { toast } from 'sonner'
+import { Plus, Search, Pencil, Trash2, RotateCcw, UserCog } from 'lucide-react'
 import { useFuncionarios } from '@/hooks/useFuncionarios'
 import { estabelecimentoService } from '@/services/estabelecimentoService'
 import { useAuth } from '@/hooks/useAuth'
@@ -83,8 +84,10 @@ function validarTelefone(tel: string): boolean {
 }
 
 export function FuncionariosPage() {
-  const { funcionarios, loading, error, listar, cadastrar, atualizar, remover } = useFuncionarios()
+  const { funcionarios, loading, error, listar, cadastrar, atualizar, remover, reativar } = useFuncionarios()
   const { usuario } = useAuth()
+  const [reativandoId, setReativandoId] = useState<string | null>(null)
+  const reativandoRef = useRef<string | null>(null)
   const [estabelecimentos, setEstabelecimentos] = useState<EstabelecimentoResponse[]>([])
   const [filtroEstab, setFiltroEstab] = useState('')
   const [filtroAtivo, setFiltroAtivo] = useState<boolean | undefined>(undefined)
@@ -155,6 +158,21 @@ export function FuncionariosPage() {
     setFormError(null)
     setCampoErros(emptyErros)
     setModalAberto(true)
+  }
+
+  async function handleReativar(id: string) {
+    if (reativandoRef.current) return
+    reativandoRef.current = id
+    setReativandoId(id)
+    try {
+      await reativar(id)
+      toast.success('Funcionário reativado com sucesso.')
+    } catch (err) {
+      toast.error((err as Error).message)
+    } finally {
+      reativandoRef.current = null
+      setReativandoId(null)
+    }
   }
 
   async function salvar() {
@@ -328,9 +346,21 @@ export function FuncionariosPage() {
                 <Button variant="ghost" size="sm" onClick={() => abrirEdicao(func)} className="flex-1">
                   <Pencil size={12} /> Editar
                 </Button>
-                <Button variant="danger" size="sm" onClick={() => setConfirmandoId(func.id)} disabled={!func.ativo}>
-                  <Trash2 size={12} />
-                </Button>
+                {func.ativo ? (
+                  <Button variant="danger" size="sm" onClick={() => setConfirmandoId(func.id)}>
+                    <Trash2 size={12} />
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleReativar(func.id)}
+                    disabled={reativandoId === func.id}
+                  >
+                    <RotateCcw size={12} className={reativandoId === func.id ? 'animate-spin' : undefined} />
+                    Reativar
+                  </Button>
+                )}
               </div>
             </Card>
           ))}
