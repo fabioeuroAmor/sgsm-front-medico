@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
-import { Plus, Search, Pencil, Trash2, UserRound, CalendarDays, Mail, Phone, MapPin } from 'lucide-react'
+import { toast } from 'sonner'
+import { Plus, Search, Pencil, Trash2, RotateCcw, UserRound, CalendarDays, Mail, Phone, MapPin } from 'lucide-react'
 import { usePacientes } from '@/hooks/usePacientes'
 import { useAuth } from '@/hooks/useAuth'
 import type { PacienteResponse, CadastrarPacienteRequest } from '@/types'
@@ -117,9 +118,11 @@ const emptyForm: CadastrarPacienteRequest = {
 }
 
 export function PacientesPage() {
-  const { pacientes, loading, error, listar, cadastrar, atualizar, remover } = usePacientes()
+  const { pacientes, loading, error, listar, cadastrar, atualizar, remover, reativar } = usePacientes()
   const { usuario } = useAuth()
   const podeInativar = usuario?.perfil === 'FUNCIONARIO' || usuario?.perfil === 'DESENVOLVEDOR'
+  const [reativandoId, setReativandoId] = useState<string | null>(null)
+  const reativandoRef = useRef<string | null>(null)
   const [busca, setBusca] = useState('')
   const [filtroAtivo, setFiltroAtivo] = useState<boolean | undefined>(undefined)
   const [modalAberto, setModalAberto] = useState(false)
@@ -357,6 +360,21 @@ export function PacientesPage() {
     } catch (err) { setFormError((err as Error).message) } finally { setSalvando(false) }
   }
 
+  async function handleReativar(id: string) {
+    if (reativandoRef.current) return
+    reativandoRef.current = id
+    setReativandoId(id)
+    try {
+      await reativar(id)
+      toast.success('Paciente reativado com sucesso.')
+    } catch (err) {
+      toast.error((err as Error).message)
+    } finally {
+      reativandoRef.current = null
+      setReativandoId(null)
+    }
+  }
+
   return (
     <div className="space-y-6">
       {/* ── Hero banner ───────────────────────────────────────────────────── */}
@@ -486,16 +504,30 @@ export function PacientesPage() {
                   <Button variant="ghost" size="sm" onClick={() => abrirEdicao(p)} className="flex-1">
                     <Pencil size={12} /> Editar
                   </Button>
-                  <Button
-                    variant="danger"
-                    size="sm"
-                    onClick={() => setConfirmandoId(p.id)}
-                    disabled={!p.ativo || !podeInativar}
-                    title={podeInativar ? undefined : 'Apenas funcionários podem inativar pacientes'}
-                    className={!podeInativar ? 'disabled:opacity-30 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:grayscale' : undefined}
-                  >
-                    <Trash2 size={12} />
-                  </Button>
+                  {p.ativo ? (
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      onClick={() => setConfirmandoId(p.id)}
+                      disabled={!podeInativar}
+                      title={podeInativar ? undefined : 'Apenas funcionários podem inativar pacientes'}
+                      className={!podeInativar ? 'disabled:opacity-30 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:grayscale' : undefined}
+                    >
+                      <Trash2 size={12} />
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleReativar(p.id)}
+                      disabled={!podeInativar || reativandoId === p.id}
+                      title={podeInativar ? undefined : 'Apenas funcionários podem reativar pacientes'}
+                      className={!podeInativar ? 'disabled:opacity-30 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:grayscale' : undefined}
+                    >
+                      <RotateCcw size={12} className={reativandoId === p.id ? 'animate-spin' : undefined} />
+                      Reativar
+                    </Button>
+                  )}
                 </div>
               </Card>
             )
