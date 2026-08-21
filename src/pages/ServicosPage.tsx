@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Plus, Search, Pencil, Trash2, ClipboardList, Clock, Home } from 'lucide-react'
 import { useServicos } from '@/hooks/useServicos'
+import { useAuth } from '@/hooks/useAuth'
 import { medicoService } from '@/services/medicoService'
 import type {
   ServicoMedicoResponse, MedicoResponse,
@@ -24,6 +25,7 @@ function formatCurrency(v: number) {
 
 export function ServicosPage() {
   const { servicos, loading, error, listar, cadastrar, atualizar, remover } = useServicos()
+  const { usuario } = useAuth()
   const [medicos, setMedicos] = useState<MedicoResponse[]>([])
   const [busca, setBusca] = useState('')
   const [filtroAtivo, setFiltroAtivo] = useState<boolean | undefined>(undefined)
@@ -64,6 +66,10 @@ export function ServicosPage() {
 
   function nomeMedico(id: string) {
     return medicos.find((m) => m.id === id)?.nome ?? id.slice(0, 8) + '…'
+  }
+
+  function podeGerenciar(s: ServicoMedicoResponse) {
+    return usuario?.perfil !== 'MEDICO' || usuario.referenciaId === s.medicoId
   }
 
   function abrirCadastro() { setEditando(null); setForm(emptyForm); setFormError(null); setFieldErrors({}); setModalAberto(true) }
@@ -218,8 +224,26 @@ export function ServicosPage() {
                 </div>
               </div>
               <div className="flex gap-2 mt-auto">
-                <Button variant="ghost" size="sm" onClick={() => abrirEdicao(s)} className="flex-1"><Pencil size={12} /> Editar</Button>
-                <Button variant="danger" size="sm" onClick={() => setConfirmandoId(s.id)} disabled={!s.ativo}><Trash2 size={12} /></Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => abrirEdicao(s)}
+                  className="flex-1"
+                  disabled={!podeGerenciar(s)}
+                  title={podeGerenciar(s) ? undefined : 'Você só pode editar os próprios serviços'}
+                >
+                  <Pencil size={12} /> Editar
+                </Button>
+                <Button
+                  variant="danger"
+                  size="sm"
+                  onClick={() => setConfirmandoId(s.id)}
+                  disabled={!s.ativo || !podeGerenciar(s)}
+                  title={podeGerenciar(s) ? undefined : 'Você só pode inativar os próprios serviços'}
+                  className={!podeGerenciar(s) ? 'disabled:opacity-30 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:grayscale' : undefined}
+                >
+                  <Trash2 size={12} />
+                </Button>
               </div>
             </Card>
           ))}
