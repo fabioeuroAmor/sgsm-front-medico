@@ -22,4 +22,7 @@ export const servicoMedicoService = {
     api.put<ServicoMedicoResponse>(`${BASE}/${id}`, body).then((r) => r.data),
 
   remover: (id: string) => api.delete(`${BASE}/${id}`),
+
+  reativar: (id: string) =>
+    api.patch<ServicoMedicoResponse>(`${BASE}/${id}/reativar`).then((r) => r.data),
 }
