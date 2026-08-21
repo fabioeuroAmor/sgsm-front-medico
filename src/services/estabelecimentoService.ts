@@ -25,6 +25,9 @@ export const estabelecimentoService = {
 
   remover: (id: string) => api.delete(`${BASE}/${id}`),
 
+  reativar: (id: string) =>
+    api.patch<EstabelecimentoResponse>(`${BASE}/${id}/reativar`).then((r) => r.data),
+
   listarMedicos: (id: string): Promise<MedicoResponse[]> =>
     api.get<MedicoResponse[]>(`${BASE}/${id}/medicos`).then((r) => r.data),
 
