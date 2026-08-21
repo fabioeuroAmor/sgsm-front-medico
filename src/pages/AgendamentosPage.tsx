@@ -458,11 +458,11 @@ export function AgendamentosPage() {
       {error && <div className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">{error}</div>}
 
       {loading ? (
-        <div className="flex h-48 items-center justify-center"><div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" /></div>
+        <div key="loading" className="flex h-48 items-center justify-center"><div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" /></div>
       ) : agendamentos.length === 0 ? (
         <EmptyState icon={<CalendarClock size={24} strokeWidth={1.5} />} title="Nenhum agendamento encontrado" description="Crie um novo agendamento clicando no botão acima." />
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 stagger-children">
+        <div key="grid" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 stagger-children">
           {agendamentos.map((a) => (
             <Card key={a.id} className="flex flex-col gap-3">
               <div className="flex items-start justify-between gap-2">
