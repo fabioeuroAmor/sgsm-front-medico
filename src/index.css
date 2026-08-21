@@ -134,6 +134,9 @@
 
   html {
     scroll-behavior: smooth;
+    /* framer-motion's useScroll measures offsets against <html> and warns if it's
+       position: static; harmless visually, but must be set before first paint. */
+    position: relative;
   }
 
   h1, h2, h3, h4, h5, h6 {

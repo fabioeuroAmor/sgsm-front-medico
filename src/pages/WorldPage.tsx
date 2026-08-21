@@ -469,6 +469,8 @@ function SceneText({ scene, index, scrollYProgress }: SceneLayerProps) {
     [textStartOpacity, 1, 1, 0],
   )
   const y = useTransform(scrollYProgress, [s, s + 0.1], [textStartY, '0rem'])
+  // Keeps hidden scenes' links out of the tab order — opacity alone doesn't.
+  const visibility = useTransform(opacity, v => (v > 0.05 ? 'visible' : 'hidden'))
 
   return (
     <motion.div
@@ -484,6 +486,7 @@ function SceneText({ scene, index, scrollYProgress }: SceneLayerProps) {
         zIndex: 20,
         pointerEvents: 'none',
         opacity,
+        visibility,
         y,
       }}
     >
@@ -573,7 +576,7 @@ function SceneText({ scene, index, scrollYProgress }: SceneLayerProps) {
               buttonVariants({ variant: 'accent', size: 'lg' }),
               'rounded-full px-10 shadow-xl',
             )}
-            style={{ boxShadow: '0 0 30px rgba(82,183,136,0.35)' }}
+            style={{ filter: 'drop-shadow(0 0 30px rgba(82,183,136,0.35))' }}
           >
             Acessar Sistema <ArrowRight className="h-5 w-5" />
           </Link>
@@ -689,17 +692,7 @@ export default function WorldPage() {
         {/* ── Sticky viewport ── */}
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' }}>
 
-          {/* Scene backgrounds (stacked absolute layers) */}
-          {SCENES.map((scene, i) => (
-            <SceneBg key={scene.id} scene={scene} index={i} scrollYProgress={scrollYProgress} />
-          ))}
-
-          {/* Scene text overlays */}
-          {SCENES.map((scene, i) => (
-            <SceneText key={scene.id} scene={scene} index={i} scrollYProgress={scrollYProgress} />
-          ))}
-
-          {/* ── Top nav ── */}
+          {/* ── Top nav (rendered first so it's reached first in tab order) ── */}
           <nav
             style={{
               position: 'absolute',
@@ -746,6 +739,16 @@ export default function WorldPage() {
               Acessar Sistema <ChevronRight className="h-4 w-4" />
             </Link>
           </nav>
+
+          {/* Scene backgrounds (stacked absolute layers) */}
+          {SCENES.map((scene, i) => (
+            <SceneBg key={scene.id} scene={scene} index={i} scrollYProgress={scrollYProgress} />
+          ))}
+
+          {/* Scene text overlays */}
+          {SCENES.map((scene, i) => (
+            <SceneText key={scene.id} scene={scene} index={i} scrollYProgress={scrollYProgress} />
+          ))}
 
           {/* ── Scroll hint ── */}
           <ScrollHint scrollYProgress={scrollYProgress} />
