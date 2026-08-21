@@ -1,0 +1,24 @@
+A36 — Enter com observação vazia (pular campo opcional) avança para confirmação sem observação
+
+Campo de observação limpo (fill('')) e Enter: mensagem do usuário exibida como "(sem observações)"
+e avança para AGE_CONFIRMAR sem exigir preenchimento.
+
+A37 — Tela de confirmação do agendamento mostra os dados corretamente
+
+Resumo exibido pelo bot:
+"Confirme o agendamento:
+ • Paciente: QA Assistente Cadastro OK
+ • Serviço: Consulta Cardiológica
+ • Local: Clínica Vida Saudável
+ • Horário: 24/08/2026, 08:00
+ • Valor: R$ 200.00
+ Confirmar?"
+Paciente (nome do cadastro de A23), serviço, local (nome do estabelecimento, não domiciliar),
+horário formatado (`toLocaleString('pt-BR')`) e valor (R$ 200.00, sem taxa de deslocamento pois o
+serviço não é domiciliar) batem corretamente com as escolhas feitas na conversa. A linha "Obs" está
+corretamente AUSENTE (observação foi pulada). Opções "1.Sim, confirmar" / "2.Não, cancelar"
+presentes.
+
+Screenshot: A36-A37.png.
+
+RESULTADO: PASS (ambos os itens).

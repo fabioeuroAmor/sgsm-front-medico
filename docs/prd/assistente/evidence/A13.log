@@ -1,0 +1,33 @@
+A13 — Colar (paste) uma data por extenso no campo de data de nascimento
+
+Achado confirmado por instrumentação real de DOM (paste não pode ser simulado via permissão de
+clipboard do SO neste ambiente; simulado via ClipboardEvent + setter nativo de value + evento 'input',
+equivalente ao que o navegador faz de fato ao colar):
+
+1. Texto colado: "10 de janeiro de 2000"
+2. handleInputChange roda em CAD_DATA e aplica maskDate(value):
+   maskDate() faz `v.replace(/\D/g, '').slice(0, 8)` primeiro (remove TODAS as letras/espaços,
+   mantendo só dígitos: "102000" — de "10", "2000" concatenados, o "01" de "janeiro" nunca é
+   extraído por dígitos porque "janeiro" não tem números) e então formata em blocos DD/MM/AAAA por
+   posição: "10/20/00".
+3. Resultado no campo: "10/20/00" — uma data sem sentido (mês "20", ano de 2 dígitos "00"), MUITO
+   diferente do que o usuário colou ou do que o ramo `parseDate` por extenso (linhas 79-88 de
+   ChatbotWidget.tsx, regex `m3`) produziria se recebesse a string original.
+4. Ao pressionar Enter com "10/20/00": parseDate("10/20/00") não casa em nenhum dos ramos (m1 exige
+   ano de 4 dígitos; m2 exige separador espaço/ponto; m3 exige nome de mês por extenso; fallback de
+   8 dígitos não bate pois só há 6). Retorna null -> bot responde "Data inválida. Use o formato
+   DD/MM/AAAA.", sem avançar.
+
+CONCLUSÃO (achado de front-end, não bloqueante): o ramo de parsing por extenso em `parseDate` (função
+utilitária em src/components/ChatbotWidget.tsx, linhas ~79-88) é código morto do ponto de vista da UI
+real — a máscara `maskDate` aplicada em TODO evento onChange (linha 435: `if (step === 'CAD_DATA' ...)
+value = maskDate(value)`) roda ANTES do parseDate e já destrói qualquer texto por extenso, reduzindo-o
+a dígitos soltos remontados nas posições DD/MM/AAAA. Não há como o usuário, colando ou digitando pela
+UI, entregar a string "10 de janeiro de 2000" (ou similar) intacta para o parseDate — a única forma de
+acionar aquele ramo seria chamando parseDate diretamente via código, não pela interface real.
+
+Screenshot: A13.png (mostra o campo com "10/20/00" e a mensagem de erro subsequente).
+
+RESULTADO: PASS/documentado (comportamento real do front, sem quebra visível para o usuário — o pior
+caso é uma mensagem genérica de "Data inválida", não um crash), mas achado de código morto reportado
+para conhecimento da equipe.

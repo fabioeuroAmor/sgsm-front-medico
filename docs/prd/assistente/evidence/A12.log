@@ -1,0 +1,9 @@
+A12 — CPF completo (11 dígitos) avança para data de nascimento, sem checar dígito verificador
+
+CPF de teste "11122233344" (sequência óbvia fictícia, sem dígito verificador matematicamente
+válido) foi aceito e avançou normalmente para CAD_DATA (bot: "Informe sua data de nascimento
+(DD/MM/AAAA):"). Confirma que o front-end só valida a QUANTIDADE de dígitos (`digits.length !== 11`
+em ChatbotWidget.tsx, linha 317), sem nenhum cálculo de dígito verificador de CPF.
+Screenshot: A12.png.
+
+RESULTADO: PASS/documentado (comportamento real: aceita qualquer sequência de 11 dígitos).

@@ -1,0 +1,19 @@
+A25 — Escolher "Tentar novamente" em A24 reenvia a MESMA requisição com os mesmos dados
+
+Clique em "Tentar novamente": `POST /v1/api/pacientes` disparado NOVAMENTE (network id 82) com os
+MESMOS dados (mesmo CPF duplicado 11144477735), sem pedir os campos de novo — confirmado via
+snapshot, que mostra a mensagem de erro "Erro ao cadastrar: CPF já cadastrado: 11144477735"
+repetida uma segunda vez na conversa, seguida das mesmas opções "Tentar novamente"/"Cancelar".
+
+CONCLUSÃO: não há como corrigir o CPF duplicado neste ponto da conversa — "Tentar novamente" apenas
+reenvia o payload idêntico (mesmo CPF), que vai falhar da mesma forma indefinidamente. A única saída
+é escolher "Cancelar" (volta ao menu, perdendo os dados) ou usar o botão "reiniciar" no cabeçalho do
+painel (reinicia toda a conversa do zero). Não existe um caminho de "voltar só ao campo CPF" para
+corrigir e prosseguir sem perder nome/data/e-mail já digitados.
+
+Screenshot: A25.png.
+
+RESULTADO: PASS/documentado (comportamento real confirmado, consistente com a suspeita do
+test-plan). Achado de UX (não bloqueante): "Tentar novamente" em caso de erro de validação de campo
+(CPF duplicado) deveria idealmente permitir corrigir apenas o CPF, não apenas re-tentar o mesmo
+payload fadado a falhar de novo.

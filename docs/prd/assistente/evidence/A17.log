@@ -1,0 +1,7 @@
+A17 — E-mail sem "@" é rejeitado
+
+Digitado "emailinvalidosemarroba.com" (sem "@") e Enter: bot responde "E-mail inválido. Tente
+novamente.", sem avançar.
+Screenshot: A17.png.
+
+RESULTADO: PASS.

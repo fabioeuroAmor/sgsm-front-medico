@@ -1,0 +1,15 @@
+A02 — Clicar no botão abre o painel
+
+Snapshot após o clique confirma:
+- generic "Assistente SGSM" (header do painel)
+- generic "Olá! Sou o assistente do SGSM. Como posso ajudar você hoje?" (mensagem inicial do bot)
+- button "1.Cadastrar-me como paciente"
+- button "2.Agendar uma consulta"
+- button "Assistente virtual" [active] permanece no DOM (o próprio toggle), agora com o painel aberto atrás.
+
+Console: 0 erros / 0 warnings.
+Nenhuma chamada de rede nova disparada (abrir o menu não bate em nenhuma API).
+
+Screenshot: A02.png
+
+RESULTADO: PASS.

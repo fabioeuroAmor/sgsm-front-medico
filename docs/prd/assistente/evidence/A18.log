@@ -1,0 +1,14 @@
+A18 — Valor com "@" mas claramente não é e-mail válido (ex. "a@") passa pela validação simplista
+
+Digitado "a@" e Enter: a validação em ChatbotWidget.tsx linha 330 (`if (!value.includes('@'))`) só
+checa a PRESENÇA do caractere "@", não um formato de e-mail real (nenhuma regex de e-mail). "a@"
+contém "@" -> passa a validação e avança para CAD_TELEFONE (bot: "Informe o seu telefone (opcional —
+pressione Enter para pular):"), com "a@" guardado como o e-mail do cadastro.
+
+Screenshot: A18.png.
+
+RESULTADO: PASS/documentado. Achado (menor, não bloqueante): a validação `includes('@')` é
+insuficiente — deixa passar e-mails claramente inválidos como "a@", "@@@", "x@y" (sem domínio com
+ponto) para o backend. Repassado adiante no fluxo de teste (cancelado em A22 antes do POST); ver
+A23 para confirmar como o backend reage a um e-mail assim (não testado diretamente nesta rodada
+porque A23 usa um e-mail válido de propósito para não invalidar o teste de cadastro bem-sucedido).

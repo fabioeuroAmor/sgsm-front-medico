@@ -1,0 +1,22 @@
+Achado complementar a A12/A23 — front não valida dígito verificador do CPF, mas o BACKEND valida
+
+Tentativa de cadastro com CPF "222.333.444-55" (11 dígitos aceitos pelo front, sem dígito
+verificador matematicamente válido, conforme documentado em A12): ao confirmar,
+`POST /v1/api/pacientes` retornou 400 Bad Request. Console mostra o erro cru do navegador:
+"Failed to load resource: the server responded with a status of 400 (Bad Request) @
+http://localhost:3001/v1/api/pacientes:0".
+O bot exibiu a mensagem de erro tratada (via `err.message` do interceptor de api.ts):
+"Erro ao cadastrar: CPF inválido: 22233344455" — ou seja, o BACKEND valida o dígito verificador do
+CPF (mesmo o front não validando), e a mensagem de erro do backend é repassada de forma legível ao
+usuário, com as opções "Tentar novamente" / "Cancelar" (sem perder os dados digitados).
+Escolhido "Cancelar": bot confirma "Cadastro cancelado.", volta ao menu, dados descartados
+corretamente.
+
+network_requests confirma: `POST /v1/api/pacientes` => 400.
+
+Screenshot: A23-checksum-reject.png.
+
+RESULTADO: Achado positivo (não é bug) — o backend é a linha de defesa real contra CPF
+matematicamente inválido, já que o front (A12) não valida. A mensagem de erro é tratada e visível,
+não trava a aplicação. Usado CPF "22233344455" (não persistido, rejeitado com 400) — sem colisão
+com dados reais.

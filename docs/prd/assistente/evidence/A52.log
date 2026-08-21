@@ -1,0 +1,54 @@
+A52 — Viewport mobile (375×667): botão e painel do assistente parcialmente OBSCURECIDOS por bug de
+layout da página (BUG CONFIRMADO, causa raiz fora de ChatbotWidget.tsx)
+
+Viewport redimensionado para 375x667 via `browser_resize`. Testado em página recém-carregada (F5
+limpo, sem estado de toggle de sidebar residual de testes anteriores), para eliminar qualquer
+interferência de estado acumulado.
+
+BOTÃO FLUTUANTE (fechado): visível e clicável no canto inferior direito, dentro da viewport, sem
+overflow horizontal aparente na área do próprio botão. Screenshot: `A52-fresh.png`.
+
+PAINEL ABERTO: ao clicar no botão, o painel abre, mas fica PARCIALMENTE COBERTO por uma faixa
+retangular verde-escura vertical de ~146px de largura, ocupando a ALTURA INTEIRA da viewport (e além
+— ver detalhe técnico abaixo), sobrepondo ilegivelmente a metade esquerda do painel do assistente:
+- Cabeçalho "Assistente SGSM" aparece cortado, mostrando só "SM" visível.
+- Mensagem inicial do bot aparece cortada: "...tente do SGSM. ...idar você hoje?" em vez do texto
+  completo "Olá! Sou o assistente do SGSM. Como posso ajudar você hoje?".
+- Botões de escolha aparecem cortados: "...omo paciente" e "...onsulta" em vez de
+  "1.Cadastrar-me como paciente" e "2.Agendar uma consulta".
+Screenshot: `A52-bug-confirmed.png` (reproduzido de forma limpa e consistente em 2 tentativas
+independentes, incluindo após F5 completo — não é flakiness pontual).
+
+INVESTIGAÇÃO DA CAUSA RAIZ (leitura de código, sem edição): via `document.elementFromPoint` no
+ponto sobreposto, identificado que o elemento culpado é o `<header>` de
+`src/components/layout/Sidebar.tsx` linha 178:
+`<header className="lg:hidden sticky top-0 z-50 flex items-center justify-between px-4 py-3 ...">`
+— o header mobile do menu lateral do APP (não do assistente). Medido via
+`getBoundingClientRect()`: `{ x: 0, y: -1516.8, width: 146.5, height: 3702.17 }` — uma altura de
+3702px é completamente anormal para um header que deveria ter ~60px (só `py-3` + conteúdo). Isso
+acontece porque o container pai em `src/components/layout/Layout.tsx` linha 10 é
+`<div className="flex min-h-screen bg-background">` — um flex container em ROW (linha), SEM
+nenhuma classe responsiva que force `flex-col` abaixo do breakpoint `lg` (1024px). Como o
+`<Sidebar />` retorna um Fragment com `<aside>` (`hidden lg:flex`, oculto em mobile) + `<header>`
+(`lg:hidden`, visível em mobile) como filhos DIRETOS desse mesmo flex row (Fragments não criam nó
+de DOM), em viewports abaixo de `lg` o `<header>` (que deveria ficar EM CIMA do conteúdo principal,
+como uma barra horizontal mobile) acaba posicionado ao LADO do conteúdo principal dentro do flex
+row, e o comportamento padrão `align-items: stretch` do flexbox estica sua altura para bater com a
+altura do irmão mais alto (`<main>`, que é bem alto por causa da lista extensa de pacientes) —
+produzindo essa faixa vertical de ~146px de largura e milhares de pixels de altura, com
+`position: sticky; z-index: 50`, que fica visualmente por cima do painel do assistente (também
+`z-index: 50`, mas perdendo o empate de stacking pela ordem/contexto de DOM).
+
+Esse mesmo bug também explica o overflow horizontal medido anteriormente
+(`document.documentElement.scrollWidth` = 460 vs `clientWidth` = 360 em 375px de viewport).
+
+Screenshots: `A52-fresh.png` (botão fechado, ok), `A52-bug-confirmed.png` (painel aberto, cortado).
+
+RESULTADO: FAIL. O requisito do item ("o botão flutuante e o painel aberto permanecem inteiramente
+visíveis e utilizáveis, sem overflow horizontal nem sobrepor de forma ilegível o conteúdo da página
+atrás") NÃO é atendido em 375×667 — só que o sentido da sobreposição é o INVERSO do que o item
+imaginava: não é o WIDGET que sobrepõe a página, é a PRÓPRIA PÁGINA (bug de responsividade do
+header/sidebar mobile em `Layout.tsx`/`Sidebar.tsx`, fora do arquivo `ChatbotWidget.tsx`) que
+sobrepõe e torna ilegível boa parte do painel do assistente. Reprodução: abrir qualquer página
+autenticada (ex. `/pacientes`) em viewport ≤ 1024px de largura (testado em 375px), abrir o
+assistente — o cabeçalho mobile do app cobre a metade esquerda do painel.

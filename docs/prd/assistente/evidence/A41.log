@@ -1,0 +1,37 @@
+A41 — Duplo envio rápido do mesmo CPF em AGE_CPF dispara 2 chamadas GET /pacientes (BUG CONFIRMADO)
+
+Metodologia: para tornar a janela de corrida observável de forma confiável, a chamada
+`GET /v1/api/pacientes*` foi interceptada via `page.route` com um atraso artificial de 1500ms antes
+de `route.continue()` (rede real, não mock de dados — só atraso de rede). Preenchido o CPF
+"11144477735" no campo, e então disparados DOIS eventos `keydown` de Enter no MESMO tick de
+JavaScript via `element.dispatchEvent(...)` duas vezes seguidas dentro do mesmo `page.evaluate`
+(equivalente a um usuário pressionando Enter duas vezes muito rápido, mais rápido que qualquer
+round-trip de rede ou re-render do React).
+
+RESULTADO OBSERVADO:
+- Contador de hits na rota interceptada: **2** (`routeHits: 2`), confirmado também em
+  `browser_network_requests`, onde aparecem 2 chamadas consecutivas
+  `GET /v1/api/pacientes?ativo=true` disparadas na mesma janela (ids 207 e 208 no log de rede desta
+  sessão).
+- Sintoma visível na conversa (não apenas de rede): o snapshot de acessibilidade mostra a mensagem
+  do usuário "111.444.777-35" DUPLICADA e a resposta do bot "Olá, QA! Qual serviço você deseja
+  agendar?" também DUPLICADA na lista de mensagens — o usuário veria literalmente a mesma pergunta e
+  resposta repetidas duas vezes na tela.
+
+Screenshot: A41.png (mostra as mensagens duplicadas no histórico do chat).
+
+CAUSA RAIZ (código): em `ChatbotWidget.tsx`, a etapa `AGE_CPF` (dentro de `processInput`, por volta
+da linha 352-372) chama `setLoading(true)` de forma síncrona antes do `await
+pacienteService.listar(...)`, e o input/botão de envio só ficam com `disabled={loading}` (linhas
+562/569) depois que o React efetivamente re-renderiza com `loading === true`. Como
+`handleSubmit`/`handleKeyDown` não têm nenhum guard síncrono (ex. `useRef`) independente do ciclo de
+render do React, dois eventos de Enter disparados no mesmo tick (antes do primeiro re-render
+committar) passam pela checagem de desabilitado e cada um dispara sua própria chamada de rede —
+exatamente a mesma classe de bug de corrida já documentada e corrigida em Médicos (M24) e CRM (C26)
+para os respectivos botões "Salvar", mas aqui presente no widget do Assistente, sem correção
+equivalente.
+
+RESULTADO: FAIL (bug de front-end confirmado). Reprodução: abrir o assistente, escolher "Agendar uma
+consulta", no campo de CPF digitar um CPF válido e disparar dois Enters extremamente rápidos e
+sucessivos (mais rápido que ~1 frame de render) — 2 chamadas `GET /v1/api/pacientes` são
+disparadas e a mensagem de usuário + resposta do bot aparecem duplicadas na conversa.

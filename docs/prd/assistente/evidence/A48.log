@@ -1,0 +1,13 @@
+A48 — Digitar e enviar mensagem usando só o teclado (Tab até o campo, digitar, Enter)
+
+A partir do foco em `<body>` (nenhum elemento focado), pressionado Tab repetidamente (via loop
+programático que simula exatamente essa navegação) até o foco chegar ao textbox "Nome completo...".
+Digitado "QA Teclado Teste" via `page.keyboard.type()` (sem nenhum uso de mouse/clique) e pressionado
+Enter: o valor foi submetido corretamente (`processInput` chamado), avançando a conversa para
+CAD_CPF (bot: "Informe o seu CPF:"), com a mensagem do usuário "QA Teclado Teste" exibida
+corretamente no histórico.
+
+Screenshot: A48.png.
+
+RESULTADO: PASS. O fluxo completo de "focar campo -> digitar -> Enter para enviar" funciona
+inteiramente via teclado, sem necessidade de mouse em nenhum momento.

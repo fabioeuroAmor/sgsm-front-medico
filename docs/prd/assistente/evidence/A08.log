@@ -1,0 +1,7 @@
+A08 — Escolher "Cadastrar-me como paciente" pergunta o nome completo
+
+Snapshot confirma passo CAD_NOME: mensagem do bot "Vamos ao seu cadastro! Qual é o seu nome
+completo?" e textbox com placeholder "Nome completo...".
+Screenshot: A08.png.
+
+RESULTADO: PASS.

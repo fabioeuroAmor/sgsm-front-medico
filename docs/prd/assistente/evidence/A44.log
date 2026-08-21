@@ -1,0 +1,29 @@
+A44 — Fluxo "Cadastrar-me como paciente" completo SEM sessão autenticada (localStorage limpo, sem
+refresh_token, nenhum token em memória)
+
+Preparação: `localStorage.clear()` executado via `page.evaluate`, depois navegação para
+`http://localhost:3001/login` (confirmado `localStorage` = "{}" antes e durante o teste). Widget
+aberto na própria tela de login (rota pública, sem `PrivateRoute`).
+
+TENTATIVA 1 (CPF sem dígito verificador válido, "32132132100"): `POST /v1/api/pacientes` (network
+id 288) => **400 Bad Request**, corpo `{"detail":"CPF inválido: 32132132100",...}`. Confirma que o
+endpoint aceitou a requisição SEM exigir token (não houve 401/403 nem redirecionamento) — rejeitou
+apenas pela mesma validação de checksum de CPF já vista em A23 (achado, não bug).
+
+TENTATIVA 2 (CPF com dígito verificador válido, "22255588846", e-mail
+"qa.semsessao2@naoexiste.com"): `POST /v1/api/pacientes` (network id 289) => **201 Created**. Bot
+responde "Cadastro realizado com sucesso! Agora você pode agendar consultas. O que deseja fazer?" e
+volta ao menu — EXATAMENTE o mesmo comportamento de sucesso observado em A23 com sessão autenticada.
+
+Durante todo o teste: `page.url()` permaneceu em `http://localhost:3001/login` (nenhum
+redirecionamento), `localStorage` permaneceu vazio (nenhuma tentativa de refresh de token, nenhum
+`window.location.href = '/login'` forçado pelo interceptor — porque a resposta nunca foi 401).
+
+Screenshot: A44.png.
+
+RESULTADO: PASS. O endpoint `POST /v1/api/pacientes` (cadastro de paciente) é genuinamente PÚBLICO
+no backend — não exige `Authorization` — então o interceptor de 401 do axios (`api.ts` linhas
+48-61) nunca é acionado neste fluxo, e o "Cadastrar-me como paciente" funciona perfeitamente sem
+sessão, tanto para dados inválidos (erro tratado, igual A23-checksum-reject) quanto para dados
+válidos (sucesso, igual A23). NÃO se observou o cenário temido descrito no test-plan (401 forçando
+logout silencioso) para este fluxo específico.

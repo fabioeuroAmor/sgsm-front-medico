@@ -1,0 +1,7 @@
+A11 — Submeter CPF incompleto (menos de 11 dígitos)
+
+Preenchido "123456" (6 dígitos) e Enter: bot responde "CPF inválido. Informe os 11 dígitos.", sem
+avançar (permanece pedindo CPF). network_requests confirma nenhuma chamada nova disparada.
+Screenshot: A11.png.
+
+RESULTADO: PASS.

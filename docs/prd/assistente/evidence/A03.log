@@ -1,0 +1,13 @@
+A03 — Clicar novamente no botão fecha o painel
+
+Snapshot após o segundo clique confirma que o bloco do painel (generic "Assistente SGSM" / mensagens /
+choices) desaparece da árvore de acessibilidade, restando apenas o botão "Assistente virtual" [active]
+(o ícone volta a MessageCircle, confirmado visualmente em A03.png).
+
+Console: 0 erros / 0 warnings.
+Rede: nenhuma requisição nova disparada por abrir/fechar o painel (network_requests mostra apenas as
+chamadas de autenticação/pacientes já feitas antes, ids 73-81; nada relacionado ao assistente).
+
+Screenshot: A03.png
+
+RESULTADO: PASS.

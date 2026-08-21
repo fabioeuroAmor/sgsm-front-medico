@@ -1,0 +1,11 @@
+A35 — Data válida com horários disponíveis
+
+Digitado "24/08/2026" (segunda-feira, dentro da agenda do médico):
+`GET /v1/api/agendamentos/slots?medicoId=...&estabelecimentoId=...&data=2026-08-24` => 200 OK
+(network id 89), retornou 20 slots (08:00 até 17:30, de 30 em 30 min) -> bot lista os horários como
+opções ("Escolha o horário desejado:"), formatados em HH:mm via `toLocaleTimeString('pt-BR')`.
+Escolher um horário ("09:00" na execução real de A35→A39) avança para AGE_OBS.
+
+Screenshot: A35.png.
+
+RESULTADO: PASS.

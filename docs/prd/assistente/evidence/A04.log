@@ -1,0 +1,11 @@
+A04 — Nenhum erro no console ao carregar a página nem ao abrir o widget pela primeira vez
+
+Verificado com browser_console_messages(level: 'warning', all: true) em 3 momentos:
+- Após carregar /login sem sessão: "Total messages: 3 (Errors: 0, Warnings: 0)"
+- Após login e chegada em /pacientes: "Total messages: 3 (Errors: 0, Warnings: 0)"
+- Após abrir e fechar o painel do assistente: "Total messages: 3 (Errors: 0, Warnings: 0)"
+
+Nenhuma mensagem de erro ou warning em nenhum dos 3 pontos (as 3 mensagens totais são de nível
+info/debug, relacionadas a inicialização do Vite/HMR, não ao assistente).
+
+RESULTADO: PASS.

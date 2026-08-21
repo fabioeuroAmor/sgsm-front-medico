@@ -1,0 +1,35 @@
+A43 — Clicar "reiniciar" com requisição pendente injeta mensagem "fantasma" após o reset (BUG
+CONFIRMADO)
+
+Metodologia: `GET /v1/api/pacientes*` interceptado via `page.route` com atraso artificial de
+2500ms. No passo AGE_CPF, preenchido o CPF "11144477735" e Enter (dispara a chamada, que fica
+pendente por 2.5s). Antes da resposta voltar (aguardado apenas 300ms, bem dentro da janela de
+atraso — confirmado via flag `resolvedBeforeReset: false`), clicado "reiniciar" no cabeçalho do
+painel.
+
+RESULTADO IMEDIATO APÓS O RESET (esperado): painel mostra a mensagem inicial "Olá! Como posso
+ajudar você hoje?" e volta ao MENU com as 2 opções padrão. Screenshot: `A43-after-reset.png`.
+
+RESULTADO APÓS A REQUISIÇÃO PENDENTE FINALMENTE RESOLVER (achado do item, CONFIRMADO): passados os
+2.5s do atraso simulado, `GET /v1/api/pacientes?ativo=true` completa (network id 214) e a Promise
+antiga (da chamada de ANTES do reset) resolve seu `.then`, que ainda está "vivo" porque não foi
+cancelado pelo `reset()`. O resultado: uma mensagem "fantasma" é injetada na conversa JÁ REINICIADA —
+"Olá, QA! Qual serviço você deseja agendar?" — e as escolhas (`choices`) são substituídas pela lista
+de serviços ("1.Consulta Cardiológica...", "2.QA Assistente Domiciliar Teste...") no lugar do MENU
+que deveria estar ativo. Screenshot: `A43-ghost-message.png` (mostra a conversa reiniciada
+contaminada pela resposta tardia).
+
+CAUSA RAIZ (código): `reset()` (linhas 163-173 de ChatbotWidget.tsx) reseta todo o estado React
+(`messages`, `choices`, `step`, etc.) mas NÃO cancela nenhuma promise em voo — não há
+`AbortController`, nem um `useRef` de "id de requisição atual" para descartar respostas obsoletas.
+A chamada `pacienteService.listar(...)` dentro de `processInput` (step AGE_CPF, linha 356-372)
+continua rodando e, quando resolve, executa `setPaciente(found); setStep('AGE_SERVICO');
+addBot(...); setChoices(...)` incondicionalmente, sobrescrevendo o estado do reset — mesmo padrão
+de "promise não cancelada" que o test-plan já suspeitava.
+
+RESULTADO: FAIL (bug de front-end confirmado). O usuário que reinicia a conversa enquanto uma
+requisição anterior está em voo pode ver, segundos depois, uma mensagem completamente fora de
+contexto aparecer sozinha na conversa "nova", incluindo dados de uma busca de CPF que ele nem
+lembra mais de ter feito (ex. o nome do paciente encontrado, "Olá, QA! Qual serviço você deseja
+agendar?", ou até o resultado de um cadastro/agendamento de uma tentativa anterior, dependendo de em
+qual etapa o reset ocorreu).

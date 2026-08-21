@@ -1,0 +1,8 @@
+A33 — Data em formato inválido na etapa de data do agendamento
+
+Digitado "3113" (4 dígitos, máscara "31/13") e Enter: mesma mensagem de erro de A14, "Data
+inválida. Use o formato DD/MM/AAAA.", sem avançar.
+
+Screenshot: A33.png.
+
+RESULTADO: PASS.

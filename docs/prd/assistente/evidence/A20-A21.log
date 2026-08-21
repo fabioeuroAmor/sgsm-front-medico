@@ -1,0 +1,24 @@
+A20 — Pressionar Enter com telefone vazio (pular campo opcional) avança para confirmação sem
+telefone
+
+Campo de telefone limpo (fill('')) e Enter: mensagem do usuário exibida como "(sem telefone)"
+(comportamento correto de placeholder textual quando o campo opcional é pulado) e avança
+diretamente para CAD_CONFIRMAR, sem exigir preenchimento.
+
+A21 — Tela de confirmação mostra os dados corretamente
+
+Resumo exibido pelo bot:
+"Confirme seus dados:
+ • Nome: QA Assistente Cadastro Teste
+ • CPF: 111.222.333-44
+ • Nascimento: 31/02/2020
+ • E-mail: a@
+ Está correto?"
+Nome, CPF mascarado, data de nascimento e e-mail batem exatamente com os valores digitados nos
+passos anteriores. A linha "Telefone" está corretamente AUSENTE do resumo, já que o telefone foi
+pulado (confirma a lógica condicional `value ? ... : null` do resumo, linha 344 de
+ChatbotWidget.tsx). Opções "1.Sim, confirmar" / "2.Não, cancelar" presentes.
+
+Screenshot: A20-A21.png.
+
+RESULTADO: PASS (ambos os itens).

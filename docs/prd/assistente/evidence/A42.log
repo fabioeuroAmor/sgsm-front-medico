@@ -1,0 +1,66 @@
+A42 — Duplo clique rápido em "Sim, confirmar" (AGE_CONFIRMAR) dispara 2 POSTs (BUG CONFIRMADO)
+
+Metodologia: `POST /v1/api/agendamentos` interceptado via `page.route` com atraso artificial de
+1200ms antes de `route.continue()` (rede real, sem mock de payload). Na tela de confirmação do
+agendamento, disparados 2 eventos de clique sintéticos (`MouseEvent('click', ...)`) no MESMO botão
+"Sim, confirmar", no mesmo tick de JavaScript, via `dispatchEvent` dentro de um único
+`page.evaluate` (equivalente a um duplo clique extremamente rápido de usuário real).
+
+RESULTADO OBSERVADO:
+- Contador de POSTs na rota interceptada: **2** (`postHits: 2`).
+- `browser_network_requests` confirma 2 chamadas `POST /v1/api/agendamentos` consecutivas:
+  - 1ª (network id 211) => **201 Created**, agendamento genuinamente criado (id
+    "367e23db-12d5-49de-a1b5-17e73f9e906c", horário 24/08/2026 13:30, PENDENTE).
+  - 2ª (network id 212) => **400 Bad Request**, corpo:
+    `{"detail":"Horário indisponível: já existe agendamento para este médico neste período.", ...}`
+    — o BACKEND é quem impediu a criação de um agendamento duplicado de fato, através de uma regra
+    de negócio de unicidade de horário, NÃO o front-end (que não tem nenhum guard de clique duplo).
+
+SINTOMA VISÍVEL NA CONVERSA (confuso para o usuário real): o snapshot da conversa mostra, em
+sequência:
+  "Sim, confirmar" (1ª mensagem do usuário)
+  "Sim, confirmar" (2ª mensagem do usuário, duplicada)
+  "Agendamento realizado com sucesso! Em breve você receberá a confirmação. O que deseja fazer?"
+  "Erro ao agendar: Horário indisponível: já existe agendamento para este médico neste período."
+E o painel de escolhas, em vez de mostrar o MENU (esperado após o "sucesso" do 1º clique), mostra
+"1.Tentar novamente" / "2.Cancelar" — ou seja, o estado da 2ª resposta (erro) sobrescreveu o estado
+da 1ª resposta (sucesso, que já tinha chamado `goMenu()`), deixando o usuário numa tela de erro
+confusa para um agendamento que JÁ foi criado com sucesso segundos antes. Se o usuário, confuso,
+clicar "Tentar novamente" aqui, o front tentaria reenviar o MESMO payload (mesmo horário), que
+falharia de novo com o mesmo 400 — não cria duplicata neste caso específico graças à regra de
+unicidade do backend, mas o comportamento de UI (mensagens fora de ordem/sobrepostas, tela de erro
+para uma ação que já teve sucesso) é claramente um bug de front-end.
+
+Screenshot: A42.png.
+
+CAUSA RAIZ (código): igual à de A41 — `handleChoice` para `step === 'AGE_CONFIRMAR'` (linha
+279-301 de ChatbotWidget.tsx) chama `setLoading(true)` de forma síncrona, mas o botão só fica
+`disabled={loading}` (linha 533) depois que o React re-renderiza; não há nenhum guard síncrono
+(`useRef`) para bloquear o 2º clique antes disso. É a MESMA classe de bug já corrigida em Médicos
+(M24, guard via `useRef`) e CRM (C26, guard via `useRef`) para seus respectivos botões "Salvar", mas
+ausente aqui no ChatbotWidget para "Sim, confirmar" (tanto em CAD_CONFIRMAR quanto AGE_CONFIRMAR).
+
+RESULTADO: FAIL (bug de front-end confirmado). A proteção contra duplicidade que existe hoje é
+"sorte" do backend ter uma regra de unicidade de horário — não existe nenhuma proteção real no
+front-end. Em cenários sem essa regra de unicidade no backend (ex. se o backend não validar
+duplicidade para outro tipo de recurso), um duplo clique real criaria 2 registros idênticos.
+
+ADENDO — efeito cascata confirmado (ainda mais grave): logo depois, clicado "Cancelar" na tela de
+erro ("1.Tentar novamente"/"2.Cancelar" mostrada após a 2ª resposta sobrescrever a 1ª). RESULTADO
+INESPERADO: em vez de mostrar "Agendamento cancelado.", o bot silenciosamente iniciou um NOVO fluxo
+de agendamento do zero (`GET /v1/api/servicos-medicos?ativo=true` disparado, network id 213; bot
+pergunta "Para agendar, preciso identificar você. Informe o seu CPF:"), sem NENHUMA mensagem de
+"cancelado". Screenshot: `A42-cascata-cancelar.png`.
+
+CAUSA RAIZ do adendo: como a resposta do 1º clique (sucesso) já tinha chamado `goMenu()` — que faz
+`setStep('MENU')` — ANTES da resposta do 2º clique (erro) chegar, e o bloco `catch` do 2º clique
+(linhas 293-296) só chama `setChoices([...])`, sem nunca reatribuir `step`, o estado real do
+componente ficou `step === 'MENU'` com `choices` mostrando textos de "Tentar novamente"/"Cancelar"
+que NÃO correspondem a esse step. Ao clicar em "Cancelar" (`value: 'NAO'`), `handleChoice` verifica
+primeiro `if (step === 'MENU')` (linha 181) — que É verdadeiro — e como `choice.value !== 'CADASTRO'`,
+cai no ramo `else` que trata a opção "Agendar uma consulta" do menu (linhas 185-201), disparando a
+busca de serviços e avançando para AGE_CPF, tudo silenciosamente. Ou seja: o texto do botão que o
+usuário vê ("Cancelar") e o comportamento real do clique (iniciar um novo agendamento) estão
+completamente dessincronizados — consequência direta da falta de guard de clique duplo em
+AGE_CONFIRMAR combinada com o catch não realinhar o `step` ao estado de erro.
+

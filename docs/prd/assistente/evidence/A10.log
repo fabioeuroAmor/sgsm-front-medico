@@ -1,0 +1,11 @@
+A10 — Nome válido avança para CPF; máscara 000.000.000-00 aplicada
+
+Digitar "QA Assistente Cadastro Teste" e Enter avança para CAD_CPF (bot: "Informe o seu CPF:",
+placeholder "000.000.000-00").
+Teste de máscara: digitado "abc111222333xyz44" (letras misturadas com dígitos) via
+pressSequentially -> input.value resultou em "111.222.333-44" — confirma que letras são
+ignoradas e apenas os primeiros 11 dígitos são aceitos, com a máscara de pontuação/traço aplicada
+progressivamente.
+Screenshot: A10.png.
+
+RESULTADO: PASS.
