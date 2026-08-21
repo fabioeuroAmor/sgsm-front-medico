@@ -44,5 +44,11 @@ export function useMedicos() {
     )
   }, [])
 
-  return { medicos, loading, error, listar, cadastrar, atualizar, remover }
+  const reativar = useCallback(async (id: string) => {
+    const atualizado = await medicoService.reativar(id)
+    setMedicos((prev) => prev.map((m) => (m.id === id ? atualizado : m)))
+    return atualizado
+  }, [])
+
+  return { medicos, loading, error, listar, cadastrar, atualizar, remover, reativar }
 }
