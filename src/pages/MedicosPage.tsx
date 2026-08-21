@@ -309,7 +309,16 @@ export function MedicosPage() {
               </div>
               <div className="flex gap-2 mt-auto">
                 <Button variant="ghost" size="sm" onClick={() => abrirEdicao(m)} className="flex-1" disabled={!podeEditar(m)} title={podeEditar(m) ? undefined : 'Você só pode editar o seu próprio cadastro'}><Pencil size={12} /> Editar</Button>
-                <Button variant="outline" size="sm" onClick={() => abrirAgenda(m)} title="Gerenciar agenda"><CalendarDays size={12} /></Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => abrirAgenda(m)}
+                  disabled={!podeEditar(m)}
+                  title={podeEditar(m) ? 'Gerenciar agenda' : 'Você só pode gerenciar a própria agenda'}
+                  className={!podeEditar(m) ? 'disabled:opacity-30 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:grayscale' : undefined}
+                >
+                  <CalendarDays size={12} />
+                </Button>
                 {m.ativo ? (
                   <Button
                     variant="danger"
