@@ -1,0 +1,9 @@
+A29 — CPF de paciente existente e ativo (o cadastrado em A23) — bot saúda e lista serviços
+
+Preenchido "111.444.777-35" (CPF do paciente "QA Assistente Cadastro OK" criado em A23) e Enter:
+bot responde "Olá, QA! Qual serviço você deseja agendar?" (saudação pelo primeiro nome, "QA") e
+lista "1.Consulta Cardiológica — R$ 200.00" como opção (o único serviço ativo buscado em A26).
+
+Screenshot: A29.png.
+
+RESULTADO: PASS.

@@ -144,6 +144,8 @@ export function ChatbotWidget() {
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const busyRef = useRef(false)
+  const genRef = useRef(0)
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -161,6 +163,8 @@ export function ChatbotWidget() {
   function goMenu() { setStep('MENU'); setChoices(MENU_CHOICES) }
 
   function reset() {
+    genRef.current += 1
+    busyRef.current = false
     setStep('MENU')
     setMessages([{ from: 'bot', text: 'Olá! Como posso ajudar você hoje?' }])
     setChoices(MENU_CHOICES)
@@ -175,247 +179,273 @@ export function ChatbotWidget() {
   // ─── choice handler ───────────────────────────────────────────────────────
 
   async function handleChoice(choice: Choice) {
-    addUser(choice.label)
-    setChoices([])
+    if (busyRef.current) return
+    busyRef.current = true
+    const myGen = genRef.current
+    try {
+      addUser(choice.label)
+      setChoices([])
 
-    if (step === 'MENU') {
-      if (choice.value === 'CADASTRO') {
-        setStep('CAD_NOME')
-        addBot('Vamos ao seu cadastro! Qual é o seu nome completo?')
-      } else {
-        setLoading(true)
-        try {
-          const list = await servicoMedicoService.listar({ ativo: true })
-          if (list.length === 0) {
-            addBot('Não há serviços disponíveis no momento. Tente novamente mais tarde.')
+      if (step === 'MENU') {
+        if (choice.value === 'CADASTRO') {
+          setStep('CAD_NOME')
+          addBot('Vamos ao seu cadastro! Qual é o seu nome completo?')
+        } else {
+          setLoading(true)
+          try {
+            const list = await servicoMedicoService.listar({ ativo: true })
+            if (genRef.current !== myGen) return
+            if (list.length === 0) {
+              addBot('Não há serviços disponíveis no momento. Tente novamente mais tarde.')
+              goMenu()
+            } else {
+              setServicos(list)
+              setStep('AGE_CPF')
+              addBot('Para agendar, preciso identificar você. Informe o seu CPF:')
+            }
+          } catch {
+            if (genRef.current !== myGen) return
+            addBot('Erro ao buscar serviços. Tente novamente.')
             goMenu()
-          } else {
-            setServicos(list)
-            setStep('AGE_CPF')
-            addBot('Para agendar, preciso identificar você. Informe o seu CPF:')
-          }
-        } catch {
-          addBot('Erro ao buscar serviços. Tente novamente.')
-          goMenu()
-        } finally { setLoading(false) }
-      }
-      return
-    }
-
-    if (step === 'AGE_SERVICO') {
-      const selected = servicos.find(s => s.id === choice.value)
-      if (!selected) return
-      setServico(selected)
-
-      if (selected.domiciliar) {
-        setEstabelecimento(null)
-        setStep('AGE_DATA')
-        addBot('Atendimento domiciliar 🏠 — irei até você!\nQual data você deseja agendar? (DD/MM/AAAA)')
+          } finally { if (genRef.current === myGen) setLoading(false) }
+        }
         return
       }
 
-      setLoading(true)
-      try {
-        const estabs = await agendamentoService.getEstabelecimentosByMedico(selected.medicoId)
-        if (estabs.length === 0) {
-          addBot('Não há estabelecimentos para este serviço. Escolha outro:')
-          setStep('AGE_SERVICO')
-          setChoices(servicos.map(s => ({ label: `${s.nome} — R$ ${s.preco.toFixed(2)}`, value: s.id })))
-        } else {
-          setEstabelecimentos(estabs)
-          setStep('AGE_ESTAB')
-          addBot('Em qual estabelecimento deseja ser atendido(a)?')
-          setChoices(estabs.map(e => ({ label: e.nome, value: e.id })))
+      if (step === 'AGE_SERVICO') {
+        const selected = servicos.find(s => s.id === choice.value)
+        if (!selected) return
+        setServico(selected)
+
+        if (selected.domiciliar) {
+          setEstabelecimento(null)
+          setStep('AGE_DATA')
+          addBot('Atendimento domiciliar 🏠 — irei até você!\nQual data você deseja agendar? (DD/MM/AAAA)')
+          return
         }
-      } catch {
-        addBot('Erro ao buscar estabelecimentos. Tente novamente.')
-        goMenu()
-      } finally { setLoading(false) }
-      return
-    }
 
-    if (step === 'AGE_ESTAB') {
-      const selected = estabelecimentos.find(e => e.id === choice.value)
-      if (!selected) return
-      setEstabelecimento(selected)
-      setStep('AGE_DATA')
-      addBot('Qual data você deseja agendar? (DD/MM/AAAA)')
-      return
-    }
-
-    if (step === 'AGE_SLOT') {
-      const selected = slots.find(s => s.dataHoraInicio === choice.value)
-      if (!selected) return
-      setSlot(selected)
-      setStep('AGE_OBS')
-      addBot('Tem alguma observação para o médico? (Opcional — pressione Enter para pular)')
-      return
-    }
-
-    if (step === 'CAD_CONFIRMAR') {
-      if (choice.value === 'SIM') {
         setLoading(true)
         try {
-          await pacienteService.cadastrar({
-            nome: cadNome,
-            cpf: cadCpf.replace(/\D/g, ''),
-            dataNascimento: brDateToISO(cadDataNasc),
-            email: cadEmail,
-            telefone: cadTelefone || undefined,
-          })
-          addBot('Cadastro realizado com sucesso! Agora você pode agendar consultas. O que deseja fazer?')
+          const estabs = await agendamentoService.getEstabelecimentosByMedico(selected.medicoId)
+          if (genRef.current !== myGen) return
+          if (estabs.length === 0) {
+            addBot('Não há estabelecimentos para este serviço. Escolha outro:')
+            setStep('AGE_SERVICO')
+            setChoices(servicos.map(s => ({ label: `${s.nome} — R$ ${s.preco.toFixed(2)}`, value: s.id })))
+          } else {
+            setEstabelecimentos(estabs)
+            setStep('AGE_ESTAB')
+            addBot('Em qual estabelecimento deseja ser atendido(a)?')
+            setChoices(estabs.map(e => ({ label: e.nome, value: e.id })))
+          }
+        } catch {
+          if (genRef.current !== myGen) return
+          addBot('Erro ao buscar estabelecimentos. Tente novamente.')
           goMenu()
-        } catch (err: unknown) {
-          addBot(`Erro ao cadastrar: ${err instanceof Error ? err.message : 'Tente novamente.'}`)
-          setChoices([{ label: 'Tentar novamente', value: 'SIM' }, { label: 'Cancelar', value: 'NAO' }])
-        } finally { setLoading(false) }
-      } else {
-        addBot('Cadastro cancelado. O que deseja fazer?')
-        goMenu()
+        } finally { if (genRef.current === myGen) setLoading(false) }
+        return
       }
-      return
-    }
 
-    if (step === 'AGE_CONFIRMAR') {
-      if (choice.value === 'SIM') {
-        setLoading(true)
-        try {
-          await agendamentoService.cadastrar({
-            pacienteId: paciente!.id,
-            servicoMedicoId: servico!.id,
-            estabelecimentoId: servico!.domiciliar ? undefined : estabelecimento!.id,
-            tipo: servico!.domiciliar ? 'DOMICILIAR' : 'PRESENCIAL',
-            dataHoraInicio: slot!.dataHoraInicio,
-            observacoes: ageObs || undefined,
-          })
-          addBot('Agendamento realizado com sucesso! Em breve você receberá a confirmação. O que deseja fazer?')
-          goMenu()
-        } catch (err: unknown) {
-          addBot(`Erro ao agendar: ${err instanceof Error ? err.message : 'Tente novamente.'}`)
-          setChoices([{ label: 'Tentar novamente', value: 'SIM' }, { label: 'Cancelar', value: 'NAO' }])
-        } finally { setLoading(false) }
-      } else {
-        addBot('Agendamento cancelado. O que deseja fazer?')
-        goMenu()
+      if (step === 'AGE_ESTAB') {
+        const selected = estabelecimentos.find(e => e.id === choice.value)
+        if (!selected) return
+        setEstabelecimento(selected)
+        setStep('AGE_DATA')
+        addBot('Qual data você deseja agendar? (DD/MM/AAAA)')
+        return
       }
+
+      if (step === 'AGE_SLOT') {
+        const selected = slots.find(s => s.dataHoraInicio === choice.value)
+        if (!selected) return
+        setSlot(selected)
+        setStep('AGE_OBS')
+        addBot('Tem alguma observação para o médico? (Opcional — pressione Enter para pular)')
+        return
+      }
+
+      if (step === 'CAD_CONFIRMAR') {
+        if (choice.value === 'SIM') {
+          setLoading(true)
+          try {
+            await pacienteService.cadastrar({
+              nome: cadNome,
+              cpf: cadCpf.replace(/\D/g, ''),
+              dataNascimento: brDateToISO(cadDataNasc),
+              email: cadEmail,
+              telefone: cadTelefone || undefined,
+            })
+            if (genRef.current !== myGen) return
+            addBot('Cadastro realizado com sucesso! Agora você pode agendar consultas. O que deseja fazer?')
+            goMenu()
+          } catch (err: unknown) {
+            if (genRef.current !== myGen) return
+            addBot(`Erro ao cadastrar: ${err instanceof Error ? err.message : 'Tente novamente.'}`)
+            setChoices([{ label: 'Tentar novamente', value: 'SIM' }, { label: 'Cancelar', value: 'NAO' }])
+          } finally { if (genRef.current === myGen) setLoading(false) }
+        } else {
+          addBot('Cadastro cancelado. O que deseja fazer?')
+          goMenu()
+        }
+        return
+      }
+
+      if (step === 'AGE_CONFIRMAR') {
+        if (choice.value === 'SIM') {
+          setLoading(true)
+          try {
+            await agendamentoService.cadastrar({
+              pacienteId: paciente!.id,
+              servicoMedicoId: servico!.id,
+              estabelecimentoId: servico!.domiciliar ? undefined : estabelecimento!.id,
+              tipo: servico!.domiciliar ? 'DOMICILIAR' : 'PRESENCIAL',
+              dataHoraInicio: slot!.dataHoraInicio,
+              observacoes: ageObs || undefined,
+            })
+            if (genRef.current !== myGen) return
+            addBot('Agendamento realizado com sucesso! Em breve você receberá a confirmação. O que deseja fazer?')
+            goMenu()
+          } catch (err: unknown) {
+            if (genRef.current !== myGen) return
+            addBot(`Erro ao agendar: ${err instanceof Error ? err.message : 'Tente novamente.'}`)
+            setChoices([{ label: 'Tentar novamente', value: 'SIM' }, { label: 'Cancelar', value: 'NAO' }])
+          } finally { if (genRef.current === myGen) setLoading(false) }
+        } else {
+          addBot('Agendamento cancelado. O que deseja fazer?')
+          goMenu()
+        }
+      }
+    } finally {
+      busyRef.current = false
     }
   }
 
   // ─── text input handler ───────────────────────────────────────────────────
 
   async function processInput(rawValue: string) {
-    const value = rawValue.trim()
+    if (busyRef.current) return
+    busyRef.current = true
+    const myGen = genRef.current
+    try {
+      const value = rawValue.trim()
 
-    if (step === 'CAD_NOME') {
-      if (!value) { addBot('Por favor, informe o seu nome completo.'); return }
-      addUser(value); setCadNome(value); setStep('CAD_CPF')
-      addBot('Informe o seu CPF:'); return
-    }
+      if (step === 'CAD_NOME') {
+        if (!value) { addBot('Por favor, informe o seu nome completo.'); return }
+        addUser(value); setCadNome(value); setStep('CAD_CPF')
+        addBot('Informe o seu CPF:'); return
+      }
 
-    if (step === 'CAD_CPF') {
-      const digits = value.replace(/\D/g, '')
-      if (digits.length !== 11) { addBot('CPF inválido. Informe os 11 dígitos.'); return }
-      addUser(value); setCadCpf(digits); setStep('CAD_DATA')
-      addBot('Informe sua data de nascimento (DD/MM/AAAA):'); return
-    }
+      if (step === 'CAD_CPF') {
+        const digits = value.replace(/\D/g, '')
+        if (digits.length !== 11) { addBot('CPF inválido. Informe os 11 dígitos.'); return }
+        addUser(value); setCadCpf(digits); setStep('CAD_DATA')
+        addBot('Informe sua data de nascimento (DD/MM/AAAA):'); return
+      }
 
-    if (step === 'CAD_DATA') {
-      const parsed = parseDate(value)
-      if (!parsed) { addBot('Data inválida. Use o formato DD/MM/AAAA.'); return }
-      addUser(parsed); setCadDataNasc(parsed); setStep('CAD_EMAIL')
-      addBot('Informe o seu e-mail:'); return
-    }
+      if (step === 'CAD_DATA') {
+        const parsed = parseDate(value)
+        if (!parsed) { addBot('Data inválida. Use o formato DD/MM/AAAA.'); return }
+        addUser(parsed); setCadDataNasc(parsed); setStep('CAD_EMAIL')
+        addBot('Informe o seu e-mail:'); return
+      }
 
-    if (step === 'CAD_EMAIL') {
-      if (!value.includes('@')) { addBot('E-mail inválido. Tente novamente.'); return }
-      addUser(value); setCadEmail(value); setStep('CAD_TELEFONE')
-      addBot('Informe o seu telefone (opcional — pressione Enter para pular):'); return
-    }
+      if (step === 'CAD_EMAIL') {
+        if (!value.includes('@')) { addBot('E-mail inválido. Tente novamente.'); return }
+        addUser(value); setCadEmail(value); setStep('CAD_TELEFONE')
+        addBot('Informe o seu telefone (opcional — pressione Enter para pular):'); return
+      }
 
-    if (step === 'CAD_TELEFONE') {
-      addUser(value || '(sem telefone)')
-      setCadTelefone(value)
-      const summary = [
-        'Confirme seus dados:',
-        `• Nome: ${cadNome}`,
-        `• CPF: ${maskCPF(cadCpf)}`,
-        `• Nascimento: ${cadDataNasc}`,
-        `• E-mail: ${cadEmail}`,
-        value ? `• Telefone: ${value}` : null,
-        '', 'Está correto?',
-      ].filter(Boolean).join('\n')
-      setStep('CAD_CONFIRMAR'); addBot(summary)
-      setChoices([{ label: 'Sim, confirmar', value: 'SIM' }, { label: 'Não, cancelar', value: 'NAO' }])
-      return
-    }
+      if (step === 'CAD_TELEFONE') {
+        addUser(value || '(sem telefone)')
+        setCadTelefone(value)
+        const summary = [
+          'Confirme seus dados:',
+          `• Nome: ${cadNome}`,
+          `• CPF: ${maskCPF(cadCpf)}`,
+          `• Nascimento: ${cadDataNasc}`,
+          `• E-mail: ${cadEmail}`,
+          value ? `• Telefone: ${value}` : null,
+          '', 'Está correto?',
+        ].filter(Boolean).join('\n')
+        setStep('CAD_CONFIRMAR'); addBot(summary)
+        setChoices([{ label: 'Sim, confirmar', value: 'SIM' }, { label: 'Não, cancelar', value: 'NAO' }])
+        return
+      }
 
-    if (step === 'AGE_CPF') {
-      const digits = value.replace(/\D/g, '')
-      if (digits.length !== 11) { addBot('CPF inválido. Informe os 11 dígitos.'); return }
-      addUser(value); setLoading(true)
-      try {
-        const pacientes = await pacienteService.listar({ ativo: true })
-        const found = pacientes.find(p => p.cpf.replace(/\D/g, '') === digits)
-        if (!found) {
-          addBot('Paciente não encontrado. Verifique o CPF ou realize o cadastro primeiro.')
+      if (step === 'AGE_CPF') {
+        const digits = value.replace(/\D/g, '')
+        if (digits.length !== 11) { addBot('CPF inválido. Informe os 11 dígitos.'); return }
+        addUser(value); setLoading(true)
+        try {
+          const pacientes = await pacienteService.listar({ ativo: true })
+          if (genRef.current !== myGen) return
+          const found = pacientes.find(p => p.cpf.replace(/\D/g, '') === digits)
+          if (!found) {
+            addBot('Paciente não encontrado. Verifique o CPF ou realize o cadastro primeiro.')
+            goMenu()
+          } else {
+            setPaciente(found); setStep('AGE_SERVICO')
+            addBot(`Olá, ${found.nome.split(' ')[0]}! Qual serviço você deseja agendar?`)
+            setChoices(servicos.map(s => ({ label: `${s.nome} — R$ ${s.preco.toFixed(2)}`, value: s.id })))
+          }
+        } catch {
+          if (genRef.current !== myGen) return
+          addBot('Erro ao buscar paciente. Tente novamente.')
           goMenu()
-        } else {
-          setPaciente(found); setStep('AGE_SERVICO')
-          addBot(`Olá, ${found.nome.split(' ')[0]}! Qual serviço você deseja agendar?`)
-          setChoices(servicos.map(s => ({ label: `${s.nome} — R$ ${s.preco.toFixed(2)}`, value: s.id })))
-        }
-      } catch {
-        addBot('Erro ao buscar paciente. Tente novamente.')
-        goMenu()
-      } finally { setLoading(false) }
-      return
-    }
+        } finally { if (genRef.current === myGen) setLoading(false) }
+        return
+      }
 
-    if (step === 'AGE_DATA') {
-      const parsed = parseDate(value)
-      if (!parsed) { addBot('Data inválida. Use o formato DD/MM/AAAA.'); return }
-      addUser(parsed); setLoading(true)
-      try {
-        const slotsResult = await agendamentoService.getSlots(
-          servico!.medicoId,
-          servico!.domiciliar ? undefined : estabelecimento!.id,
-          brDateToISO(parsed)
-        )
-        setSlots(slotsResult)
-        if (slotsResult.length === 0) {
-          addBot('Sem horários disponíveis nesta data. Informe outra data:')
-        } else {
-          setStep('AGE_SLOT')
-          addBot('Escolha o horário desejado:')
-          setChoices(slotsResult.map(s => ({ label: formatSlotLabel(s), value: s.dataHoraInicio })))
-        }
-      } catch {
-        addBot('Erro ao buscar horários. Tente novamente.')
-      } finally { setLoading(false) }
-      return
-    }
+      if (step === 'AGE_DATA') {
+        const parsed = parseDate(value)
+        if (!parsed) { addBot('Data inválida. Use o formato DD/MM/AAAA.'); return }
+        addUser(parsed); setLoading(true)
+        try {
+          const slotsResult = await agendamentoService.getSlots(
+            servico!.medicoId,
+            servico!.domiciliar ? undefined : estabelecimento!.id,
+            brDateToISO(parsed)
+          )
+          if (genRef.current !== myGen) return
+          setSlots(slotsResult)
+          if (slotsResult.length === 0) {
+            addBot('Sem horários disponíveis nesta data. Informe outra data:')
+          } else {
+            setStep('AGE_SLOT')
+            addBot('Escolha o horário desejado:')
+            setChoices(slotsResult.map(s => ({ label: formatSlotLabel(s), value: s.dataHoraInicio })))
+          }
+        } catch {
+          if (genRef.current !== myGen) return
+          addBot('Erro ao buscar horários. Tente novamente.')
+        } finally { if (genRef.current === myGen) setLoading(false) }
+        return
+      }
 
-    if (step === 'AGE_OBS') {
-      addUser(value || '(sem observações)')
-      setAgeObs(value)
-      const localLabel = servico?.domiciliar
-        ? `Domiciliar${paciente?.cidade ? ` — ${paciente.cidade}/${paciente.uf}` : ''}`
-        : (estabelecimento?.nome ?? '—')
-      const precoTotal = servico
-        ? servico.preco + (servico.domiciliar ? (servico.taxaDeslocamento ?? 0) : 0)
-        : 0
-      const summary = [
-        'Confirme o agendamento:',
-        `• Paciente: ${paciente?.nome}`,
-        `• Serviço: ${servico?.nome}`,
-        `• Local: ${localLabel}`,
-        `• Horário: ${slot ? formatDateTime(slot.dataHoraInicio) : ''}`,
-        `• Valor: R$ ${precoTotal.toFixed(2)}`,
-        value ? `• Obs: ${value}` : null,
-        '', 'Confirmar?',
-      ].filter(Boolean).join('\n')
-      setStep('AGE_CONFIRMAR'); addBot(summary)
-      setChoices([{ label: 'Sim, confirmar', value: 'SIM' }, { label: 'Não, cancelar', value: 'NAO' }])
+      if (step === 'AGE_OBS') {
+        addUser(value || '(sem observações)')
+        setAgeObs(value)
+        const localLabel = servico?.domiciliar
+          ? `Domiciliar${paciente?.cidade ? ` — ${paciente.cidade}/${paciente.uf}` : ''}`
+          : (estabelecimento?.nome ?? '—')
+        const precoTotal = servico
+          ? servico.preco + (servico.domiciliar ? (servico.taxaDeslocamento ?? 0) : 0)
+          : 0
+        const summary = [
+          'Confirme o agendamento:',
+          `• Paciente: ${paciente?.nome}`,
+          `• Serviço: ${servico?.nome}`,
+          `• Local: ${localLabel}`,
+          `• Horário: ${slot ? formatDateTime(slot.dataHoraInicio) : ''}`,
+          `• Valor: R$ ${precoTotal.toFixed(2)}`,
+          value ? `• Obs: ${value}` : null,
+          '', 'Confirmar?',
+        ].filter(Boolean).join('\n')
+        setStep('AGE_CONFIRMAR'); addBot(summary)
+        setChoices([{ label: 'Sim, confirmar', value: 'SIM' }, { label: 'Não, cancelar', value: 'NAO' }])
+      }
+    } finally {
+      busyRef.current = false
     }
   }
 

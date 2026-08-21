@@ -1,0 +1,22 @@
+A40 — Forçar um erro real no agendamento (page.route intercepta POST /agendamentos com 500)
+
+Interceptação real via Playwright `page.route('**/v1/api/agendamentos', ...)`: para requisições
+POST, `route.fulfill({ status: 500, body: { detail: 'Erro simulado de QA (page.route) para teste
+A40' } })`; GET continua normalmente via `route.continue()`.
+
+Refeito o fluxo completo (CPF 111.444.777-35, Consulta Cardiológica, Clínica Vida Saudável,
+24/08/2026, 11:30, sem observação) até a confirmação, e escolhido "Sim, confirmar":
+- Console mostra o erro cru: "Failed to load resource: the server responded with a status of 500
+  (Internal Server Error) @ http://localhost:3001/v1/api/agendamentos:0".
+- Bot exibe a mensagem tratada: "Erro ao agendar: Erro simulado de QA (page.route) para teste A40"
+  (texto do campo `detail` da resposta simulada, repassado pelo interceptor de `api.ts`), com as
+  opções "1.Tentar novamente" / "2.Cancelar".
+- Dados da conversa (paciente, serviço, local, horário) permanecem intactos no resumo mostrado —
+  nenhum dado foi perdido pelo erro.
+- Escolhido "Cancelar": volta ao menu normalmente.
+- `page.unroute()` chamado ao final para remover a interceptação e não afetar os testes seguintes.
+
+Screenshot: A40.png.
+
+RESULTADO: PASS. Erro de rede real (500) tratado corretamente, com mensagem legível e opções de
+retry/cancelamento, sem perda de dados nem crash da aplicação.

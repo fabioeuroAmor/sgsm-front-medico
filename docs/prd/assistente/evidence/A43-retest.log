@@ -1,0 +1,27 @@
+RETESTE A43 — "reiniciar" durante requisição pendente, após contador de geração (genRef) em
+ChatbotWidget.tsx
+
+Ação: interceptada via `page.route('**/v1/api/pacientes**', ...)` a resposta de
+`GET /v1/api/pacientes` para atrasá-la propositalmente em 2s (`page.waitForTimeout(2000)` dentro do
+handler de rota, Playwright real — sem mock de dados da aplicação). Submetido o CPF
+"111.444.777-35" em AGE_CPF (dispara a requisição atrasada), aguardado 500ms (requisição
+comprovadamente em voo, "loading"), e clicado "reiniciar" ANTES da resposta atrasada resolver.
+Estado da conversa comparado em 3 momentos.
+
+1) Estado logo ANTES do reset (requisição ainda pendente):
+["Olá! Como posso ajudar você hoje?", "Agendar uma consulta",
+ "Para agendar, preciso identificar você. Informe o seu CPF:", "111.444.777-35"]
+
+2) Estado logo APÓS clicar "reiniciar" (requisição ainda pendente em background):
+["Olá! Como posso ajudar você hoje?"]
+
+3) Estado 2.5s depois, quando a requisição atrasada finalmente resolve (passou dos 2s de delay):
+["Olá! Como posso ajudar você hoje?"]
+
+Resultado: PASS. A conversa permanece exatamente no menu reiniciado nos 3 momentos — nenhuma
+mensagem "fantasma" (ex. saudação ao paciente encontrado) foi injetada quando a requisição
+abandonada finalmente resolveu. Antes da correção, o item (2) e (3) divergiam: uma mensagem de
+`addBot`/mudança de `step` da requisição antiga aparecia sobrescrevendo o menu recém-reiniciado.
+Corrigido com um contador `genRef` incrementado em `reset()`; cada operação assíncrona captura sua
+geração no início e descarta silenciosamente qualquer atualização de estado se a geração mudou
+nesse meio tempo (usuário reiniciou a conversa).

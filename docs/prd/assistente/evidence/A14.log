@@ -1,0 +1,9 @@
+A14 — Submeter data em formato inválido/incompleto
+
+Digitado "3113" (4 dígitos) -> máscara exibe "31/13" (incompleto, sem ano). Ao pressionar Enter,
+parseDate("31/13") não casa em nenhum dos ramos de regex (m1 exige ano de 4 dígitos completo) ->
+retorna null -> bot responde "Data inválida. Use o formato DD/MM/AAAA.", sem avançar (2ª ocorrência
+da mesma mensagem confirmada via browser_find, a 1ª vinda do teste de A13 com "10/20/00").
+Screenshot: A14.png.
+
+RESULTADO: PASS.

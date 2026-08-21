@@ -1,0 +1,14 @@
+A26 — Escolher "Agendar uma consulta" busca serviços ativos e pergunta o CPF
+
+Ao escolher a opção no MENU: `GET /v1/api/servicos-medicos?ativo=true` => 200 OK (network id 83).
+Lista veio com 1 serviço ("Consulta Cardiológica"), então o bot avança e pergunta:
+"Para agendar, preciso identificar você. Informe o seu CPF:" (passo AGE_CPF).
+(Caso "lista vazia" não pôde ser reproduzido neste ambiente pois sempre há pelo menos 1 serviço
+ativo cadastrado — o comportamento de lista vazia está implementado no código, linha 189-192 de
+ChatbotWidget.tsx: `if (list.length === 0) { addBot('Não há serviços disponíveis...'); goMenu() }`,
+mas não pôde ser observado ao vivo com os dados reais deste ambiente.)
+
+Screenshot: A26.png.
+
+RESULTADO: PASS (fluxo principal). Cenário de lista vazia não testável ao vivo neste ambiente
+(sempre há serviço ativo cadastrado), mas o código trata esse caso.

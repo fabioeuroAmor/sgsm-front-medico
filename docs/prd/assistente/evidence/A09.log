@@ -1,0 +1,9 @@
+A09 — Submeter nome vazio
+
+Pressionar Enter com o campo de nome vazio: bot responde "Por favor, informe o seu nome completo.",
+permanece no passo CAD_NOME (textbox "Nome completo..." continua visível). network_requests
+confirma nenhuma chamada nova disparada (só as 4 chamadas anteriores de autenticação/pacientes,
+ids 72-78, nada relacionado ao assistente).
+Screenshot: A09.png.
+
+RESULTADO: PASS.

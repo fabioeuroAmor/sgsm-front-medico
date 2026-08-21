@@ -1,0 +1,8 @@
+A27 — Submeter CPF incompleto no fluxo de agendamento
+
+Preenchido "123" (3 dígitos) e Enter: bot responde "CPF inválido. Informe os 11 dígitos.", sem
+avançar. network_requests confirma nenhuma chamada nova de `GET /v1/api/pacientes` disparada.
+
+Screenshot: A27.png.
+
+RESULTADO: PASS.

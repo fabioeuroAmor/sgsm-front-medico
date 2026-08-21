@@ -1,0 +1,17 @@
+A23 — Cadastro com dados válidos e CPF/e-mail fictícios inéditos retorna sucesso
+
+Dados usados: Nome "QA Assistente Cadastro OK", CPF fictício com dígito verificador
+matematicamente válido "111.444.777-35" (gerado propositalmente para passar na validação do
+backend, já que a tentativa anterior com "222.333.444-55" — sem dígito verificador válido — foi
+rejeitada com 400, ver `A23-checksum-reject.log`), data de nascimento 15/06/1990, e-mail
+"qa.assistente.cadastro@naoexiste.com" (domínio fictício), sem telefone.
+
+Ao escolher "Sim, confirmar": `POST /v1/api/pacientes` => 201 Created (confirmado em
+network_requests, id 80). Bot responde "Cadastro realizado com sucesso! Agora você pode agendar
+consultas. O que deseja fazer?" e volta ao MENU.
+
+Screenshot: A23.png.
+
+RESULTADO: PASS. Paciente de teste "QA Assistente Cadastro OK" (CPF 111.444.777-35) criado com
+sucesso via widget — usado também em A24/A25 (duplicidade) e A29 (busca por CPF no fluxo de
+agendamento).

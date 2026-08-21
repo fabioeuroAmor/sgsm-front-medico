@@ -1,0 +1,30 @@
+RETESTE A42 — Duplo clique em "Sim, confirmar" (AGE_CONFIRMAR) após guard síncrono (busyRef) em
+ChatbotWidget.tsx
+
+Fluxo reproduzido até a tela de confirmação de agendamento: CPF 111.444.777-35 (paciente "QA
+Assistente Cadastro OK") → serviço "Consulta Cardiológica — R$ 200.00" → estabelecimento "Clínica
+Vida Saudável" → data 24/08/2026 → horário 08:00 → observação vazia → tela de confirmação.
+
+Ação: 2 cliques no botão "Sim, confirmar" disparados no MESMO tick de JS via
+`confirmBtn.click(); confirmBtn.click();` dentro do mesmo `page.evaluate`, sem yield entre eles —
+mesma condição de corrida original que gerava 2 requisições (A42) e o efeito cascata onde
+"Cancelar" iniciava um novo agendamento silenciosamente.
+
+Rede observada (filtrado por POST /v1/api/agendamentos):
+- postCount: 1
+
+Mensagens finais da conversa (sem erro, sem cascata, sem duplicidade):
+"Confirme o agendamento:
+• Paciente: QA Assistente Cadastro OK
+• Serviço: Consulta Cardiológica
+• Local: Clínica Vida Saudável
+• Horário: 24/08/2026, 08:00
+• Valor: R$ 200.00
+Confirmar?"
+"Sim, confirmar"
+"Agendamento realizado com sucesso! Em breve você receberá a confirmação. O que deseja fazer?"
+
+Resultado: PASS. Apenas 1 POST /agendamentos disparado (antes da correção eram 2: 1 sucesso + 1
+erro de conflito de horário, com efeito cascata ao clicar "Cancelar" depois). Guard síncrono
+`busyRef` bloqueou o segundo clique antes mesmo de qualquer `setState`, eliminando também o efeito
+cascata (não há mais uma segunda chamada concorrente que possa dessincronizar `step`/`choices`).

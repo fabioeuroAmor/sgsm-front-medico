@@ -1,0 +1,20 @@
+A47 — Navegação por Tab entre opções de escolha com foco visível, ativação por Enter/Space
+
+Sequência de Tab a partir do botão "Assistente virtual" (foco programático): Tab -> "reiniciar",
+Tab -> "1.Cadastrar-me como paciente", Tab -> "2.Agendar uma consulta" (confirmado via
+`document.activeElement.textContent` em cada passo). Ordem de tabulação segue a ordem visual/DOM
+esperada (cabeçalho -> mensagens -> escolhas -> input). Screenshot `A47-tab-focus.png` mostra o anel
+de foco visível (outline do navegador) no botão de escolha focado.
+
+Ativação por ENTER: com foco em "2.Agendar uma consulta", pressionado Enter -> a escolha foi
+processada normalmente (bot avançou o fluxo, mostrando "Erro ao buscar serviços. Tente novamente."
+— comportamento esperado sem sessão, consistente com A45, não um bug novo).
+
+Ativação por SPACE: reiniciado, Tab até "1.Cadastrar-me como paciente", pressionado Space -> a
+escolha foi processada normalmente (bot avançou para CAD_NOME, "Vamos ao seu cadastro! Qual é o seu
+nome completo?").
+
+RESULTADO: PASS. Todos os botões de escolha (menu, e por extensão serviços/estabelecimentos/
+horários, que usam o mesmo componente `<button>` nativo) recebem foco visível via Tab e podem ser
+ativados por Enter ou Space, como esperado do elemento HTML `<button>` semântico usado no código
+(linha 530 de ChatbotWidget.tsx).

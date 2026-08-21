@@ -1,0 +1,52 @@
+A39 — Escolher "Sim, confirmar" no agendamento retorna sucesso; verificar se o agendamento foi
+realmente criado
+
+Repetido o fluxo completo (CPF 111.444.777-35, serviço "Consulta Cardiológica", estabelecimento
+"Clínica Vida Saudável", data 24/08/2026, horário 09:00, sem observação) e confirmado com
+"Sim, confirmar":
+
+`POST /v1/api/agendamentos` => 201 Created (network id 94). Corpo da resposta confirma criação
+completa e correta:
+{
+  "id": "db699f84-b3a3-4d2d-9ae1-79bc6f706c2c",
+  "pacienteId": "163acedd-df67-4090-acf8-7b24de655d5f",
+  "pacienteNome": "QA Assistente Cadastro OK",
+  "servicoMedicoId": "50479e9a-4a2c-4895-a602-5b401086b980",
+  "servicoMedicoNome": "Consulta Cardiológica",
+  "medicoId": "8482459d-f664-47b3-b6a2-d2c4cee5c889",
+  "medicoNome": "Dr. Carlos Mendes",
+  "estabelecimentoId": "b41d4cd7-9cd5-4f36-84f2-d0904c7ced7b",
+  "estabelecimentoNome": "Clínica Vida Saudável",
+  "tipo": "PRESENCIAL",
+  "dataHoraInicio": "2026-08-24T12:00:00Z",
+  "dataHoraFim": "2026-08-24T12:30:00Z",
+  "status": "PENDENTE",
+  ...
+}
+Bot responde "Agendamento realizado com sucesso! Em breve você receberá a confirmação. O que deseja
+fazer?" e volta ao menu. Screenshot: A39.png.
+
+VERIFICAÇÃO PEDIDA PELO ITEM (via /agendamentos) — ACHADO CRÍTICO DE BACKEND:
+Navegado (client-side) para /agendamentos logo em seguida: a tela mostra "Nenhum agendamento
+encontrado", mesmo o POST ter retornado 201 com o registro completo acima.
+- `GET /v1/api/agendamentos` (sem filtro, network id 99 e 102) => 200 OK, corpo `[]` (lista vazia).
+- Tentado filtrar explicitamente pelo médico correto: digitado "Carlos" no campo de busca de
+  médico, selecionada a sugestão "Dr. Carlos Mendes" (mesmo `medicoId` do agendamento recém-criado,
+  8482459d-f664-47b3-b6a2-d2c4cee5c889) -> `GET /v1/api/agendamentos?medicoId=8482459d-...`
+  (network id 103) => 200 OK, corpo AINDA `[]`.
+- Reload completo da página (F5) e nova checagem: "Nenhum agendamento encontrado" persiste.
+  Screenshot: A39-agendamento-sumiu.png.
+
+CONCLUSÃO: o agendamento criado pelo widget é genuíno no backend (POST retornou 201 com payload
+completo e coerente, incluindo o `id` do registro), mas desaparece/nunca aparece em
+`GET /v1/api/agendamentos`, mesmo filtrando explicitamente pelo médico exato dono do registro e
+mesmo após reload completo da página. Isto é EXATAMENTE o mesmo padrão de bug de persistência/
+consistência de backend já documentado no QA de Médicos deste projeto (achado crítico #1 de
+`docs/prd/medicos/qa-results.md`: "Perda de dados recém-criados" — lá para `/v1/api/medicos`, aqui
+para `/v1/api/agendamentos`). NÃO é um bug de front-end: o ChatbotWidget faz a chamada certa, com o
+payload certo, e exibe corretamente a resposta de sucesso que o backend devolveu.
+
+RESULTADO: PASS para o comportamento do WIDGET (POST correto, mensagem de sucesso correta).
+ACHADO CRÍTICO DE BACKEND (fora do escopo deste repositório front-end): agendamentos criados não
+aparecem em `GET /v1/api/agendamentos`, nem filtrando pelo médico exato, nem após reload — mesma
+classe de bug já vista em Médicos (M55).

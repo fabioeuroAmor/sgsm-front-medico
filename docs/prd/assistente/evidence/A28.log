@@ -1,0 +1,10 @@
+A28 — CPF de 11 dígitos que não pertence a nenhum paciente cadastrado
+
+Preenchido "999.888.777-66" (fictício, não cadastrado) e Enter: `GET /v1/api/pacientes?ativo=true`
+disparado (network id 84), lista retornada não contém esse CPF -> bot responde "Paciente não
+encontrado. Verifique o CPF ou realize o cadastro primeiro." e volta ao MENU (com a opção
+"Cadastrar-me como paciente" reaparecendo).
+
+Screenshot: A28.png.
+
+RESULTADO: PASS.

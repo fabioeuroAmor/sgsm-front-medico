@@ -1,0 +1,25 @@
+A30 — Escolher um serviço domiciliar pula a etapa de estabelecimento
+
+O ambiente original só tinha 1 serviço ativo ("Consulta Cardiológica", não domiciliar) — não havia
+nenhum serviço domiciliar para reproduzir este item ao vivo. Para testar de forma real (sem mock),
+foi criado um serviço de teste via a própria tela `/servicos` (não editando código, apenas usando a
+aplicação): "QA Assistente Domiciliar Teste", médico "eduarda silva" (o usuário logado), R$ 150,00,
+30 min, toggle "Atendimento domiciliar" ativado (clique na trilha visual do switch, já que clicar só
+no texto do label não ativa de forma confiável — mesmo achado de acessibilidade menor já visto no QA
+de Médicos), taxa de deslocamento R$ 20,00. `POST /v1/api/servicos-medicos` => 201 Created.
+
+De volta ao widget, fluxo "Agendar uma consulta" -> CPF 111.444.777-35 -> lista agora mostra 2
+serviços, escolhido "QA Assistente Domiciliar Teste — R$ 150.00":
+- Bot responde imediatamente "Atendimento domiciliar 🏠 — irei até você!\nQual data você deseja
+  agendar? (DD/MM/AAAA)" — mensagem específica de atendimento domiciliar confirmada.
+- network_requests confirma que NENHUMA nova chamada a
+  `GET /v1/api/agendamentos/medico/{id}/estabelecimentos` foi disparada para este serviço (as únicas
+  ocorrências nos ids 87/92 são de antes, da "Consulta Cardiológica") — a etapa de estabelecimento
+  foi realmente pulada, avançando direto para AGE_DATA.
+
+Screenshot: A30.png.
+
+RESULTADO: PASS. (Teste de data/horário para completar o agendamento domiciliar não pôde ser
+finalizado neste item porque o médico "eduarda silva" não tem agenda/horários configurados neste
+ambiente — sem impacto no item em si, que testa apenas o "pulo" da etapa de estabelecimento e a
+mensagem específica, ambos confirmados.)

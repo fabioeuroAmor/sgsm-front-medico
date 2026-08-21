@@ -1,0 +1,21 @@
+RETESTE A52 — Layout mobile do header do app após correção em src/components/layout/Layout.tsx
+
+Correção aplicada: container raiz de `Layout.tsx` passou de `className="flex min-h-screen ..."`
+para `className="flex flex-col lg:flex-row min-h-screen ..."`, forçando o header mobile
+(`lg:hidden`) a empilhar ACIMA do conteúdo principal em vez de ficar ao lado dele como item de um
+flex row (que o esticava verticalmente por causa do `align-items: stretch` padrão).
+
+Ação: viewport redimensionado para 375x667 (mobile), navegado para `/pacientes` (página com
+conteúdo bem mais alto que a viewport, a mesma condição que expunha o bug original).
+
+Medição via DOM antes de abrir o assistente:
+{
+  "header": { "w": 360, "h": 57 },
+  "main": { "w": 360, "h": 3949 },
+  "bodyScrollHeight": 4005
+}
+
+Resultado: PASS. Altura do `<header>` = 57px (tamanho natural do conteúdo, cabeçalho "SGSM" com
+ícone e botão de menu), NÃO mais esticado para ~3700-3949px como no bug original. Print
+`A52-retest.png` confirma visualmente o assistente aberto ("Assistente SGSM") totalmente legível e
+utilizável logo abaixo do header mobile, sem sobreposição.

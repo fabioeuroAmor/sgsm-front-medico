@@ -1,0 +1,17 @@
+A07 — F5 (reload completo) no meio de um fluxo perde o estado, widget volta ao menu
+
+Passos:
+1. Partindo do estado de A06 (painel fechado, mas conversa em CAD_NOME com o nome digitado, em
+   /pacientes), disparar `page.goto('http://localhost:3001/pacientes')` — equivalente a F5/reload
+   completo (recarrega o documento inteiro, diferente da navegação SPA usada em A05/A06).
+2. Reabrir o painel do assistente.
+3. Snapshot confirma: mensagem inicial "Olá! Sou o assistente do SGSM. Como posso ajudar você hoje?"
+   e as duas opções de menu ("1.Cadastrar-me como paciente", "2.Agendar uma consulta") — voltou ao
+   estado MENU, sem nenhum resquício do nome "QA Assistente Teste A05" digitado antes do reload.
+   Screenshot: A07.png.
+
+Console: 0 erros / 0 warnings.
+
+RESULTADO: PASS (comportamento esperado documentado). Confirma que o estado do ChatbotWidget é
+apenas em memória (useState do React), sem persistência em localStorage/sessionStorage — um F5
+sempre reseta a conversa ao estado inicial, diferente da navegação client-side de A05/A06.

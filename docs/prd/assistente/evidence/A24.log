@@ -1,0 +1,14 @@
+A24 — Repetir cadastro com o MESMO CPF já cadastrado em A23 (duplicado)
+
+Novo fluxo de cadastro com nome "QA Assistente Cadastro Dup", MESMO CPF de A23
+("111.444.777-35"/"11144477735"), mesma data, e-mail diferente
+("qa.assistente.dup@naoexiste.com"). Ao confirmar: `POST /v1/api/pacientes` => 400 Bad Request
+(network id 81). Bot exibe "Erro ao cadastrar: CPF já cadastrado: 11144477735" (mensagem do
+backend repassada de forma legível pelo interceptor de api.ts) e oferece as opções
+"1.Tentar novamente" / "2.Cancelar", SEM perder os dados já digitados (nome, data, e-mail
+continuam em memória no estado React `cadNome`/`cadDataNasc`/`cadEmail`/`cadCpf`).
+
+Screenshot: A24.png.
+
+RESULTADO: PASS. Erro de duplicidade tratado corretamente, com mensagem clara e opções de retry/
+cancelamento, sem perda de dados.

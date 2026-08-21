@@ -1,0 +1,23 @@
+RETESTE A41 — Duplo Enter em AGE_CPF após guard síncrono (busyRef) em ChatbotWidget.tsx
+
+Ação: digitado CPF "111.444.777-35" no passo AGE_CPF e disparados 2 eventos KeyboardEvent('Enter')
+no MESMO tick de JS via dispatchEvent (sem await entre eles), replicando exatamente a condição de
+corrida original.
+
+Rede observada (filtrado por GET /v1/api/pacientes):
+- requestsFired: 1
+- requestUrls: ["http://localhost:3001/v1/api/pacientes?ativo=true"]
+
+Mensagens na conversa após o teste (sem duplicação):
+[
+  "Olá! Sou o assistente do SGSM. Como posso ajudar você hoje?",
+  "Agendar uma consulta",
+  "Para agendar, preciso identificar você. Informe o seu CPF:",
+  "111.444.777-35",
+  "Olá, QA! Qual serviço você deseja agendar?"
+]
+
+Resultado: PASS. Apenas 1 requisição GET /pacientes disparada e apenas 1 mensagem de saudação
+("Olá, QA!") — antes da correção eram 2 requisições e 2 mensagens duplicadas. Guard síncrono
+`busyRef` (verificado antes de qualquer `addUser`/`setState`) bloqueou corretamente o segundo Enter
+disparado no mesmo tick.

@@ -1,0 +1,25 @@
+A46 — Foco automático depende só de `open`, não do passo atual
+
+TESTE 1 — abrir o painel diretamente num passo com campo de texto (fechar e reabrir já em
+CAD_NOME): fechado o painel (`open` vai de true->false) e reaberto (`open` volta a true) enquanto a
+conversa já estava no passo CAD_NOME (texto). `document.activeElement` após reabrir: `{tag: "INPUT",
+placeholder: "Nome completo..."}` — o foco FOI movido automaticamente para o input, confirmando o
+efeito `useEffect(() => { if (open) setTimeout(() => inputRef.current?.focus(), 150) }, [open])`
+(linha 152-154 de ChatbotWidget.tsx) funciona quando `open` MUDA de false->true.
+Screenshot: `A46-reopen-focus.png`.
+
+TESTE 2 — avançar de um passo "somente escolha" (MENU) para um passo com campo de texto (CAD_NOME)
+SEM fechar/reabrir o painel (reiniciado o widget, clicado direto em "Cadastrar-me como paciente" com
+o painel já aberto o tempo todo): `document.activeElement` logo após o clique: `{tag: "BODY",
+placeholder: null}` — o foco NÃO foi movido para o novo input; ficou em `<body>` (nenhum elemento
+focado de fato). O usuário precisa clicar manualmente no campo de texto para poder digitar.
+Screenshot: `A46-no-autofocus.png`.
+
+CAUSA RAIZ (código): o efeito de foco (linhas 152-154) tem como única dependência `[open]` — ele só
+dispara quando o painel abre/fecha, nunca quando `step` muda internamente com o painel já aberto.
+Isso confirma exatamente a suspeita do item do test-plan.
+
+RESULTADO: PASS/documentado (achado de UX menor, não bloqueante). Comportamento real confirmado:
+foco automático só funciona ao ABRIR o painel, não ao avançar de passo com o painel já aberto —
+seria uma melhoria de acessibilidade adicionar `step` (ou um contador de "step com input") às
+dependências do efeito de foco.

@@ -1,0 +1,21 @@
+A51 — Payload tipo SQLi (`' OR 1=1--`) no campo de nome trafega como texto comum
+
+Digitado `' OR 1=1--` como nome no cadastro, seguido de CPF "98765432100" (passou na validação de
+checksum do backend por acaso), data 01/01/1995, e-mail "qa.sqli@naoexiste.com". Confirmado o
+cadastro:
+
+`POST /v1/api/pacientes` => 201 Created (network id 84). Corpo da resposta confirma o payload
+armazenado literalmente como string, sem qualquer interpretação como comando SQL:
+`{"id":"9d69c769-857d-4c41-bc9a-abf659950ead","nome":"' OR 1=1--","cpf":"98765432100",...}`
+
+- Nenhum erro de banco de dados exposto (sem stack trace, sem mensagem de SQL cru).
+- Nenhuma quebra da aplicação (a lista de pacientes em `/pacientes` continuou funcionando
+  normalmente, sem side-effects visíveis de "OR 1=1" — não retornou todos os registros nem nada
+  incomum).
+- Bot respondeu normalmente "Cadastro realizado com sucesso!..." e voltou ao menu.
+
+Screenshot: A51.png.
+
+RESULTADO: PASS. O payload de SQLi é tratado como texto comum tanto pelo front (React escapa) quanto
+pelo backend (persistência via ORM/queries parametrizadas, sem concatenação direta de string SQL
+vulnerável, a julgar pelo comportamento observado — nenhuma evidência de injeção bem-sucedida).

@@ -1,0 +1,15 @@
+A01 — Botão flutuante do Assistente aparece em /login (sem sessão) e em /pacientes (autenticado)
+
+1) Navegação para http://localhost:3001/login (sem sessão, localStorage limpo pelo browser novo):
+   Snapshot da página confirma:
+   - button "Assistente virtual" [ref=f1e3] presente, antes de qualquer elemento de rota
+   Console (0 erros, 0 warnings) — 3 mensagens totais, nenhuma de nível warning/error.
+   Screenshot: A01-login.png
+
+2) Login com eduardasilva@gmail.com / joaozinh7 -> redireciona para /pacientes (rota autenticada).
+   Screenshot A01-pacientes.png confirma o mesmo botão "Assistente virtual" no canto inferior direito,
+   com o mesmo layout, junto com a sidebar/lista de pacientes ao fundo.
+   Console (0 erros, 0 warnings) após a navegação.
+
+RESULTADO: PASS. O widget é global (montado fora de <Routes> em App.tsx) e aparece identicamente em
+página pública (/login) e página autenticada (/pacientes).

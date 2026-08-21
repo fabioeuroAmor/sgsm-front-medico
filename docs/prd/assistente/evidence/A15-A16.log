@@ -1,0 +1,24 @@
+A15/A16 — Data com dia/mês fora do calendário real (31/02/2020) é aceita pelo front (só valida
+formato); avança para e-mail
+
+Digitado "31022020" (8 dígitos) -> máscara exibe "31/02/2020" (31 de fevereiro não existe no
+calendário real, mas tem o formato DD/MM/AAAA correto). parseDate("31/02/2020") casa no ramo m1
+(regex só valida a FORMA numérica, não se o dia é válido para o mês) -> retorna "31/02/2020" ->
+front aceita e avança para CAD_EMAIL (bot: "Informe o seu e-mail:"), sem nenhuma mensagem de aviso
+sobre a data ser calendarialmente inválida.
+
+Este valor "31/02/2020" foi propositalmente levado adiante no restante do fluxo de teste (A17-A22)
+para observar o comportamento downstream. Em A22 o cadastro foi cancelado antes do POST, então o
+comportamento do BACKEND ao receber essa data (validação de calendário) não pôde ser observado
+nesta rodada com essa data específica — ver A23 para um cadastro completo com data válida, e nota de
+achado abaixo.
+
+Screenshot: A15-A16.png.
+
+RESULTADO: PASS/documentado. Achado (não bloqueante): o front-end não valida se a data de
+nascimento existe no calendário real (só o formato DD/MM/AAAA via regex), repassando datas como
+31/02 para o backend. Como o teste de A22 cancelou antes do envio, recomenda-se teste adicional de
+regressão focado em confirmar SE o backend rejeita essa data com erro tratado (ver mensagem de erro
+em CAD_CONFIRMAR, mesmo tratamento de A24) ou aceita silenciosamente (ex. normalizando para
+01/03/2020) — não foi possível confirmar qual dos dois acontece nesta execução porque o cancelamento
+foi escolhido deliberadamente em A22 para testar esse item em separado do fluxo de sucesso.

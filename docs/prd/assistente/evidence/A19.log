@@ -1,0 +1,8 @@
+A19 — E-mail válido avança para telefone (opcional); máscara (00) 00000-0000 aplicada
+
+Digitado "abc11987654321xyz" (letras misturadas) no campo de telefone -> input.value resultou em
+"(11) 98765-4321" — confirma que a máscara ignora letras e formata corretamente os primeiros 11
+dígitos como celular com DDD.
+Screenshot: A19.png.
+
+RESULTADO: PASS.

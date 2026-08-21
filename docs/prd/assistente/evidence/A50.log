@@ -1,0 +1,13 @@
+A50 — Observação de agendamento muito longa (300+ caracteres) aceita, sem quebrar layout
+
+Digitada uma observação de 324 caracteres (frase repetida 9 vezes: "Observação de teste QA muito
+longa. " x9) no campo de observação (AGE_OBS) e Enter. O campo aceitou o texto completo sem
+truncamento. Na tela de confirmação (AGE_CONFIRMAR), a linha "• Obs: ..." exibe o texto completo,
+quebrando linha corretamente dentro da bolha de mensagem (classe `whitespace-pre-line` confirmada
+visualmente no screenshot) — o painel do assistente permanece com sua largura fixa (`w-80`), sem
+overflow horizontal, com scroll vertical funcionando normalmente na área de mensagens.
+
+Screenshot: A50.png (mostra a bolha de confirmação com o texto longo quebrando em várias linhas
+dentro da largura do painel, sem estourar layout).
+
+RESULTADO: PASS. Texto longo aceito e exibido corretamente, sem quebrar o layout do painel.

@@ -1,0 +1,18 @@
+A05 — Persistência de estado ao navegar entre páginas (SPA, sem fechar o widget)
+
+Passos:
+1. Em /pacientes, abrir o widget, escolher "Cadastrar-me como paciente" -> passo CAD_NOME.
+2. Digitar (sem enviar) "QA Assistente Teste A05" no campo de nome. Screenshot A05-before-nav.png.
+3. Navegar para /medicos via link da sidebar (clique disparado via dispatchEvent no <a href="/medicos">,
+   pois o clique nativo do Playwright sofreu o timeout de "elemento estável" já conhecido de outros QAs
+   deste projeto — o header mobile fixo intercepta o ponteiro). Confirmado: page.url() = .../medicos,
+   SEM reload de página (SPA/React Router, navegação puramente client-side).
+4. browser_find por "Nome completo" após a navegação retorna o mesmo textbox, ainda com o valor
+   "QA Assistente Teste A05" preenchido, e a mesma mensagem do bot "Vamos ao seu cadastro! Qual é o seu
+   nome completo?" — a conversa NÃO reiniciou, o componente não desmontou.
+   Screenshot: A05-after-nav.png (mostra o painel do assistente sobre a tela de /medicos, mesmo estado).
+
+Console: 0 erros / 0 warnings após a navegação.
+
+RESULTADO: PASS. Confirma que o ChatbotWidget está montado globalmente fora de <Routes> em App.tsx —
+o estado em memória (useState) sobrevive à troca de rota client-side.

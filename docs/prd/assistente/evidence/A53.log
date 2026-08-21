@@ -1,0 +1,30 @@
+A53 — Painel do assistente aberto sobre página com modal próprio ("Novo Paciente" em /pacientes) —
+sem conflito de z-index em viewport desktop
+
+Viewport desktop (1280x800). Aberto o modal "Novo Paciente" (`z-index` padrão de overlay de modal),
+e em seguida aberto o painel do assistente por cima (`z-index: 50`, `fixed bottom-24 right-6`).
+
+Confirmado visualmente (screenshot `A53.png`): os dois painéis coexistem lado a lado na tela sem se
+sobrepor de forma que torne um deles inutilizável — o modal ocupa a região central/esquerda, o
+painel do assistente fica ancorado no canto inferior direito, e como o modal não é tão largo a
+ponto de alcançar o canto inferior direito nesta resolução, não há sobreposição visual entre eles
+nesta viewport.
+
+Teste de interatividade dupla (ambos funcionais ao mesmo tempo):
+- Digitado "Teste Z-index" no campo "Nome completo" do modal "Novo Paciente" — aceito normalmente.
+- Clicado em "1.Cadastrar-me como paciente" no painel do assistente (por trás/ao lado do modal) —
+  processado normalmente, avançando a conversa do assistente para CAD_NOME ("Vamos ao seu cadastro!
+  Qual é o seu nome completo?").
+- Confirmado que o campo do MODAL manteve seu valor "Teste Z-index" intacto (`inputValue()`)
+  simultaneamente ao avanço do assistente — nenhum dos dois interferiu no outro.
+
+Screenshot: `A53-both-usable.png`.
+
+RESULTADO: PASS (nesta resolução desktop, 1280x800). Não há conflito de z-index entre o modal
+"Novo Paciente" e o painel do assistente — ambos permanecem plenamente utilizáveis simultaneamente.
+
+NOTA DE ESCOPO RELACIONADA A A52: em viewports mobile (≤ lg, ex. 375px), o bug de layout documentado
+em A52 (header mobile de `Sidebar.tsx`/`Layout.tsx` cobrindo o painel do assistente) É, na prática,
+um conflito de sobreposição real — só que entre o assistente e o PRÓPRIO chrome de navegação da
+aplicação (não um modal de conteúdo como pedido neste item A53). Ver `evidence/A52.log` para os
+detalhes completos dessa sobreposição em mobile.

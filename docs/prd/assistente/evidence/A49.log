@@ -1,0 +1,17 @@
+A49 — `<script>alert(1)</script>` como nome no cadastro aparece escapado, sem executar
+
+Digitado `<script>alert(1)</script>` no campo de nome (CAD_NOME) e Enter. Verificações:
+- `document.body.innerHTML.includes('<script>alert')` => `false` — confirma que o texto NÃO foi
+  inserido como HTML/tag real no DOM (React escapa por padrão ao renderizar `{msg.text}` como
+  filho de texto, nunca via `dangerouslySetInnerHTML`).
+- `browser_find` por "script" retorna o texto literal `<script>alert(1)</script>` como conteúdo de
+  texto puro da bolha de mensagem do usuário (visível como texto, não executado).
+- Nenhum diálogo de alerta apareceu (nenhum `dialog` disparado), nenhum novo erro de console
+  relacionado a execução de script — os 3 erros de console presentes são todos de chamadas HTTP
+  400/403 anteriores (não relacionados a este teste).
+- Fluxo continuou normalmente para CAD_CPF, sem quebra de layout ou comportamento.
+
+Screenshot: A49.png.
+
+RESULTADO: PASS. React escapa por padrão o conteúdo de `{msg.text}` (interpolação JSX simples, sem
+`dangerouslySetInnerHTML` em nenhum ponto do componente), então nenhum payload de XSS é executado.

@@ -1,0 +1,11 @@
+A22 — Escolher "Não, cancelar" cancela o cadastro e volta ao menu
+
+Clique em "Não, cancelar": bot responde "Cadastro cancelado. O que deseja fazer?" e volta ao MENU
+(botões "1.Cadastrar-me como paciente" / "2.Agendar uma consulta" reaparecem).
+network_requests confirma que NENHUM POST /v1/api/pacientes foi disparado — os dados digitados
+(incluindo a data 31/02/2020 e o e-mail "a@" propositalmente inválidos, usados para os testes de
+A15-A19) nunca chegaram ao backend, exatamente como esperado ao cancelar.
+
+Screenshot: A22.png.
+
+RESULTADO: PASS.

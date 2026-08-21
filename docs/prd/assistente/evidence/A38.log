@@ -1,0 +1,9 @@
+A38 — Escolher "Não, cancelar" no agendamento cancela e volta ao menu
+
+Clique em "Não, cancelar": bot responde "Agendamento cancelado. O que deseja fazer?" e volta ao
+MENU. network_requests confirma que nenhum `POST /v1/api/agendamentos` foi disparado (só as
+chamadas de leitura de estabelecimentos/slots já feitas antes, ids 87-89).
+
+Screenshot: A38.png.
+
+RESULTADO: PASS.

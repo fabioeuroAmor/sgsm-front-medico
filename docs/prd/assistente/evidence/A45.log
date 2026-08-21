@@ -1,0 +1,37 @@
+A45 — Fluxo "Agendar uma consulta" SEM sessão autenticada — achado diferente do temido, mas ainda
+relevante
+
+Mesmas condições de A44 (localStorage vazio, sem token, na tela `/login`). Escolhido "Agendar uma
+consulta" no menu:
+
+- `GET /v1/api/servicos-medicos?ativo=true` (network id 290) => **403 Forbidden** (não 401!).
+- Console mostra o erro cru: "Failed to load resource: the server responded with a status of 403
+  (Forbidden) @ http://localhost:3001/v1/api/servicos-medicos?ativo=true:0".
+- Como o interceptor de `api.ts` (linha 48) só intercepta especificamente
+  `err.response?.status === 401` para disparar o fluxo de refresh/redirecionamento
+  (`window.location.href = '/login'`), um 403 NÃO aciona esse ramo — cai direto no tratamento
+  genérico (linha 63-65), que apenas formata a mensagem de erro e rejeita a Promise normalmente.
+- O `catch` do `handleChoice` para a opção "Agendar uma consulta" (linhas 197-199 de
+  ChatbotWidget.tsx) captura esse erro e mostra: "Erro ao buscar serviços. Tente novamente." — uma
+  mensagem tratada e visível, com retorno ao MENU (`goMenu()`), SEM crash e SEM perder a conversa.
+- Confirmado que NENHUM POST `/v1/api/auth/refresh` adicional foi disparado (não houve tentativa de
+  refresh) e `localStorage` permaneceu `{}` — ou seja, o interceptor de 401 realmente nunca entrou
+  em ação (porque o status retornado foi 403, não 401), então o cenário "401 silencioso força reload
+  para /login perdendo a conversa inteira" NÃO se manifestou aqui.
+
+Screenshot: A45.png.
+
+RESULTADO: PASS quanto ao comportamento observado (erro tratado, sem crash, sem perda de estado,
+sem redirecionamento indevido) — MAS com um achado relevante e diferente do que o test-plan
+antecipava: o backend retorna **403** (não 401) para `GET /v1/api/servicos-medicos` sem
+autenticação, então a lógica do interceptor 401→refresh→redirect da branch `develop`
+(`src/services/api.ts` linhas 48-61) simplesmente NUNCA é exercitada neste fluxo — o que
+tecnicamente evita o bug temido aqui, mas por acaso de qual código HTTP o backend escolheu usar, não
+por um tratamento deliberado de 403 no front. Em termos de produto: a etapa "Agendar uma consulta"
+do assistente é, na prática, INACESSÍVEL para um visitante anônimo real (todo usuário sem sessão
+sempre verá "Erro ao buscar serviços. Tente novamente." e nunca conseguirá avançar), ao contrário de
+"Cadastrar-me como paciente" que é genuinamente funcional sem login (A44). Isso é coerente com o
+modelo de negócio (agendar consulta pressupõe ser um paciente já identificável pelo sistema, que só
+um usuário autenticado — médico/funcionário — consulta), mas o texto do menu do assistente não deixa
+isso explícito de nenhuma forma para quem abre o widget deslogado — o usuário só descobre a
+limitação depois de escolher a opção e ver o erro genérico.

@@ -1,0 +1,10 @@
+A34 — Data válida sem horários disponíveis
+
+Digitado "01/01/2030" (data válida em formato, mas muito distante da agenda cadastrada do médico):
+`GET /v1/api/agendamentos/slots?medicoId=...&estabelecimentoId=...&data=2030-01-01` => 200 OK
+(network id 88), lista de slots vazia -> bot responde "Sem horários disponíveis nesta data. Informe
+outra data:", permanecendo na MESMA etapa (não volta ao menu), permitindo tentar outra data.
+
+Screenshot: A34.png.
+
+RESULTADO: PASS.

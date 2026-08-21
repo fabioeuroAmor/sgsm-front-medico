@@ -1,0 +1,16 @@
+A06 — Fechar o painel (não reiniciar) mantém o estado; navegar; reabrir continua de onde parou
+
+Passos:
+1. Partindo do estado de A05 (em /medicos, painel aberto, passo CAD_NOME com "QA Assistente Teste A05"
+   digitado no campo), fechar o painel clicando no botão "Assistente virtual" (não usar "reiniciar").
+2. Navegar de volta para /pacientes via link da sidebar (dispatchEvent no <a href="/pacientes">, SPA,
+   sem reload).
+3. Reabrir o painel clicando no botão novamente.
+4. browser_find por "Nome completo" confirma: mesmo textbox, ainda com "QA Assistente Teste A05",
+   mesma mensagem de bot "Vamos ao seu cadastro! Qual é o seu nome completo?".
+   Screenshot: A06.png.
+
+Console: 0 erros / 0 warnings.
+
+RESULTADO: PASS. Fechar o painel não desmonta o componente nem reseta o estado — só o botão
+"reiniciar" explícito limpa a conversa, conforme esperado pelo item.

@@ -1,0 +1,23 @@
+A31/A32 — Serviço não domiciliar busca estabelecimentos do médico; escolher um avança para data
+
+Único serviço disponível no ambiente ("Consulta Cardiológica") é NÃO domiciliar. Ao escolher:
+`GET /v1/api/agendamentos/medico/{medicoId}/estabelecimentos` => 200 OK (network id 87), retornou
+1 estabelecimento ("Clínica Vida Saudável"), listado como opção pelo bot ("Em qual estabelecimento
+deseja ser atendido(a)?").
+(Cenário "sem estabelecimentos disponíveis" não pôde ser reproduzido ao vivo neste ambiente, pois o
+único serviço não domiciliar tem exatamente 1 estabelecimento vinculado — o comportamento está
+implementado no código, linha 220-224: se `estabs.length === 0`, bot avisa e permite escolher outro
+serviço SEM voltar ao menu principal (`setStep('AGE_SERVICO')`), mas não pôde ser observado ao vivo.)
+
+Ao escolher "Clínica Vida Saudável": avança para AGE_DATA, bot pergunta "Qual data você deseja
+agendar? (DD/MM/AAAA)".
+
+Screenshot: A31-A32.png, A32.png.
+
+RESULTADO: PASS (fluxo principal). Cenário "sem estabelecimentos" não testável ao vivo neste
+ambiente, mas o código trata esse caso sem voltar ao menu.
+
+Nota sobre A30 (serviço domiciliar): NÃO TESTÁVEL ao vivo neste ambiente — o único serviço ativo
+cadastrado ("Consulta Cardiológica") é `domiciliar: false`. Não existe nenhum serviço domiciliar
+disponível para reproduzir o ramo "Atendimento domiciliar" (mensagem específica + pular etapa de
+estabelecimento). Ver nota detalhada no item A30 do test-plan.
