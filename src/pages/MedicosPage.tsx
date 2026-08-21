@@ -292,7 +292,16 @@ export function MedicosPage() {
               <div className="flex gap-2 mt-auto">
                 <Button variant="ghost" size="sm" onClick={() => abrirEdicao(m)} className="flex-1" disabled={!podeEditar(m)} title={podeEditar(m) ? undefined : 'Você só pode editar o seu próprio cadastro'}><Pencil size={12} /> Editar</Button>
                 <Button variant="outline" size="sm" onClick={() => abrirAgenda(m)} title="Gerenciar agenda"><CalendarDays size={12} /></Button>
-                <Button variant="danger" size="sm" onClick={() => setConfirmandoId(m.id)} disabled={!m.ativo}><Trash2 size={12} /></Button>
+                <Button
+                  variant="danger"
+                  size="sm"
+                  onClick={() => setConfirmandoId(m.id)}
+                  disabled={!m.ativo || !podeEditar(m)}
+                  title={podeEditar(m) ? undefined : 'Você só pode inativar o seu próprio cadastro'}
+                  className={!podeEditar(m) ? 'disabled:opacity-30 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:grayscale' : undefined}
+                >
+                  <Trash2 size={12} />
+                </Button>
               </div>
             </Card>
           ))}
