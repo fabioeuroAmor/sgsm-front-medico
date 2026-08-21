@@ -1,0 +1,12 @@
+L38 — Strings extremamente longas (E-mail 319 caracteres, Senha 520 caracteres)
+
+Passos: preencher E-mail com "aaa...a@teste-longo-qa.com" (319 caracteres) e Senha com 520 caracteres repetidos, submeter.
+
+Resultado:
+- Ambos os campos aceitam a digitação sem travar (emailLen=319, senhaLen=520 confirmados no DOM).
+- validity.valid do e-mail = true (formato válido apesar do tamanho — HTML5 não impõe limite de tamanho por padrão em type="email").
+- POST /v1/api/auth/login -> 401 Unauthorized (conta não existe com esses dados, resposta esperada).
+- Página NÃO travou nem crashou: document.title continua "SGSM — Médico", page.url() continua /login, aplicação responsiva.
+- Consistente com o bug já documentado em L14: o 401 acionou o mesmo reload silencioso via `window.location.href` (confirmado pela perda do marcador `window.__qaMarker38`), mas isso não chega a ser um "crash" — apenas o mesmo comportamento de ausência de toast já catalogado.
+
+Resultado: PASS. O campo aceita digitar strings extremamente longas, o submit não trava a UI, e a API responde (401, já que a conta não existe) sem crashar a página. (A ausência de toast visível é o mesmo achado já registrado em L14, não um novo bug específico de strings longas.)

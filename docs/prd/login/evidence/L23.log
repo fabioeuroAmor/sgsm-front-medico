@@ -1,0 +1,9 @@
+L23 — Enter repetido rapidamente durante requisição de login em andamento — BUG DE FRONT-END (mesma causa de L21)
+
+Passos: interceptar /v1/api/auth/login com delay real de 3s (page.route), preencher credenciais válidas, disparar 4 submits do formulário em sequência rápida (via form.requestSubmit(), equivalente a apertar Enter repetidamente) enquanto a primeira requisição ainda está pendente.
+
+Resultado: 4 requisições completas POST /v1/api/auth/login disparadas (confirmado via performance.getEntriesByType e na lista de network: #3004, #3005, #3006, #3007, todas 200 OK).
+
+Mesma causa raiz de L21: o botão/form só fica bloqueado depois que `loading` é true E o React re-renderiza — nesse intervalo, múltiplos submits síncronos (por clique ou Enter) não são bloqueados por nenhum guard.
+
+Resultado: REPROVADO (bug de front-end confirmado, mesma causa raiz de L21). Repro exato: em /login, preencher credenciais válidas, apertar Enter repetidamente e rápido no campo Senha (ou submeter o form várias vezes seguidas) antes da resposta da primeira requisição chegar — múltiplas requisições de login são disparadas, não apenas uma.

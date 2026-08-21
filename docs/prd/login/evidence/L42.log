@@ -1,0 +1,17 @@
+L42 — Zoom 200% e viewport de celular
+
+Parte 1 — Viewport mobile (375x667, via page.setViewportSize):
+Screenshot `L42-mobile.png` confirma formulário legível e usável, sem sobreposição visual.
+Medição programática de bounding boxes de todos os elementos do formulário (E-mail, Senha, Entrar, Esqueci minha senha, Criar conta):
+  todos com `right` <= 326.4 (viewport width = 375) — nenhum elemento ultrapassa a largura da tela.
+  nenhum overlap entre os `y`/`bottom` de elementos consecutivos (E-mail termina em y=303.6, Senha começa em y=345.6, etc.) — sem sobreposição vertical.
+Observação menor (não classificada como bug confirmado): no screenshot em resolução mobile, o texto "Criar conta" do botão CTA (que tem `underline`) pareceu visualmente ambíguo ("Crlar" à primeira vista) devido à combinação de fonte + sublinhado em tamanho pequeno — porém a árvore de acessibilidade (`browser_snapshot`) confirma que o texto real no DOM é "Criar conta", correto. Provável efeito de anti-aliasing/renderização de fonte na captura, não um bug de conteúdo. Ver `L42-criarconta-zoom.png` (crop ampliado do botão).
+
+Parte 2 — Zoom 200% (via `document.documentElement.style.zoom = '200%'`, viewport 1280x800):
+  scrollWidth: 1265, clientWidth: 1265 -> IGUAIS, confirmando AUSÊNCIA de scroll horizontal/overflow lateral.
+  scrollHeight: 1600, clientHeight: 800 -> scroll vertical necessário (esperado e normal em zoom 200%, não é um bug).
+Screenshot `L42-zoom200.png` confirma o topo do formulário (título, ícone, campo E-mail) legível e bem proporcionado, sem cortes de texto, com o botão flutuante "Assistente virtual" mantendo posição fixa sem sobrepor o formulário.
+
+Nota metodológica: durante a tentativa de rolar a página para capturar a parte inferior do formulário em zoom 200%, houve uma interrupção do ambiente de teste — a aba controlada pelo Playwright MCP foi momentaneamente redirecionada para a própria página de conexão/relay da extensão MCP (`chrome-extension://.../connect.html`), um evento de infraestrutura da ferramenta de teste, não da aplicação. A navegação foi refeita normalmente (`page.goto` de volta para /login) sem qualquer efeito colateral na aplicação (nenhum dado de teste foi perdido, sessão permaneceu limpa).
+
+Resultado: PASS. O formulário permanece usável tanto em viewport de celular (375px) quanto em zoom 200%, sem sobreposição de elementos ou overflow horizontal. Textos não são cortados; a única observação é uma questão de legibilidade de renderização de fonte em tamanho pequeno com sublinhado, não um bug de conteúdo real.

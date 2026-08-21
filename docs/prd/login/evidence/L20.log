@@ -1,0 +1,13 @@
+L20 — E-mail com caracteres especiais/potencial de injeção
+
+Testado com 2 payloads clássicos no campo E-mail (Senha preenchida normalmente):
+1. "' OR 1=1--@x.com" (tentativa de SQL injection) — L20a.png
+2. "<script>alert(1)</script>@x.com" (tentativa de XSS) — L20b.png
+
+Resultado para AMBOS os payloads:
+- validity.valid = false (bloqueado pela validação nativa HTML5 de type="email" — os caracteres ' ' (espaço), '<', '>' não são permitidos no formato de e-mail nativo do navegador).
+- Clique em "Entrar" NÃO dispara nenhuma nova requisição de rede (confirmado comparando a lista de network requests antes/depois — nenhum novo POST /v1/api/auth/login).
+- Nenhum diálogo de alert() disparado, nenhum script executado, nenhuma alteração inesperada na página.
+- page.url() permanece em /login.
+
+Resultado: PASS. O campo type="email" nativo já bloqueia esses payloads clássicos de injeção antes mesmo de chegar à API, pela validação de formato do próprio navegador — não foi possível, com esses payloads, alcançar o cenário de "mensagem de erro ecoando o valor digitado" descrito no item, porque o valor nunca é submetido. Isso é, na prática, uma proteção adicional (não planejada explicitamente para segurança, mas efetiva) contra esse tipo de payload no campo E-mail. Não foi testado o campo Senha com os mesmos payloads porque Senha é type="password" sem validação de formato — mas como a senha nunca é ecoada em nenhuma mensagem de erro (confirmado nos testes de L14/L15/L19), o risco de XSS refletido por esse vetor é baixo.

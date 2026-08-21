@@ -1,0 +1,23 @@
+L23 — RETESTE (rodada 2) — 4 submits rápidos e sucessivos durante requisição em andamento
+
+Mesma correção de L21: guard síncrono `submitRef` (useRef) em `LoginPage.tsx`.
+
+Passos executados (via `browser_run_code_unsafe`, Playwright):
+1. `page.goto('/login', { waitUntil: 'networkidle' })` para estado limpo.
+2. Listener `page.on('request', ...)` registrado antes do submit, filtrando `POST .../auth/login`.
+3. Preenchido E-mail = "eduardasilva@gmail.com", Senha = "joaozinh7" (credenciais válidas).
+4. Disparados 4 `form.requestSubmit()` sucessivos no MESMO tick via `page.evaluate` — simula múltiplos
+   Enters/cliques rápidos batendo no formulário antes de qualquer re-render do React desabilitar o botão.
+
+Resultado observado:
+- `loginRequestCount` (via listener `page.on('request')`) = 1 (não 4).
+- Confirmado de forma independente via `browser_network_requests` (histórico cumulativo da sessão):
+  as 4 primeiras entradas de `/auth/login` são de testes anteriores desta mesma sessão de retest
+  (L14, L15, L21); a 5ª e ÚLTIMA entrada é a única nova adicionada por este teste — 1 único
+  `POST /v1/api/auth/login -> 200 OK`. Nenhuma segunda, terceira ou quarta requisição aparece.
+- Navegação bem-sucedida para `/pacientes` (ver `L23-retest.png`), confirmando que o único submit
+  processado completou o fluxo de login normalmente.
+
+Veredito: ✅ APROVADO (rodada 2). Guard `useRef` bloqueia corretamente todos os submits subsequentes
+enquanto o primeiro ainda está em voo — apenas 1 requisição de login é disparada mesmo com 4 tentativas
+de submit em rajada.

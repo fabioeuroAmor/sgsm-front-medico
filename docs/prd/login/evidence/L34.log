@@ -1,0 +1,7 @@
+L34 — Navegar manualmente para /login estando autenticado (digitar a URL)
+
+Passos: login válido bem-sucedido (POST /auth/login -> 200, navegou para /pacientes), em seguida navegação de página inteira (page.goto, equivalente a digitar a URL na barra de endereço e apertar Enter) para http://localhost:3001/login.
+
+Resultado: urlAfterManualNav = "http://localhost:3001/login" — o formulário de login aparece normalmente (campos vazios, snapshot confirma), SEM nenhum redirecionamento automático para /pacientes ou qualquer outra área logada.
+
+Resultado: comportamento documentado conforme a hipótese do item — confirmado que LoginPage não verifica isAuthenticated e não redireciona. Mesmo achado de L05/L13 (a montagem de /login autenticado também dispara silenciosamente um refresh de token em segundo plano).

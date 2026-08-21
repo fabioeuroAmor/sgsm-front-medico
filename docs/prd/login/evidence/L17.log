@@ -1,0 +1,13 @@
+L17 — Simular erro 500 genérico do backend na chamada de login (interceptação real de rede)
+
+Método: page.route('**/v1/api/auth/login', ...) + route.fulfill({status:500, body:{detail:"Erro interno do servidor",...}}) — interceptação real de rede via Playwright, sem mock de dados da aplicação.
+
+Prova de que NÃO houve reload de página desta vez (ao contrário do bug de L14 para 401): marcador `window.__qaMarker500 = 'alive'` setado antes do clique permaneceu presente (`"alive"`) após a resposta 500, confirmando que o React continuou montado (SPA normal, sem `window.location.href`).
+
+Resultado:
+- POST /v1/api/auth/login -> 500 (simulado)
+- Toast de erro aparece corretamente: innerText do container `[aria-live]` = "Erro interno do servidor" (a mensagem exata do campo `detail` do corpo simulado, extraída pelo interceptor de `src/services/api.ts`: `err.response?.data?.erro ?? err.response?.data?.detail ?? ...`).
+- Nenhum stack trace cru, JSON bruto ou detalhe técnico interno exposto na tela — apenas a mensagem amigável do campo `detail`.
+- Screenshot L17.png confirma o toast visível.
+
+Resultado: PASS. Para status !== 401, o interceptor global segue o caminho normal (linhas 63-65 de api.ts) e o toast de erro funciona corretamente — CONTRASTE IMPORTANTE com o bug crítico documentado em L14/L15, que é específico do tratamento de 401 (linhas 48-61 de api.ts, que força reload de página em vez de mostrar erro).

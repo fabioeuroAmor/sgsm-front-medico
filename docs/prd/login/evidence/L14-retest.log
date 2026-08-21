@@ -1,0 +1,32 @@
+L14 — RETESTE (rodada 2) — Login com e-mail cadastrado e senha incorreta
+
+Correção aplicada em `src/services/api.ts`: lista `PUBLIC_AUTH_PATHS` (`/auth/login`, `/auth/registrar`,
+`/auth/esqueci-senha`, `/auth/resetar-senha`) — o interceptor de resposta agora pula o branch de
+refresh/redirect quando `originalRequest.url` corresponde a um desses endpoints públicos, deixando o
+erro fluir normalmente até o `catch` de `LoginPage.tsx`.
+
+Passos executados (via `browser_run_code_unsafe`, Playwright):
+1. Reload da página (`page.reload({ waitUntil: 'networkidle' })`) para garantir HMR aplicado.
+2. `window.__qaMarker = 'still-here-before-submit-L14b'` setado antes do submit (mesmo teste de prova
+   de reload usado na rodada 1).
+3. Preenchido E-mail = "eduardasilva@gmail.com" (conta real cadastrada), Senha = "senhaerrada123" (errada
+   de propósito).
+4. Clique em "Entrar", aguardando a resposta de `/auth/login` via `page.waitForResponse`.
+
+Resultado observado:
+- `POST /v1/api/auth/login` -> 401 Unauthorized.
+- Corpo real do backend: {"detail":"Credenciais invalidas.","instance":"/v1/api/auth/login","status":401,
+  "title":"Credenciais inválidas","type":"https://sgsm.com.br/erros/credenciais-invalidas"}
+- Toast de erro vermelho "Credenciais invalidas." APARECE visivelmente na tela (canto superior direito),
+  confirmado tanto por screenshot (`L14-retest.png`) quanto por `document.body.innerText.includes('Credenciais invalidas')` === true.
+- `window.__qaMarker` permanece IGUAL ("still-here-before-submit-L14b") após o submit — prova de que
+  NÃO houve reload de página (rodada 1: o marker sumia, provando reload via `window.location.href`).
+- Campo E-mail permanece "eduardasilva@gmail.com" e campo Senha permanece "senhaerrada123" após o erro —
+  formulário NÃO foi resetado, permanece preenchido e utilizável.
+- `page.url()` continua "http://localhost:3001/login" (sem navegação).
+- Console: 1 mensagem de erro esperada (o próprio 401 do fetch/xhr logado nativamente pelo navegador,
+  "Failed to load resource: the server responded with a status of 401 (Unauthorized)") — não é um erro
+  JS não tratado, apenas o log padrão do navegador para respostas HTTP de erro.
+
+Veredito: ✅ APROVADO (rodada 2). Bug crítico de L14 corrigido — toast de erro real do backend aparece
+corretamente, sem reload de página, formulário permanece preenchido e utilizável.

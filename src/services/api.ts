@@ -13,6 +13,10 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
 })
 
+// Endpoints públicos de autenticação: um 401 aqui é erro de credencial/entrada
+// do próprio usuário, não sessão expirada — não deve disparar refresh/redirect.
+const PUBLIC_AUTH_PATHS = ['/auth/login', '/auth/registrar', '/auth/esqueci-senha', '/auth/resetar-senha']
+
 let refreshPromise: Promise<string> | null = null
 
 export function refreshAccessToken(): Promise<string> {
@@ -44,8 +48,9 @@ api.interceptors.response.use(
   (res) => res,
   async (err) => {
     const originalRequest = err.config as RetryableConfig
+    const isPublicAuthPath = PUBLIC_AUTH_PATHS.some((p) => originalRequest.url?.includes(p))
 
-    if (err.response?.status === 401 && !originalRequest._isRetry) {
+    if (err.response?.status === 401 && !originalRequest._isRetry && !isPublicAuthPath) {
       originalRequest._isRetry = true
 
       try {

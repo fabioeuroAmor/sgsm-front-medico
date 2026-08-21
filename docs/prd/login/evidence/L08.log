@@ -1,0 +1,10 @@
+L08 — E-mail sem "@" (abc123)
+
+Passos: preencher E-mail com "abc123", Senha com "joaozinh7", clicar "Entrar".
+
+Resultado:
+- page.url() permanece "http://localhost:3001/login".
+- Campo E-mail: validity.valid = false, validity.typeMismatch = true, validationMessage = 'Inclua um "@" no endereço de e-mail. "abc123" está com um "@" faltando.' (validação nativa do navegador para type="email").
+- Nenhuma nova requisição de rede disparada (comparado antes/depois: mesma lista, sem novo POST /v1/api/auth/login).
+
+Resultado: PASS. type="email" nativo bloqueia o submit antes de qualquer chamada à API.

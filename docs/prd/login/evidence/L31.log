@@ -1,0 +1,7 @@
+L31 — Shift+Tab a partir do botão Entrar retorna para Senha
+
+Passos: focar Senha (clique real), Tab (chega no botão "Entrar", confirmado por tag/texto), Shift+Tab.
+
+Resultado: { "afterShiftTab": { "id": "senha", "tag": "INPUT" } } — o foco retornou corretamente para o campo Senha, confirmando ordem reversa consistente com a ordem direta (E-mail → Senha → Entrar) verificada em L29.
+
+Resultado: PASS.

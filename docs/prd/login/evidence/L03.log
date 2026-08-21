@@ -1,0 +1,10 @@
+L03 — Campo E-mail não recebe foco automático (documentar comportamento real)
+
+page.evaluate(() => document.activeElement) imediatamente após o carregamento de /login:
+{ "activeTag": "BODY", "activeType": null, "activeId": null }
+
+document.activeElement é o <body>, não o input de e-mail. Confirma que NÃO há autoFocus no campo "E-mail" — bate com o código-fonte (LoginPage.tsx não usa autoFocus).
+
+Resultado: comportamento documentado conforme esperado pelo test-plan (nenhum foco automático). PASS/documentado — não é bug, é o comportamento real.
+
+Screenshot: `evidence/L03.png` (estado visual da tela imediatamente após o carregamento, sem nenhum campo com anel de foco visível, confirmando visualmente a ausência de autoFocus).

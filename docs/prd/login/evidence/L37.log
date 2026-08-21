@@ -1,0 +1,12 @@
+L37 — F5 durante requisição de login em andamento (antes da resposta chegar)
+
+Passos: interceptar /v1/api/auth/login com delay real de 6s, preencher credenciais válidas, clicar "Entrar", aguardar 700ms (requisição confirmada em andamento: botão mostra "Entrando..."), então executar page.reload() (F5) ANTES da resposta simulada (6s) chegar, interrompendo a requisição no meio.
+
+Resultado:
+  midState (antes do F5): "Entrando..." (confirma requisição em voo)
+  urlAfterReload: "http://localhost:3001/login"
+  localStorage após reload: {} (vazio — sem refresh_token parcial, sem token "meio-logado")
+  bodyText após reload: formulário de login limpo e normal ("Bem-vindo ao SGSM... E-MAIL SENHA Entrar...")
+Console: 0 erros da aplicação (a única mensagem de erro observada durante o teste foi um erro INTERNO do Playwright — "route.continue: Route is already handled!" — porque o reload cancelou a requisição de rede antes do handler de rota simulado terminar seu delay; isso é um artefato da ferramenta de teste, não um erro da aplicação).
+
+Resultado: PASS. Interromper o login no meio com F5 não deixa a aplicação em estado inconsistente — nenhum token parcial, nenhuma sessão "meio-logada", a tela volta a um estado limpo e funcional de login após o reload.
