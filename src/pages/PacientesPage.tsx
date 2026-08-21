@@ -492,6 +492,7 @@ export function PacientesPage() {
                     onClick={() => setConfirmandoId(p.id)}
                     disabled={!p.ativo || !podeInativar}
                     title={podeInativar ? undefined : 'Apenas funcionários podem inativar pacientes'}
+                    className={!podeInativar ? 'disabled:opacity-30 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:grayscale' : undefined}
                   >
                     <Trash2 size={12} />
                   </Button>
