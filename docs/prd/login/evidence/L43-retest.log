@@ -1,0 +1,32 @@
+L43 — RETESTE (rodada 2) — Comparação de erro 401 (real) vs 403 (simulado) vs 500 (simulado)
+
+Correção aplicada em `src/services/api.ts` (`PUBLIC_AUTH_PATHS`) faz o 401 real de credenciais erradas
+passar a se comportar como os demais status de erro.
+
+Passos executados (via `browser_run_code_unsafe`, Playwright), na mesma sessão:
+1. **403 simulado** — `page.route('**/v1/api/auth/login', ...)` retornando 403 com
+   `{"detail":"Acesso negado para este usuário.", ...}`. Marker `window.__qaMarker403 = 'alive'` setado
+   antes do submit.
+2. **500 simulado** — rota trocada para retornar 500 com `{"detail":"Erro interno do servidor", ...}`.
+   Marker `window.__qaMarker500 = 'alive'`.
+3. **401 real** (rota desfeita via `page.unroute`, reload) — e-mail cadastrado válido +
+   senha incorreta ("senhaerradaL43"), batendo no backend real. Marker `window.__qaMarker401 = 'alive'`.
+
+Resultado observado (tabela comparativa):
+
+| Status | Toast exibido? | Mensagem mostrada | Marker sobrevive (sem reload)? |
+|---|---|---|---|
+| 401 (REAL, backend genuíno) | SIM (`L43-retest-401.png`) | "Credenciais invalidas." | SIM — `marker401` = "alive" |
+| 403 (simulado) | SIM (`L43-retest-403.png`) | "Acesso negado para este usuário." | SIM — `marker403` = "alive" |
+| 500 (simulado) | SIM (`L43-retest-500.png`) | "Erro interno do servidor" | SIM — `marker500` = "alive" |
+
+Todos os três status agora produzem: (a) toast visível com a mensagem específica vinda do corpo da
+resposta, (b) nenhum reload de página (todos os markers sobrevivem), (c) formulário permanece
+utilizável.
+
+Conclusão: o 401 real deixou de ser o único caso "silencioso" — os três status de erro (401, 403, 500)
+agora se comportam de forma consistente e correta, cada um mostrando sua mensagem específica sem
+colapsar em "nada aparece".
+
+Veredito: ✅ APROVADO (rodada 2). O 401 real de credenciais erradas produz mensagem clara ao usuário,
+em paridade com 403 e 500.

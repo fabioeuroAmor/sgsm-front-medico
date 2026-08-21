@@ -1,0 +1,10 @@
+L07 — E-mail preenchido, Senha vazia
+
+Passos: preencher "eduardasilva@gmail.com" em E-mail, deixar Senha vazia, clicar "Entrar".
+
+Resultado:
+- page.url() permanece "http://localhost:3001/login".
+- Campo Senha: validity.valid = false, validity.valueMissing = true, validationMessage = "Preencha este campo." (required nativo).
+- Nenhuma nova requisição de rede disparada.
+
+Resultado: PASS. Validação nativa required no campo Senha impede o submit.

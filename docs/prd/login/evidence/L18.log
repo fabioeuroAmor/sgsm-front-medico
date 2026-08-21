@@ -1,0 +1,13 @@
+L18 — Simular rede muito lenta na chamada de login (delay real de 5s via page.route + route.continue())
+
+Método: page.route('**/v1/api/auth/login', async route => { await page.waitForTimeout(5000); await route.continue(); }) — delay real de rede, requisição segue para o backend real após o atraso (não é um mock de resposta).
+
+Estado durante a espera (checado 1s após o clique, ~4s antes da resposta):
+{ "btnText": "Entrando...", "btnDisabled": true, "emailDisabled": false, "senhaDisabled": false }
+Screenshot L18.png confirma visualmente o botão "Entrando..." desabilitado durante a espera.
+
+Após a resposta (confirmada via network #2618, duration: 5373ms, bate com o delay simulado de 5000ms + latência real do backend):
+- POST /v1/api/auth/login -> 200 OK
+- Navegação automática para /pacientes, sem erro falso, sem duplo estado.
+
+Resultado: PASS. Botão permanece em "Entrando..." e desabilitado durante toda a espera de rede lenta, sem erro falso nem estado inconsistente. Observação (não bug, item relacionado a L24): os campos E-mail/Senha permanecem SEM disabled durante o loading — usuário pode editá-los enquanto a requisição está em andamento (documentado também em L24).

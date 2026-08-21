@@ -1,0 +1,14 @@
+L29 — Ordem de Tab a partir do campo E-mail
+
+Nota metodológica: foi necessário `page.bringToFront()` + um clique real de mouse no campo E-mail para estabelecer o foco inicial de forma confiável — usar apenas `element.focus()` via JS e depois `page.keyboard.press('Tab')` dentro do mesmo bloco não avançava o foco de forma consistente neste ambiente (Tab parecia não fazer nada, mesmo com o elemento corretamente focado via `.focus()`). Após clique real + Tab, o comportamento foi 100% consistente e repetível.
+
+Sequência de Tab observada (via document.activeElement a cada Tab):
+1. Foco inicial (clique real): <input id="e-mail">
+2. Tab 1: <input id="senha">
+3. Tab 2: <button>Entrar</button> (sem id, mas tag/texto confirmam)
+4. Tab 3: <a href="/esqueci-senha">Esqueci minha senha</a>
+5. Tab 4: <a href="/registrar">Novo no sistema?Criar conta</a>
+
+Ordem confirmada: E-mail → Senha → Entrar → Esqueci minha senha → Criar conta — exatamente a ordem lógica esperada pelo item, sem nenhum elemento fora de ordem ou pulado.
+
+Resultado: PASS.

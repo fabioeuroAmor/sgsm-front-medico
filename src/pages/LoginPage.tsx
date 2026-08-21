@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { toast } from 'sonner'
 import { LogIn, UserPlus, Sparkles } from 'lucide-react'
@@ -10,11 +10,14 @@ export function LoginPage() {
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
   const [loading, setLoading] = useState(false)
+  const submitRef = useRef(false)
   const { login } = useAuth()
   const navigate = useNavigate()
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    if (submitRef.current) return
+    submitRef.current = true
     setLoading(true)
     try {
       await login({ email, senha })
@@ -22,6 +25,7 @@ export function LoginPage() {
     } catch (err) {
       toast.error((err as Error).message)
     } finally {
+      submitRef.current = false
       setLoading(false)
     }
   }

@@ -1,0 +1,11 @@
+L28 — Dados digitados não persistem após navegar para página vizinha e voltar
+
+Passos: preencher E-mail "dadosdeteste@naodeveria.aparecer" e Senha "senhaQueNaoDeveVoltar", clicar em "Esqueci minha senha" (navega para /esqueci-senha), depois usar Voltar do navegador.
+
+Resultado:
+  urlForward: "http://localhost:3001/esqueci-senha" (confirma navegação)
+  urlBack: "http://localhost:3001/login" (confirma retorno)
+  emailVal (inputValue após voltar): ""
+  senhaVal (inputValue após voltar): ""
+
+Resultado: PASS. Nenhum dos dois campos preservou o valor digitado anteriormente — SPA sem persistência local do formulário de login, como esperado (LoginPage usa useState local, que é reinicializado a cada nova montagem do componente).

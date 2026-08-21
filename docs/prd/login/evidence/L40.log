@@ -1,0 +1,11 @@
+L40 — Toggle de mostrar/ocultar senha (ícone de "olho")
+
+DOM completo do wrapper do campo Senha:
+<div class="flex flex-col gap-1.5">
+  <label for="senha" ...>Senha</label>
+  <input id="senha" type="password" ... autocomplete="current-password" value="">
+</div>
+
+Não existe nenhum ícone, botão ou elemento adicional dentro ou próximo ao campo Senha para alternar a visibilidade — apenas o `<input type="password">` puro, sem nenhum wrapper de "olho"/toggle. Confirmado também por leitura do código-fonte de `LoginPage.tsx` (usa o componente `<Input type="password" .../>` genérico, sem prop de toggle) e do componente `Input` (não inspecionado a fundo, mas o DOM renderizado não contém nenhum ícone extra).
+
+Resultado: documentado. A funcionalidade de mostrar/ocultar senha NÃO existe neste formulário de login — confirma a hipótese do próprio item do test-plan.

@@ -1,0 +1,23 @@
+L01 — Acessar /login sem sessão ativa (localStorage limpo)
+
+Passos:
+1. page.evaluate(() => { localStorage.clear(); sessionStorage.clear(); })
+2. page.goto('http://localhost:3001/login')
+
+Snapshot de acessibilidade (trecho relevante):
+- heading "Bem-vindo ao SGSM" [level=1]
+- paragraph: "Sistema de Gerenciamento de Serviços Médicos"
+- textbox "E-mail" (placeholder: medico@clinica.com) — vazio
+- textbox "Senha" (placeholder: ••••••••) — vazio
+- button "Entrar"
+- link "Esqueci minha senha" -> /url: /esqueci-senha
+- link "Novo no sistema? Criar conta" -> /url: /registrar (é um LINK, não um <button>, mas visualmente funciona como CTA "Criar conta")
+
+Console messages (nível info, todas desde o início da sessão):
+[INFO] Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools (x2, mensagem padrão do React em dev, não é erro)
+Total: 3 mensagens, 0 erros, 0 warnings.
+
+Network requests (não-estáticas) após o carregamento: nenhuma (148 requests estáticos filtrados — bundles, fontes, etc.). Nenhuma chamada de API disparada apenas ao carregar /login, como esperado.
+
+Resultado: PASS. Título, campos vazios, botão Entrar, link Esqueci minha senha e CTA de criar conta presentes.
+Observação (não bug): o "Criar conta" é implementado como <a href="/registrar"> dentro de um link maior "Novo no sistema? Criar conta", não como <button> isolado — funcionalmente equivalente para o usuário.

@@ -1,0 +1,14 @@
+L19 — Simular API de login fora do ar (conexão recusada)
+
+Método: page.route('**/v1/api/auth/login', route => route.abort('connectionrefused')) — abort real de rede via Playwright (não mock de dados).
+
+Prova de que a aplicação NÃO travou/recarregou: marcador `window.__qaMarker19='alive'` setado antes do clique permaneceu presente após o erro.
+
+Resultado:
+- Requisição abortada com erro de conexão (equivalente a backend indisponível).
+- Toast de erro exibido: innerText do container [aria-live] = "Network Error" (mensagem padrão do Axios quando não há `err.response` — o fallback `err.message` do interceptor em api.ts é usado).
+- Botão volta ao estado normal: texto "Entrar", disabled=false.
+- page.url() permanece em /login, formulário continua utilizável (campos preenchidos ainda presentes, sem reload).
+- Screenshot L19.png confirma o toast "Network Error" visível na tela.
+
+Resultado: PASS. Aplicação não trava, toast de erro visível (mensagem genérica do Axios, não muito amigável mas não expõe stack trace), formulário permanece utilizável. Diferente do bug de L14 (401), aqui a aplicação se comporta corretamente porque o erro de rede não tem status 401 e não aciona o branch problemático do interceptor.

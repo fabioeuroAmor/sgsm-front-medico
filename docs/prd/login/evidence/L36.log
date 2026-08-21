@@ -1,0 +1,14 @@
+L36 — Login, logout via menu, tentar usar Avançar do navegador para voltar a rota privada
+
+Metodologia: usada uma aba nova/limpa (browser_tabs new) para garantir um histórico de navegação isolado (a aba original já tinha dezenas de entradas acumuladas de testes anteriores, o que distorceria o teste de Voltar/Avançar). Botão de logout "Sair" está visível e acessível no rodapé da sidebar, junto com o nome/perfil do usuário logado ("eduarda silva" / "MEDICO").
+
+Passos:
+1. Login válido em aba nova -> /pacientes (lista real de 10 pacientes carregada).
+2. Clique em "Sair" -> confirmado POST /v1/api/auth/logout -> 204 No Content (request #311); localStorage.refresh_token removido (confirmado: {} vazio); redireciona para /login.
+3. page.goBack() -> URL fica em /login (a entrada /pacientes NÃO aparece — indica que o redirecionamento pós-logout usa `replace` no histórico, substituindo a entrada /pacientes por /login em vez de empilhar uma nova).
+4. window.history.forward() -> URL permanece em /login (não há entrada /pacientes à frente para avançar, pois foi substituída no passo 2/3).
+5. Estado final confirmado: localStorage = {} (vazio, sem refresh_token), body renderiza o formulário de login limpo ("Bem-vindo ao SGSM... E-MAIL SENHA Entrar..."), NENHUM dado da sessão anterior (nome do usuário, lista de pacientes, sidebar) visível em momento algum durante Voltar ou Avançar.
+
+Nota metodológica importante: numa tentativa anterior (descartada), o clique no botão "Sair" falhou silenciosamente (mesma instabilidade de clique já registrada em outros itens deste QA — `boundingBox()` + `page.mouse.click()` não disparou o evento), fazendo com que Voltar/Avançar parecessem expor uma tela autenticada — mas essa tela era de uma sessão AINDA ATIVA (logout nunca tinha realmente acontecido, confirmado pela ausência de POST /auth/logout e pela presença contínua de refresh_token em localStorage), não um caso real de bfcache expondo dados pós-logout. Refeito com sucesso usando a ferramenta padrão `browser_click`, confirmando cada etapa (logout, back, forward) com evidência de rede/localStorage antes de prosseguir.
+
+Resultado: PASS. Após logout, nem o botão Voltar nem o Avançar do navegador conseguem expor a tela autenticada — a rota privada foi removida do histórico (replace), e o localStorage confirma ausência de sessão. Proteção efetiva contra cache do navegador expondo tela autenticada após logout.

@@ -1,0 +1,26 @@
+L15 — RETESTE (rodada 2) — Login com e-mail NÃO cadastrado
+
+Mesma causa raiz de L14 (interceptor de `api.ts` reagindo a 401), mesma correção (`PUBLIC_AUTH_PATHS`).
+
+Passos executados (via `browser_run_code_unsafe`, Playwright):
+1. Reload da página.
+2. `window.__qaMarker = 'still-here-before-submit-L15'` setado antes do submit.
+3. Preenchido E-mail = "naoexiste_qa_retest@example.com" (domínio fictício, não colide com contas reais),
+   Senha = "qualquersenha123".
+4. Clique em "Entrar", aguardando resposta de `/auth/login`.
+
+Resultado observado:
+- `POST /v1/api/auth/login` -> 401 Unauthorized.
+- Corpo do backend: {"detail":"Credenciais invalidas.","instance":"/v1/api/auth/login","status":401,
+  "title":"Credenciais inválidas","type":"https://sgsm.com.br/erros/credenciais-invalidas"}
+  -> mesma mensagem genérica usada tanto para "senha errada" quanto para "e-mail inexistente" — sem
+  vazamento de informação sensível (o backend não diferencia "conta não existe" de "senha errada" na
+  mensagem, o que é o comportamento correto de segurança).
+- Toast de erro vermelho "Credenciais invalidas." visível na tela (ver `L15-retest.png`, canto superior
+  direito) — confirmado via screenshot e via `document.body.innerText`.
+- `window.__qaMarker` permanece "still-here-before-submit-L15" após o submit -> SEM reload de página.
+- Campos E-mail e Senha permanecem preenchidos com os valores digitados -> formulário não foi resetado.
+- `page.url()` continua "http://localhost:3001/login".
+
+Veredito: ✅ APROVADO (rodada 2). Toast de erro visível, sem reload, sem vazamento de informação sensível
+(mensagem genérica idêntica à de L14).

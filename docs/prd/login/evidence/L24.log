@@ -1,0 +1,10 @@
+L24 — Editar campos durante o loading ("Entrando...")
+
+Passos: interceptar /v1/api/auth/login com delay real de 8s, preencher credenciais válidas, clicar "Entrar", aguardar 500ms (já em loading), editar o campo E-mail para "editado-durante-loading@teste.com" via setter nativo + evento 'input' (equivalente a digitação real controlada pelo React).
+
+Resultado (capturado logo após a edição, ainda em loading):
+{ "emailDisabledBefore": false, "senhaDisabledBefore": false, "btnDisabled": true, "btnText": "Entrando..." }
+Valor do campo E-mail após a edição: "editado-durante-loading@teste.com" (edição foi aceita e refletida no DOM/estado React).
+Screenshot L24.png confirma visualmente: botão "Entrando..." desabilitado (cinza) enquanto o campo E-mail já mostra o novo valor editado e o campo Senha está com foco visível (borda azul) e continua editável.
+
+Resultado: PASS/documentado. Os inputs de E-mail e Senha NÃO ficam `disabled` durante o loading — apenas o botão "Entrar" fica desabilitado. O usuário consegue editar os campos livremente enquanto a requisição de login está em andamento. Como a requisição já em voo usa os valores capturados no momento do clique (closure de `handleSubmit`), a edição posterior não afeta a requisição já disparada — não há inconsistência de dados enviados, apenas uma janela de UX onde os campos parecem "ativos" durante o carregamento.

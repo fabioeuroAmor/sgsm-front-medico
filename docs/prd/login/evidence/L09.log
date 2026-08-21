@@ -1,0 +1,13 @@
+L09 — E-mail com espaços em branco no início/fim
+
+Passos: preencher E-mail com " eduardasilva@gmail.com " (espaço antes e depois), Senha "joaozinh7", submeter.
+
+Achado técnico: ao ler o valor do campo via inputValue() logo após o fill(), o valor já veio SEM os espaços: "eduardasilva@gmail.com". Isso não é um trim() do código da aplicação — é o "value sanitization algorithm" nativo do HTML5 para <input type="email">, que remove espaços em branco à esquerda/direita e quebras de linha automaticamente antes mesmo do valor chegar ao estado React. Ou seja, é fisicamente impossível, usando type="email" nativo, testar se a aplicação em si faz trim, porque o navegador já entrega o valor limpo.
+
+Corpo da requisição POST /v1/api/auth/login (request #451, capturado via network):
+{"email":"eduardasilva@gmail.com","senha":"joaozinh7"}
+-> confirma ausência de espaços no payload enviado.
+
+Resultado: POST /v1/api/auth/login -> 200, GET /v1/api/auth/me -> 200, navegação para /pacientes bem-sucedida.
+
+Resultado: PASS/documentado. Login funciona normalmente com espaços digitados nas pontas do e-mail, graças à sanitização nativa do input type="email" do navegador (não por lógica de trim no código-fonte da aplicação).

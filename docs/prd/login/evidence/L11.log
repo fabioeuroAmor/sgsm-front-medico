@@ -1,0 +1,19 @@
+L11 — Login com credenciais válidas (eduardasilva@gmail.com / joaozinh7)
+
+Passos: preencher E-mail e Senha corretos, clicar em "Entrar".
+
+Nota metodológica: browser_click (locator normal) e .click({force:true}) via browser_run_code_unsafe FALHARAM silenciosamente neste ambiente (sem erro reportado na 2ª tentativa, mas nenhuma requisição de rede foi disparada e o formulário permaneceu preenchido e inalterado por 2s). Foi necessário usar page.mouse.click(x,y) com coordenada real do centro do botão (obtida via boundingBox()) para que o clique realmente disparasse o submit — mesmo padrão de instabilidade de clique já relatado nos QAs de Médicos/CRM deste projeto.
+
+Network requests (não-estáticas), em ordem:
+  74. POST http://localhost:3001/v1/api/auth/login -> 200 OK (duration 1823ms)
+  75. GET  http://localhost:3001/v1/api/auth/me -> 200 OK
+
+Resposta de POST /v1/api/auth/login (corpo):
+{"accessToken":"eyJhbGci...<JWT omitido>","expiresIn":900,"refreshToken":"9aba6ce0-9748-455a-9064-c1a8c2ca3b3c","tipo":"Bearer"}
+
+Após a resposta, a navegação para /pacientes aconteceu automaticamente (confirmado por page.url() === 'http://localhost:3001/pacientes').
+
+Console: 0 erros.
+
+Resultado: PASS. POST /v1/api/auth/login -> 200, seguido de GET /v1/api/auth/me -> 200, navegação automática para /pacientes.
+Observação: não foi possível capturar visualmente o estado "Entrando..." do botão porque o clique via mouse.click resolveu rápido demais (login+navegação completos antes do próximo screenshot); o texto "Entrando..." existe no código (verificado por leitura, já que o item pede documentar) mas a confirmação visual ao vivo não foi capturada nesta tentativa — ver L18 (rede lenta simulada) para uma captura visual clara do estado de loading.

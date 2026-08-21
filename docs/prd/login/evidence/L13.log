@@ -1,0 +1,16 @@
+L13 — Botão Voltar do navegador após login bem-sucedido
+
+Passos:
+1. Login válido (POST /v1/api/auth/login -> 200, request #223) redireciona para /pacientes.
+2. page.goBack() a partir de /pacientes.
+
+Resultado: a URL volta para http://localhost:3001/login, e o formulário aparece VAZIO (E-mail e Senha em branco) — confirmado via snapshot de acessibilidade e screenshot L13.png.
+
+Conclusão: a navegação de login -> /pacientes foi feita com push (não com replace), já que /login permanece no histórico do navegador e o botão Voltar consegue retornar a ele. O formulário vem vazio por ser uma SPA sem persistência local de estado do formulário (comportamento correto/esperado para não vazar dados de sessão anterior).
+
+Achado adicional (reforça observação de L05): o simples fato de a navegação Voltar remontar /login enquanto ainda autenticado (refresh_token válido em localStorage) disparou novamente, em background, um refresh + /auth/me:
+  302. POST /v1/api/auth/refresh -> 200 OK
+  304. GET  /v1/api/auth/me -> 200 OK
+sem redirecionar automaticamente para a área logada.
+
+Resultado: comportamento documentado. Não há vazamento de dados de campos preenchidos, mas o usuário autenticado consegue "voltar" para uma tela de login funcional em vez de ser mantido na área logada — mesma observação de L05.

@@ -1,0 +1,9 @@
+L30 — Labels associados corretamente via htmlFor/id
+
+DOM confirma:
+  <label for="e-mail">E-mail</label> associado a <input id="e-mail">
+  <label for="senha">Senha</label> associado a <input id="senha">
+
+Teste prático: clique real do mouse (coordenada real, via boundingBox) no texto do label "Senha" (sem clicar diretamente no input) — document.activeElement.id resultante = "senha", confirmando que o navegador moveu o foco para o input correto por causa da associação label/input nativa via for/id.
+
+Resultado: PASS.
