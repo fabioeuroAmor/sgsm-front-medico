@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
-import { Plus, Search, Pencil, Trash2, Stethoscope, CalendarDays, X } from 'lucide-react'
+import { toast } from 'sonner'
+import { Plus, Search, Pencil, Trash2, RotateCcw, Stethoscope, CalendarDays, X } from 'lucide-react'
 import { useMedicos } from '@/hooks/useMedicos'
 import { useAuth } from '@/hooks/useAuth'
 import { agendaMedicoService } from '@/services/agendaMedicoService'
@@ -39,8 +40,10 @@ const emptyAgendaForm: Omit<CadastrarAgendaMedicoRequest, 'medicoId'> = {
 }
 
 export function MedicosPage() {
-  const { medicos, loading, error, listar, cadastrar, atualizar, remover } = useMedicos()
+  const { medicos, loading, error, listar, cadastrar, atualizar, remover, reativar } = useMedicos()
   const { usuario } = useAuth()
+  const [reativandoId, setReativandoId] = useState<string | null>(null)
+  const reativandoRef = useRef<string | null>(null)
   const [busca, setBusca] = useState('')
   const [filtroAtivo, setFiltroAtivo] = useState<boolean | undefined>(undefined)
   const [filtroEsp, setFiltroEsp] = useState('')
@@ -123,6 +126,21 @@ export function MedicosPage() {
 
   function podeEditar(m: MedicoResponse) {
     return usuario?.perfil !== 'MEDICO' || usuario.referenciaId === m.id
+  }
+
+  async function handleReativar(id: string) {
+    if (reativandoRef.current) return
+    reativandoRef.current = id
+    setReativandoId(id)
+    try {
+      await reativar(id)
+      toast.success('Médico reativado com sucesso.')
+    } catch (err) {
+      toast.error((err as Error).message)
+    } finally {
+      reativandoRef.current = null
+      setReativandoId(null)
+    }
   }
 
   async function salvar() {
@@ -292,16 +310,30 @@ export function MedicosPage() {
               <div className="flex gap-2 mt-auto">
                 <Button variant="ghost" size="sm" onClick={() => abrirEdicao(m)} className="flex-1" disabled={!podeEditar(m)} title={podeEditar(m) ? undefined : 'Você só pode editar o seu próprio cadastro'}><Pencil size={12} /> Editar</Button>
                 <Button variant="outline" size="sm" onClick={() => abrirAgenda(m)} title="Gerenciar agenda"><CalendarDays size={12} /></Button>
-                <Button
-                  variant="danger"
-                  size="sm"
-                  onClick={() => setConfirmandoId(m.id)}
-                  disabled={!m.ativo || !podeEditar(m)}
-                  title={podeEditar(m) ? undefined : 'Você só pode inativar o seu próprio cadastro'}
-                  className={!podeEditar(m) ? 'disabled:opacity-30 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:grayscale' : undefined}
-                >
-                  <Trash2 size={12} />
-                </Button>
+                {m.ativo ? (
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => setConfirmandoId(m.id)}
+                    disabled={!podeEditar(m)}
+                    title={podeEditar(m) ? undefined : 'Você só pode inativar o seu próprio cadastro'}
+                    className={!podeEditar(m) ? 'disabled:opacity-30 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:grayscale' : undefined}
+                  >
+                    <Trash2 size={12} />
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleReativar(m.id)}
+                    disabled={!podeEditar(m) || reativandoId === m.id}
+                    title={podeEditar(m) ? undefined : 'Você só pode reativar o seu próprio cadastro'}
+                    className={!podeEditar(m) ? 'disabled:opacity-30 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:grayscale' : undefined}
+                  >
+                    <RotateCcw size={12} className={reativandoId === m.id ? 'animate-spin' : undefined} />
+                    Reativar
+                  </Button>
+                )}
               </div>
             </Card>
           ))}
