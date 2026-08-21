@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { Plus, Search, Pencil, Trash2, UserRound, CalendarDays, Mail, Phone, MapPin } from 'lucide-react'
 import { usePacientes } from '@/hooks/usePacientes'
+import { useAuth } from '@/hooks/useAuth'
 import type { PacienteResponse, CadastrarPacienteRequest } from '@/types'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
@@ -117,6 +118,8 @@ const emptyForm: CadastrarPacienteRequest = {
 
 export function PacientesPage() {
   const { pacientes, loading, error, listar, cadastrar, atualizar, remover } = usePacientes()
+  const { usuario } = useAuth()
+  const podeInativar = usuario?.perfil === 'FUNCIONARIO' || usuario?.perfil === 'DESENVOLVEDOR'
   const [busca, setBusca] = useState('')
   const [filtroAtivo, setFiltroAtivo] = useState<boolean | undefined>(undefined)
   const [modalAberto, setModalAberto] = useState(false)
@@ -483,7 +486,13 @@ export function PacientesPage() {
                   <Button variant="ghost" size="sm" onClick={() => abrirEdicao(p)} className="flex-1">
                     <Pencil size={12} /> Editar
                   </Button>
-                  <Button variant="danger" size="sm" onClick={() => setConfirmandoId(p.id)} disabled={!p.ativo}>
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => setConfirmandoId(p.id)}
+                    disabled={!p.ativo || !podeInativar}
+                    title={podeInativar ? undefined : 'Apenas funcionários podem inativar pacientes'}
+                  >
                     <Trash2 size={12} />
                   </Button>
                 </div>
