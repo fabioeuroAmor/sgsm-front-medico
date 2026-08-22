@@ -20,7 +20,9 @@ export default defineConfig({
         target: 'http://localhost:8080',
         changeOrigin: true,
       },
-      '/ia': {
+      // Só os subcaminhos reais da API — não o prefixo inteiro, que colidiria
+      // com as rotas SPA /ia e /crm em navegação direta/reload (ver App.tsx).
+      '^/ia/(chat|busca|paciente|kpis|etl)': {
         target: 'http://localhost:8082',
         changeOrigin: true,
       },
