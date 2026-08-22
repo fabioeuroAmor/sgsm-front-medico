@@ -11,6 +11,8 @@ export default defineConfig({
   },
   server: {
     port: 3001,
+    // permite acesso via Cloudflare Tunnel (cloudflared tunnel --url) para testes externos
+    allowedHosts: ['.trycloudflare.com'],
     proxy: {
       '/v1/api/auth': {
         target: 'http://localhost:8081',
