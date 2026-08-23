@@ -13,6 +13,8 @@ import {
   CheckCircle2,
   MessageCircle,
   MousePointerClick,
+  Menu,
+  X,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/Button'
@@ -340,6 +342,13 @@ export default function HomePage() {
   const [modulesTilt, setModulesTilt] = useState({ rx: 0, ry: 0 })
   const [modulesHov, setModulesHov] = useState(false)
 
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
+  const navLinks = [
+    { label: 'Início', href: '#' },
+    { label: 'Funcionalidades', href: '#features' },
+    { label: 'Sobre o Sistema', href: '#about' },
+  ]
+
   function onModulesMove(e: React.MouseEvent<HTMLDivElement>) {
     const el = modulesRef.current; if (!el) return
     const { left, top, width, height } = el.getBoundingClientRect()
@@ -366,24 +375,46 @@ export default function HomePage() {
           </TiltWrap>
 
           <nav className="hidden md:flex items-center gap-8">
-            {[
-              { label: 'Início', href: '#' },
-              { label: 'Funcionalidades', href: '#features' },
-              { label: 'Sobre o Sistema', href: '#about' },
-            ].map((link) => (
+            {navLinks.map((link) => (
               <NavLink3D key={link.href} href={link.href}>
                 {link.label}
               </NavLink3D>
             ))}
           </nav>
 
-          <ButtonLink
-            to="/pacientes"
-            className={cn(buttonVariants({ variant: 'accent', size: 'md' }), 'rounded-full')}
-          >
-            Acessar Sistema <ArrowRight className="h-4 w-4" />
-          </ButtonLink>
+          <div className="flex items-center gap-2">
+            <ButtonLink
+              to="/pacientes"
+              className={cn(buttonVariants({ variant: 'accent', size: 'md' }), 'rounded-full h-11 sm:h-10')}
+            >
+              Acessar Sistema <ArrowRight className="h-4 w-4" />
+            </ButtonLink>
+
+            <button
+              type="button"
+              className="md:hidden p-2.5 rounded-lg text-secondary hover:bg-muted transition-colors"
+              aria-label={mobileNavOpen ? 'Fechar menu' : 'Abrir menu'}
+              onClick={() => setMobileNavOpen((v) => !v)}
+            >
+              {mobileNavOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
+
+        {mobileNavOpen && (
+          <nav className="md:hidden border-t border-border bg-white/95 backdrop-blur-md px-4 py-2 flex flex-col">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileNavOpen(false)}
+                className="px-2 py-3 rounded-lg text-sm font-semibold text-secondary hover:bg-muted transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+        )}
       </header>
 
       <main>
@@ -520,7 +551,7 @@ export default function HomePage() {
                     </ButtonLink>
                     <Link
                       to="/world"
-                      className="text-primary/70 hover:text-primary text-sm font-semibold transition-colors inline-flex items-center gap-1.5 self-start"
+                      className="text-primary/70 hover:text-primary text-sm font-semibold transition-colors inline-flex items-center gap-1.5 self-start py-2.5 sm:py-0"
                     >
                       ✦ Explorar o mundo do sistema
                     </Link>
@@ -866,7 +897,7 @@ export default function HomePage() {
           <TiltWrap intensity={16}>
             <Link
               to="/pacientes"
-              className="text-accent hover:text-accent/80 font-semibold transition-colors"
+              className="text-accent hover:text-accent/80 font-semibold transition-colors py-2.5 sm:py-0"
               style={{ display: 'inline-block' }}
             >
               Acessar Sistema →
