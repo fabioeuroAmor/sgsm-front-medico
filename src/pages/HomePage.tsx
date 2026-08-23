@@ -407,7 +407,7 @@ export default function HomePage() {
                 <Activity className="h-5 w-5 text-white" />
               </div>
               <span className="text-xl font-extrabold tracking-tight text-secondary">
-                SGSM <span className="text-primary">Médico</span>
+                IA SGSM <span className="text-primary">Médico</span>
               </span>
             </Link>
           </TiltWrap>
@@ -551,7 +551,7 @@ export default function HomePage() {
                       transition: 'box-shadow 0.3s ease',
                     }}
                   >
-                    Sistema de Gestão em Saúde
+                    IA Sistema de Gestão em Saúde
                   </div>
                   <h1
                     className="text-4xl md:text-5xl font-extrabold text-primary mb-6 leading-[1.1]"
@@ -923,13 +923,13 @@ export default function HomePage() {
                 <Activity className="h-4 w-4 text-primary" />
               </div>
               <span className="font-extrabold text-white">
-                SGSM <span className="text-primary">Médico</span>
+                IA SGSM <span className="text-primary">Médico</span>
               </span>
             </div>
           </TiltWrap>
           <TiltWrap intensity={12}>
             <p style={{ maxWidth: 'none' }}>
-              © {new Date().getFullYear()} SGSM — Sistema de Gestão em Saúde Médica
+              © {new Date().getFullYear()} SGSM — IA Sistema de Gestão em Saúde Médica
             </p>
           </TiltWrap>
           <TiltWrap intensity={16}>

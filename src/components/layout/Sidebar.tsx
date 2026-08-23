@@ -111,7 +111,7 @@ function LogoTilt() {
           <Activity className="h-5 w-5 text-white" />
         </div>
         <div style={{ transform: hov ? 'translateZ(8px)' : 'translateZ(0)', transition: 'transform 0.3s ease' }}>
-          <p className="text-white font-extrabold text-base tracking-tight leading-none">SGSM</p>
+          <p className="text-white font-extrabold text-base tracking-tight leading-none">IA SGSM</p>
           <p className="text-[hsl(185,59%,65%)] text-xs font-medium mt-0.5">Sistema Médico</p>
         </div>
       </div>
@@ -180,7 +180,7 @@ export function Sidebar() {
           <div className="bg-[hsl(184,80%,25%)] p-1.5 rounded-lg">
             <Activity className="h-4 w-4 text-white" />
           </div>
-          <span className="text-white font-extrabold text-base tracking-tight">SGSM</span>
+          <span className="text-white font-extrabold text-base tracking-tight">IA SGSM</span>
         </div>
         <button
           onClick={() => setMobileOpen((v) => !v)}
