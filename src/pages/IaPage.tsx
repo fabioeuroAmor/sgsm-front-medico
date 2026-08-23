@@ -137,7 +137,7 @@ export function IaPage() {
   }, [tab])
 
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)] lg:h-screen max-h-screen overflow-hidden">
+    <div className="flex flex-col h-[calc(100vh-4rem)] max-h-screen overflow-hidden bg-[hsl(190,100%,10%)]">
       {/* Header */}
       <div className="shrink-0 px-6 py-4 border-b border-[hsl(190,100%,20%)] flex items-center justify-between">
         <div className="flex items-center gap-3">
