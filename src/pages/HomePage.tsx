@@ -575,7 +575,7 @@ export default function HomePage() {
                       transition: 'text-shadow 0.3s ease',
                     }}
                   >
-                    Controle pacientes, médicos, estabelecimentos e agendamentos em uma única plataforma. Ágil, integrado e focado na eficiência do atendimento médico.
+                    Controle pacientes, médicos, estabelecimentos e agendamentos com inteligência artificial integrada em uma única plataforma. Ágil, completo e focado na eficiência do atendimento médico.
                   </p>
                   <div style={{ transform: 'translateZ(22px)', display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
                     <ButtonLink
