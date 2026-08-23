@@ -273,6 +273,10 @@ const modules = [
   { label: 'Estabelecimentos', desc: 'Clínicas, hospitais e localização no mapa' },
   { label: 'Serviços Médicos', desc: 'Catálogo com valores e tipos' },
   { label: 'Agendamentos', desc: 'Wizard completo e controle de status' },
+  { label: 'Funcionários', desc: 'Cadastro de equipe e vínculo com estabelecimentos' },
+  { label: 'Assistente IA', desc: 'Chat com RAG e busca semântica nos dados do sistema' },
+  { label: 'CRM', desc: 'Leads, contatos, notas clínicas, churn e indicadores' },
+  { label: 'WhatsApp', desc: 'Bot conversacional com RAG para cadastro e agendamento' },
 ]
 
 // ─── Component ────────────────────────────────────────────────────────────────

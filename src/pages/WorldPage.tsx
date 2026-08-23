@@ -7,6 +7,7 @@ import {
   Activity, Users, Stethoscope, CalendarClock, ArrowRight,
   HeartPulse, Building2, ClipboardList, MessageSquare,
   Star, Zap, Shield, ChevronRight, Brain, Sparkles, Database,
+  UserCog, BarChart2, TrendingUp, PhoneCall,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/Button'
@@ -163,6 +164,28 @@ const SCENES: SceneDef[] = [
     ],
   },
   {
+    id: 'funcionarios',
+    eyebrow: 'Módulo 6',
+    title: 'Funcionários',
+    body: 'Cadastro da equipe administrativa e de apoio, com vínculo direto aos estabelecimentos onde atuam.',
+    tags: ['Equipe', 'Vínculos', 'Estabelecimentos'],
+    accent: '#F4A261',
+    bgColor: '#120A02',
+    orbs: [
+      { color: '#B5651D', size: 650, x: '42%',  y: '38%',  blur: 130, opacity: 0.8,  duration: 9 },
+      { color: '#F4A261', size: 400, x: '78%',  y: '65%',  blur: 100, opacity: 0.5,  duration: 6 },
+      { color: '#8A4A1E', size: 320, x: '18%',  y: '68%',  blur: 90,  opacity: 0.3,  duration: 8 },
+      { color: '#2A1204', size: 580, x: '62%',  y: '20%',  blur: 125, opacity: 0.7,  duration: 10 },
+    ],
+    CenterIcon: UserCog,
+    floaters: [
+      { Icon: UserCog,     x: '9%',  y: '17%', size: 50, delay: 0.0 },
+      { Icon: Building2,   x: '83%', y: '16%', size: 34, delay: 0.4 },
+      { Icon: Star,        x: '20%', y: '76%', size: 24, delay: 0.2 },
+      { Icon: Shield,      x: '80%', y: '74%', size: 28, delay: 0.6 },
+    ],
+  },
+  {
     id: 'ia-rag',
     eyebrow: 'Inteligência Artificial',
     title: 'IA com RAG integrado',
@@ -182,6 +205,50 @@ const SCENES: SceneDef[] = [
       { Icon: Database,  x: '83%', y: '15%', size: 36, delay: 0.4 },
       { Icon: Sparkles,  x: '80%', y: '73%', size: 30, delay: 0.7 },
       { Icon: MessageSquare, x: '11%', y: '75%', size: 28, delay: 0.2 },
+    ],
+  },
+  {
+    id: 'crm',
+    eyebrow: 'Relacionamento e Dados',
+    title: 'CRM',
+    body: 'Gerencie leads, contatos e notas clínicas do paciente, acompanhe risco de churn e veja faturamento, funil de conversão e ocupação de agenda em um painel só.',
+    tags: ['Leads', 'Contatos', 'Churn', 'Faturamento'],
+    accent: '#FFD166',
+    bgColor: '#120F00',
+    orbs: [
+      { color: '#B8860B', size: 680, x: '48%',  y: '40%',  blur: 135, opacity: 0.82, duration: 9 },
+      { color: '#FFD166', size: 420, x: '76%',  y: '62%',  blur: 105, opacity: 0.5,  duration: 7 },
+      { color: '#8A6A00', size: 340, x: '20%',  y: '68%',  blur: 90,  opacity: 0.3,  duration: 8 },
+      { color: '#2A2000', size: 600, x: '62%',  y: '20%',  blur: 130, opacity: 0.75, duration: 11 },
+    ],
+    CenterIcon: BarChart2,
+    floaters: [
+      { Icon: BarChart2,   x: '9%',  y: '16%', size: 52, delay: 0.0 },
+      { Icon: TrendingUp,  x: '83%', y: '17%', size: 36, delay: 0.4 },
+      { Icon: Database,    x: '80%', y: '73%', size: 30, delay: 0.7 },
+      { Icon: Star,        x: '11%', y: '75%', size: 24, delay: 0.2 },
+    ],
+  },
+  {
+    id: 'whatsapp',
+    eyebrow: 'Atendimento',
+    title: 'Direto pelo WhatsApp',
+    body: 'Pacientes se cadastram e agendam consultas conversando com o bot do SGSM no WhatsApp — o mesmo RAG do assistente inteligente entende a intenção da mensagem, sem precisar abrir o sistema.',
+    tags: ['Bot', 'RAG', 'Cadastro', 'Agendamento'],
+    accent: '#25D366',
+    bgColor: '#031206',
+    orbs: [
+      { color: '#128C4A', size: 700, x: '50%',  y: '42%',  blur: 140, opacity: 0.85, duration: 9 },
+      { color: '#25D366', size: 430, x: '22%',  y: '60%',  blur: 110, opacity: 0.5,  duration: 7 },
+      { color: '#0A4A28', size: 360, x: '78%',  y: '30%',  blur: 100, opacity: 0.4,  duration: 8 },
+      { color: '#021F0F', size: 620, x: '65%',  y: '75%',  blur: 145, opacity: 0.85, duration: 10 },
+    ],
+    CenterIcon: MessageSquare,
+    floaters: [
+      { Icon: MessageSquare, x: '9%',  y: '16%', size: 52, delay: 0.0 },
+      { Icon: PhoneCall,     x: '83%', y: '15%', size: 34, delay: 0.4 },
+      { Icon: Zap,           x: '80%', y: '73%', size: 28, delay: 0.7 },
+      { Icon: Star,          x: '11%', y: '75%', size: 24, delay: 0.2 },
     ],
   },
   {
@@ -347,10 +414,14 @@ interface SceneLayerProps {
 function SceneBg({ scene, index, scrollYProgress }: SceneLayerProps) {
   const s = index / N
   const e = (index + 1) / N
+  // Margem proporcional ao tamanho da janela de cada cena — funciona com
+  // qualquer N, diferente de uma margem fixa (que quebra a ordem dos
+  // breakpoints quando as janelas ficam menores que a margem).
+  const margin = (e - s) * 0.35
 
   const fadeIn1  = s
-  const fadeIn2  = Math.min(s + 0.05, e - 0.05)
-  const fadeOut1 = Math.max(s + 0.05, e - 0.05)
+  const fadeIn2  = s + margin
+  const fadeOut1 = e - margin
   const fadeOut2 = e
 
   // First scene must start fully opaque at scrollYProgress=0
@@ -458,17 +529,22 @@ function SceneBg({ scene, index, scrollYProgress }: SceneLayerProps) {
 function SceneText({ scene, index, scrollYProgress }: SceneLayerProps) {
   const s = index / N
   const e = (index + 1) / N
+  const win = e - s
 
   // First scene: text visible from start; others fade+slide in on scroll
   const textStartOpacity = index === 0 ? 1 : 0
   const textStartY       = index === 0 ? '0rem' : '2.5rem'
 
+  // Margens proporcionais à janela da cena (ver comentário em SceneBg) —
+  // 0.25/0.45 preserva a mesma sensação de "texto entra um pouco depois
+  // do fundo" que os valores fixos originais tinham, mas sem quebrar a
+  // ordem dos breakpoints conforme N cresce.
   const opacity = useTransform(
     scrollYProgress,
-    [s + 0.04, s + 0.09, e - 0.09, e - 0.04],
+    [s + win * 0.25, s + win * 0.45, e - win * 0.45, e - win * 0.25],
     [textStartOpacity, 1, 1, 0],
   )
-  const y = useTransform(scrollYProgress, [s, s + 0.1], [textStartY, '0rem'])
+  const y = useTransform(scrollYProgress, [s, s + win * 0.5], [textStartY, '0rem'])
 
   return (
     <motion.div
@@ -647,8 +723,9 @@ function SceneDot({
 }) {
   const s = index / N
   const e = (index + 1) / N
-  const scale   = useTransform(scrollYProgress, [s, s + 0.05, e - 0.05, e], [0.6, 1.6, 1.6, 0.6])
-  const opacity = useTransform(scrollYProgress, [s, s + 0.06, e - 0.06, e], [0.25, 1, 1, 0.25])
+  const win = e - s
+  const scale   = useTransform(scrollYProgress, [s, s + win * 0.3, e - win * 0.3, e], [0.6, 1.6, 1.6, 0.6])
+  const opacity = useTransform(scrollYProgress, [s, s + win * 0.35, e - win * 0.35, e], [0.25, 1, 1, 0.25])
 
   return (
     <motion.div
