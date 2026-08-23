@@ -55,7 +55,7 @@ const SCENES: SceneDef[] = [
   {
     id: 'hero',
     eyebrow: 'Bem-vindo ao',
-    title: 'SGSM Médico',
+    title: 'IA SGSM Médico',
     body: 'Uma plataforma completa para gestão em saúde. Role para voar pelo mundo do sistema.',
     tags: ['Moderno', 'Integrado', 'Completo'],
     accent: '#52B788',
@@ -255,7 +255,7 @@ const SCENES: SceneDef[] = [
     id: 'cta',
     eyebrow: 'Sistema Completo',
     title: 'Pronto para começar?',
-    body: 'Acesse o SGSM Médico e transforme a gestão do seu atendimento médico.',
+    body: 'Acesse o IA SGSM Médico e transforme a gestão do seu atendimento médico.',
     tags: [],
     accent: '#52B788',
     bgColor: '#000508',
@@ -754,7 +754,7 @@ export default function WorldPage() {
 
   useEffect(() => {
     const prev = document.title
-    document.title = 'SGSM Médico — O Mundo do Sistema'
+    document.title = 'IA SGSM Médico — O Mundo do Sistema'
     return () => { document.title = prev }
   }, [])
 
@@ -809,7 +809,7 @@ export default function WorldPage() {
                 <Activity style={{ width: 20, height: 20, color: '#52B788' }} />
               </div>
               <span style={{ color: 'white', fontWeight: 800, fontSize: '1.05rem', letterSpacing: '-0.01em' }}>
-                SGSM Médico
+                IA SGSM Médico
               </span>
             </Link>
 
@@ -859,7 +859,7 @@ export default function WorldPage() {
         }}
       >
         <p style={{ color: 'rgba(255,255,255,0.2)', fontSize: 11, maxWidth: 'none', letterSpacing: '0.06em' }}>
-          © {new Date().getFullYear()} SGSM Médico — Sistema de Gestão em Saúde Médica
+          © {new Date().getFullYear()} IA SGSM Médico — IA Sistema de Gestão em Saúde Médica
         </p>
       </div>
     </div>
