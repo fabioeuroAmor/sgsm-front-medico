@@ -15,6 +15,10 @@ import {
   MousePointerClick,
   Menu,
   X,
+  ClipboardList,
+  UserCog,
+  Sparkles,
+  BarChart2,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/Button'
@@ -264,6 +268,36 @@ const features: Array<{
     title: 'Agendamentos',
     description:
       'Wizard intuitivo de 5 etapas com controle completo de status e link de acompanhamento do médico em tempo real nos atendimentos domiciliares.',
+  },
+  {
+    icon: ClipboardList,
+    title: 'Serviços Médicos',
+    description:
+      'Catálogo de serviços por especialidade, com preços, duração e vínculo com médicos e estabelecimentos.',
+  },
+  {
+    icon: UserCog,
+    title: 'Funcionários',
+    description:
+      'Cadastro da equipe administrativa e de apoio, com vínculo direto aos estabelecimentos onde atuam.',
+  },
+  {
+    icon: Sparkles,
+    title: 'Assistente IA',
+    description:
+      'Chat inteligente com RAG e busca semântica nos dados do sistema, além dos indicadores de KPIs do CRM.',
+  },
+  {
+    icon: BarChart2,
+    title: 'CRM',
+    description:
+      'Pipeline de leads, contatos e notas clínicas, com indicadores de churn, faturamento e ocupação de agenda.',
+  },
+  {
+    icon: MessageCircle,
+    title: 'WhatsApp',
+    description:
+      'Bot conversacional com RAG para cadastro e agendamento direto pelo WhatsApp, sem precisar abrir o sistema.',
   },
 ]
 
