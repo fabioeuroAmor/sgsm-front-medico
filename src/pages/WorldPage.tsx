@@ -101,8 +101,8 @@ const SCENES: SceneDef[] = [
     id: 'medicos',
     eyebrow: 'Módulos 2 & 3',
     title: 'Médicos e Estabelecimentos',
-    body: 'Agenda semanal por dia da semana, atendimento domiciliar e vínculos com clínicas e hospitais.',
-    tags: ['Agenda', 'Domiciliar', 'Mapa'],
+    body: 'Agenda semanal por dia da semana, atendimento domiciliar e vínculos com clínicas e hospitais — endereços com geolocalização integrada ao Google Maps.',
+    tags: ['Agenda', 'Domiciliar', 'Google Maps'],
     accent: '#A8DCE4',
     bgColor: '#011A1D',
     orbs: [
@@ -145,8 +145,8 @@ const SCENES: SceneDef[] = [
     id: 'agendamentos',
     eyebrow: 'Módulo 5',
     title: 'Agendamentos',
-    body: 'Wizard de 5 etapas com controle completo de status — de Agendado até Concluído.',
-    tags: ['Wizard', '5 Etapas', 'Status'],
+    body: 'Wizard de 5 etapas com controle completo de status — de Agendado até Concluído, com link de acompanhamento do médico em tempo real nos atendimentos domiciliares.',
+    tags: ['Wizard', 'Status', 'Tempo Real'],
     accent: '#52B788',
     bgColor: '#010D10',
     orbs: [

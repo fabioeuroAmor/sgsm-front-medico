@@ -257,22 +257,22 @@ const features: Array<{
     icon: Building2,
     title: 'Estabelecimentos',
     description:
-      'Gerencie clínicas e hospitais, vincule médicos por unidade e acesse localização no Google Maps.',
+      'Gerencie clínicas e hospitais, vincule médicos por unidade e acesse a localização integrada ao Google Maps.',
   },
   {
     icon: CalendarClock,
     title: 'Agendamentos',
     description:
-      'Wizard intuitivo de 5 etapas com controle completo de status, do agendamento até a conclusão.',
+      'Wizard intuitivo de 5 etapas com controle completo de status e link de acompanhamento do médico em tempo real nos atendimentos domiciliares.',
   },
 ]
 
 const modules = [
   { label: 'Pacientes', desc: 'Cadastro com ViaCEP e inativação' },
   { label: 'Médicos', desc: 'Agenda semanal e atendimento domiciliar' },
-  { label: 'Estabelecimentos', desc: 'Clínicas, hospitais e localização no mapa' },
+  { label: 'Estabelecimentos', desc: 'Clínicas, hospitais e endereço integrado ao Google Maps' },
   { label: 'Serviços Médicos', desc: 'Catálogo com valores e tipos' },
-  { label: 'Agendamentos', desc: 'Wizard completo e controle de status' },
+  { label: 'Agendamentos', desc: 'Wizard completo, status e acompanhamento do médico em tempo real' },
   { label: 'Funcionários', desc: 'Cadastro de equipe e vínculo com estabelecimentos' },
   { label: 'Assistente IA', desc: 'Chat com RAG e busca semântica nos dados do sistema' },
   { label: 'CRM', desc: 'Leads, contatos, notas clínicas, churn e indicadores' },
