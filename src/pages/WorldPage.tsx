@@ -79,8 +79,8 @@ const SCENES: SceneDef[] = [
     id: 'pacientes',
     eyebrow: 'Módulo 1',
     title: 'Gestão de Pacientes',
-    body: 'Cadastro com CPF mascarado, endereço automático via ViaCEP, histórico completo e controle de status.',
-    tags: ['ViaCEP', 'CPF', 'Histórico'],
+    body: 'Cadastro com CPF mascarado, endereço automático via ViaCEP com localização integrada ao Google Maps, histórico completo e controle de status.',
+    tags: ['ViaCEP', 'CPF', 'Google Maps'],
     accent: '#D4F1F4',
     bgColor: '#022A2C',
     orbs: [

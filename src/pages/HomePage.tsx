@@ -245,7 +245,7 @@ const features: Array<{
     icon: Users,
     title: 'Gestão de Pacientes',
     description:
-      'Cadastro completo com CPF, endereço automático via ViaCEP, histórico e controle de status.',
+      'Cadastro completo com CPF, endereço automático via ViaCEP com localização integrada ao Google Maps, histórico e controle de status.',
   },
   {
     icon: Stethoscope,
@@ -268,7 +268,7 @@ const features: Array<{
 ]
 
 const modules = [
-  { label: 'Pacientes', desc: 'Cadastro com ViaCEP e inativação' },
+  { label: 'Pacientes', desc: 'Cadastro com ViaCEP e Google Maps' },
   { label: 'Médicos', desc: 'Agenda semanal e atendimento domiciliar' },
   { label: 'Estabelecimentos', desc: 'Clínicas, hospitais e endereço integrado ao Google Maps' },
   { label: 'Serviços Médicos', desc: 'Catálogo com valores e tipos' },
