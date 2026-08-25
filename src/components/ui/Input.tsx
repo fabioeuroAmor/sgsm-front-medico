@@ -22,7 +22,7 @@ export function Input({ label, error, className, id, ...props }: InputProps) {
       <input
         id={inputId}
         className={cn(
-          'h-10 w-full rounded-xl border border-border bg-input px-3 text-sm text-foreground transition-all duration-200',
+          'h-10 w-full rounded-xl border border-border bg-input px-3 text-base sm:text-sm text-foreground transition-all duration-200',
           'placeholder:text-muted-foreground/60',
           'focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent',
           'disabled:cursor-not-allowed disabled:opacity-50',
@@ -57,7 +57,7 @@ export function SelectField({ label, error, className, id, children, ...props }:
       <select
         id={inputId}
         className={cn(
-          'h-10 w-full rounded-xl border border-border bg-input px-3 text-sm text-foreground transition-all duration-200',
+          'h-10 w-full rounded-xl border border-border bg-input px-3 text-base sm:text-sm text-foreground transition-all duration-200',
           'focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent',
           'disabled:cursor-not-allowed disabled:opacity-50',
           error && 'border-destructive',

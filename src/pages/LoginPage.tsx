@@ -33,9 +33,9 @@ export function LoginPage() {
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary/10 mb-4">
             <LogIn className="w-7 h-7 text-primary" />
           </div>
-          <h1 className="text-2xl font-bold text-foreground">Bem-vindo ao SGSM</h1>
+          <h1 className="text-2xl font-bold text-foreground">Bem-vindo ao IA SGSM</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Sistema de Gerenciamento de Serviços Médicos
+            IA Sistema de Gerenciamento de Serviços Médicos
           </p>
         </div>
 
@@ -59,13 +59,13 @@ export function LoginPage() {
               required
               autoComplete="current-password"
             />
-            <Button type="submit" className="w-full mt-1" disabled={loading}>
+            <Button type="submit" className="w-full mt-1 h-11 sm:h-10" disabled={loading}>
               {loading ? 'Entrando...' : 'Entrar'}
             </Button>
             <div className="text-center">
               <Link
                 to="/esqueci-senha"
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                className="text-sm text-muted-foreground hover:text-primary transition-colors inline-block py-2.5 sm:py-0"
               >
                 Esqueci minha senha
               </Link>

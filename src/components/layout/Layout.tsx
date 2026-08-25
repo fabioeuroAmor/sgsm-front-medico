@@ -7,7 +7,7 @@ export function Layout({ children }: { children?: ReactNode }) {
   useScrollReveal()
 
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-background">
       <Sidebar />
       <div className="flex flex-col flex-1 min-w-0">
         <main className="flex-1 p-6 lg:p-8 animate-fade-in">

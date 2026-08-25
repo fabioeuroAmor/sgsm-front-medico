@@ -319,7 +319,11 @@ export function AgendamentosPage() {
   const servicosFiltrados = todosOsServicos.filter((s) => {
     const q = buscaServico.toLowerCase()
     const m = medicosMap[s.medicoId]
-    return s.nome.toLowerCase().includes(q) || (m && m.nome.toLowerCase().includes(q))
+    return (
+      s.nome.toLowerCase().includes(q) ||
+      (m && m.nome.toLowerCase().includes(q)) ||
+      (m && m.especialidade && m.especialidade.toLowerCase().includes(q))
+    )
   })
 
   const podeCancel = (a: AgendamentoResponse) => a.status !== 'CANCELADO' && a.status !== 'CONCLUIDO' && a.status !== 'NO_SHOW'
@@ -555,7 +559,7 @@ export function AgendamentosPage() {
 
         {passo === 2 && (
           <div className="space-y-3">
-            <Input placeholder="Buscar por serviço ou médico…" value={buscaServico} onChange={(e) => setBuscaServico(e.target.value)} />
+            <Input placeholder="Buscar por serviço, médico ou especialidade…" value={buscaServico} onChange={(e) => setBuscaServico(e.target.value)} />
             <div className="max-h-72 space-y-2 overflow-y-auto pr-1">
               {servicosFiltrados.length === 0
                 ? <p className="py-6 text-center text-sm text-muted-foreground">Nenhum serviço encontrado</p>
