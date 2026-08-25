@@ -36,7 +36,7 @@ export function Modal({ open, onClose, title, children, footer, size = 'md' }: M
   }[size]
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 !m-0">
       {/* backdrop */}
       <div
         className="absolute inset-0 bg-foreground/20 backdrop-blur-sm"

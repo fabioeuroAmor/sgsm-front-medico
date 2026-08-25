@@ -1,0 +1,6 @@
+Total messages: 6 (Errors: 3, Warnings: 0)
+Returning 3 messages for level "error"
+
+[ERROR] Failed to load resource: the server responded with a status of 403 (Forbidden) @ http://localhost:3001/v1/api/medicos?ativo=true:0
+[ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://localhost:3001/v1/api/medicos:0
+[ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://localhost:3001/v1/api/medicos:0

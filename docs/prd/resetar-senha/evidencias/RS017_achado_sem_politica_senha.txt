@@ -1,0 +1,24 @@
+RS017 - Achado: backend não tem política de senha mínima (severidade MÉDIA / segurança)
+
+Requisição real: POST /v1/api/auth/resetar-senha com token válido (991a48321ced41aebfd342b77dc2c60b)
+e novaSenha = "1" (um único caractere), campo "Confirmar nova senha" também "1".
+
+Resultado: HTTP 204 No Content -- o backend ACEITOU a senha trivial sem nenhuma validação de
+tamanho mínimo ou força.
+
+Confirmação via banco: token marcado usado=true após a chamada, confirmando que a troca de senha
+realmente foi persistida (não é só uma resposta 200 vazia):
+  SELECT token, usado FROM auth.reset_senha_token WHERE token='991a48321ced41aebfd342b77dc2c60b';
+  => usado = t
+
+Causa raiz (leitura de código, sem edição):
+- Frontend (ResetarSenhaPage.tsx): não há atributo minLength nem regex de força no <Input
+  type="password">, apenas required.
+- Backend (ResetSenhaService.resetarSenha): usuario.setSenhaHash(passwordEncoder.encode(novaSenha))
+  é chamado diretamente sobre o valor recebido, sem nenhuma validação de tamanho/complexidade antes.
+
+CONCLUSÃO: comportamento edge-case documentado conforme pedido. Não é um "bug" que quebra
+funcionalidade (o fluxo funciona), mas é uma lacuna real de política de segurança: qualquer usuário
+pode redefinir a senha para um único caractere. Recomendação (não implementada nesta QA): adicionar
+validação de tamanho mínimo (ex.: 8 caracteres) tanto no client (minLength/regex) quanto no backend
+(validação em ResetarSenhaRequest ou no service).

@@ -1,0 +1,24 @@
+C59 — Documentado: erro na listagem de churn mantém a mensagem positiva "ótimo sinal", potencialmente
+enganosa
+
+Passo a passo:
+1. Interceptar via Playwright (page.route) a rota **/crm/churn* para responder sempre 500 Internal Server
+   Error com corpo {"detail":"Erro interno do servidor"}.
+2. Trocar de aba (Paciente 360) e voltar para "Risco de Churn", forçando um novo GET /crm/churn.
+
+Resultado observado: o novo GET /crm/churn retornou 500 (confirmado no network, requests #89/#90), mas a
+tela continuou mostrando a mensagem "Nenhum paciente em risco de churn — ótimo sinal!" — a MESMA mensagem
+de sucesso/lista vazia legítima. Não há diferenciação visual entre "não há pacientes em risco" (bom) e "a
+lista não pôde ser carregada por erro" (ruim) — ambos os casos mostram o mesmo texto positivo. Um toast de
+erro pode ter aparecido e desaparecido rapidamente (mesmo padrão de timing curto observado em outros itens),
+mas não há nenhum indicador persistente de que os dados podem estar desatualizados/incorretos.
+
+Classificação: achado de UX/front-end (não necessariamente "bug" no sentido de quebra funcional, mas uma
+falha de comunicação de estado): em caso de erro, a tela não deveria reutilizar a mensagem de "tudo certo,
+nenhum paciente em risco" — isso pode levar um médico a acreditar erroneamente que não há pacientes em
+risco de churn quando na verdade o sistema simplesmente falhou em carregar os dados. Comportamento
+observado e documentado conforme solicitado pelo item (não há resultado certo/errado pré-definido no
+test-plan para este item, mas o comportamento é um achado relevante).
+
+Evidência bruta: C59.png (tela mostrando "ótimo sinal" mesmo após 500), C59.log (500 confirmado no
+network), C59-console.log.

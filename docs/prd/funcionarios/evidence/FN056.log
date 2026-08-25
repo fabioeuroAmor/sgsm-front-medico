@@ -1,0 +1,20 @@
+79. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+81. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+82. [POST] http://localhost:3001/v1/api/funcionarios => [400] Bad Request
+83. [POST] http://localhost:3001/v1/api/funcionarios => [201] Created
+84. [POST] http://localhost:3001/v1/api/funcionarios => [201] Created
+85. [POST] http://localhost:3001/v1/api/funcionarios => [201] Created
+86. [POST] http://localhost:3001/v1/api/funcionarios => [201] Created
+87. [POST] http://localhost:3001/v1/api/funcionarios => [400] Bad Request
+88. [POST] http://localhost:3001/v1/api/funcionarios => [500] Internal Server Error
+89. [PUT] http://localhost:3001/v1/api/funcionarios/695780a3-1940-43e1-8038-c91b12fc926d => [200] OK
+90. [PUT] http://localhost:3001/v1/api/funcionarios/ddd4214b-ac7e-4b56-8bd6-b8bd3357daeb => [400] Bad Request
+91. [PUT] http://localhost:3001/v1/api/funcionarios/ddd4214b-ac7e-4b56-8bd6-b8bd3357daeb => [200] OK
+
+Note: 75 static requests not shown, run with "static" option to see them.
+
+=== Detail #91 (PUT apos limpar Telefone em edicao) ===
+Request body: {"nome":"Zenilda","email":"zeze@gmail.com","cargo":"Telefonista"}  <- campo "telefone" OMITIDO (form.telefone || undefined vira undefined, removido pelo JSON.stringify)
+Response body (200 OK): {"id":"ddd4214b-ac7e-4b56-8bd6-b8bd3357daeb","nome":"Zenilda","cpf":"47812549627","email":"zeze@gmail.com","telefone":"61991042778","cargo":"Telefonista",...}
+CONFIRMADO: telefone antigo "61991042778" foi MANTIDO mesmo apos o usuario apagar o campo no formulario e salvar.
+Comportamento conhecido/documentado (ModelMapper Conditions.isNotNull() no backend ignora campos ausentes do payload).

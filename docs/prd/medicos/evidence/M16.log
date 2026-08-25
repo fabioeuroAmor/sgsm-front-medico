@@ -1,0 +1,5 @@
+153. [GET] http://localhost:3001/v1/api/medicos => [200] OK
+154. [GET] http://localhost:3001/v1/api/medicos => [200] OK
+157. [GET] http://localhost:3001/v1/api/medicos?especialidade=Cardiologia => [200] OK
+
+Note: 144 static requests not shown, run with "static" option to see them.

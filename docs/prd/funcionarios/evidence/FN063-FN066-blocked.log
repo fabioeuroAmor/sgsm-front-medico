@@ -1,0 +1,4 @@
+95. [POST] http://localhost:3001/v1/api/auth/login => [401] Unauthorized
+169. [POST] http://localhost:3001/v1/api/auth/login => [401] Unauthorized
+
+Note: 223 static requests not shown, run with "static" option to see them.

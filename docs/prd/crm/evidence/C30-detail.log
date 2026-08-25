@@ -1,0 +1,21 @@
+C30 — Aprovado (com achado): botão "Confirmar" permanece habilitado sem mudança de status, e o backend
+rejeitou a tentativa (403) nas duas vezes testadas
+
+Passo a passo:
+1. Lead já estava com status CONTATADO (resultado do teste C29 anterior).
+2. Clicar em "Mover" no mesmo lead — modal abre com CONTATADO pré-selecionado (anel amarelo, "selecionado").
+3. Sem alterar a seleção, clicar em "Confirmar".
+
+Resultado esperado (test-plan): verificar se o botão "Confirmar" permanece habilitado e dispara PATCH mesmo
+sem mudança real de valor.
+
+Resultado observado: o botão "Confirmar" NÃO fica desabilitado quando o status selecionado já é o atual —
+um clique dispara sim um PATCH /crm/leads/{id}/status (confirmado no network, C30.log). Nas duas tentativas
+realizadas, o backend respondeu 403 Forbidden a essa tentativa de "mover para o mesmo status atual" (ver
+C30.log, requests 183=204 no primeiro PATCH que mudou de fato o status, depois 185 e a repetição seguinte
+ambos 403 para o PATCH com o MESMO status já vigente). Isso sugere uma regra de negócio no backend que
+rejeita transições para o mesmo status (nem sempre visível/documentada), não um bug de front-end em si —
+o achado de front-end é apenas que a UI não previne a tentativa (nenhum disable no botão, nenhuma
+mensagem prévia "o lead já está neste status").
+
+Ver C32-detail.log para como esse erro 403 é comunicado ao usuário.

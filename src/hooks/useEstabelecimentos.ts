@@ -44,5 +44,11 @@ export function useEstabelecimentos() {
     )
   }, [])
 
-  return { estabelecimentos, loading, error, listar, cadastrar, atualizar, remover }
+  const reativar = useCallback(async (id: string) => {
+    const atualizado = await estabelecimentoService.reativar(id)
+    setEstabelecimentos((prev) => prev.map((e) => (e.id === id ? atualizado : e)))
+    return atualizado
+  }, [])
+
+  return { estabelecimentos, loading, error, listar, cadastrar, atualizar, remover, reativar }
 }

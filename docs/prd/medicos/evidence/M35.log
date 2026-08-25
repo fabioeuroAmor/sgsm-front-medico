@@ -1,0 +1,7 @@
+76. [GET] http://localhost:3001/v1/api/medicos => [200] OK
+77. [GET] http://localhost:3001/v1/api/medicos => [200] OK
+78. [GET] http://localhost:3001/v1/api/medicos => [403] Forbidden
+79. [POST] http://localhost:3001/v1/api/medicos => [201] Created
+80. [PUT] http://localhost:3001/v1/api/medicos/e9d2fa53-3ff6-42fc-8987-7673fb4b1754 => [403] Forbidden
+
+Note: 71 static requests not shown, run with "static" option to see them.

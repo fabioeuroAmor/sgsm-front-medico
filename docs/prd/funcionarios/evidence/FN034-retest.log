@@ -1,0 +1,27 @@
+FN034 — RETESTE (pós-correção) — cadastro com e-mail duplicado
+Data: 2026-08-20
+Ambiente: app real http://localhost:3001, backend sgsm real :8080 (reiniciado às 22:55:08 para carregar
+o bytecode recompilado de FuncionarioService.java, compilado às 22:49:44; o processo anterior, iniciado às
+22:04, ainda rodava o código antigo sem a checagem de e-mail — primeira tentativa de reteste, antes do
+restart, retornou 201 Created indevidamente; após restart do processo, o teste foi refeito do zero).
+
+Ação: "Novo Funcionário" -> Nome "QA Retest FN034b", CPF novo (618.429.753-82), Cargo "Auxiliar QA Retest
+FN034b", E-mail "qafn022@test.com" (já usado por "Auxiliar QA", funcionário id relacionado ao CPF
+123.456.789-09, criado em QA anterior), Estabelecimento "Clinica São Lucas" -> Salvar.
+
+Requisição:
+POST http://localhost:3001/v1/api/funcionarios
+Body: {"nome":"QA Retest FN034b","cpf":"618.429.753-82","email":"qafn022@test.com","telefone":"","cargo":"Auxiliar QA Retest FN034b","estabelecimentoId":"655759aa-bf83-417e-a45b-b06258c4458f"}
+
+Resposta:
+Status: 400 Bad Request
+Body: {"detail":"E-mail já cadastrado: qafn022@test.com","instance":"/v1/api/funcionarios","status":400,"title":"Requisição inválida","type":"https://sgsm.com.br/erros/argumento-invalido"}
+
+Console do navegador:
+[ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://localhost:3001/v1/api/funcionarios:0
+
+UI: mensagem "E-mail já cadastrado: qafn022@test.com" exibida dentro do modal (formError), modal
+permanece aberto, dados preenchidos preservados. Nenhum novo funcionário criado com esse e-mail duplicado.
+
+Resultado: CORRIGIDO. POST retorna 400 (não mais 201) quando o e-mail já pertence a outro funcionário.
+Confirma repository.existsByEmail(request.email()) em FuncionarioService.cadastrar() (linhas 53-55).

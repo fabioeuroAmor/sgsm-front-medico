@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
-import { Plus, Search, Pencil, Trash2, UserCog } from 'lucide-react'
+import { toast } from 'sonner'
+import { Plus, Search, Pencil, Trash2, RotateCcw, UserCog } from 'lucide-react'
 import { useFuncionarios } from '@/hooks/useFuncionarios'
 import { estabelecimentoService } from '@/services/estabelecimentoService'
 import { useAuth } from '@/hooks/useAuth'
@@ -78,12 +79,15 @@ function validarTelefone(tel: string): boolean {
   const numero = d.slice(2)
   if (/^(\d)\1+$/.test(numero)) return false
   if (d.length === 11 && numero[0] !== '9') return false
+  if (d.length === 10 && !/^[2-5]/.test(numero)) return false
   return true
 }
 
 export function FuncionariosPage() {
-  const { funcionarios, loading, error, listar, cadastrar, atualizar, remover } = useFuncionarios()
+  const { funcionarios, loading, error, listar, cadastrar, atualizar, remover, reativar } = useFuncionarios()
   const { usuario } = useAuth()
+  const [reativandoId, setReativandoId] = useState<string | null>(null)
+  const reativandoRef = useRef<string | null>(null)
   const [estabelecimentos, setEstabelecimentos] = useState<EstabelecimentoResponse[]>([])
   const [filtroEstab, setFiltroEstab] = useState('')
   const [filtroAtivo, setFiltroAtivo] = useState<boolean | undefined>(undefined)
@@ -95,6 +99,7 @@ export function FuncionariosPage() {
   const [formError, setFormError] = useState<string | null>(null)
   const [confirmandoId, setConfirmandoId] = useState<string | null>(null)
   const [campoErros, setCampoErros] = useState(emptyErros)
+  const salvandoRef = useRef(false)
 
   const tiltRef = useRef<HTMLDivElement>(null)
   const [tilt, setTilt] = useState({ rx: 0, ry: 0 })
@@ -118,12 +123,15 @@ export function FuncionariosPage() {
     listar({ estabelecimentoId: filtroEstab || undefined, ativo: filtroAtivo })
   }, [filtroEstab, filtroAtivo, listar])
 
-  const filtrados = funcionarios.filter((f) =>
-    f.nome.toLowerCase().includes(busca.toLowerCase()) ||
-    f.cpf.includes(busca) ||
-    f.cargo.toLowerCase().includes(busca.toLowerCase()) ||
-    f.email.toLowerCase().includes(busca.toLowerCase()),
-  )
+  const filtrados = funcionarios.filter((f) => {
+    const buscaDigits = busca.replace(/\D/g, '')
+    return (
+      f.nome.toLowerCase().includes(busca.toLowerCase()) ||
+      (buscaDigits.length > 0 && f.cpf.replace(/\D/g, '').includes(buscaDigits)) ||
+      f.cargo.toLowerCase().includes(busca.toLowerCase()) ||
+      f.email.toLowerCase().includes(busca.toLowerCase())
+    )
+  })
 
   function setField<K extends keyof CadastrarFuncionarioRequest>(key: K, value: CadastrarFuncionarioRequest[K]) {
     setForm((f) => ({ ...f, [key]: value }))
@@ -152,11 +160,26 @@ export function FuncionariosPage() {
     setModalAberto(true)
   }
 
+  async function handleReativar(id: string) {
+    if (reativandoRef.current) return
+    reativandoRef.current = id
+    setReativandoId(id)
+    try {
+      await reativar(id)
+      toast.success('Funcionário reativado com sucesso.')
+    } catch (err) {
+      toast.error((err as Error).message)
+    } finally {
+      reativandoRef.current = null
+      setReativandoId(null)
+    }
+  }
+
   async function salvar() {
     const erros = { ...emptyErros }
     let valido = true
 
-    if (!form.nome || !form.cargo || !form.estabelecimentoId) {
+    if (!form.nome.trim() || !form.cargo.trim() || !form.estabelecimentoId) {
       setFormError('Preencha todos os campos obrigatórios.')
       valido = false
     } else {
@@ -188,24 +211,27 @@ export function FuncionariosPage() {
 
     setCampoErros(erros)
     if (!valido) return
+    if (salvandoRef.current) return
+    salvandoRef.current = true
 
     setSalvando(true)
     try {
       if (editando) {
         await atualizar(editando.id, {
-          nome: form.nome || undefined,
+          nome: form.nome.trim() || undefined,
           email: form.email || undefined,
           telefone: form.telefone || undefined,
-          cargo: form.cargo || undefined,
+          cargo: form.cargo.trim() || undefined,
         })
       } else {
-        await cadastrar(form)
+        await cadastrar({ ...form, nome: form.nome.trim(), cargo: form.cargo.trim() })
       }
       setModalAberto(false)
       setEditando(null)
     } catch (err) {
       setFormError((err as Error).message)
     } finally {
+      salvandoRef.current = false
       setSalvando(false)
     }
   }
@@ -289,13 +315,13 @@ export function FuncionariosPage() {
       )}
 
       {loading ? (
-        <div className="flex justify-center py-16">
+        <div key="loading" className="flex justify-center py-16">
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
         </div>
       ) : filtrados.length === 0 ? (
         <EmptyState />
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 stagger-children">
+        <div key="grid" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 stagger-children">
           {filtrados.map((func) => (
             <Card key={func.id} className="flex flex-col gap-4">
               <div className="flex items-start justify-between">
@@ -320,9 +346,21 @@ export function FuncionariosPage() {
                 <Button variant="ghost" size="sm" onClick={() => abrirEdicao(func)} className="flex-1">
                   <Pencil size={12} /> Editar
                 </Button>
-                <Button variant="danger" size="sm" onClick={() => setConfirmandoId(func.id)} disabled={!func.ativo}>
-                  <Trash2 size={12} />
-                </Button>
+                {func.ativo ? (
+                  <Button variant="danger" size="sm" onClick={() => setConfirmandoId(func.id)}>
+                    <Trash2 size={12} />
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleReativar(func.id)}
+                    disabled={reativandoId === func.id}
+                  >
+                    <RotateCcw size={12} className={reativandoId === func.id ? 'animate-spin' : undefined} />
+                    Reativar
+                  </Button>
+                )}
               </div>
             </Card>
           ))}

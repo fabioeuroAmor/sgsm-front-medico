@@ -1,0 +1,45 @@
+72. [POST] http://localhost:3001/v1/api/auth/refresh => [200] OK
+74. [GET] http://localhost:3001/v1/api/auth/me => [200] OK
+77. [GET] http://localhost:3001/v1/api/estabelecimentos?ativo=true&medicoId=ff9a2400-2217-48fa-ac91-b81a4032f2db => [200] OK
+78. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+79. [GET] http://localhost:3001/v1/api/estabelecimentos?ativo=true&medicoId=ff9a2400-2217-48fa-ac91-b81a4032f2db => [200] OK
+80. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+154. [POST] http://localhost:3001/v1/api/auth/refresh => [200] OK
+156. [GET] http://localhost:3001/v1/api/auth/me => [200] OK
+159. [GET] http://localhost:3001/v1/api/estabelecimentos?ativo=true&medicoId=ff9a2400-2217-48fa-ac91-b81a4032f2db => [200] OK
+160. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+161. [GET] http://localhost:3001/v1/api/estabelecimentos?ativo=true&medicoId=ff9a2400-2217-48fa-ac91-b81a4032f2db => [200] OK
+162. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+234. [POST] http://localhost:3001/v1/api/auth/refresh => [200] OK
+236. [GET] http://localhost:3001/v1/api/auth/me => [200] OK
+238. [GET] http://localhost:3001/v1/api/estabelecimentos?ativo=true&medicoId=ff9a2400-2217-48fa-ac91-b81a4032f2db => [200] OK
+239. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+240. [GET] http://localhost:3001/v1/api/estabelecimentos?ativo=true&medicoId=ff9a2400-2217-48fa-ac91-b81a4032f2db => [200] OK
+241. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+314. [POST] http://localhost:3001/v1/api/auth/refresh => [200] OK
+316. [GET] http://localhost:3001/v1/api/auth/me => [200] OK
+318. [GET] http://localhost:3001/v1/api/estabelecimentos?ativo=true&medicoId=ff9a2400-2217-48fa-ac91-b81a4032f2db => [200] OK
+319. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+320. [GET] http://localhost:3001/v1/api/estabelecimentos?ativo=true&medicoId=ff9a2400-2217-48fa-ac91-b81a4032f2db => [200] OK
+321. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+394. [POST] http://localhost:3001/v1/api/auth/refresh => [200] OK
+396. [GET] http://localhost:3001/v1/api/auth/me => [200] OK
+398. [GET] http://localhost:3001/v1/api/estabelecimentos?ativo=true&medicoId=ff9a2400-2217-48fa-ac91-b81a4032f2db => [200] OK
+399. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+400. [GET] http://localhost:3001/v1/api/estabelecimentos?ativo=true&medicoId=ff9a2400-2217-48fa-ac91-b81a4032f2db => [200] OK
+401. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+474. [POST] http://localhost:3001/v1/api/auth/refresh => [200] OK
+476. [GET] http://localhost:3001/v1/api/auth/me => [200] OK
+478. [GET] http://localhost:3001/v1/api/estabelecimentos?ativo=true&medicoId=ff9a2400-2217-48fa-ac91-b81a4032f2db => [200] OK
+479. [GET] http://localhost:3001/v1/api/funcionarios
+480. [GET] http://localhost:3001/v1/api/estabelecimentos?ativo=true&medicoId=ff9a2400-2217-48fa-ac91-b81a4032f2db => [200] OK
+481. [GET] http://localhost:3001/v1/api/funcionarios
+554. [POST] http://localhost:3001/v1/api/auth/refresh => [200] OK
+556. [GET] http://localhost:3001/v1/api/auth/me => [200] OK
+558. [GET] http://localhost:3001/v1/api/estabelecimentos?ativo=true&medicoId=ff9a2400-2217-48fa-ac91-b81a4032f2db => [200] OK
+559. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+560. [GET] http://localhost:3001/v1/api/estabelecimentos?ativo=true&medicoId=ff9a2400-2217-48fa-ac91-b81a4032f2db => [200] OK
+561. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+563. [GET] http://localhost:3001/v1/api/funcionarios?estabelecimentoId=655759aa-bf83-417e-a45b-b06258c4458f => [200] OK
+
+Note: 520 static requests not shown, run with "static" option to see them.

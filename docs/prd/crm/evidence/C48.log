@@ -1,0 +1,5 @@
+225. [GET] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/contatos => [200] OK
+228. [GET] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/contatos => [403] Forbidden
+244. [GET] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/contatos => [200] OK
+
+Note: 164 static requests not shown, run with "static" option to see them.

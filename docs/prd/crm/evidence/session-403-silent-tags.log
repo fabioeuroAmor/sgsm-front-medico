@@ -1,0 +1,16 @@
+Nota de correção: achado revisado após checar o código-fonte
+
+Na primeira observação (session-403-recurrence.png), quando as 3 chamadas paralelas (tags/contatos/notas)
+falharam com 403 por expiração de sessão, a tela mostrava "Tags (0)/Contatos (0)/Notas (0)" sem nenhum toast
+visível NO MOMENTO DO SCREENSHOT. Ao checar o código-fonte (src/pages/CrmPage.tsx, função `selecionar`,
+linhas 276-291), confirmei que EXISTE tratamento de erro: `catch { toast.error('Erro ao carregar dados do
+paciente') }`. Ou seja, um toast provavelmente apareceu e já tinha desaparecido (mesmo padrão de timing
+curto de toast observado em C09) antes de eu capturar a screenshot — não é uma ausência real de tratamento
+de erro nesse ponto específico.
+
+Correção do achado: o comportamento é CONSISTENTE com o resto do CRM (toast.error com mensagem genérica,
+sem indicação de erro persistente na tela) — não um caso pior/mais silencioso como eu tinha inicialmente
+registrado. Mantenho como achado de qualidade geral (mensagens de erro tipo toast que desaparecem rápido e
+não deixam rastro persistente na UI, potencialmente levando o usuário a interpretar contagem 0 como "sem
+dados" quando na verdade a requisição falhou), mas não é um bug distinto do padrão já documentado em
+C09/C32/session-403-global-detail.log.

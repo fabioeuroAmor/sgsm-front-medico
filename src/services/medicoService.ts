@@ -22,4 +22,7 @@ export const medicoService = {
     api.put<MedicoResponse>(`${BASE}/${id}`, body).then((r) => r.data),
 
   remover: (id: string) => api.delete(`${BASE}/${id}`),
+
+  reativar: (id: string) =>
+    api.patch<MedicoResponse>(`${BASE}/${id}/reativar`).then((r) => r.data),
 }

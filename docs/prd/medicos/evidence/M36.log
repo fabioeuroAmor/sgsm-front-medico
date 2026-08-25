@@ -1,0 +1,11 @@
+77. [GET] http://localhost:3001/v1/api/medicos => [200] OK
+78. [GET] http://localhost:3001/v1/api/medicos => [200] OK
+79. [POST] http://localhost:3001/v1/api/medicos => [201] Created
+80. [GET] http://localhost:3001/v1/api/medicos?especialidade=Neurologia => [200] OK
+81. [GET] http://localhost:3001/v1/api/medicos?ativo=true&especialidade=Neurologia => [200] OK
+82. [GET] http://localhost:3001/v1/api/medicos?especialidade=Neurologia => [200] OK
+83. [GET] http://localhost:3001/v1/api/medicos => [200] OK
+84. [POST] http://localhost:3001/v1/api/medicos => [201] Created
+85. [DELETE] http://localhost:3001/v1/api/medicos/ac2f789c-f331-4112-ae1c-5edddf4d4184 => [204] No Content
+
+Note: 72 static requests not shown, run with "static" option to see them.

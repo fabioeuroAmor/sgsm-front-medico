@@ -44,5 +44,11 @@ export function useServicos() {
     )
   }, [])
 
-  return { servicos, loading, error, listar, cadastrar, atualizar, remover }
+  const reativar = useCallback(async (id: string) => {
+    const atualizado = await servicoMedicoService.reativar(id)
+    setServicos((prev) => prev.map((s) => (s.id === id ? atualizado : s)))
+    return atualizado
+  }, [])
+
+  return { servicos, loading, error, listar, cadastrar, atualizar, remover, reativar }
 }

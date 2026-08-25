@@ -1,0 +1,39 @@
+Achado crítico transversal — sessão expira silenciosamente após ~20 minutos, sem refresh e sem logout
+forçado, deixando toda a aplicação (não só o CRM) presa em erros 403 repetidos com dados desatualizados na
+tela
+
+Contexto: durante o teste de C13 (filtro "QUALIFICADO" sem leads), a requisição GET /crm/leads?status=QUALIFICADO
+passou a retornar 403 Forbidden (request #187 no network log), quando antes (request #83) tinha retornado 200
+normalmente. A tela continuou mostrando os dados antigos (não filtrados) da última requisição bem-sucedida,
+sem nenhuma mensagem de erro visível além de toasts que aparecem e desaparecem rapidamente.
+
+Investigação: para descartar que fosse um problema específico do filtro QUALIFICADO ou do backend 8082 do
+CRM, testei:
+1. Clicar em "CONTATADO" → GET /crm/leads?status=CONTATADO também retornou 403 (request #190).
+2. Clicar em "Todos" → GET /crm/leads (sem filtro) também retornou 403 (requests #188, #191).
+3. Navegar para /pacientes (rota de outra tela, backend 8080, não relacionado ao CRM) → GET /v1/api/pacientes
+   também retornou 403 (requests #193, #194).
+
+Ou seja, TODAS as chamadas autenticadas da aplicação (não só o CRM) começaram a falhar com 403 a partir de um
+certo ponto da sessão — aproximadamente 20-22 minutos após o login mais recente (login em ~22:46, falha
+generalizada observada por volta de 23:08).
+
+Causa provável: o access token (mantido apenas em memória, não em localStorage — só o refresh_token fica em
+localStorage) expirou, e o interceptor do axios aparentemente só trata 401 como gatilho para renovar o token
+via /v1/api/auth/refresh (comportamento visto em outras partes do sistema — ver achado crítico #6 do QA de
+Médicos, docs/prd/medicos/qa-results.md). Como o backend está devolvendo 403 (não 401) quando o token expira/
+fica inválido, o interceptor nunca é acionado, e a aplicação fica presa indefinidamente em um estado de sessão
+morta, sem logout automático e sem nenhuma indicação clara ao usuário de que precisa logar novamente — apenas
+toasts genéricos de erro que competem por atenção com o restante da UI.
+
+Classificação: bug de front-end + possível inconsistência de contrato com o backend (código de status usado
+para "token expirado" não é uniformemente 401 em todos os endpoints, e o interceptor do front-end não cobre
+403 como gatilho de refresh/logout). Esse problema é transversal a toda a aplicação, não específico da tela
+de CRM, mas foi descoberto durante este QA porque a sessão de teste do CRM foi uma das mais longas em duração
+contínua.
+
+Recuperação: foi necessário fazer logout manual e login novamente (mesmas credenciais de teste) para
+restaurar o funcionamento normal e continuar o QA a partir daqui.
+
+Evidência bruta: session-403-global.png (tela de /pacientes com toasts de erro se acumulando, dados antigos
+atrás), session-403-global-console.log.

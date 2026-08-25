@@ -1,0 +1,9 @@
+74. [POST] http://localhost:3001/v1/api/auth/login => [200] OK
+75. [GET] http://localhost:3001/v1/api/auth/me => [200] OK
+78. [GET] http://localhost:3001/v1/api/pacientes => [200] OK
+79. [GET] http://localhost:3001/v1/api/pacientes => [200] OK
+81. [GET] http://localhost:3001/crm/leads => [200] OK
+82. [GET] http://localhost:3001/crm/leads => [200] OK
+83. [GET] http://localhost:3001/crm => [403] Forbidden
+
+Note: 76 static requests not shown, run with "static" option to see them.

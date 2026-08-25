@@ -1,0 +1,24 @@
+C37 — Parcialmente testado ao vivo + confirmado por leitura de código
+
+Ao vivo: o ambiente de teste tinha exatamente 10 pacientes ativos no total (9 pré-existentes + 1 criado
+neste QA, "QA CRM Paciente Teste"). Buscar pela letra "a" (que aparece em quase todos os nomes/CPFs)
+retornou exatamente os 10 pacientes ativos no dropdown (contagem confirmada via accessibility snapshot:
+Ana Beatriz Souza, Zoélia Lima de Carvalho, maria eduarda, joao victor, joao victor, jv carvalho, maria
+eduarda, Teste Diagnostico, duda janu, QA CRM Paciente Teste = 10 itens). Como o ambiente não tinha mais de
+10 pacientes ativos cujo nome/CPF contivesse a letra "a", não foi possível observar ao vivo um 11º resultado
+sendo escondido pelo corte — o teste ficou exatamente no limite (10 de 10), não acima dele.
+
+Código-fonte (src/pages/CrmPage.tsx, linhas 359-380) confirma o comportamento esperado e resolve a dúvida
+sobre indicação visual:
+  {filtrados.slice(0, 10).map((p) => ( ... ))}
+  {filtrados.length === 0 && (<p>Nenhum paciente encontrado</p>)}
+
+Não existe nenhuma mensagem ou indicador (tipo "mostrando 10 de N resultados" ou "role para ver mais")
+quando `filtrados.length > 10` — o corte é silencioso. Se houvesse 11+ pacientes correspondentes, o usuário
+não teria como saber que existem mais resultados não exibidos no dropdown.
+
+Classificação: achado de UX/front-end confirmado por código (ausência de indicação de truncamento), mas o
+comportamento de truncamento em si (o corte de fato acontecendo com mais de 10 itens) não pôde ser
+comprovado com evidência de execução ao vivo devido à quantidade de dados de teste disponível no ambiente
+(exatamente 10 pacientes ativos, nenhum a mais). Recomenda-se reteste ao vivo se o ambiente ganhar mais
+pacientes ativos futuramente.

@@ -1,0 +1,5 @@
+224. [GET] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/tags => [200] OK
+225. [GET] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/contatos => [200] OK
+226. [GET] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/notas => [200] OK
+
+Note: 160 static requests not shown, run with "static" option to see them.

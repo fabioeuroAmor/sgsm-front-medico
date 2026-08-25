@@ -13,6 +13,12 @@ import {
   CheckCircle2,
   MessageCircle,
   MousePointerClick,
+  Menu,
+  X,
+  ClipboardList,
+  UserCog,
+  Sparkles,
+  BarChart2,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/Button'
@@ -243,7 +249,7 @@ const features: Array<{
     icon: Users,
     title: 'Gestão de Pacientes',
     description:
-      'Cadastro completo com CPF, endereço automático via ViaCEP, histórico e controle de status.',
+      'Cadastro completo com CPF, endereço automático via ViaCEP com localização integrada ao Google Maps, histórico e controle de status.',
   },
   {
     icon: Stethoscope,
@@ -255,22 +261,56 @@ const features: Array<{
     icon: Building2,
     title: 'Estabelecimentos',
     description:
-      'Gerencie clínicas e hospitais, vincule médicos por unidade e acesse localização no Google Maps.',
+      'Gerencie clínicas e hospitais, vincule médicos por unidade e acesse a localização integrada ao Google Maps.',
   },
   {
     icon: CalendarClock,
     title: 'Agendamentos',
     description:
-      'Wizard intuitivo de 5 etapas com controle completo de status, do agendamento até a conclusão.',
+      'Wizard intuitivo de 5 etapas com controle completo de status e link de acompanhamento do médico em tempo real nos atendimentos domiciliares.',
+  },
+  {
+    icon: ClipboardList,
+    title: 'Serviços Médicos',
+    description:
+      'Catálogo de serviços por especialidade, com preços, duração e vínculo com médicos e estabelecimentos.',
+  },
+  {
+    icon: UserCog,
+    title: 'Funcionários',
+    description:
+      'Cadastro da equipe administrativa e de apoio, com vínculo direto aos estabelecimentos onde atuam.',
+  },
+  {
+    icon: Sparkles,
+    title: 'Assistente IA',
+    description:
+      'Chat inteligente com RAG e busca semântica nos dados do sistema, além dos indicadores de KPIs do CRM.',
+  },
+  {
+    icon: BarChart2,
+    title: 'CRM',
+    description:
+      'Pipeline de leads, contatos e notas clínicas, com indicadores de churn, faturamento e ocupação de agenda.',
+  },
+  {
+    icon: MessageCircle,
+    title: 'WhatsApp',
+    description:
+      'Bot conversacional com RAG para cadastro e agendamento direto pelo WhatsApp, sem precisar abrir o sistema.',
   },
 ]
 
 const modules = [
-  { label: 'Pacientes', desc: 'Cadastro com ViaCEP e inativação' },
+  { label: 'Pacientes', desc: 'Cadastro com ViaCEP e Google Maps' },
   { label: 'Médicos', desc: 'Agenda semanal e atendimento domiciliar' },
-  { label: 'Estabelecimentos', desc: 'Clínicas, hospitais e localização no mapa' },
+  { label: 'Estabelecimentos', desc: 'Clínicas, hospitais e endereço integrado ao Google Maps' },
   { label: 'Serviços Médicos', desc: 'Catálogo com valores e tipos' },
-  { label: 'Agendamentos', desc: 'Wizard completo e controle de status' },
+  { label: 'Agendamentos', desc: 'Wizard completo, status e acompanhamento do médico em tempo real' },
+  { label: 'Funcionários', desc: 'Cadastro de equipe e vínculo com estabelecimentos' },
+  { label: 'Assistente IA', desc: 'Chat com RAG e busca semântica nos dados do sistema' },
+  { label: 'CRM', desc: 'Leads, contatos, notas clínicas, churn e indicadores' },
+  { label: 'WhatsApp', desc: 'Bot conversacional com RAG para cadastro e agendamento' },
 ]
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -340,6 +380,13 @@ export default function HomePage() {
   const [modulesTilt, setModulesTilt] = useState({ rx: 0, ry: 0 })
   const [modulesHov, setModulesHov] = useState(false)
 
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
+  const navLinks = [
+    { label: 'Início', href: '#' },
+    { label: 'Funcionalidades', href: '#features' },
+    { label: 'Sobre o Sistema', href: '#about' },
+  ]
+
   function onModulesMove(e: React.MouseEvent<HTMLDivElement>) {
     const el = modulesRef.current; if (!el) return
     const { left, top, width, height } = el.getBoundingClientRect()
@@ -360,30 +407,52 @@ export default function HomePage() {
                 <Activity className="h-5 w-5 text-white" />
               </div>
               <span className="text-xl font-extrabold tracking-tight text-secondary">
-                SGSM <span className="text-primary">Médico</span>
+                IA SGSM <span className="text-primary">Médico</span>
               </span>
             </Link>
           </TiltWrap>
 
           <nav className="hidden md:flex items-center gap-8">
-            {[
-              { label: 'Início', href: '#' },
-              { label: 'Funcionalidades', href: '#features' },
-              { label: 'Sobre o Sistema', href: '#about' },
-            ].map((link) => (
+            {navLinks.map((link) => (
               <NavLink3D key={link.href} href={link.href}>
                 {link.label}
               </NavLink3D>
             ))}
           </nav>
 
-          <ButtonLink
-            to="/pacientes"
-            className={cn(buttonVariants({ variant: 'accent', size: 'md' }), 'rounded-full')}
-          >
-            Acessar Sistema <ArrowRight className="h-4 w-4" />
-          </ButtonLink>
+          <div className="flex items-center gap-2">
+            <ButtonLink
+              to="/pacientes"
+              className={cn(buttonVariants({ variant: 'accent', size: 'md' }), 'rounded-full h-11 sm:h-10')}
+            >
+              Acessar Sistema <ArrowRight className="h-4 w-4" />
+            </ButtonLink>
+
+            <button
+              type="button"
+              className="md:hidden p-2.5 rounded-lg text-secondary hover:bg-muted transition-colors"
+              aria-label={mobileNavOpen ? 'Fechar menu' : 'Abrir menu'}
+              onClick={() => setMobileNavOpen((v) => !v)}
+            >
+              {mobileNavOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
+
+        {mobileNavOpen && (
+          <nav className="md:hidden border-t border-border bg-white/95 backdrop-blur-md px-4 py-2 flex flex-col">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileNavOpen(false)}
+                className="px-2 py-3 rounded-lg text-sm font-semibold text-secondary hover:bg-muted transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+        )}
       </header>
 
       <main>
@@ -482,7 +551,7 @@ export default function HomePage() {
                       transition: 'box-shadow 0.3s ease',
                     }}
                   >
-                    Sistema de Gestão em Saúde
+                    IA Sistema de Gestão em Saúde
                   </div>
                   <h1
                     className="text-4xl md:text-5xl font-extrabold text-primary mb-6 leading-[1.1]"
@@ -506,7 +575,7 @@ export default function HomePage() {
                       transition: 'text-shadow 0.3s ease',
                     }}
                   >
-                    Controle pacientes, médicos, estabelecimentos e agendamentos em uma única plataforma. Ágil, integrado e focado na eficiência do atendimento médico.
+                    Controle pacientes, médicos, estabelecimentos e agendamentos com inteligência artificial integrada em uma única plataforma. Ágil, completo e focado na eficiência do atendimento médico.
                   </p>
                   <div style={{ transform: 'translateZ(22px)', display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
                     <ButtonLink
@@ -520,7 +589,7 @@ export default function HomePage() {
                     </ButtonLink>
                     <Link
                       to="/world"
-                      className="text-primary/70 hover:text-primary text-sm font-semibold transition-colors inline-flex items-center gap-1.5 self-start"
+                      className="text-primary/70 hover:text-primary text-sm font-semibold transition-colors inline-flex items-center gap-1.5 self-start py-2.5 sm:py-0"
                     >
                       ✦ Explorar o mundo do sistema
                     </Link>
@@ -854,19 +923,19 @@ export default function HomePage() {
                 <Activity className="h-4 w-4 text-primary" />
               </div>
               <span className="font-extrabold text-white">
-                SGSM <span className="text-primary">Médico</span>
+                IA SGSM <span className="text-primary">Médico</span>
               </span>
             </div>
           </TiltWrap>
           <TiltWrap intensity={12}>
             <p style={{ maxWidth: 'none' }}>
-              © {new Date().getFullYear()} SGSM — Sistema de Gestão em Saúde Médica
+              © {new Date().getFullYear()} SGSM — IA Sistema de Gestão em Saúde Médica
             </p>
           </TiltWrap>
           <TiltWrap intensity={16}>
             <Link
               to="/pacientes"
-              className="text-accent hover:text-accent/80 font-semibold transition-colors"
+              className="text-accent hover:text-accent/80 font-semibold transition-colors py-2.5 sm:py-0"
               style={{ display: 'inline-block' }}
             >
               Acessar Sistema →

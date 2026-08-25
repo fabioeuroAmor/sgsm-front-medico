@@ -1,0 +1,18 @@
+80. [GET] http://localhost:3001/crm/leads => [200] OK
+81. [GET] http://localhost:3001/crm/leads => [200] OK
+82. [POST] http://localhost:3001/crm/leads => [201] Created
+83. [GET] http://localhost:3001/crm/leads => [200] OK
+88. [GET] http://localhost:3001/crm/leads => [200] OK
+89. [GET] http://localhost:3001/crm/leads => [200] OK
+95. [GET] http://localhost:3001/crm/leads => [200] OK
+96. [GET] http://localhost:3001/crm/leads => [200] OK
+100. [GET] http://localhost:3001/crm/leads => [200] OK
+101. [GET] http://localhost:3001/crm/leads => [200] OK
+104. [GET] http://localhost:3001/crm/leads => [200] OK
+105. [GET] http://localhost:3001/crm/leads => [200] OK
+108. [GET] http://localhost:3001/crm/leads => [200] OK
+109. [GET] http://localhost:3001/crm/leads => [200] OK
+112. [GET] http://localhost:3001/crm/leads => [500] Internal Server Error
+113. [GET] http://localhost:3001/crm/leads => [500] Internal Server Error
+
+Note: 81 static requests not shown, run with "static" option to see them.

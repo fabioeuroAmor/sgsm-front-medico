@@ -1,0 +1,42 @@
+REG028 — Reteste (Rodada 2) — duplo clique gera 2 requisições, uma quebra com 500 cru
+========================================================================================
+Executado ao vivo via Playwright MCP contra http://localhost:3001 + backend real sgsm :8080.
+Sem mocks.
+
+CAMADA 1 — Front-end (guard síncrono enviandoRef):
+  Formulário Paciente válido preenchido ("QA Registro Retest Duplo Clique", CPF 025.326.795-14,
+  email qa.retest.duploclique.20260820@teste.com). Disparadas duas chamadas SÍNCRONAS
+  `btn.click(); btn.click();` na mesma tick via browser_evaluate (mesma técnica usada no QA de
+  Funcionários), sem esperar re-render entre elas.
+
+  Rede capturada (contagem completa, filtrando estáticos):
+    GET  /v1/api/auth/email-disponivel?email=... => 200 (1x, não 2x)
+    POST /v1/api/pacientes => 201 Created (1x, não 2x)
+    POST /v1/api/auth/registrar => 201 Created (1x, não 2x)
+
+  Apenas UM ciclo completo de submissão foi disparado apesar dos dois cliques síncronos — o guard
+  enviandoRef bloqueou o segundo clique antes de qualquer chamada de rede adicional.
+
+  Confirmação independente via banco: tentativa de criar novo paciente com o MESMO CPF
+  (02532679514) via curl direto no backend retornou 400 "CPF já cadastrado: 02532679514",
+  confirmando que existe exatamente UM registro com esse CPF (não dois).
+
+  Evidência: evidence/REG028-duplo-clique-guard-retest.png
+
+CAMADA 2 — Backend (GlobalExceptionHandler, defesa em profundidade para o residual de corrida):
+  Como o guard do front impediu completamente o duplo submit na UI real, foi feito um teste
+  complementar direto no backend para validar a camada 2: duas requisições POST /v1/api/pacientes
+  reais, concorrentes (disparadas em paralelo via curl, mesmo CPF/e-mail), sem guard de front-end
+  no caminho:
+    Requisição A: 201 Created (paciente persistido)
+    Requisição B: 400 Bad Request — {"detail":"CPF já cadastrado: 15850679030", ...}
+  Nenhuma das duas retornou 500. A que perdeu a corrida recebeu um erro limpo e claro (400), não
+  mais o 500 cru genérico ("Erro interno. Tente novamente mais tarde.") observado na Rodada 1.
+  (Nesta execução em particular, a janela de corrida foi resolvida pelo pré-check
+  existsByCpf/existsByEmail antes de qualquer uma commitar; o handler de
+  DataIntegrityViolationException adicionado ao GlobalExceptionHandler cobre o caso ainda mais
+  apertado em que ambas passam pelo pré-check antes de qualquer commit — código revisado e
+  presente em GlobalExceptionHandler.java linhas 35-39.)
+
+VEREDITO: CORRIGIDO E CONFIRMADO nas duas camadas. Diferente da Rodada 1, onde o duplo clique
+gerava DUAS requisições POST /pacientes reais e uma delas retornava 500 Internal Server Error cru.

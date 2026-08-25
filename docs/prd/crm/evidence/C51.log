@@ -1,0 +1,9 @@
+88. [GET] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/contatos => [200] OK
+90. [POST] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/contatos => [201] Created
+91. [GET] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/contatos => [200] OK
+92. [POST] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/contatos => [201] Created
+93. [GET] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/contatos => [200] OK
+94. [POST] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/contatos => [201] Created
+95. [GET] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/contatos => [200] OK
+
+Note: 76 static requests not shown, run with "static" option to see them.

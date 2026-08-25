@@ -1,0 +1,34 @@
+[     378ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:21608
+[   14047ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/v1/api/auth/login:0
+[   14186ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:21608
+[   50815ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/v1/api/auth/login:0
+[   50937ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:21608
+[   63268ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/v1/api/auth/login:0
+[   63366ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:21608
+[   99100ms] [LOG] FETCH: /api/auth/login "{\"email\":\"admin@sgsm.com\",\"password\":\"admin123\"}" @ :4
+[   99104ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3001/api/auth/login:0
+[  103029ms] [LOG] FETCH: /api/auth/login "{\"email\":\"admin@sgsm.com\",\"password\":\"admin123\"}" @ :4
+[  103042ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3001/api/auth/login:0
+[  155095ms] [LOG] FETCH: /v1/api/auth/login "{\"email\":\"admin@sgsm.com\",\"senha\":\"admin123\"}" @ :4
+[  155109ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/v1/api/auth/login:0
+[  155110ms] [LOG] FETCH RESPONSE: {"detail":"Credenciais invalidas.","instance":"/v1/api/auth/login","status":401,"title":"Credenciais inválidas","type":"https://sgsm.com.br/erros/credenciais-invalidas"} @ :9
+[  185361ms] [LOG] FETCH: /v1/api/auth/login "{\"email\":\"medico@clinica.com\",\"senha\":\"admin123\"}" @ :4
+[  185380ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/v1/api/auth/login:0
+[  185380ms] [LOG] FETCH RESPONSE: {"detail":"Credenciais invalidas.","instance":"/v1/api/auth/login","status":401,"title":"Credenciais inválidas","type":"https://sgsm.com.br/erros/credenciais-invalidas"} @ :9
+[  185380ms] [LOG] FETCH: /v1/api/auth/login "{\"email\":\"medico@clinica.com\",\"senha\":\"123456\"}" @ :4
+[  185394ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/v1/api/auth/login:0
+[  185395ms] [LOG] FETCH RESPONSE: {"detail":"Credenciais invalidas.","instance":"/v1/api/auth/login","status":401,"title":"Credenciais inválidas","type":"https://sgsm.com.br/erros/credenciais-invalidas"} @ :9
+[  185395ms] [LOG] FETCH: /v1/api/auth/login "{\"email\":\"medico@clinica.com\",\"senha\":\"medico123\"}" @ :4
+[  185406ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/v1/api/auth/login:0
+[  185407ms] [LOG] FETCH RESPONSE: {"detail":"Credenciais invalidas.","instance":"/v1/api/auth/login","status":401,"title":"Credenciais inválidas","type":"https://sgsm.com.br/erros/credenciais-invalidas"} @ :9
+[  185407ms] [LOG] FETCH: /v1/api/auth/login "{\"email\":\"admin@sgsm.com\",\"senha\":\"123456\"}" @ :4
+[  185423ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/v1/api/auth/login:0
+[  185423ms] [LOG] FETCH RESPONSE: {"detail":"Credenciais invalidas.","instance":"/v1/api/auth/login","status":401,"title":"Credenciais inválidas","type":"https://sgsm.com.br/erros/credenciais-invalidas"} @ :9
+[  185423ms] [LOG] FETCH: /v1/api/auth/login "{\"email\":\"admin@sgsm.com\",\"senha\":\"Senha@123\"}" @ :4
+[  185436ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/v1/api/auth/login:0
+[  185437ms] [LOG] FETCH RESPONSE: {"detail":"Credenciais invalidas.","instance":"/v1/api/auth/login","status":401,"title":"Credenciais inválidas","type":"https://sgsm.com.br/erros/credenciais-invalidas"} @ :9
+[  185437ms] [LOG] FETCH: /v1/api/auth/login "{\"email\":\"test@test.com\",\"senha\":\"123456\"}" @ :4
+[  185452ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/v1/api/auth/login:0
+[  185453ms] [LOG] FETCH RESPONSE: {"detail":"Credenciais invalidas.","instance":"/v1/api/auth/login","status":401,"title":"Credenciais inválidas","type":"https://sgsm.com.br/erros/credenciais-invalidas"} @ :9
+[  259578ms] [LOG] FETCH: /v1/api/auth/login "{\"email\":\"fabioeuro@gmail.com\",\"senha\":\"famor966\"}" @ :4
+[  259698ms] [LOG] FETCH RESPONSE: {"accessToken":"eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJiYWRmNmVmMi0zNDViLTQ2OTktYWM5My1hM2FjMjg1NTE0ZGIiLCJzdWIiOiI0NWEyNDJhNS1iYjI1LTRkZTYtYWNmZS03OWRlNzNjNWQ1YjUiLCJlbWFpbCI6ImZhYmlvZXVyb0BnbWFpbC5jb20iLCJub21lIjoiRmFiaW8gTW9udGVpcm8gQW1vcmltIiwicGVyZmlsIjoiTUVESUNPIiwicmVmZXJlbmNpYUlkIjoiZmY5YTI0MDAtMjIxNy00OGZhLWFjOTEtYjgxYTQwMzJmMmRiIiwicm9sZXMiOlsiTUVESUNPIl0sInBlcm1pc3Npb25zIjpbImFnZW5kYW1lbnRvOnN0YXR1cyIsInNlcnZpY286cmVhZCIsImFnZW5kYW1lbnRvOndyaXRlIiwicGFjaWVudGU6cmVhZCIsImFnZW5kYW1lbnRvOnJlYWQiXSwiaWF0IjoxNzg3MDEwMjY3LCJleHAiOjE3ODcwMTExNjd9.MZAA2roovhQLJRCF7BGHxlfXpuOoFW4aNYPZHRA2dlTSFoo8it9ZspuGkqnYk2sp3dTKbQwQKVSMmcduqYDqeA","expiresIn":900,"refreshToken":"f902829c-9fa6-468d-b800-a08c21838433","tipo":"Bearer","tipoPerfil":null} @ :9

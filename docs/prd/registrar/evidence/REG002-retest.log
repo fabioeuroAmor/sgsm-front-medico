@@ -1,0 +1,42 @@
+REG002 — Reteste (Rodada 2) — cadastro órfão de Médico/Paciente
+=================================================================
+Executado ao vivo via Playwright MCP contra http://localhost:3001 (sgsm-front-medico-registrar,
+dev server correto após correção de ambiente — ver nota abaixo) + backends reais sgsm :8080 e
+ms-sboot-auth :8081. Sem mocks.
+
+NOTA DE AMBIENTE: durante a execução, foi detectado que a porta 3001 estava inicialmente servindo
+o projeto ERRADO (C:\AmbienteDev\sgsm-front-medico, base sem as correções, branch qa/funcionarios).
+O processo vite (PID 19780) rodando a partir desse diretório foi encerrado e o dev server correto
+foi iniciado a partir de C:\AmbienteDev\sgsm-front-medico-registrar (onde vivem as correções do
+commit ceaec95). Além disso, a mesma aba/contexto do navegador do Playwright MCP tinha uma rota
+de interceptação (page.route) residual de uma sessão de QA anterior (REG027, que simulava 500 em
+POST /pacientes) ainda ativa, mascarando o comportamento real com 500 cru fabricado
+("Erro interno do servidor" — texto que não existe no código-fonte atual). Uma nova aba
+(browser_tabs close + navigate) eliminou essa interceptação residual, restaurando o tráfego real
+contra o backend (confirmado: fetch() direto retornou 400 real do GlobalExceptionHandler, não mais
+500 fabricado).
+
+PASSO 1 — Paciente "QA Registro Retest Paciente Orfao", CPF 594.840.585-07 (válido),
+email qa.retest.orfao.r4.20260820@teste.com:
+  Rede (ordem real capturada):
+    GET  /v1/api/auth/email-disponivel?email=qa.retest.orfao.r4.20260820%40teste.com => 200 {"disponivel":true}
+    POST /v1/api/pacientes => 201 Created
+    POST /v1/api/auth/registrar => 201 Created
+  Resultado: redireciona para /login. Evidência: evidence/REG002-step1-paciente-sucesso-retest.png
+
+PASSO 2 — Médico "QA Registro Retest Medico Orfao", CRM 999188/SP, MESMO email
+qa.retest.orfao.r4.20260820@teste.com:
+  Rede (ordem real capturada, duas tentativas de clique):
+    GET /v1/api/auth/email-disponivel?email=qa.retest.orfao.r4.20260820%40teste.com => 200 {"disponivel":false}
+    GET /v1/api/auth/email-disponivel?email=qa.retest.orfao.r4.20260820%40teste.com => 200 {"disponivel":false}
+  NENHUM POST /v1/api/medicos foi disparado em nenhuma das duas tentativas.
+  Toast exibido (capturado via snapshot de acessibilidade): "Este e-mail já está cadastrado.
+  Faça login ou use outro e-mail."
+  Página permanece em /registrar com o formulário preenchido (não navegou, não limpou).
+  Evidência: evidence/REG002-step2-medico-bloqueado-retest.png
+
+VEREDITO: CORRIGIDO E CONFIRMADO. O cadastro de Médico com e-mail já usado por um Paciente agora é
+bloqueado ANTES de qualquer POST /medicos, via GET /auth/email-disponivel prévio. Diferente da
+Rodada 1, onde o POST /medicos retornava 201 (médico órfão persistido) e só depois o
+POST /auth/registrar falhava com 409. Não há mais criação de registro de domínio órfão nesse
+cenário.

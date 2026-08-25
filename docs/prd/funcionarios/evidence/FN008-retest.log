@@ -1,0 +1,20 @@
+FN008 — RETESTE (pós-correção) — busca por CPF normaliza pontuação
+Data: 2026-08-20
+Ambiente: app real http://localhost:3001, front-end reflete o código atual de FuncionariosPage.tsx
+(filtro `filtrados` remove não-dígitos de ambos os lados antes de comparar CPF, linhas 123-131:
+`buscaDigits = busca.replace(/\D/g, '')` e `f.cpf.replace(/\D/g, '').includes(buscaDigits)`).
+
+Teste 1 — busca sem pontuação contra registro salvo com pontuação:
+  Registro: "QA Retest FN034", CPF armazenado "372.164.980-03" (com pontuação).
+  Busca digitada: "37216498003" (sem pontuação).
+  Resultado: encontrado — card "QA Retest FN034" exibido, único resultado.
+
+Teste 2 — busca com pontuação contra registro salvo sem pontuação:
+  Registro: "Lucas Ruela Editado", CPF armazenado "47812549623" (sem pontuação).
+  Busca digitada: "478.125.496-23" (com pontuação).
+  Resultado: encontrado — card "Lucas Ruela Editado" exibido, único resultado (ver screenshot
+  FN008-retest.png).
+
+Resultado: CORRIGIDO. A busca por CPF agora encontra o funcionário independentemente do formato
+(com ou sem pontuação) usado tanto no campo de busca quanto no valor armazenado no banco, nos dois
+sentidos testados.

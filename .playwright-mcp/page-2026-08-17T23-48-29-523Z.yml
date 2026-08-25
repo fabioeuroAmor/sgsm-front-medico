@@ -1,0 +1,50 @@
+- generic [ref=f6e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f6e3] [cursor=pointer]
+  - generic [ref=f6e807]:
+    - complementary [ref=f6e808]:
+      - generic [ref=f6e815] [cursor=pointer]:
+        - paragraph [ref=f6e816]: SGSM
+        - paragraph [ref=f6e817]: Sistema Médico
+      - navigation [ref=f6e818]:
+        - link "Home" [ref=f6e820] [cursor=pointer]:
+          - /url: /
+        - link "Pacientes" [ref=f6e825] [cursor=pointer]:
+          - /url: /pacientes
+        - link "Médicos" [ref=f6e832] [cursor=pointer]:
+          - /url: /medicos
+        - link "Estabelecimentos" [ref=f6e838] [cursor=pointer]:
+          - /url: /estabelecimentos
+        - link "Serviços" [ref=f6e844] [cursor=pointer]:
+          - /url: /servicos
+        - link "Agendamentos" [ref=f6e849] [cursor=pointer]:
+          - /url: /agendamentos
+        - link "Funcionários" [ref=f6e855] [cursor=pointer]:
+          - /url: /funcionarios
+        - link "Assistente IA" [ref=f6e869] [cursor=pointer]:
+          - /url: /ia
+        - link "CRM" [ref=f6e873] [cursor=pointer]:
+          - /url: /crm
+      - generic [ref=f6e875]:
+        - generic [ref=f6e876]:
+          - paragraph [ref=f6e877]: Fabio Monteiro Amorim
+          - paragraph [ref=f6e878]: MEDICO
+        - button "Sair" [ref=f6e879] [cursor=pointer]
+    - main [ref=f6e884]:
+      - generic [ref=f6e885]:
+        - generic [ref=f6e886]:
+          - generic [ref=f6e887]:
+            - paragraph [ref=f6e888]: Cadastros
+            - heading "Pacientes" [level=1] [ref=f6e889]
+            - paragraph [ref=f6e890]: Gerencie o cadastro de pacientes com integração ViaCEP.
+            - button "Novo Paciente" [ref=f6e892] [cursor=pointer]
+          - generic [ref=f6e894] [cursor=pointer]
+        - generic [ref=f6e898]:
+          - textbox "Buscar por nome, CPF ou e-mail…" [active] [ref=f6e903]
+          - combobox [ref=f6e904]:
+            - option "Todos os status"
+            - option "Ativos"
+            - option "Inativos" [selected]
+        - generic [ref=f6e3051]:
+          - paragraph [ref=f6e3052]: Nenhum paciente encontrado
+          - paragraph [ref=f6e3053]: Tente ajustar os filtros ou cadastre um novo paciente.

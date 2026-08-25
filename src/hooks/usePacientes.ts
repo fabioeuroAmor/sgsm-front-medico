@@ -44,5 +44,11 @@ export function usePacientes() {
     )
   }, [])
 
-  return { pacientes, loading, error, listar, cadastrar, atualizar, remover }
+  const reativar = useCallback(async (id: string) => {
+    const atualizado = await pacienteService.reativar(id)
+    setPacientes((prev) => prev.map((p) => (p.id === id ? atualizado : p)))
+    return atualizado
+  }, [])
+
+  return { pacientes, loading, error, listar, cadastrar, atualizar, remover, reativar }
 }

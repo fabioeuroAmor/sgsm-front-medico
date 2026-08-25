@@ -1,0 +1,45 @@
+C15 — RETESTE (rodada 2) — Reproduz a condição de corrida documentada na rodada 1: cliques rápidos
+em sequência nos filtros de status (NOVO -> CONTATADO -> QUALIFICADO -> Todos), sem esperar a
+resposta de rede entre eles, e verificação se o estado final da UI (pílula ativa + tabela) é
+consistente com o ÚLTIMO clique.
+
+Metodologia: os 4 cliques foram disparados via JS (DOM `.click()`) com apenas 25ms de intervalo entre
+cada um (setTimeout encadeado), sem esperar nenhuma resposta HTTP entre eles — reproduzindo cliques
+reais rápidos de um usuário, mas cada clique em um "tick" de evento discreto do navegador (diferente
+de disparar tudo no mesmo tick síncrono, que faria o React 18 fazer batching e colapsar os 4 cliques
+em 1 único re-render sem gerar 4 requisições distintas — testado e descartado como método, pois não
+reproduzia o cenário real do bug).
+
+Passos:
+1. Reset: clique em "Todos", aguardar 1s para estabilizar (baseline).
+2. Disparo de 4 cliques com 25ms de intervalo: NOVO -> CONTATADO -> QUALIFICADO -> Todos.
+3. waitForTimeout(2500) para deixar todas as respostas em voo completarem.
+
+Resultado no network (requisições GET /crm/leads, em ordem cronológica de disparo):
+82. [GET] /crm/leads?status=NOVO        => 200 OK
+83. [GET] /crm/leads?status=CONTATADO   => 200 OK
+84. [GET] /crm/leads?status=QUALIFICADO => 200 OK
+85. [GET] /crm/leads                    => 200 OK   (Todos, ÚLTIMO clique, sem parâmetro)
+
+Response body da requisição #85 (Todos, response-body): array com 8 leads de status MISTOS (NOVO,
+CONTATADO), confirmando que é a resposta da listagem completa sem filtro.
+
+Estado final da UI:
+- Pílula ativa (verificado via className computado dos 6 botões de filtro): APENAS "Todos" tem a
+  classe de destaque `bg-[hsl(184,80%,25%)] text-white`; todos os outros (NOVO, CONTATADO,
+  QUALIFICADO, CONVERTIDO, PERDIDO) estão com a classe neutra `text-[hsl(185,59%,65%)]`. A pílula
+  "Todos" é a única marcada como ativa — consistente com o último clique.
+- Tabela: mostra os 8 leads (status mistos, incluindo "QA CRM Lead Duplo Clique v2" em CONTATADO e
+  os demais em NOVO) — consistente com a resposta sem filtro (Todos), e consistente com a pílula ativa.
+
+Diferente da rodada 1 (evidence/C15.png / C15-detail.log), onde a pílula "QUALIFICADO" ficava marcada
+como ativa mas a tabela mostrava os dados de "Todos" (inconsistência entre pílula e dados) — aqui,
+após a correção com contador de requisição (só a resposta da ÚLTIMA requisição disparada atualiza o
+estado, respostas antigas fora de ordem são descartadas), tanto a pílula quanto a tabela refletem de
+forma consistente o último clique real (Todos).
+
+Console (nível debug): sem novos erros/warnings desde a navegação.
+
+Veredito: APROVADO (rodada 2). A condição de corrida nos filtros de status de Leads foi corrigida —
+cliques rápidos em sequência resultam em um estado final (pílula + tabela) sempre consistente com o
+último clique realizado, corrigindo o bug documentado em evidence/C15.png / qa-results.md (rodada 1).

@@ -1,0 +1,39 @@
+C03 — Reprovado (bug crítico de configuração de front-end / dev server)
+
+Passo a passo para reproduzir:
+1. Logado ou não, executar no console: localStorage.clear(); sessionStorage.clear();
+2. Navegar (full page load / digitar na barra de endereço, não SPA) para http://localhost:3001/crm
+
+Resultado esperado (test-plan): redireciona para /login (rota privada).
+
+Resultado observado: o navegador recebe um erro de rede HTTP 403 Forbidden bruto
+("net::ERR_HTTP_RESPONSE_CODE_FAILURE" no Playwright; página chrome-error://chromewebdata/ com texto
+"O acesso a localhost foi negado" / "HTTP ERROR 403"). O React Router NUNCA chega a rodar — a aplicação
+SPA nem carrega.
+
+Causa raiz identificada em vite.config.ts (raiz do repositório front-end):
+  server: {
+    port: 3001,
+    proxy: {
+      '/v1/api/auth': { target: 'http://localhost:8081', changeOrigin: true },
+      '/v1': { target: 'http://localhost:8080', changeOrigin: true },
+      '/ia': { target: 'http://localhost:8082', changeOrigin: true },
+      '/crm': { target: 'http://localhost:8082', changeOrigin: true },
+    },
+  },
+
+O prefixo de proxy "/crm" (usado para as chamadas de API reais como GET /crm/leads, GET /crm/churn etc.,
+que devem mesmo ir para o backend 8082) colide com a rota de página do SPA "/crm" (a tela CRM, definida em
+src/App.tsx). Quando o navegador faz uma requisição de navegação de página inteira (GET normal do browser,
+não um fetch/XHR do axios) para exatamente "/crm" ou qualquer caminho que comece com "/crm", o Vite dev
+server aplica a regra de proxy ANTES do fallback de SPA (servir index.html), encaminhando a requisição de
+navegação para http://localhost:8082/crm. Como essa requisição de navegação de página não carrega o header
+Authorization (só o axios da aplicação injeta esse header em chamadas XHR/fetch feitas depois que o JS já
+carregou), o backend 8082 rejeita com 403, e esse 403 bruto é exibido como página de erro do Chrome, nunca
+chegando a exibir a UI da aplicação (nem o "/login").
+
+Classificação: bug de front-end (arquivo de configuração deste repositório: vite.config.ts) — não é um bug
+de código React em si, mas de configuração do dev server que poderá também existir em produção dependendo
+de como o proxy reverso for configurado lá (nginx/etc.), caso a mesma regra de prefixo seja replicada.
+
+Evidência bruta: C03.png (tela de erro do Chrome), C03.log (network requests), C03-console.log.

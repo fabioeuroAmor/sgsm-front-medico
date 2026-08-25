@@ -1,0 +1,6 @@
+91. [GET] http://localhost:3001/ia/kpis => [200] OK
+92. [GET] http://localhost:3001/ia/kpis => [200] OK
+96. [GET] http://localhost:3001/ia/kpis => [500] Internal Server Error
+97. [GET] http://localhost:3001/ia/kpis => [500] Internal Server Error
+
+Note: 77 static requests not shown, run with "static" option to see them.

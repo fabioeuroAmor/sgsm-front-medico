@@ -1,0 +1,25 @@
+REG014 — Reteste (Rodada 2) — CPF sem validação de dígito verificador
+=======================================================================
+Executado ao vivo via Playwright MCP contra http://localhost:3001 + backend real sgsm :8080.
+Sem mocks.
+
+CAMADA 1 — Client (RegisterPage.tsx, validarCPF()):
+  Formulário Paciente preenchido com CPF 111.111.111-11 (todos os dígitos iguais, matematicamente
+  inválido), demais campos válidos (nome "QA Registro Retest CPF Invalido",
+  email qa.retest.cpfinvalido.20260820@teste.com).
+  Clique em "Criar conta":
+    Toast exibido: "CPF inválido."
+    Rede: ZERO requisições HTTP disparadas (nem GET /auth/email-disponivel, nem POST /pacientes) —
+    confirma que o bloqueio acontece antes de qualquer chamada de rede, no handleSubmit.
+  Evidência: evidence/REG014-client-cpf-invalido-retest.png
+
+CAMADA 2 — Backend (PacienteService.cadastrar(), defesa em profundidade):
+  Disparado fetch() real (não mock) direto no console do navegador, contornando o client:
+    POST /v1/api/pacientes
+    body: {"nome":"QA Registro Retest CPF Backend","cpf":"11111111111","dataNascimento":"1990-05-10","email":"qa.retest.cpfbackend.20260820@teste.com"}
+  Resposta real do backend:
+    HTTP 400 Bad Request
+    {"detail":"CPF inválido: 11111111111","instance":"/v1/api/pacientes","status":400,"title":"Requisição inválida","type":"https://sgsm.com.br/erros/argumento-invalido"}
+
+VEREDITO: CORRIGIDO E CONFIRMADO nas duas camadas. Diferente da Rodada 1, onde o mesmo CPF
+(11111111111) era aceito e persistido com 201 tanto pelo client quanto pelo backend.

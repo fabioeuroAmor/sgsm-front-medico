@@ -1,0 +1,22 @@
+C71 — Reprovado (mesmo bug crítico de C03/C04): F5 com modal "Novo Lead" aberto e dados preenchidos não
+"perde os dados normalmente" — quebra a aplicação inteira
+
+Passo a passo:
+1. Abrir "Novo Lead", preencher Nome = "QA CRM F5 Test Data Perdida".
+2. Pressionar F5 (page.reload()).
+
+Resultado esperado (test-plan): modal fecha, dados digitados são perdidos, lista de leads recarrega do
+zero (comportamento esperado de SPA sem persistência local).
+
+Resultado observado: reproduz exatamente o mesmo bug crítico de C03/C04 — a requisição de navegação de
+página inteira para "/crm" colide com a regra de proxy do Vite ('/crm' -> backend 8082), resultando em
+"net::ERR_HTTP_RESPONSE_CODE_FAILURE" / página de erro do Chrome "HTTP ERROR 403", em vez de simplesmente
+recarregar a SPA com o modal fechado e a lista de leads do zero. Os dados do formulário são de fato
+perdidos (não há persistência local), mas isso é irrelevante perto do fato de que a aplicação inteira
+quebra e precisa de nova navegação para /pacientes ou /login para ser recuperada.
+
+Classificação: mesmo bug de front-end já documentado em C03-detail.log e C04-detail.log (vite.config.ts,
+colisão de prefixo de proxy '/crm'). Não é um novo bug, é uma nova reprodução do mesmo problema em um
+cenário adicional (F5 com modal aberto).
+
+Evidência bruta: C71.png (tela de erro do Chrome), C71-console.log.

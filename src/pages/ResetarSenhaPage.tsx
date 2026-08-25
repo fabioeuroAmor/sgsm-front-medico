@@ -23,6 +23,11 @@ export function ResetarSenhaPage() {
       return
     }
 
+    if (novaSenha.length < 8) {
+      toast.error('A senha deve ter no mínimo 8 caracteres.')
+      return
+    }
+
     if (!token) {
       toast.error('Link inválido. Solicite um novo.')
       return

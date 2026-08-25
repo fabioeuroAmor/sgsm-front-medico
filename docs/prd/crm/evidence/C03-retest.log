@@ -1,0 +1,26 @@
+C03 — RETESTE (rodada 2) — Reproduz a rodada 1: sessão limpa (localStorage/sessionStorage/cookies vazios,
+confirmado via browser_evaluate ANTES da navegação: {"localStorage":"{}","sessionStorage":"{}","cookies":""}),
+navegação de página inteira direto para http://localhost:3001/crm.
+
+Ação: mcp__playwright__browser_navigate -> http://localhost:3001/crm
+
+Resultado:
+- Page URL final: http://localhost:3001/login  (redirecionamento correto para /login, SEM erro bruto de navegador)
+- Page Title: "SGSM — Médico"
+
+Network requests (relevante, static:true para capturar TODAS as requisições incluindo a de página):
+1. [GET] http://localhost:3001/crm => [200] OK   <-- ESSA é a diferença chave vs. rodada 1: antes o
+   proxy do Vite interceptava /crm (sem barra) e devolvia HTTP 403 bruto do backend 8082. Agora com
+   '/crm/' (barra final) no vite.config.ts, a navegação de página para a rota exata /crm passa por
+   200 OK (servida pelo próprio Vite/SPA), o React Router então avalia PrivateRoute -> sem sessão -> /login.
+2. [GET] http://localhost:3001/@vite/client => [200] OK
+... (restante das requisições estáticas normais de bootstrap do SPA, todas 200 OK)
+
+Console (nível debug, só desde a navegação atual):
+[DEBUG] [vite] connecting...
+[DEBUG] [vite] connected.
+[INFO] Download the React DevTools for a better development experience...
+-> SEM nenhum erro 403/ERR_HTTP_RESPONSE_CODE_FAILURE bruto de navegador.
+
+Veredito: APROVADO. Comportamento agora é o esperado — redireciona para /login normalmente,
+sem o erro cru de navegador "HTTP ERROR 403" observado na rodada 1 (evidence/C03.png / C03-detail.log).

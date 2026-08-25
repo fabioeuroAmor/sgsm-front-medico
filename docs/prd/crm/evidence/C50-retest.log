@@ -1,0 +1,41 @@
+C50 — RETESTE (rodada 2) — Reproduz o passo a passo original: com o paciente "QA CRM Paciente
+Teste" (id a3fe87c7-de40-4270-9365-859b24bae372) selecionado, abrir "Registrar Contato", preencher
+Descrição válida + Duração "-30" e tentar salvar. Esperado após a correção (validação client-side de
+duração negativa): toast de erro visível e NENHUM POST disparado.
+
+Passos:
+1. Paciente "QA CRM Paciente Teste" selecionado, aba "Contatos" (5 contatos pré-existentes).
+2. "Registrar Contato" -> modal abre limpo (Tipo=LIGACAO, Direção=SAIDA).
+3. Descrição preenchida com "QA CRM Retest C50 Contato com duracao negativa" (texto válido, via
+   setter nativo + evento "input").
+4. Campo "Duração (segundos)" (input[type="number"]) preenchido com "-30" (mesmo método).
+   Valores confirmados antes de salvar: descVal="QA CRM Retest C50 Contato com duracao negativa",
+   durVal="-30".
+5. Clique em "Salvar".
+
+Resultado imediato (400ms depois do clique): toast capturado via innerText da região de notificações:
+  "Duração não pode ser negativa\nLead criado"
+(o segundo texto "Lead criado" é um toast antigo remanescente de um teste anterior nesta mesma sessão,
+ainda presente na lista da região de notificações — o toast NOVO e relevante para este teste é
+"Duração não pode ser negativa", confirmado também no snapshot de acessibilidade da página como
+`listitem` novo dentro da region "Notifications alt+T": "Duração não pode ser negativa".)
+
+Modal permaneceu aberto (`modalStillOpen: true` após 1.2s adicionais) — não fechou como fecharia em
+caso de sucesso; os valores digitados (Descrição e Duração -30) continuam visíveis nos campos do
+formulário no snapshot pós-tentativa.
+
+Network requests (filtro "contatos", antes e depois da tentativa de salvar):
+89. [GET] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/contatos => 200 OK
+-> Única requisição relacionada a "contatos" durante todo o teste. NENHUM POST
+   /crm/paciente/{id}/contatos foi disparado ao tentar salvar com duração -30.
+
+Console (nível debug): 3 mensagens de bootstrap, 0 erros, 0 warnings — validação tratada de forma
+limpa no front-end, sem exceção não tratada.
+
+Diferente da rodada 1 (evidence/C50.png / C50-detail.log), onde a duração negativa era enviada sem
+validação client-side e o backend respondia com 500 genérico ("Erro interno") em vez de rejeitar de
+forma clara.
+
+Veredito: APROVADO (rodada 2). A validação client-side de duração não-negativa foi implementada no
+formulário "Registrar Contato" — duração -30 é bloqueada ANTES de qualquer chamada de rede, com toast
+de erro claro "Duração não pode ser negativa", corrigindo o bug documentado em qa-results.md (rodada 1).

@@ -1,0 +1,8 @@
+73. [POST] http://localhost:3001/v1/api/auth/refresh => [200] OK
+75. [GET] http://localhost:3001/v1/api/auth/me => [200] OK
+77. [GET] http://localhost:3001/v1/api/estabelecimentos?ativo=true&medicoId=ff9a2400-2217-48fa-ac91-b81a4032f2db => [200] OK
+78. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+79. [GET] http://localhost:3001/v1/api/estabelecimentos?ativo=true&medicoId=ff9a2400-2217-48fa-ac91-b81a4032f2db => [200] OK
+80. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+
+Note: 74 static requests not shown, run with "static" option to see them.

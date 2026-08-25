@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
-import { Plus, Search, Pencil, Trash2, ClipboardList, Clock, Home } from 'lucide-react'
+import { toast } from 'sonner'
+import { Plus, Search, Pencil, Trash2, RotateCcw, ClipboardList, Clock, Home } from 'lucide-react'
 import { useServicos } from '@/hooks/useServicos'
+import { useAuth } from '@/hooks/useAuth'
 import { medicoService } from '@/services/medicoService'
 import type {
   ServicoMedicoResponse, MedicoResponse,
@@ -23,7 +25,10 @@ function formatCurrency(v: number) {
 }
 
 export function ServicosPage() {
-  const { servicos, loading, error, listar, cadastrar, atualizar, remover } = useServicos()
+  const { servicos, loading, error, listar, cadastrar, atualizar, remover, reativar } = useServicos()
+  const { usuario } = useAuth()
+  const [reativandoId, setReativandoId] = useState<string | null>(null)
+  const reativandoRef = useRef<string | null>(null)
   const [medicos, setMedicos] = useState<MedicoResponse[]>([])
   const [busca, setBusca] = useState('')
   const [filtroAtivo, setFiltroAtivo] = useState<boolean | undefined>(undefined)
@@ -66,11 +71,30 @@ export function ServicosPage() {
     return medicos.find((m) => m.id === id)?.nome ?? id.slice(0, 8) + '…'
   }
 
+  function podeGerenciar(s: ServicoMedicoResponse) {
+    return usuario?.perfil !== 'MEDICO' || usuario.referenciaId === s.medicoId
+  }
+
+  async function handleReativar(id: string) {
+    if (reativandoRef.current) return
+    reativandoRef.current = id
+    setReativandoId(id)
+    try {
+      await reativar(id)
+      toast.success('Serviço reativado com sucesso.')
+    } catch (err) {
+      toast.error((err as Error).message)
+    } finally {
+      reativandoRef.current = null
+      setReativandoId(null)
+    }
+  }
+
   function abrirCadastro() { setEditando(null); setForm(emptyForm); setFormError(null); setFieldErrors({}); setModalAberto(true) }
 
   function abrirEdicao(s: ServicoMedicoResponse) {
     setEditando(s)
-    setForm({ medicoId: s.medicoId, nome: s.nome, descricao: s.descricao ?? '', preco: s.preco, duracaoMinutos: s.duracaoMinutos, domiciliar: s.domiciliar ?? false, taxaDeslocamento: s.taxaDeslocamento })
+    setForm({ medicoId: s.medicoId, nome: s.nome, descricao: s.descricao ?? '', preco: s.preco, duracaoMinutos: s.duracaoMinutos ?? undefined, domiciliar: s.domiciliar ?? false, taxaDeslocamento: s.taxaDeslocamento ?? undefined })
     setFormError(null); setFieldErrors({}); setModalAberto(true)
   }
 
@@ -187,9 +211,9 @@ export function ServicosPage() {
       {error && <div className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">{error}</div>}
 
       {loading ? (
-        <div className="flex justify-center py-16"><div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" /></div>
+        <div key="loading" className="flex justify-center py-16"><div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" /></div>
       ) : filtrados.length === 0 ? <EmptyState /> : (
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 stagger-children">
+        <div key="grid" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 stagger-children">
           {filtrados.map((s) => (
             <Card key={s.id} className="flex flex-col gap-4">
               <div className="flex items-start justify-between">
@@ -218,8 +242,40 @@ export function ServicosPage() {
                 </div>
               </div>
               <div className="flex gap-2 mt-auto">
-                <Button variant="ghost" size="sm" onClick={() => abrirEdicao(s)} className="flex-1"><Pencil size={12} /> Editar</Button>
-                <Button variant="danger" size="sm" onClick={() => setConfirmandoId(s.id)} disabled={!s.ativo}><Trash2 size={12} /></Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => abrirEdicao(s)}
+                  className="flex-1"
+                  disabled={!podeGerenciar(s)}
+                  title={podeGerenciar(s) ? undefined : 'Você só pode editar os próprios serviços'}
+                >
+                  <Pencil size={12} /> Editar
+                </Button>
+                {s.ativo ? (
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => setConfirmandoId(s.id)}
+                    disabled={!podeGerenciar(s)}
+                    title={podeGerenciar(s) ? undefined : 'Você só pode inativar os próprios serviços'}
+                    className={!podeGerenciar(s) ? 'disabled:opacity-30 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:grayscale' : undefined}
+                  >
+                    <Trash2 size={12} />
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleReativar(s.id)}
+                    disabled={!podeGerenciar(s) || reativandoId === s.id}
+                    title={podeGerenciar(s) ? undefined : 'Você só pode reativar os próprios serviços'}
+                    className={!podeGerenciar(s) ? 'disabled:opacity-30 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:grayscale' : undefined}
+                  >
+                    <RotateCcw size={12} className={reativandoId === s.id ? 'animate-spin' : undefined} />
+                    Reativar
+                  </Button>
+                )}
               </div>
             </Card>
           ))}

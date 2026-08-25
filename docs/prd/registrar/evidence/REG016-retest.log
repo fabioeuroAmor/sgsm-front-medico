@@ -1,0 +1,18 @@
+REG016 — Reteste (Rodada 2) — data de nascimento futura aceita
+=================================================================
+Executado ao vivo via Playwright MCP contra http://localhost:3001. Sem mocks.
+
+Formulário Paciente preenchido com CPF válido (579.338.640-82), data de nascimento 2027-06-15
+(futura em relação à data de execução), nome "QA Registro Retest Data Futura",
+email qa.retest.datafutura.20260820@teste.com.
+
+Clique em "Criar conta":
+  Toast exibido: "Data de nascimento não pode ser no futuro."
+  Rede: ZERO requisições HTTP disparadas — confirma bloqueio client-side antes de qualquer chamada
+  de rede (a validação de data futura roda no handleSubmit logo após a validação de CPF, ambas
+  antes do guard enviandoRef e da chamada authService.emailDisponivel()).
+
+Evidência: evidence/REG016-data-futura-bloqueada-retest.png
+
+VEREDITO: CORRIGIDO E CONFIRMADO. Diferente da Rodada 1, onde a mesma data (2027-06-15) era aceita
+sem bloqueio client-side e persistida com 201 pelo backend.

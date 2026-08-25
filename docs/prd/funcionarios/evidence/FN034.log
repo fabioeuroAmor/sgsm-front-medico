@@ -1,0 +1,29 @@
+79. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+81. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+82. [POST] http://localhost:3001/v1/api/funcionarios => [400] Bad Request
+83. [POST] http://localhost:3001/v1/api/funcionarios => [201] Created
+
+Note: 75 static requests not shown, run with "static" option to see them.
+
+=== Detail #82 (CPF duplicado, request anterior no mesmo modal - FN030) ===
+POST /v1/api/funcionarios => 400 Bad Request
+Request body: {"nome":"QA Duplicado CPF","cpf":"987.654.321-00","email":"qafn030@test.com","telefone":"","cargo":"Auxiliar QA3","estabelecimentoId":"655759aa-bf83-417e-a45b-b06258c4458f"}
+Response: "CPF já cadastrado: 987.654.321-00"
+
+=== Detail #83 (E-MAIL DUPLICADO, CPF novo - FN034, BUG CONFIRMADO) ===
+POST /v1/api/funcionarios => 201 Created
+Request body:
+{"nome":"QA Duplicado CPF","cpf":"111.444.777-35","email":"qafn022@test.com","telefone":"","cargo":"Auxiliar QA3","estabelecimentoId":"655759aa-bf83-417e-a45b-b06258c4458f"}
+
+Response body (201 Created):
+{"id":"b474d539-88cb-4ace-ad39-707b0e13304f","nome":"QA Duplicado CPF","cpf":"111.444.777-35","email":"qafn022@test.com","telefone":"","cargo":"Auxiliar QA3","estabelecimentoId":"655759aa-bf83-417e-a45b-b06258c4458f","ativo":true,"criadoEm":"2026-08-19T22:28:22.6905944-03:00","atualizadoEm":"2026-08-19T22:28:22.6905944-03:00"}
+
+E-mail "qafn022@test.com" já pertencia ao funcionário id 3c42637b-6805-4962-bd61-3c4752d6c237 (nome "   ", criado no teste FN023, CPF 123.456.789-09).
+Agora DOIS funcionarios ativos compartilham o mesmo e-mail "qafn022@test.com":
+  - 3c42637b-6805-4962-bd61-3c4752d6c237 (nome "   ")
+  - b474d539-88cb-4ace-ad39-707b0e13304f (nome "QA Duplicado CPF")
+
+CONFIRMADO: o backend aceita e-mail duplicado no cadastro (POST), diferente do update (PUT) que bloqueia
+via existsByEmailAndIdNot (ver FuncionarioService.java linha 112-114). Causa raiz: FuncionarioService.cadastrar()
+(linhas 43-56) só valida unicidade de CPF (linha 50: repository.existsByCpf), nunca chama qualquer
+existsByEmail. Confirma a suspeita do teste FN034.

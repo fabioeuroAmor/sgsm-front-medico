@@ -1,0 +1,13 @@
+79. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+81. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+82. [POST] http://localhost:3001/v1/api/funcionarios => [400] Bad Request
+83. [POST] http://localhost:3001/v1/api/funcionarios => [201] Created
+84. [POST] http://localhost:3001/v1/api/funcionarios => [201] Created
+85. [POST] http://localhost:3001/v1/api/funcionarios => [201] Created
+86. [POST] http://localhost:3001/v1/api/funcionarios => [201] Created
+87. [POST] http://localhost:3001/v1/api/funcionarios => [400] Bad Request
+88. [POST] http://localhost:3001/v1/api/funcionarios => [500] Internal Server Error
+89. [PUT] http://localhost:3001/v1/api/funcionarios/695780a3-1940-43e1-8038-c91b12fc926d => [200] OK
+90. [PUT] http://localhost:3001/v1/api/funcionarios/ddd4214b-ac7e-4b56-8bd6-b8bd3357daeb => [400] Bad Request
+
+Note: 75 static requests not shown, run with "static" option to see them.

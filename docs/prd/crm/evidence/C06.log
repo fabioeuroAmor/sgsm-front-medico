@@ -1,0 +1,32 @@
+C06 — Não testável ao vivo (documentado via código-fonte, leitura apenas)
+
+Motivo: só temos credenciais de teste para o perfil MEDICO (eduardasilva@gmail.com). Não há conta de teste
+disponível para PACIENTE/outro perfil sem o link "CRM" no menu. Além disso, mesmo que houvesse, testar
+"digitar a URL /crm diretamente" bateria no mesmo bug de roteamento encontrado em C03/C04 (proxy do Vite
+intercepta qualquer navegação de página cheia para "/crm" e a encaminha para o backend 8082 antes do
+SPA/PrivateRoute rodar, retornando 403 bruto do servidor em vez de deixar o React Router decidir).
+Ou seja, esse cenário específico não é observável de forma confiável via navegação de URL enquanto o bug
+de roteamento existir — o teste mediria o bug do proxy, não o comportamento do PrivateRoute.
+
+Achado via leitura do código-fonte (src/App.tsx, linhas ~21-58):
+  function PrivateRoute() {
+    const { isAuthenticated, loading } = useAuth()
+    ...
+  }
+  <Route element={<PrivateRoute />}>
+    <Route element={<Layout />}>
+      ...
+      <Route path="/crm" element={<CrmPage />} />
+    </Route>
+  </Route>
+
+PrivateRoute só verifica isAuthenticated/loading — não há checagem de "perfil"/role. Isso confirma, a nível
+de código, que qualquer usuário autenticado (independentemente do perfil, incluindo PACIENTE) que conseguisse
+navegar internamente (via SPA, sem full page load) para /crm teria acesso à tela, mesmo sem o link aparecer
+no menu lateral (o filtro de perfil só existe em src/components/layout/Sidebar.tsx, linha 32:
+  { to: '/crm', label: 'CRM', icon: BarChart2, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] }
+que é puramente cosmético/de navegação, não uma trava de acesso real).
+
+Classificação: achado de front-end (falta de checagem de role na rota /crm do PrivateRoute), mas não
+confirmado com evidência de execução ao vivo — reportado como achado de leitura de código, não como item
+aprovado/reprovado por teste funcional. Item deixado sem marcar [x].

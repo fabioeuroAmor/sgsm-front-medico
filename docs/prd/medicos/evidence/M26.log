@@ -1,0 +1,18 @@
+153. [GET] http://localhost:3001/v1/api/medicos => [200] OK
+154. [GET] http://localhost:3001/v1/api/medicos => [200] OK
+157. [GET] http://localhost:3001/v1/api/medicos?especialidade=Cardiologia => [200] OK
+158. [GET] http://localhost:3001/v1/api/medicos => [200] OK
+159. [GET] http://localhost:3001/v1/api/medicos?ativo=true => [403] Forbidden
+160. [GET] http://localhost:3001/v1/api/medicos => [200] OK
+161. [GET] http://localhost:3001/v1/api/medicos?ativo=true => [200] OK
+162. [GET] http://localhost:3001/v1/api/medicos?ativo=false => [200] OK
+163. [GET] http://localhost:3001/v1/api/medicos => [200] OK
+164. [POST] http://localhost:3001/v1/api/medicos => [201] Created
+165. [DELETE] http://localhost:3001/v1/api/medicos/7bb3c2ea-c223-41f3-aa44-e4c86a21d02f => [204] No Content
+166. [POST] http://localhost:3001/v1/api/medicos => [201] Created
+167. [POST] http://localhost:3001/v1/api/medicos => [201] Created
+168. [POST] http://localhost:3001/v1/api/medicos => [400] Bad Request
+169. [POST] http://localhost:3001/v1/api/medicos => [201] Created
+170. [POST] http://localhost:3001/v1/api/medicos => [400] Bad Request
+
+Note: 144 static requests not shown, run with "static" option to see them.

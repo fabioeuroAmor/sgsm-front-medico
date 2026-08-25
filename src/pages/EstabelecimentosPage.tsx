@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
-import { Plus, Search, Pencil, Trash2, Building2, MapPin, Stethoscope } from 'lucide-react'
+import { toast } from 'sonner'
+import { Plus, Search, Pencil, Trash2, RotateCcw, Building2, MapPin, Stethoscope } from 'lucide-react'
 import { useEstabelecimentos } from '@/hooks/useEstabelecimentos'
 import { medicoService } from '@/services/medicoService'
 import { estabelecimentoService } from '@/services/estabelecimentoService'
@@ -14,7 +15,7 @@ import { Input, SelectField } from '@/components/ui/Input'
 import { Modal } from '@/components/ui/Modal'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { validateEstabelecimentoForm, type EstabelecimentoFormErrors } from '@/utils/validateEstabelecimento'
-import { onlyDigits, formatTelefone, formatCnpj, formatCep, formatCidade } from '@/utils/masks'
+import { onlyDigits, formatTelefone, formatCnpj, formatCep } from '@/utils/masks'
 
 function buildMapsUrl(est: EstabelecimentoResponse) {
   const partes = [est.logradouro, est.numero, est.complemento, est.bairro, est.cidade, est.uf, est.cep, 'Brasil'].filter(Boolean)
@@ -28,7 +29,9 @@ const emptyForm: CadastrarEstabelecimentoRequest = {
 }
 
 export function EstabelecimentosPage() {
-  const { estabelecimentos, loading, error, listar, cadastrar, atualizar, remover } = useEstabelecimentos()
+  const { estabelecimentos, loading, error, listar, cadastrar, atualizar, remover, reativar } = useEstabelecimentos()
+  const [reativandoId, setReativandoId] = useState<string | null>(null)
+  const reativandoRef = useRef<string | null>(null)
   const [busca, setBusca] = useState('')
   const [filtroAtivo, setFiltroAtivo] = useState<boolean | undefined>(undefined)
   const [filtroUf, setFiltroUf] = useState('')
@@ -75,7 +78,6 @@ export function EstabelecimentosPage() {
     else if (key === 'telefone') valorTratado = formatTelefone(valorTratado)
     else if (key === 'cep') valorTratado = formatCep(valorTratado)
     else if (key === 'numero') valorTratado = onlyDigits(valorTratado)
-    else if (key === 'cidade') valorTratado = formatCidade(valorTratado)
 
     const novoForm = { ...form, [key]: valorTratado }
     setForm(novoForm)
@@ -99,6 +101,21 @@ export function EstabelecimentosPage() {
     setEditando(est)
     setForm({ nome: est.nome, cnpj: est.cnpj, telefone: est.telefone ?? '', email: est.email ?? '', logradouro: est.logradouro, numero: est.numero, complemento: est.complemento ?? '', bairro: est.bairro, cidade: est.cidade, uf: est.uf, cep: est.cep })
     setFormError(null); setFieldErrors({}); setTouched({}); setModalAberto(true)
+  }
+
+  async function handleReativar(id: string) {
+    if (reativandoRef.current) return
+    reativandoRef.current = id
+    setReativandoId(id)
+    try {
+      await reativar(id)
+      toast.success('Estabelecimento reativado com sucesso.')
+    } catch (err) {
+      toast.error((err as Error).message)
+    } finally {
+      reativandoRef.current = null
+      setReativandoId(null)
+    }
   }
 
   async function salvar() {
@@ -209,9 +226,9 @@ export function EstabelecimentosPage() {
       {error && <div className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">{error}</div>}
 
       {loading ? (
-        <div className="flex justify-center py-16"><div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" /></div>
+        <div key="loading" className="flex justify-center py-16"><div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" /></div>
       ) : filtrados.length === 0 ? <EmptyState /> : (
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 stagger-children">
+        <div key="grid" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 stagger-children">
           {filtrados.map((est) => (
             <Card key={est.id} className="flex flex-col gap-4">
               <div className="flex items-start justify-between">
@@ -240,7 +257,19 @@ export function EstabelecimentosPage() {
                   className="inline-flex items-center justify-center h-8 w-8 rounded-xl border border-border text-muted-foreground hover:bg-muted hover:text-primary transition-colors">
                   <MapPin size={12} />
                 </a>
-                <Button variant="danger" size="sm" onClick={() => setConfirmandoId(est.id)} disabled={!est.ativo}><Trash2 size={12} /></Button>
+                {est.ativo ? (
+                  <Button variant="danger" size="sm" onClick={() => setConfirmandoId(est.id)}><Trash2 size={12} /></Button>
+                ) : (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleReativar(est.id)}
+                    disabled={reativandoId === est.id}
+                  >
+                    <RotateCcw size={12} className={reativandoId === est.id ? 'animate-spin' : undefined} />
+                    Reativar
+                  </Button>
+                )}
               </div>
             </Card>
           ))}

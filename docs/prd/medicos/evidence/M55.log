@@ -1,0 +1,31 @@
+#86 [GET] http://localhost:3001/v1/api/medicos
+
+  General
+    status:    [200] OK
+    duration:  37ms
+    type:      xhr
+    mimeType:  application/json
+
+  Request headers
+    accept: application/json, text/plain, */*
+    authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJjMGNmZmRhZC0wYmE4LTQzZmEtYjFiNC0xOTEyMjczZDFlNjUiLCJzdWIiOiI3ZmY3NzcxZi1jYTQ1LTRjYzQtODNiYS1lNTNiMDA3MDljMTAiLCJlbWFpbCI6ImVkdWFyZGFzaWx2YUBnbWFpbC5jb20iLCJub21lIjoiZWR1YXJkYSBzaWx2YSIsInBlcmZpbCI6Ik1FRElDTyIsInJlZmVyZW5jaWFJZCI6IjZmMzY2ODc1LTMyNmQtNDJhNi1hNWQ4LTdhMTliOWFiNmFkNCIsInJvbGVzIjpbIk1FRElDTyJdLCJwZXJtaXNzaW9ucyI6WyJhZ2VuZGFtZW50bzp3cml0ZSIsImFnZW5kYTp3cml0ZSIsImFnZW5kYW1lbnRvOnN0YXR1cyIsInNlcnZpY286cmVhZCIsImFnZW5kYTpyZWFkIiwiYWdlbmRhbWVudG86cmVhZCIsInBhY2llbnRlOnJlYWQiXSwiaWF0IjoxNzg3MDgwODY2LCJleHAiOjE3ODcwODE3NjZ9.3bYuhWprowWo54chs60ky4YKKw3fugh4RA9OKrzF6ArMLbN_XvP_4gHG26p70_wXtTiQSPu44ZEzjS1Qo52GbQ
+    referer: http://localhost:3001/medicos
+    user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36
+    sec-ch-ua: "Not=A?Brand";v="99", "Google Chrome";v="151", "Chromium";v="151"
+    sec-ch-ua-mobile: ?0
+    sec-ch-ua-platform: "Windows"
+
+  Response headers
+    vary: Origin
+    cache-control: no-cache, no-store, max-age=0, must-revalidate
+    connection: close
+    content-type: application/json
+    date: Tue, 18 Aug 2026 19:22:28 GMT
+    expires: 0
+    pragma: no-cache
+    transfer-encoding: chunked
+    x-content-type-options: nosniff
+    x-frame-options: DENY
+    x-xss-protection: 0
+
+Call browser_network_request with part="response-body" to read the response body.

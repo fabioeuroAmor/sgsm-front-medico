@@ -22,4 +22,7 @@ export const funcionarioService = {
     api.put<FuncionarioResponse>(`${BASE}/${id}`, body).then((r) => r.data),
 
   remover: (id: string) => api.delete(`${BASE}/${id}`),
+
+  reativar: (id: string) =>
+    api.patch<FuncionarioResponse>(`${BASE}/${id}/reativar`).then((r) => r.data),
 }

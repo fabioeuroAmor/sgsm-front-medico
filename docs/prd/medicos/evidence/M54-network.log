@@ -1,0 +1,8 @@
+69. [POST] http://localhost:3001/v1/api/auth/refresh => [401] Unauthorized
+70. [POST] http://localhost:3001/v1/api/auth/refresh => [401] Unauthorized
+72. [POST] http://localhost:3001/v1/api/auth/refresh => [401] Unauthorized
+73. [POST] http://localhost:3001/v1/api/auth/refresh => [401] Unauthorized
+74. [GET] http://localhost:3001/login => [FAILED] net::ERR_ABORTED
+76. [GET] https://fonts.gstatic.com/s/plusjakartasans/v12/LDIoaomQNQcsA88c7O9yZ4KMCoOg4Ko20yw.woff2
+
+Note: 139 static requests not shown, run with "static" option to see them.

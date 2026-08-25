@@ -1,0 +1,22 @@
+C32 — Documentado: erro de API ao mover status é comunicado só via toast com mensagem crua do axios
+
+Cenário: PATCH /crm/leads/{id}/status rejeitado pelo backend com 403 Forbidden (reproduzido organicamente
+ao tentar mover um lead para o mesmo status que ele já tinha — ver C30-detail.log).
+
+Resultado observado: o modal "Mover Lead no Pipeline" permanece aberto (não fecha em caso de erro), e um
+toast vermelho aparece no canto superior direito com o texto "Request failed with status code 403" —
+exatamente a mensagem crua do erro do axios (e.message), sem tradução/formatação amigável, confirmando o
+comportamento previsto pelo código citado no test-plan (`salvarStatus` usa `toast.error((e as Error).message)`).
+Não há nenhum outro indicador de erro na tela (sem banner, sem destaque vermelho no formulário) além do toast.
+
+Isso é consistente com o mesmo padrão de mensagem de erro "crua"/não traduzida já observado no QA de
+Médicos (M07/M57: "Request failed with status code 403"), sugerindo uma falta de tratamento uniforme de
+erros de API em todo o front-end (não específico do CRM).
+
+Classificação: comportamento documentado conforme solicitado pelo item (não há resultado certo/errado
+pré-definido) — acompanhado do achado de qualidade: mensagens de erro de API não são traduzidas/formatadas
+para o usuário final em nenhum lugar do módulo CRM testado até aqui (mesmo padrão de C09 com o toast
+genérico "Erro ao carregar leads", que é traduzido, mas aqui o texto bruto da exceção vaza para a UI).
+
+Evidência bruta: C32.png (toast "Request failed with status code 403" visível), C32.log (PATCH 403),
+C32-console.log.

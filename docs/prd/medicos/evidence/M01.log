@@ -1,0 +1,4 @@
+71. [POST] http://localhost:3001/v1/api/auth/login => [200] OK
+72. [GET] http://localhost:3001/v1/api/auth/me => [200] OK
+
+Note: 72 static requests not shown, run with "static" option to see them.

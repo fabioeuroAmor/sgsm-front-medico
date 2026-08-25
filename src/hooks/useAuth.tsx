@@ -1,6 +1,7 @@
-import { createContext, useCallback, useContext, useEffect, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { authService } from '@/services/authService'
 import { tokenStore } from '@/services/tokenStore'
+import { refreshAccessToken } from '@/services/api'
 import type { LoginRequest, MeResponse } from '@/types'
 
 interface AuthContextType {
@@ -16,19 +17,18 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [usuario, setUsuario] = useState<MeResponse | null>(null)
   const [loading, setLoading] = useState(true)
+  const initRef = useRef(false)
 
   useEffect(() => {
+    if (initRef.current) return
+    initRef.current = true
     const refreshToken = localStorage.getItem('refresh_token')
     if (!refreshToken) {
       setLoading(false)
       return
     }
-    authService
-      .refresh(refreshToken)
-      .then((res) => {
-        tokenStore.set(res.accessToken)
-        return authService.me()
-      })
+    refreshAccessToken()
+      .then(() => authService.me())
       .then((me) => setUsuario(me))
       .catch(() => {
         tokenStore.clear()

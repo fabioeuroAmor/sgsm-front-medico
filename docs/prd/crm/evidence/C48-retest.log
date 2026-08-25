@@ -1,0 +1,37 @@
+C48 — RETESTE (rodada 2) — Reproduz o passo a passo original: com o paciente "QA CRM Paciente
+Teste" (CPF 111.222.333-96, id a3fe87c7-de40-4270-9365-859b24bae372) selecionado na aba
+"Paciente 360", abrir "Registrar Contato", preencher "Descrição" só com espaços ("   ", 3 espaços)
+e tentar salvar. Esperado após a correção (`.trim()` na validação): NENHUM POST disparado.
+
+Passos:
+1. Paciente "QA CRM Paciente Teste" selecionado via busca "QA CRM" -> card carregado com
+   "Tags (1)", "Contatos (5)", "Notas (0)".
+2. Aba "Contatos" ativa (lista dos 5 contatos pré-existentes visível).
+3. "Registrar Contato" -> modal abre com Tipo=LIGACAO, Direção=SAIDA, Duração e Descrição vazios.
+4. Campo Descrição (textarea[placeholder="Resumo do contato…"]) preenchido com "   " (3 espaços)
+   via setter nativo + evento "input". Valor confirmado: "   " (length 3).
+5. Clique em "Salvar".
+6. Aguardado 1.5s, verificado: modal continuava aberto (`modalStillOpen: true`) — não fechou como
+   fecharia em caso de sucesso.
+7. Clique em "Salvar" novamente (para garantir e observar se algum toast de erro aparecia) -> mesmo
+   resultado, modal permanece aberto.
+
+Network requests (filtro "contatos", antes e depois das 2 tentativas de salvar):
+89. [GET] http://localhost:3001/crm/paciente/a3fe87c7-de40-4270-9365-859b24bae372/contatos => 200 OK
+-> Essa é a ÚNICA requisição relacionada a "contatos" durante todo o teste (carga inicial da lista).
+   NENHUM POST /crm/paciente/{id}/contatos foi disparado nas 2 tentativas de salvar com descrição
+   só de espaços.
+
+Confirmação adicional: o contador "Contatos (5)" no cabeçalho do card do paciente permaneceu em
+"Contatos (5)" antes e depois das tentativas de salvar (não virou "Contatos (6)"), confirmando que
+nenhum contato em branco foi criado no backend.
+
+Console (nível debug): 3 mensagens de bootstrap (Vite/React DevTools), 0 erros, 0 warnings.
+
+Diferente da rodada 1 (evidence/C48.png, evidence/C48-whitespace.png), onde a mesma ação (Descrição
+só de espaços + Salvar) disparava `POST /crm/paciente/{id}/contatos` -> 201 Created, criando um
+contato em branco no backend.
+
+Veredito: APROVADO (rodada 2). A validação de "Descrição" no formulário "Registrar Contato" agora usa
+`.trim()` antes de checar obrigatoriedade — descrição só de espaços é bloqueada da mesma forma que
+descrição vazia, sem disparar POST, corrigindo o bug documentado em qa-results.md (rodada 1).

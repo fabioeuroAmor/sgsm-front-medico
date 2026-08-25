@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef } from 'react'
-import { Plus, Search, Pencil, Trash2, Stethoscope, CalendarDays, X } from 'lucide-react'
+import { toast } from 'sonner'
+import { Plus, Search, Pencil, Trash2, RotateCcw, Stethoscope, CalendarDays, X } from 'lucide-react'
 import { useMedicos } from '@/hooks/useMedicos'
+import { useAuth } from '@/hooks/useAuth'
 import { agendaMedicoService } from '@/services/agendaMedicoService'
 import { agendamentoService } from '@/services/agendamentoService'
 import type {
@@ -38,7 +40,10 @@ const emptyAgendaForm: Omit<CadastrarAgendaMedicoRequest, 'medicoId'> = {
 }
 
 export function MedicosPage() {
-  const { medicos, loading, error, listar, cadastrar, atualizar, remover } = useMedicos()
+  const { medicos, loading, error, listar, cadastrar, atualizar, remover, reativar } = useMedicos()
+  const { usuario } = useAuth()
+  const [reativandoId, setReativandoId] = useState<string | null>(null)
+  const reativandoRef = useRef<string | null>(null)
   const [busca, setBusca] = useState('')
   const [filtroAtivo, setFiltroAtivo] = useState<boolean | undefined>(undefined)
   const [filtroEsp, setFiltroEsp] = useState('')
@@ -48,6 +53,7 @@ export function MedicosPage() {
   const [fieldErrors, setFieldErrors] = useState<MedicoFormErrors>({})
   const [touched, setTouched] = useState<Partial<Record<keyof CadastrarMedicoRequest, boolean>>>({})
   const [salvando, setSalvando] = useState(false)
+  const salvandoRef = useRef(false)
   const [formError, setFormError] = useState<string | null>(null)
   const [confirmandoId, setConfirmandoId] = useState<string | null>(null)
 
@@ -118,7 +124,28 @@ export function MedicosPage() {
     return touched[campo] ? fieldErrors[campo] : undefined
   }
 
+  function podeEditar(m: MedicoResponse) {
+    return usuario?.perfil !== 'MEDICO' || usuario.referenciaId === m.id
+  }
+
+  async function handleReativar(id: string) {
+    if (reativandoRef.current) return
+    reativandoRef.current = id
+    setReativandoId(id)
+    try {
+      await reativar(id)
+      toast.success('Médico reativado com sucesso.')
+    } catch (err) {
+      toast.error((err as Error).message)
+    } finally {
+      reativandoRef.current = null
+      setReativandoId(null)
+    }
+  }
+
   async function salvar() {
+    if (salvandoRef.current) return
+
     const erros = validateMedicoForm(form, !!editando)
     if (Object.keys(erros).length > 0) {
       setFieldErrors(erros)
@@ -126,6 +153,7 @@ export function MedicosPage() {
       return
     }
 
+    salvandoRef.current = true
     setSalvando(true); setFormError(null)
     try {
       if (editando) {
@@ -137,7 +165,7 @@ export function MedicosPage() {
         })
       } else { await cadastrar(form) }
       setModalAberto(false); setEditando(null)
-    } catch (err) { setFormError((err as Error).message) } finally { setSalvando(false) }
+    } catch (err) { setFormError((err as Error).message) } finally { setSalvando(false); salvandoRef.current = false }
   }
 
   async function abrirAgenda(m: MedicoResponse) {
@@ -151,6 +179,10 @@ export function MedicosPage() {
 
   async function salvarAgenda() {
     if (!agendaMedico) return
+    if (agendaForm.domiciliar && ((agendaForm.raioKm ?? 0) < 0 || (agendaForm.intervaloDeslocamentoMinutos ?? 0) < 0)) {
+      setErroAgenda('Raio e intervalo de deslocamento não podem ser negativos.')
+      return
+    }
     setSalvandoAgenda(true); setErroAgenda(null)
     try {
       const nova = await agendaMedicoService.cadastrar({
@@ -255,9 +287,9 @@ export function MedicosPage() {
       {error && <div className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">{error}</div>}
 
       {loading ? (
-        <div className="flex justify-center py-16"><div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" /></div>
+        <div key="loading" className="flex justify-center py-16"><div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" /></div>
       ) : medicosFiltrados.length === 0 ? <EmptyState /> : (
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 stagger-children">
+        <div key="grid" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 stagger-children">
           {medicosFiltrados.map((m) => (
             <Card key={m.id} className="flex flex-col gap-4">
               <div className="flex items-start justify-between">
@@ -276,9 +308,41 @@ export function MedicosPage() {
                 {m.telefone && <p><span className="font-semibold">Tel:</span> {m.telefone}</p>}
               </div>
               <div className="flex gap-2 mt-auto">
-                <Button variant="ghost" size="sm" onClick={() => abrirEdicao(m)} className="flex-1"><Pencil size={12} /> Editar</Button>
-                <Button variant="outline" size="sm" onClick={() => abrirAgenda(m)} title="Gerenciar agenda"><CalendarDays size={12} /></Button>
-                <Button variant="danger" size="sm" onClick={() => setConfirmandoId(m.id)} disabled={!m.ativo}><Trash2 size={12} /></Button>
+                <Button variant="ghost" size="sm" onClick={() => abrirEdicao(m)} className="flex-1" disabled={!podeEditar(m)} title={podeEditar(m) ? undefined : 'Você só pode editar o seu próprio cadastro'}><Pencil size={12} /> Editar</Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => abrirAgenda(m)}
+                  disabled={!podeEditar(m)}
+                  title={podeEditar(m) ? 'Gerenciar agenda' : 'Você só pode gerenciar a própria agenda'}
+                  className={!podeEditar(m) ? 'disabled:opacity-30 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:grayscale' : undefined}
+                >
+                  <CalendarDays size={12} />
+                </Button>
+                {m.ativo ? (
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => setConfirmandoId(m.id)}
+                    disabled={!podeEditar(m)}
+                    title={podeEditar(m) ? undefined : 'Você só pode inativar o seu próprio cadastro'}
+                    className={!podeEditar(m) ? 'disabled:opacity-30 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:grayscale' : undefined}
+                  >
+                    <Trash2 size={12} />
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleReativar(m.id)}
+                    disabled={!podeEditar(m) || reativandoId === m.id}
+                    title={podeEditar(m) ? undefined : 'Você só pode reativar o seu próprio cadastro'}
+                    className={!podeEditar(m) ? 'disabled:opacity-30 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:grayscale' : undefined}
+                  >
+                    <RotateCcw size={12} className={reativandoId === m.id ? 'animate-spin' : undefined} />
+                    Reativar
+                  </Button>
+                )}
               </div>
             </Card>
           ))}

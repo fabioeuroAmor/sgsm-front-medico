@@ -44,5 +44,11 @@ export function useFuncionarios() {
     )
   }, [])
 
-  return { funcionarios, loading, error, listar, cadastrar, atualizar, remover }
+  const reativar = useCallback(async (id: string) => {
+    const atualizado = await funcionarioService.reativar(id)
+    setFuncionarios((prev) => prev.map((f) => (f.id === id ? atualizado : f)))
+    return atualizado
+  }, [])
+
+  return { funcionarios, loading, error, listar, cadastrar, atualizar, remover, reativar }
 }

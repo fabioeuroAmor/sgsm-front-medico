@@ -1,0 +1,5 @@
+79. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+81. [GET] http://localhost:3001/v1/api/funcionarios => [200] OK
+82. [POST] http://localhost:3001/v1/api/funcionarios => [201] Created
+
+Note: 75 static requests not shown, run with "static" option to see them.

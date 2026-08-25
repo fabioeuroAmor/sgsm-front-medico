@@ -67,14 +67,25 @@ function formatDateTime(iso: string) {
   })
 }
 
+function isValidCalendarDate(day: number, month: number, year: number): boolean {
+  if (month < 1 || month > 12) return false
+  const date = new Date(year, month - 1, day)
+  return date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day
+}
+
+function buildDateString(d: string, m: string, y: string): string | null {
+  if (!isValidCalendarDate(parseInt(d, 10), parseInt(m, 10), parseInt(y, 10))) return null
+  return `${d.padStart(2, '0')}/${m.padStart(2, '0')}/${y}`
+}
+
 function parseDate(raw: string): string | null {
   const s = raw.trim()
 
   const m1 = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/)
-  if (m1) return `${m1[1].padStart(2, '0')}/${m1[2].padStart(2, '0')}/${m1[3]}`
+  if (m1) return buildDateString(m1[1], m1[2], m1[3])
 
   const m2 = s.match(/^(\d{1,2})[\s.](\d{1,2})[\s.](\d{4})$/)
-  if (m2) return `${m2[1].padStart(2, '0')}/${m2[2].padStart(2, '0')}/${m2[3]}`
+  if (m2) return buildDateString(m2[1], m2[2], m2[3])
 
   const MONTHS: Record<string, string> = {
     janeiro: '01', fevereiro: '02', março: '03', marco: '03',
@@ -84,11 +95,11 @@ function parseDate(raw: string): string | null {
   const m3 = s.match(/(\d{1,2})\s+(?:de\s+)?([a-záéíóúâêîôûãõç]+)(?:\s+de)?\s+(\d{4})/i)
   if (m3) {
     const month = MONTHS[m3[2].toLowerCase()]
-    if (month) return `${m3[1].padStart(2, '0')}/${month}/${m3[3]}`
+    if (month) return buildDateString(m3[1], month, m3[3])
   }
 
   const digits = s.replace(/\D/g, '')
-  if (digits.length === 8) return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`
+  if (digits.length === 8) return buildDateString(digits.slice(0, 2), digits.slice(2, 4), digits.slice(4))
 
   return null
 }
@@ -150,8 +161,10 @@ export function ChatbotWidget() {
   }, [messages, loading])
 
   useEffect(() => {
-    if (open) setTimeout(() => inputRef.current?.focus(), 150)
-  }, [open])
+    if (open && !CHOICE_ONLY_STEPS.includes(step)) {
+      setTimeout(() => inputRef.current?.focus(), 150)
+    }
+  }, [open, step])
 
   // ─── helpers ─────────────────────────────────────────────────────────────
 

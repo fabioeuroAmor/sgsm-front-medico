@@ -111,7 +111,7 @@ function LogoTilt() {
           <Activity className="h-5 w-5 text-white" />
         </div>
         <div style={{ transform: hov ? 'translateZ(8px)' : 'translateZ(0)', transition: 'transform 0.3s ease' }}>
-          <p className="text-white font-extrabold text-base tracking-tight leading-none">SGSM</p>
+          <p className="text-white font-extrabold text-base tracking-tight leading-none">IA SGSM</p>
           <p className="text-[hsl(185,59%,65%)] text-xs font-medium mt-0.5">Sistema Médico</p>
         </div>
       </div>
@@ -180,7 +180,7 @@ export function Sidebar() {
           <div className="bg-[hsl(184,80%,25%)] p-1.5 rounded-lg">
             <Activity className="h-4 w-4 text-white" />
           </div>
-          <span className="text-white font-extrabold text-base tracking-tight">SGSM</span>
+          <span className="text-white font-extrabold text-base tracking-tight">IA SGSM</span>
         </div>
         <button
           onClick={() => setMobileOpen((v) => !v)}
@@ -203,6 +203,23 @@ export function Sidebar() {
               <LogoTilt />
             </div>
             {navContent}
+
+            {/* Footer */}
+            <div className="mt-auto p-4 border-t border-[hsl(190,100%,20%)] flex flex-col gap-2">
+              {usuario && (
+                <div className="px-2">
+                  <p className="text-[hsl(185,59%,89%)] text-xs font-semibold truncate">{usuario.nome}</p>
+                  <p className="text-[hsl(185,59%,50%)] text-xs truncate">{usuario.perfil}</p>
+                </div>
+              )}
+              <button
+                onClick={() => { setMobileOpen(false); handleLogout() }}
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-[hsl(185,59%,65%)] hover:bg-[hsl(190,100%,18%)] hover:text-[hsl(0,80%,70%)] transition-colors w-full"
+              >
+                <LogOut size={15} strokeWidth={1.75} />
+                Sair
+              </button>
+            </div>
           </aside>
         </div>
       )}

@@ -1,0 +1,7 @@
+153. [GET] http://localhost:3001/v1/api/medicos => [200] OK
+154. [GET] http://localhost:3001/v1/api/medicos => [200] OK
+156. [GET] http://localhost:3001/v1/api/medicos?ativo=true => [200] OK
+157. [GET] http://localhost:3001/v1/api/medicos => [200] OK
+159. [GET] http://localhost:3001/v1/api/medicos?ativo=true => [500] Internal Server Error
+
+Note: 144 static requests not shown, run with "static" option to see them.

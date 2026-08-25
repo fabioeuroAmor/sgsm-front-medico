@@ -1,0 +1,38 @@
+C55 / C56 — Bloqueado por bug de backend: POST /crm/paciente/{id}/notas retorna 500 sempre, mesmo com
+payload válido
+
+Passo a passo para reproduzir:
+1. Selecionar o paciente de teste na aba Paciente 360, sub-aba Notas.
+2. Clicar em "Nova Nota", preencher "Conteúdo" com texto válido (não vazio, sem ser só espaços) e clicar
+   em "Salvar".
+
+Resultado esperado (test-plan C55): nota aparece na lista com tipo, data formatada e nome do médico autor,
+POST confirmado no network.
+Resultado esperado (test-plan C56): testar os 5 tipos de nota e conteúdo multi-linha, quebras de linha
+preservadas na exibição.
+
+Resultado observado: TODAS as tentativas de POST /crm/paciente/{id}/notas retornaram 500 Internal Server
+Error, incluindo com payload completamente válido e limpo:
+  Tentativa 1: {"tipo":"ANAMNESE","conteudo":"   QA CRM linha 1 da nota\nQA CRM linha 2 da nota"} -> 500
+    (essa tinha espaços residuais de um teste anterior, mas continha texto real também)
+  Tentativa 2: {"tipo":"ANAMNESE","conteudo":"QA CRM nota anamnese limpa linha 1\nQA CRM nota anamnese
+    limpa linha 2"} -> 500 (payload completamente limpo e válido, sem espaços extras)
+  Tentativa 3: tipo=OBSERVACAO, mesmo conteúdo -> sessão expirou (403) antes de confirmar, mas as duas
+    tentativas anteriores com payload válido já são suficientes para concluir que o endpoint está quebrado.
+
+Corpo de resposta em todas as tentativas de 500: {"detail":"Erro interno. Tente novamente mais tarde.",
+"status":500,"title":"Erro interno","type":"https://sgsm.com.br/erros/erro-interno"} — um erro genérico
+sem detalhe do que realmente falhou no servidor.
+
+Diferente de C48 (contatos) e C50 (contatos com duração negativa), aqui o problema NÃO é uma questão de
+validação de borda (espaço em branco) — o mesmo erro 500 ocorre mesmo com conteúdo perfeitamente válido.
+Isso indica que a funcionalidade de "Nova Nota Clínica" está genuinamente quebrada no backend deste
+ambiente de teste (rota /crm/paciente/{id}/notas, método POST), não uma falha de validação de front-end.
+
+Classificação: BUG DE BACKEND, bloqueante, fora do escopo deste repositório front-end. O front-end se
+comporta corretamente ao enviar o payload esperado e ao não travar a UI (modal permanece aberto, permitindo
+nova tentativa), mas não há como validar visualmente o resultado esperado de C55 (nota aparecendo na lista
+com nome do médico autor) nem C56 (5 tipos + multi-linha) enquanto esse endpoint não funcionar. Marcados
+como reprovados/bloqueados, não aprovados.
+
+Evidência bruta: C55.png (modal ainda aberto após erro), C55.log (sequência de 3 POSTs, todos 500 ou 403).

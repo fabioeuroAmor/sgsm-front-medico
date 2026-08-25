@@ -1,0 +1,26 @@
+C15 — Reprovado: condição de corrida confirmada ao alternar rapidamente entre filtros de status
+
+Passo a passo para reproduzir:
+1. Na aba Leads, disparar cliques em sequência rápida (via JS, sem esperar a resposta de rede entre eles)
+   nos filtros: NOVO -> CONTATADO -> QUALIFICADO -> Todos.
+2. Observar o estado final da UI (qual pílula fica destacada e quais dados aparecem na tabela).
+
+Resultado esperado (test-plan): a tabela final deve refletir o último filtro clicado (Todos), sem mostrar
+uma resposta antiga fora de ordem.
+
+Resultado observado: a pílula "QUALIFICADO" ficou destacada como selecionada (não "Todos", o último clique),
+E a tabela mostrou a lista COMPLETA sem filtro (todos os leads, incluindo os de status NOVO e CONTATADO) —
+ou seja, nem a pílula ativa nem os dados da tabela corresponderam de forma consistente entre si nem ao
+último clique realizado. Isso confirma a condição de corrida: as 4 requisições GET /crm/leads[?status=X]
+dispararam em sequência (network log: requests #208 NOVO, #209 CONTATADO, #210 QUALIFICADO, #211 Todos/sem
+filtro), mas as respostas não necessariamente resolvem na mesma ordem em que foram disparadas, e o
+componente não cancela/ignora respostas desatualizadas (sem uso de AbortController, sem verificação de
+"é essa ainda a última requisição pedida" antes de atualizar o estado) — cada resposta que chega por último
+sobrescreve o estado, independente de qual filtro o usuário efetivamente quer ver agora.
+
+Classificação: bug de front-end (ausência de cancelamento de requisições obsoletas / guard de concorrência
+no carregamento de leads por filtro, em src/pages/CrmPage.tsx ou hook equivalente). Pode confundir o
+usuário, que veria dados de um filtro diferente do que a pílula "ativa" sugere.
+
+Evidência bruta: C15.png (pílula QUALIFICADO destacada, mas tabela com todos os leads sem filtro),
+C15.log (sequência de requests #208-#211), C15-console.log.

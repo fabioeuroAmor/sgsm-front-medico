@@ -1,0 +1,24 @@
+FN040 — RETESTE (pós-correção) — telefone fixo de 10 dígitos com prefixo implausível
+Data: 2026-08-20
+Ambiente: app real http://localhost:3001, front-end reflete o código atual de FuncionariosPage.tsx
+(`validarTelefone`, linhas 73-83): para números de 10 dígitos, linha 81 agora exige
+`/^[2-5]/.test(numero)` (primeiro dígito do número local entre 2 e 5, padrão real de telefones fixos
+no Brasil).
+
+Teste 1 — prefixo implausível (deve dar erro):
+  Campo Telefone: digitado "1187654321" -> máscara exibe "(11) 8765-4321" (10 dígitos, DDD 11 válido,
+  número local começa em "8").
+  Ação: blur (Tab) do campo.
+  Resultado: erro "Use o formato (11) 99999-0000" exibido abaixo do campo (ver screenshot
+  FN040-retest.png).
+
+Teste 2 — regressão do fixo válido já aprovado em FN037 (não deve dar erro):
+  Campo Telefone: digitado "1133334444" -> máscara exibe "(11) 3333-4444" (10 dígitos, número local
+  começa em "3", dentro da faixa [2-5]).
+  Ação: blur (Tab) do campo.
+  Resultado: nenhum erro exibido, campo aceito normalmente (ver screenshot
+  FN040-retest-regressao-fn037.png).
+
+Resultado: CORRIGIDO. Telefone fixo com prefixo implausível (10 dígitos começando fora da faixa 2-5,
+ex. "8") agora é rejeitado com "Use o formato (11) 99999-0000". Telefone fixo válido comum
+("(11) 3333-4444", já coberto por FN037) continua sendo aceito sem erro — sem regressão.

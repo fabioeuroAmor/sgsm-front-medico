@@ -1,0 +1,31 @@
+Restauração de senha da conta de teste (fabioeuro@gmail.com) — Rodada 2 (reteste pós-correções)
+==============================================================================================
+Data: 2026-08-20
+
+Motivo: o item 1b do reteste (RS021 — reuso de token) exige usar um token real com sucesso uma
+primeira vez para depois tentar reutilizá-lo. Esse primeiro uso bem-sucedido alterou de fato a
+senha real da conta fabioeuro@gmail.com para "TesteQA2026Reteste!" (POST /resetar-senha => 204,
+ver RS021-retest2-network-console.txt). A senha original antes desta rodada de reteste era
+"famor966" (restaurada ao final da Rodada 1 da QA completa).
+
+Restauração (fluxo real, sem mock):
+1. POST /esqueci-senha via UI (e-mail fabioeuro@gmail.com) — novo token real gerado:
+   token = 1c3781417e9f44a99622dfdff4ecf20c (obtido via SELECT em auth.reset_senha_token,
+   somente leitura).
+2. Navegar para /resetar-senha?token=1c3781417e9f44a99622dfdff4ecf20c e submeter senha
+   "famor966" (válida, >=8 caracteres) em ambos os campos.
+3. Rede: POST /v1/api/auth/resetar-senha => 204 No Content; navegação automática para /login.
+4. Confirmação real: login em /login com fabioeuro@gmail.com / famor966.
+   Rede: POST /v1/api/auth/login => 200 OK.
+   Navegação bem-sucedida para dentro do sistema (/pacientes).
+   Screenshot: RS_restauracao_senha-retest2-login-sucesso.png
+
+CONCLUSÃO: a senha da conta fabioeuro@gmail.com foi restaurada com sucesso para o valor original
+"famor966", confirmado com login real (200 OK) e acesso à aplicação.
+
+Nota: o token gerado no item 2b (4ab1860d4f7b47bf8b495a7cdd3d3460, usado apenas para o teste de
+bypass via fetch() com senha curta) NUNCA foi consumido com sucesso (a validação de tamanho de
+senha roda antes da checagem do token no backend, então a rejeição por senha curta não marca o
+token como usado) — confirmado via SELECT que usado=f. Esse token não alterou a senha da conta em
+nenhum momento e não requer nenhuma ação de limpeza adicional (nenhum INSERT/UPDATE/DELETE foi
+executado no banco em nenhum momento desta QA, apenas SELECT).

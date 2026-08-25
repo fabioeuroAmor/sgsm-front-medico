@@ -1,0 +1,40 @@
+79. [GET] http://localhost:3001/crm/leads => [200] OK
+80. [GET] http://localhost:3001/crm/leads => [200] OK
+82. [GET] http://localhost:3001/crm/leads?status=CONTATADO => [200] OK
+83. [GET] http://localhost:3001/crm/leads?status=QUALIFICADO => [200] OK
+84. [GET] http://localhost:3001/crm/leads?status=CONVERTIDO => [200] OK
+85. [GET] http://localhost:3001/crm/leads?status=PERDIDO => [200] OK
+86. [GET] http://localhost:3001/crm/leads => [200] OK
+87. [GET] http://localhost:3001/crm/leads?status=NOVO => [401] Unauthorized
+169. [GET] http://localhost:3001/crm/leads => [200] OK
+170. [GET] http://localhost:3001/crm/leads => [200] OK
+171. [GET] http://localhost:3001/crm/leads?status=NOVO => [500] Internal Server Error
+172. [GET] http://localhost:3001/crm/leads => [200] OK
+173. [POST] http://localhost:3001/crm/leads => [201] Created
+174. [GET] http://localhost:3001/crm/leads => [200] OK
+175. [POST] http://localhost:3001/crm/leads => [201] Created
+176. [GET] http://localhost:3001/crm/leads => [200] OK
+177. [POST] http://localhost:3001/crm/leads => [201] Created
+178. [GET] http://localhost:3001/crm/leads => [200] OK
+179. [POST] http://localhost:3001/crm/leads => [201] Created
+180. [POST] http://localhost:3001/crm/leads => [201] Created
+181. [GET] http://localhost:3001/crm/leads => [200] OK
+182. [GET] http://localhost:3001/crm/leads => [200] OK
+183. [PATCH] http://localhost:3001/crm/leads/8ad02fce-e6a5-43f6-bebd-c4c2fe291ac4/status => [204] No Content
+184. [GET] http://localhost:3001/crm/leads => [200] OK
+185. [PATCH] http://localhost:3001/crm/leads/8ad02fce-e6a5-43f6-bebd-c4c2fe291ac4/status => [403] Forbidden
+186. [PATCH] http://localhost:3001/crm/leads/8ad02fce-e6a5-43f6-bebd-c4c2fe291ac4/status => [403] Forbidden
+187. [GET] http://localhost:3001/crm/leads?status=QUALIFICADO => [403] Forbidden
+188. [GET] http://localhost:3001/crm/leads => [403] Forbidden
+189. [GET] http://localhost:3001/crm/leads?status=QUALIFICADO => [403] Forbidden
+190. [GET] http://localhost:3001/crm/leads?status=CONTATADO => [403] Forbidden
+191. [GET] http://localhost:3001/crm/leads => [403] Forbidden
+205. [GET] http://localhost:3001/crm/leads => [200] OK
+206. [GET] http://localhost:3001/crm/leads => [200] OK
+207. [GET] http://localhost:3001/crm/leads?status=QUALIFICADO => [200] OK
+208. [GET] http://localhost:3001/crm/leads?status=NOVO => [200] OK
+209. [GET] http://localhost:3001/crm/leads?status=CONTATADO => [200] OK
+210. [GET] http://localhost:3001/crm/leads?status=QUALIFICADO => [200] OK
+211. [GET] http://localhost:3001/crm/leads => [200] OK
+
+Note: 157 static requests not shown, run with "static" option to see them.

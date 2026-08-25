@@ -1,0 +1,7 @@
+563. [GET] http://localhost:3001/v1/api/funcionarios?estabelecimentoId=655759aa-bf83-417e-a45b-b06258c4458f => [200] OK
+565. [GET] http://localhost:3001/v1/api/funcionarios?ativo=true => [200] OK
+566. [GET] http://localhost:3001/v1/api/funcionarios?ativo=false => [200] OK
+568. [GET] http://localhost:3001/v1/api/funcionarios?estabelecimentoId=655759aa-bf83-417e-a45b-b06258c4458f => [200] OK
+569. [GET] http://localhost:3001/v1/api/funcionarios?estabelecimentoId=655759aa-bf83-417e-a45b-b06258c4458f&ativo=true => [200] OK
+
+Note: 520 static requests not shown, run with "static" option to see them.

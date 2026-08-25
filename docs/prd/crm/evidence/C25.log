@@ -1,0 +1,18 @@
+79. [GET] http://localhost:3001/crm/leads => [200] OK
+80. [GET] http://localhost:3001/crm/leads => [200] OK
+82. [GET] http://localhost:3001/crm/leads?status=CONTATADO => [200] OK
+83. [GET] http://localhost:3001/crm/leads?status=QUALIFICADO => [200] OK
+84. [GET] http://localhost:3001/crm/leads?status=CONVERTIDO => [200] OK
+85. [GET] http://localhost:3001/crm/leads?status=PERDIDO => [200] OK
+86. [GET] http://localhost:3001/crm/leads => [200] OK
+87. [GET] http://localhost:3001/crm/leads?status=NOVO => [401] Unauthorized
+169. [GET] http://localhost:3001/crm/leads => [200] OK
+170. [GET] http://localhost:3001/crm/leads => [200] OK
+171. [GET] http://localhost:3001/crm/leads?status=NOVO => [500] Internal Server Error
+172. [GET] http://localhost:3001/crm/leads => [200] OK
+173. [POST] http://localhost:3001/crm/leads => [201] Created
+174. [GET] http://localhost:3001/crm/leads => [200] OK
+175. [POST] http://localhost:3001/crm/leads => [201] Created
+176. [GET] http://localhost:3001/crm/leads => [200] OK
+
+Note: 151 static requests not shown, run with "static" option to see them.
