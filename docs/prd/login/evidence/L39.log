@@ -1,0 +1,14 @@
+L39 — Colar (paste) e-mail e senha nos campos, incluindo senha com espaços à frente/atrás
+
+Método: simulação de evento 'paste' real via ClipboardEvent + DataTransfer (a permissão de clipboard do SO não estava disponível no backend do Playwright deste ambiente — `browserContext.grantPermissions` retornou "Protocol error: 'Browser.grantPermissions' wasn't found" — então o paste foi simulado via evento DOM real 'paste' + aplicação do valor via setter nativo, equivalente ao que o navegador faz internamente ao colar).
+
+Passos: colar "eduardasilva@gmail.com" no campo E-mail; colar "  joaozinh7  " (com 2 espaços antes e 2 depois) no campo Senha.
+
+Resultado:
+- Campo E-mail (type="email"): aceita o valor colado normalmente = "eduardasilva@gmail.com".
+- Campo Senha (type="password", SEM sanitização de espaço como o type="email" tem): valor colado preservado EXATAMENTE como colado, incluindo os espaços: "  joaozinh7  " (13 caracteres, confirmado por senhaValLength=13, vs 9 caracteres da senha real sem espaços).
+- Ao submeter: corpo da requisição confirma o valor exato enviado: {"email":"eduardasilva@gmail.com","senha":"  joaozinh7  "} — POST /v1/api/auth/login -> 401 Unauthorized.
+
+Conclusão: NEM o front-end NEM o backend fazem trim() automático da senha — o valor colado com espaços é enviado literalmente e rejeitado por não bater com a senha real armazenada. Isso é o comportamento de segurança CORRETO esperado (senhas nunca devem ser silenciosamente alteradas/trimmed, pois isso reduziria o espaço de senhas válidas e poderia mascarar erros de digitação do próprio usuário).
+
+Resultado: PASS/documentado. Colar funciona normalmente para ambos os campos; a senha colada com espaços extras é preservada literalmente e corretamente rejeitada (comportamento de segurança esperado, não um bug).

@@ -1,0 +1,49 @@
+L14 — Login com e-mail cadastrado e senha incorreta — ACHADO CRÍTICO DE FRONT-END
+
+Passos: preencher E-mail "eduardasilva@gmail.com" (conta real), Senha "SenhaErradaDeProposito123" (errada de propósito), submeter.
+
+Resultado observado:
+- POST /v1/api/auth/login -> 401 Unauthorized (request #1422, e reproduzido de forma idêntica em pelo menos 7 tentativas ao longo do QA: #530, #605, #679, #828, #977, #1199, #1273, #1422).
+- Corpo real da resposta do backend (RFC7807 problem+json, confirmado via fetch direto no console da página):
+  {"detail":"Credenciais invalidas.","instance":"/v1/api/auth/login","status":401,"title":"Credenciais inválidas","type":"https://sgsm.com.br/erros/credenciais-invalidas"}
+  -> o backend retorna uma mensagem clara e apropriada.
+- PORÉM: nenhum toast/mensagem de erro aparece na tela para o usuário (screenshot L14.png confirma tela sem qualquer banner/toast — apenas o formulário, com os campos vazios e sem indicação de que algo deu errado). O elemento `<section aria-live="polite">` (container de notificações da lib "sonner", usada pelo LoginPage.tsx) permanece com innerHTML="" o tempo todo, verificado via polling a cada 100ms por 3+ segundos após o clique — o toast NUNCA aparece, nem por um instante.
+- O botão volta a mostrar "Entrar" (não fica travado em "Entrando..."), mas o usuário não recebe NENHUM feedback visual de que o login falhou.
+
+CAUSA RAIZ (identificada por leitura de código-fonte, não é uma correção — apenas diagnóstico para relatar o bug com precisão):
+Prova experimental: antes de submeter, foi setado `window.__qaMarker = 'still-here-before-submit'` no objeto global `window` da página. Após o clique em "Entrar" com credenciais erradas, `window.__qaMarker` deixou de existir (retornou `undefined`) — prova definitiva de que a página sofreu um RELOAD COMPLETO (não uma atualização de estado React via SPA), destruindo o contexto JS inteiro, incluindo qualquer toast que estivesse prestes a aparecer.
+
+O código-fonte confirma exatamente por quê, em `src/services/api.ts` (interceptor de resposta do axios, linhas 43-67):
+
+    api.interceptors.response.use(
+      (res) => res,
+      async (err) => {
+        const originalRequest = err.config as RetryableConfig
+        if (err.response?.status === 401 && !originalRequest._isRetry) {
+          originalRequest._isRetry = true
+          try {
+            const accessToken = await refreshAccessToken()
+            originalRequest.headers.Authorization = `Bearer ${accessToken}`
+            return api(originalRequest)
+          } catch {
+            tokenStore.clear()
+            localStorage.removeItem('refresh_token')
+            window.location.href = '/login'   // <-- causa raiz
+            return Promise.reject(new Error('Sessão expirada. Faça login novamente.'))
+          }
+        }
+        const message = err.response?.data?.erro ?? err.response?.data?.detail ?? err.message ?? 'Erro desconhecido'
+        return Promise.reject(new Error(message))
+      },
+    )
+
+Esse interceptor GLOBAL trata QUALQUER resposta 401 de QUALQUER chamada — inclusive a própria chamada de LOGIN (`POST /auth/login`) — como "sessão expirada, tentar refresh". Como não existe `refresh_token` no localStorage no momento de um login com credenciais erradas (usuário ainda nem logou), `refreshAccessToken()` rejeita imediatamente (`localStorage.getItem('refresh_token')` é null), caindo no bloco `catch` que executa `window.location.href = '/login'` — um reload de página inteiro via navegação do navegador — mesmo o usuário já estando em `/login`. Esse reload:
+1. Destrói o componente `LoginPage` antes que o `catch` do `handleSubmit` (linha 22-23 de `LoginPage.tsx`, `toast.error((err as Error).message)`) consiga de fato renderizar/persistir o toast na tela.
+2. Limpa os campos do formulário (novo mount da página).
+3. Some com qualquer estado de "Entrando..." pendente.
+
+Ou seja: o interceptor não diferencia "401 de uma chamada autenticada com token expirado" (cenário real de sessão expirada, onde o reload para /login faz sentido) de "401 da própria tentativa de login com credencial errada" (cenário normal de UX, onde deveria só mostrar um toast e deixar o usuário tentar de novo). Isso classifica como BUG DE FRONT-END (arquivo `src/services/api.ts`, não pode ser corrigido nesta tarefa de QA, apenas documentado).
+
+IMPACTO: todo login com credenciais erradas neste sistema falha silenciosamente aos olhos do usuário — sem toast, sem mensagem, sem indicação visual do motivo da falha, apenas um reload sutil da própria tela de login (praticamente imperceptível, já que a URL não muda). Isso afeta diretamente os itens L14, L15, L17 (parcialmente, se o erro simulado for 401), L19 (se cair em 401), L20, L43 (comparação de 401 vs 403 vs 500 — este bug é específico do caso 401).
+
+Resultado: REPROVADO (bug de front-end confirmado e documentado). Repro exato: acessar /login, preencher e-mail cadastrado válido + senha incorreta, clicar "Entrar" — nenhum toast de erro aparece, o formulário reseta silenciosamente via reload completo da página.

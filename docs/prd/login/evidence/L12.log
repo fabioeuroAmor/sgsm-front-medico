@@ -1,0 +1,15 @@
+L12 — Persistência de token após login bem-sucedido
+
+page.evaluate(() => ({localStorage: {...localStorage}, sessionStorage: {...sessionStorage}})) logo após o login de L11:
+{
+  "localStorage": { "refresh_token": "9aba6ce0-9748-455a-9064-c1a8c2ca3b3c" },
+  "sessionStorage": {}
+}
+
+Confirmado:
+- accessToken (JWT) NÃO está em localStorage nem sessionStorage — mantido apenas em memória (estado JS/contexto React).
+- refreshToken É persistido em localStorage, sob a chave "refresh_token".
+- A senha digitada ("joaozinh7") NÃO aparece em nenhum momento em localStorage/sessionStorage.
+- sessionStorage está completamente vazio.
+
+Resultado: PASS. Comportamento de armazenamento de token conforme esperado (access token em memória, refresh token em localStorage, senha nunca persistida).

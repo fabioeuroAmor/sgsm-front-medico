@@ -1,0 +1,9 @@
+L22 — Apertar Enter dentro do campo Senha submete o formulário
+
+Passos: preencher E-mail/Senha válidos, focar explicitamente o campo Senha (#senha), pressionar Enter (via browser_press_key, tecla real).
+
+Resultado: POST /v1/api/auth/login -> 200 OK (request #2925), navegação automática para /pacientes (page.url() confirmado). Comportamento nativo do <form onSubmit={handleSubmit}> — Enter dentro de qualquer input de um formulário HTML aciona o submit implícito.
+
+Nota metodológica: em uma tentativa anterior usando `page.keyboard.press('Enter')` dentro de `browser_run_code_unsafe` logo após um `focus()` via evaluate, o Enter não disparou o submit (sem requisição em 8s) — mas usando a ferramenta oficial `browser_press_key` (tecla real simulada no nível do SO/CDP) o comportamento funcionou corretamente e de forma repetível. Atribuído a uma diferença de robustez entre as duas formas de simular a tecla neste ambiente, não a um bug da aplicação.
+
+Resultado: PASS. Enter no campo Senha submete o formulário normalmente.

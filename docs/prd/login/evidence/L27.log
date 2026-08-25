@@ -1,0 +1,7 @@
+L27 — Botão Voltar a partir de /registrar retorna para /login vazio
+
+Passos: estando em /registrar (chegou via L26), usar page.goBack().
+
+Resultado: page.url() = http://localhost:3001/login; snapshot de acessibilidade confirma os campos E-mail e Senha vazios (sem texto/valor), formulário em estado limpo/inicial.
+
+Resultado: PASS.

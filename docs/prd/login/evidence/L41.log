@@ -1,0 +1,7 @@
+L41 — Autofill do gerenciador de senhas do navegador
+
+Confirmado via DOM: input#e-mail tem `autocomplete="email"`, input#senha tem `autocomplete="current-password"` (atributos corretos que HABILITAM o gerenciador de senhas nativo do Chrome a detectar/oferecer autofill nesses campos — sem `formAutocomplete` explícito no `<form>`, o que é aceitável já que os atributos individuais dos inputs já são suficientes).
+
+Limitação de ambiente (não testável na prática, documentado honestamente): o perfil de navegador usado pelo Playwright MCP neste ambiente de automação não possui nenhuma credencial salva no gerenciador de senhas do Chrome, e a UI de autofill/sugestão de senha do Chrome é um overlay nativo do navegador (fora da árvore DOM da página), que não é acessível/observável de forma confiável pelas ferramentas do Playwright MCP disponíveis (`browser_snapshot`, `browser_evaluate` etc. operam apenas sobre o DOM da página). Não foi possível, portanto, demonstrar visualmente o dropdown de autofill sendo oferecido pelo navegador nesta sessão de teste.
+
+Resultado: parcialmente documentado — os atributos `autoComplete` corretos estão presentes e habilitam a funcionalidade nativa do navegador (pré-requisito técnico satisfeito), mas a demonstração visual do autofill em si não é testável neste ambiente de automação (sem credenciais salvas e sem acesso à UI nativa do navegador fora do DOM da página).

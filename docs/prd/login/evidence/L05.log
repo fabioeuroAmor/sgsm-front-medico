@@ -1,0 +1,16 @@
+L05 — Acessar /login já autenticado (documentar comportamento)
+
+Passos:
+1. Login válido feito previamente (evidence L11) — `refresh_token` presente em localStorage.
+2. page.goto('http://localhost:3001/login') com sessão ainda ativa.
+
+Resultado observado: a URL permanece em /login, o formulário de login aparece normalmente (campos vazios, botão "Entrar"), SEM nenhum redirecionamento para /pacientes. Confirma a hipótese do test-plan: LoginPage não verifica isAuthenticated e não redireciona usuário já logado para longe da tela de login.
+
+Achado adicional (comportamento observado, não pedido explicitamente pelo item mas relevante): mesmo sem redirecionar, o simples fato de montar a página /login enquanto autenticado disparou silenciosamente, em background:
+  72. POST /v1/api/auth/refresh -> 200 OK
+  75. GET  /v1/api/auth/me -> 200 OK
+E o valor de `refresh_token` em localStorage mudou de "9aba6ce0-9748-455a-9064-c1a8c2ca3b3c" (obtido no login de L11) para "41de2873-54f0-4162-be64-a9bb39224f4f" após essa navegação — ou seja, o token foi rotacionado por um refresh automático de nível de aplicação (provável efeito de montagem de um hook global useAuth), mesmo estando na tela de login pública, que não deveria precisar de token válido.
+
+Classificação: comportamento de front-end documentado, não necessariamente um bug funcional (o usuário não vê nada quebrado — apenas visualiza o formulário de login normalmente), mas é uma inconsistência de UX/arquitetura: um usuário autenticado que acesse /login por engano fica "preso" no formulário de login em vez de ser redirecionado para a área logada, e ainda gera uma chamada de refresh desnecessária em segundo plano.
+
+Resultado: comportamento documentado conforme pedido pelo item (não há veredito PASS/FAIL binário).

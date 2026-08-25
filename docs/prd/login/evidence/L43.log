@@ -1,0 +1,13 @@
+L43 — Comparação de erro 401 vs 403 vs 500 na chamada de login
+
+| Status simulado | Toast exibido? | Mensagem mostrada | Página recarrega (window.location.href)? |
+|---|---|---|---|
+| 401 (REAL, backend genuíno — ver L14/L15) | NÃO — nenhum toast aparece nunca | (nenhuma) | SIM — bug crítico, interceptor de `api.ts` trata 401 como sessão expirada e força reload |
+| 403 (simulado via page.route, este item) | SIM | "Acesso negado para este usuário." (texto exato do campo `detail` simulado) | NÃO — `window.__qaMarker403` permaneceu "alive" após a resposta |
+| 500 (simulado via page.route, ver L17) | SIM | "Erro interno do servidor" (texto exato do campo `detail` simulado) | NÃO — `window.__qaMarker500` permaneceu "alive" (ver L17.log) |
+
+Evidência desta execução (403): `evidence/L43-403.png`, status confirmado 403, `markerAlive: "alive"`, `notif: "Acesso negado para este usuário."`.
+
+Conclusão: os três status NÃO colapsam para a mesma mensagem genérica — pelo contrário, 403 e 500 funcionam corretamente e mostram a mensagem específica do campo `detail` da resposta simulada, de forma clara e apropriada. O ÚNICO caso problemático é justamente o 401 (que é, paradoxalmente, o cenário MAIS COMUM no dia a dia de um formulário de login — toda tentativa de senha errada retorna 401) — nesse caso específico, NENHUMA mensagem aparece, por causa do bug de reload documentado em L14 (interceptor de `src/services/api.ts` trata todo 401 como sessão expirada).
+
+Resultado: REPROVADO (consequência direta do bug de L14/L15). A comparação revela que o tratamento de erro do formulário de login é INVERSAMENTE proporcional à frequência real de uso: os casos raros (403, 500) são tratados corretamente, mas o caso mais comum e esperado (401 por senha incorreta) é o único que falha silenciosamente.

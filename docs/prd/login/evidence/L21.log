@@ -1,0 +1,12 @@
+L21 — Duplo clique rápido em "Entrar" com credenciais válidas — BUG DE FRONT-END
+
+Passos: preencher credenciais válidas, disparar 2 eventos de clique síncronos no botão "Entrar" no MESMO tick de JS (via dispatchEvent duas vezes seguidas, sem esperar entre eles — simula um duplo clique real de usuário).
+
+Resultado:
+- Contagem de recursos de rede para /auth/login via performance.getEntriesByType('resource'): 0 antes, 2 depois do duplo clique -> 2 chamadas disparadas.
+- Confirmado na lista de network requests: #2844 [POST] /v1/api/auth/login -> 200 OK e #2845 [POST] /v1/api/auth/login -> 200 OK — DUAS requisições completas de login disparadas por um único duplo clique.
+- Login ainda funciona (navega para /pacientes), mas 2 chamadas de autenticação completas (incluindo 2 gerações de token/refresh_token no backend) foram feitas desnecessariamente.
+
+Causa raiz (código-fonte, `src/pages/LoginPage.tsx` linhas 16-27): o botão só fica `disabled={loading}` DEPOIS que `setLoading(true)` é processado por um re-render do React, que é assíncrono — entre o primeiro clique (que dispara `handleSubmit` e chama `setLoading(true)`) e o repaint que efetivamente desabilita o botão no DOM, existe uma janela onde um segundo clique síncrono ainda encontra o botão habilitado e dispara um segundo `handleSubmit` completo, sem nenhum guard (`useRef`) para bloquear a segunda chamada — mesma classe de bug já documentada e corrigida em outras telas deste projeto (Médicos M24, CRM C26, ambos usando guard `useRef`).
+
+Resultado: REPROVADO (bug de front-end confirmado). Repro exato: em /login, preencher e-mail/senha válidos, disparar 2 cliques síncronos no botão "Entrar" (sem esperar entre eles) — 2 requisições POST /v1/api/auth/login são disparadas, não 1.

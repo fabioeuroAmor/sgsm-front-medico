@@ -1,0 +1,10 @@
+L32 — Navegação e submit 100% via teclado
+
+Passos: clique real inicial no campo E-mail (necessário apenas para estabelecer foco de janela, item exige uso de teclado dali em diante), `page.keyboard.type('eduardasilva@gmail.com')`, Tab, `page.keyboard.type('joaozinh7')`, Enter.
+
+Resultado:
+- Após Tab, activeElement.id = "senha" (confirma foco moveu corretamente).
+- Valor final do campo Senha: "joaozinh7" (digitado via teclado).
+- Após Enter: POST /v1/api/auth/login -> 200 OK (request #3550), navegação automática para /pacientes confirmada (page.url()).
+
+Resultado: PASS. Login funciona normalmente usando apenas teclado (preencher e-mail, Tab, preencher senha, Enter), sem necessidade de clicar no botão "Entrar".

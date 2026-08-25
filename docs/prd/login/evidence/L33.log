@@ -1,0 +1,12 @@
+L33 — Preencher parcialmente e apertar F5
+
+Passos: preencher apenas E-mail com "teste.parcial@f5.com" (Senha vazia), confirmar valor presente, executar page.reload() (F5).
+
+Resultado:
+  emailBefore: "teste.parcial@f5.com" (confirma preenchimento antes do F5)
+  emailAfter: "" (campo vazio após reload)
+  senhaAfter: "" (campo vazio após reload)
+  url: http://localhost:3001/login (permanece na mesma tela)
+Console: 0 erros após o reload (3 mensagens totais, todas [INFO] React DevTools).
+
+Resultado: PASS. Comportamento esperado de SPA sem persistência local do formulário — F5 recarrega a página do zero, campos voltam vazios, nenhum erro no console.
