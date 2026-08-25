@@ -20,7 +20,8 @@ import { Badge } from '@/components/ui/Badge'
 import { Input, SelectField } from '@/components/ui/Input'
 import { Modal } from '@/components/ui/Modal'
 import { EmptyState } from '@/components/ui/EmptyState'
-import { cn } from '@/lib/utils'
+import { cn, hojeLocal } from '@/lib/utils'
+import { Calendar } from '@/components/ui/Calendar'
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
 
@@ -44,13 +45,6 @@ function formatTime(iso: string) {
 
 function formatBRL(v: number) {
   return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(v)
-}
-
-function hojeLocal() {
-  const d = new Date()
-  const mes = String(d.getMonth() + 1).padStart(2, '0')
-  const dia = String(d.getDate()).padStart(2, '0')
-  return `${d.getFullYear()}-${mes}-${dia}`
 }
 
 const STATUS_LABEL: Record<StatusAgendamento, string> = {
@@ -172,6 +166,9 @@ export function AgendamentosPage() {
   const [selectedEstabelecimento, setSelectedEstabelecimento] = useState<EstabelecimentoResponse | null>(null)
 
   const [dataSelecionada, setDataSelecionada] = useState('')
+  const [mesVisivel, setMesVisivel] = useState('')
+  const [diasDisponiveis, setDiasDisponiveis] = useState<string[]>([])
+  const [loadingDias, setLoadingDias] = useState(false)
   const [slots, setSlots] = useState<SlotDisponivelResponse[]>([])
   const [loadingSlots, setLoadingSlots] = useState(false)
   const [selectedSlot, setSelectedSlot] = useState<SlotDisponivelResponse | null>(null)
@@ -264,6 +261,14 @@ export function AgendamentosPage() {
   }, [passo, selectedServico, selectedTipo])
 
   useEffect(() => {
+    if (passo !== 4 || !selectedServico || !mesVisivel) return
+    if (selectedTipo !== 'DOMICILIAR' && !selectedEstabelecimento) return
+    setLoadingDias(true)
+    agendamentoService.getDiasDisponiveis(selectedServico.medicoId, selectedTipo === 'DOMICILIAR' ? undefined : selectedEstabelecimento!.id, mesVisivel)
+      .then(setDiasDisponiveis).catch(() => setDiasDisponiveis([])).finally(() => setLoadingDias(false))
+  }, [passo, mesVisivel, selectedServico, selectedEstabelecimento, selectedTipo])
+
+  useEffect(() => {
     if (passo !== 4 || !selectedServico || !dataSelecionada) return
     if (selectedTipo !== 'DOMICILIAR' && !selectedEstabelecimento) return
     setLoadingSlots(true); setSelectedSlot(null)
@@ -274,7 +279,8 @@ export function AgendamentosPage() {
   function resetWizard() {
     setPasso(1); setBuscaPaciente(''); setSelectedPaciente(null); setBuscaServico(''); setSelectedServico(null)
     setSelectedTipo('PRESENCIAL'); setEstabelecimentos([]); setSelectedEstabelecimento(null)
-    setDataSelecionada(''); setSlots([]); setSelectedSlot(null); setObservacoes(''); setWizardError(null)
+    setDataSelecionada(''); setMesVisivel(''); setDiasDisponiveis([])
+    setSlots([]); setSelectedSlot(null); setObservacoes(''); setWizardError(null)
   }
 
   function podeAvancar() {
@@ -625,7 +631,15 @@ export function AgendamentosPage() {
 
         {passo === 4 && (
           <div className="space-y-4">
-            <Input label="Data da consulta" type="date" value={dataSelecionada} min={hojeLocal()} onChange={(e) => setDataSelecionada(e.target.value)} />
+            <Calendar
+              label="Data da consulta"
+              value={dataSelecionada}
+              onChange={setDataSelecionada}
+              minDate={hojeLocal()}
+              diasDisponiveis={diasDisponiveis}
+              loading={loadingDias}
+              onMonthChange={setMesVisivel}
+            />
             {dataSelecionada && (
               <div>
                 <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Horários disponíveis</p>
