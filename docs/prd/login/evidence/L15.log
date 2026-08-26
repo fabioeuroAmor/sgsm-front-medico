@@ -1,0 +1,11 @@
+L15 — Login com e-mail não cadastrado
+
+Passos: preencher E-mail "contaquenaoexiste.qa.login@exemplo-inexistente.com" (e-mail genuinamente não cadastrado), Senha "SenhaQualquer123", submeter.
+
+Resultado: POST /v1/api/auth/login -> 401 Unauthorized. O backend retorna o MESMO status/mensagem genérica usada para senha incorreta (não vaza se o e-mail existe ou não — boa prática de segurança, evita user enumeration).
+
+Tentativa de ler o corpo da resposta via Playwright (`response.text()`) falhou com o erro:
+  "Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation."
+Esse erro é, por si só, uma evidência adicional (via ferramenta) do mesmo bug documentado em L14: a resposta 401 do próprio endpoint de login aciona o interceptor global do axios (`src/services/api.ts`), que força `window.location.href = '/login'` — uma navegação de página completa — destruindo o contexto da resposta antes que o corpo pudesse ser lido, e impedindo qualquer toast de aparecer (screenshot L15.png confirma tela sem nenhuma mensagem de erro visível, apenas o formulário).
+
+Resultado: REPROVADO/documentado (mesmo bug de front-end de L14 — nenhum toast de erro visível). Não há vazamento de informação sensível (stack trace, detalhe interno) porque não há mensagem NENHUMA sendo mostrada — o problema aqui é ausência total de feedback, não vazamento de dado.

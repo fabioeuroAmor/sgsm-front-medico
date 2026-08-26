@@ -1,0 +1,15 @@
+L16 — Múltiplas tentativas (4x) com e-mail formato válido mas conta inexistente
+
+Passos: 4 tentativas sequenciais de login com "rate.limit.test.qa@naoexiste.com" e senhas diferentes a cada vez (recarregando /login entre cada tentativa para evitar acumular o bug de L14).
+
+Resultados:
+  Tentativa 1: 401
+  Tentativa 2: 401
+  Tentativa 3: 401
+  Tentativa 4: 401
+
+Nenhuma tentativa retornou 429 (Too Many Requests) ou qualquer indicação de bloqueio temporário/rate limit. Todas as 4 tentativas foram processadas normalmente pelo backend com a mesma resposta 401 "Credenciais inválidas".
+
+Nenhum efeito colateral no ambiente foi observado (sem degradação de performance, sem sessão travada, sem necessidade de ajustar a ordem dos testes seguintes).
+
+Resultado: documentado. O backend aceita tentativas de login ilimitadas (ao menos até 4 seguidas) sem mecanismo de rate limit/bloqueio temporário visível. Isso é uma característica/lacuna de segurança do backend (fora do escopo de correção deste repositório front-end), não um bug de front-end — mas vale nota de segurança: ausência de rate limiting em endpoint de login é uma prática de risco (facilita brute-force), a ser considerada pela equipe de backend.

@@ -1,0 +1,29 @@
+L21 — RETESTE (rodada 2) — Duplo clique síncrono em "Entrar" com credenciais válidas
+
+Correção aplicada em `src/pages/LoginPage.tsx`: guard síncrono via `useRef` (`submitRef`) — no início de
+`handleSubmit`, `if (submitRef.current) return; submitRef.current = true;` antes de qualquer `await`,
+liberado apenas no `finally`. Mesmo padrão já usado em Médicos (M24) e CRM (C26).
+
+Passos executados (via `browser_run_code_unsafe`, Playwright):
+1. Reload da página.
+2. Listener `page.on('request', ...)` registrado ANTES do submit, filtrando por
+   `POST .../auth/login`, para contagem exata e independente do `browser_network_requests`.
+3. Preenchido E-mail = "eduardasilva@gmail.com", Senha = "joaozinh7" (credenciais válidas).
+4. Disparados DOIS `.click()` nativos do DOM no MESMO tick de JS via `page.evaluate`
+   (`btn.click(); btn.click();`), sem `await` entre eles — isso bypassa a espera de
+   actionability entre ações do Playwright, que naturalmente deixaria o React re-renderizar
+   (e desabilitar o botão) entre os dois cliques. Este é o cenário mais agressivo possível de
+   "duplo clique real", pior do que um usuário humano conseguiria produzir manualmente.
+
+Resultado observado:
+- `loginRequestCount` (contado via listener `page.on('request')`) = 1 (não 2).
+- Confirmado de forma independente via `browser_network_requests` (histórico cumulativo da sessão,
+  filtro `/auth/login`): as 3 primeiras entradas (401, 401, 401) são de L14/L15/tentativas anteriores
+  desta mesma sessão de retest; a 4ª e ÚLTIMA entrada é a única nova adicionada por este teste — 1
+  único `POST /v1/api/auth/login -> 200 OK`. Nenhuma segunda entrada 200 aparece.
+- A página navegou com sucesso para `/pacientes` (ver `L21-retest.png` — dashboard de Pacientes
+  carregado normalmente, sessão autenticada, 10 pacientes listados), confirmando que o único login
+  disparado foi bem-sucedido e não houve corrida de duas requisições conflitantes.
+
+Veredito: ✅ APROVADO (rodada 2). Guard `useRef` funciona corretamente mesmo sob duplo clique síncrono
+no mesmo tick — apenas 1 requisição de login é disparada.

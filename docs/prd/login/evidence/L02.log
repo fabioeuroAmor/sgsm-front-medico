@@ -1,0 +1,6 @@
+L02 — Nenhum erro no console ao carregar a tela pela primeira vez
+
+browser_console_messages(level: "error", all: true) -> Total messages: 3, Errors: 0, Warnings: 0, Returning 0 messages for level "error".
+As 3 mensagens totais são todas [INFO] "Download the React DevTools..." (mensagem padrão do React em modo dev), nenhuma delas é erro ou warning.
+
+Resultado: PASS. Nenhum erro no console ao carregar /login.

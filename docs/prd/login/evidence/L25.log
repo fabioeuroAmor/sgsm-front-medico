@@ -1,0 +1,5 @@
+L25 — Clicar em "Esqueci minha senha" navega para /esqueci-senha
+
+Resultado: page.url() = http://localhost:3001/esqueci-senha após o clique no link. Console: 0 erros (3 mensagens totais, todas [INFO] React DevTools, nenhum erro/warning).
+
+Resultado: PASS.

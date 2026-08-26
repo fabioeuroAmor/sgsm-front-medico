@@ -1,0 +1,10 @@
+L06 — Submit com E-mail e Senha vazios
+
+Passos: página /login limpa (localStorage limpo), clicar em "Entrar" sem preencher nada.
+
+Resultado:
+- page.url() permanece "http://localhost:3001/login" (nenhuma navegação).
+- Campo E-mail: validity.valid = false, validity.valueMissing = true, validationMessage = "Preencha este campo." (validação nativa do navegador, atributo required).
+- Nenhuma nova requisição de rede disparada (network requests não-estáticas antes/depois idênticos — sem novo POST /v1/api/auth/login).
+
+Resultado: PASS. required nativo bloqueia o submit, mostra a bolha de validação nativa no campo E-mail, nenhuma chamada de API.

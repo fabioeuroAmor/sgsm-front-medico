@@ -1,0 +1,14 @@
+L10 — E-mail cadastrado com maiúsculas/minúsculas misturadas (EduardaSilva@Gmail.com)
+
+Passos: preencher E-mail "EduardaSilva@Gmail.com" (variação de caixa do e-mail cadastrado "eduardasilva@gmail.com"), Senha "joaozinh7" (correta para o e-mail original), submeter.
+
+Corpo enviado: {"email":"EduardaSilva@Gmail.com","senha":"joaozinh7"} (não sofre a sanitização de espaço do input email pois não há espaços, só troca de caixa).
+
+Resultado: POST /v1/api/auth/login -> 401 Unauthorized (request #530). Corpo da resposta real do backend (capturado via fetch direto para inspeção, mesmo endpoint/credenciais):
+{"detail":"Credenciais invalidas.","instance":"/v1/api/auth/login","status":401,"title":"Credenciais inválidas","type":"https://sgsm.com.br/erros/credenciais-invalidas"}
+
+Conclusão: o backend trata o login como CASE-SENSITIVE para o e-mail — "EduardaSilva@Gmail.com" (mesma conta, caixa diferente) é rejeitado com 401, apesar de e-mails serem convencionalmente tratados como case-insensitive na maioria dos sistemas (incluindo o próprio provedor Gmail). Isso é uma característica do backend (fora do escopo de correção deste repositório front-end), documentada aqui como comportamento observado, não necessariamente um bug bloqueante, mas uma escolha de design que pode confundir usuários que digitem o e-mail com capitalização diferente da cadastrada.
+
+Nota: o comportamento de UI ao receber esse 401 é o mesmo bug crítico documentado em L14 (nenhum toast de erro visível ao usuário) — ver `L14.log` para a causa raiz completa.
+
+Resultado: comportamento documentado (login é case-sensitive por e-mail no backend). Ver achado crítico de front-end relacionado em L14.

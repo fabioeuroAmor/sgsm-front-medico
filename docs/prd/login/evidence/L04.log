@@ -1,0 +1,11 @@
+L04 — Campo Senha é do tipo password (mascarado)
+
+page.evaluate() listando os <input> da página:
+[
+  { "id": "e-mail", "type": "email", "autocomplete": "email", "required": true },
+  { "id": "senha", "type": "password", "autocomplete": "current-password", "required": true }
+]
+
+Preenchido "TesteSenha123" no campo Senha via fill() — screenshot L04.png confirma os caracteres mascarados como bolinhas/pontos, não em texto plano. type="password" confirmado via DOM.
+
+Resultado: PASS.

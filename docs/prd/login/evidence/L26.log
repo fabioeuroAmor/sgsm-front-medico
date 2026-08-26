@@ -1,0 +1,5 @@
+L26 — Clicar em "Criar conta" navega para /registrar
+
+Resultado: page.url() = http://localhost:3001/registrar após o clique no link "Novo no sistema? Criar conta". Console: 0 erros.
+
+Resultado: PASS.

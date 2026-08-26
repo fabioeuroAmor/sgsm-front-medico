@@ -24,6 +24,14 @@ export const agendamentoService = {
       .then((r) => r.data)
   },
 
+  getDiasDisponiveis(medicoId: string, estabelecimentoId: string | undefined, mes: string): Promise<string[]> {
+    return api
+      .get<string[]>('/agendamentos/dias-disponiveis', {
+        params: { medicoId, ...(estabelecimentoId ? { estabelecimentoId } : {}), mes },
+      })
+      .then((r) => r.data)
+  },
+
   cadastrar(request: CadastrarAgendamentoRequest): Promise<AgendamentoResponse> {
     return api.post<AgendamentoResponse>('/agendamentos', request).then((r) => r.data)
   },

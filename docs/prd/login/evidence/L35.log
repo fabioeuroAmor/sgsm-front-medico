@@ -1,0 +1,11 @@
+L35 — Sessão expirada/inválida (refresh_token corrompido) acessando rota privada
+
+Passos: setar localStorage.refresh_token = "token-corrompido-invalido-xyz-123" (valor inválido/corrompido), navegar diretamente para /pacientes (rota privada).
+
+Resultado:
+- POST /v1/api/auth/refresh -> 401 Unauthorized (logado no console do navegador como [ERROR] "Failed to load resource: the server responded with a status of 401", que é o log padrão do Chrome para respostas de erro HTTP — NÃO é uma exceção JS não tratada).
+- O `useAuth.tsx` (linhas 30-37) captura a falha do refresh no `.catch()`, limpa `tokenStore` e `refresh_token` do localStorage, e a rota privada redireciona corretamente.
+- page.url() final = "http://localhost:3001/login" — redirecionamento correto e automático.
+- Tela renderiza o formulário de login normalmente (bodyText confirma "Bem-vindo ao SGSM... E-MAIL SENHA Entrar..."), SEM tela em branco, sem erro visível ao usuário, sem crash da aplicação.
+
+Resultado: PASS. O sistema trata corretamente sessão expirada/inválida ao acessar rota privada, redirecionando para /login sem tela em branco ou erro não tratado (o único "erro" no console é o log de rede padrão do navegador para o 401 esperado do refresh, que a aplicação já trata via try/catch).
