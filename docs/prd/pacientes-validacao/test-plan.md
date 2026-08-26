@@ -127,3 +127,17 @@ cpfDigits.length > 0 && p.cpf.replace(/\D/g, '').includes(cpfDigits)
 | TC-P034 | ✅ | Erro 403 exibido no modal ao tentar inativar sem permissão |
 
 **Resultado final: 34/34 ✅ APROVADO** (2 bugs corrigidos durante a execução)
+
+---
+
+## Re-teste — Auditoria (2026-08-26)
+
+> Contexto: backend `sgsm` passou a gravar `INSERT` em `sgsm.log_acesso` dentro da MESMA transação de `PacienteService.cadastrar()/consultar()/atualizar()/remover()`. Re-teste ao vivo dos 3 itens de salvamento bem-sucedido (TC-P016, TC-P021, TC-P025), com nomes/CPFs novos, confirmando prova de tela + rede + consulta SQL em `sgsm.log_acesso`.
+
+| TC | Status | Resultado observado na UI | Confirmação em `sgsm.log_acesso` |
+|----|--------|---------------------------|-----------------------------------|
+| TC-P016 | ✅ | "QA Retest P016 Telefone Vazio" (CPF 144.244.985-30) cadastrado com telefone vazio, sem erro de validação. `POST /v1/api/pacientes` → 201 (após um retry automático de token expirado — token JWT venceu no meio do teste, interceptor renovou e reenviou, resultado final 201 Created). | Linha `CRIACAO / PACIENTE / 96fe43db-917d-4d2b-ae5b-564d7c4c56fd / MEDICO / fabioeuro@gmail.com` às 09:15:16 (segundos após o clique em Salvar). |
+| TC-P021 | ✅ | "QA Retest P021 CEP Vazio" (CPF 482.183.401-49) cadastrado com CEP vazio, sem erro de validação. `POST /v1/api/pacientes` → 201. | Linha `CRIACAO / PACIENTE / aca7faf9-3ce8-4fd3-bf89-ce23e0413513 / MEDICO / fabioeuro@gmail.com` às 09:15:50. |
+| TC-P025 | ✅ | "QA Retest P025 UF Vazia" (CPF 988.689.778-34) cadastrado com UF vazia, sem erro de validação. `POST /v1/api/pacientes` → 201. | Linha `CRIACAO / PACIENTE / 8db0166a-3707-4dee-9bdd-24879fe4ed14 / MEDICO / fabioeuro@gmail.com` às 09:16:25. |
+
+**Resumo do re-teste**: 3/3 aprovados. A trilha de auditoria gravou corretamente uma linha `CRIACAO` para cada um dos 3 cadastros bem-sucedidos, com `criado_em` a poucos segundos da ação na UI em todos os casos — nenhum caso de "salvamento funcionou na UI mas o log não gravou" foi encontrado. Observação lateral sem relação com a auditoria: durante o TC-P016 o token JWT expirou no meio do teste (a conta usa expiração curta, ~15 min) e o interceptor de refresh do front-end tratou isso de forma transparente (401 seguido de retry automático com 201), sem qualquer ação manual necessária.

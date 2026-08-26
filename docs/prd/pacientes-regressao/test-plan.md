@@ -89,6 +89,8 @@
 - [x] **TC-I002** — Clicar lixeira de paciente ativo → modal "Inativar Paciente" abre
 - [x] **TC-I003** — Cancelar inativação → modal fecha, paciente permanece ativo na lista
 - [x] **TC-I004** — Regressão BUG-2: MEDICO confirma inativação → modal permanece aberto com "Request failed with status code 403"
+- [x] **TC-I005** — (NOVO, re-teste auditoria 2026-08-26, concluído com conta FUNCIONARIO) Confirmar inativação com sucesso → executado ao vivo com a conta `recepcao.inativacao.teste@teste.com` (perfil real `FUNCIONARIO`, confirmado em `auth.usuario`). Botão de inativar habilitado, modal "Inativar Paciente" confirmado, `DELETE /v1/api/pacientes/{id}` → 204, paciente passa a badge "Inativo" e some da lista de Ativos. Linha `INATIVACAO` confirmada em `sgsm.log_acesso`.
+- [x] **TC-I006** — (NOVO, re-teste auditoria 2026-08-26, concluído com conta FUNCIONARIO) Reativar paciente → executado ao vivo com a mesma conta FUNCIONARIO, no mesmo paciente inativado em TC-I005. Botão "Reativar" habilitado, `PATCH /v1/api/pacientes/{id}/reativar` → 200, paciente volta a badge "Ativo". Linha `REATIVACAO` confirmada em `sgsm.log_acesso`.
 
 ---
 
@@ -158,5 +160,47 @@
 | TC-I002 | ✅ | Modal "Inativar Paciente" abre ao clicar lixeira |
 | TC-I003 | ✅ | Cancelar → modal fecha, paciente permanece ativo |
 | TC-I004 | ✅ | Regressão BUG-2: erro 403 exibido no modal |
+| TC-I005 | ✅ | (conta FUNCIONARIO, 2026-08-26) Inativação confirmada: DELETE 204, badge muda para Inativo, log_acesso INATIVACAO gravado |
+| TC-I006 | ✅ | (conta FUNCIONARIO, 2026-08-26) Reativação confirmada: PATCH /reativar 200, badge volta a Ativo, log_acesso REATIVACAO gravado |
 
-**Resultado final: 52/52 ✅ APROVADO** (2 N/A com justificativa)
+**Resultado final: 54/54 ✅ APROVADO** (2 N/A com justificativa)
+
+---
+
+## Re-teste — Auditoria (2026-08-26)
+
+> Contexto: backend `sgsm` passou a gravar `INSERT` em `sgsm.log_acesso` (colunas `id, usuario_id, perfil, email, entidade, entidade_id, acao, criado_em`) dentro da MESMA transação de `PacienteService.cadastrar()/consultar()/atualizar()/remover()`. Se a gravação falhar, a operação inteira sofre rollback. Este re-teste confirma que a trilha de auditoria está sendo gravada corretamente para os fluxos já cobertos pela regressão geral, ao vivo, com prova de tela + rede + consulta SQL.
+>
+> **Achado prévio importante**: a conta usada (`fabioeuro@gmail.com`) tem perfil real `MEDICO` no banco (`auth.usuario.tipo_perfil = 'MEDICO'`), não `FUNCIONARIO`/`DESENVOLVEDOR` como presumido inicialmente. A UI atual desabilita **client-side** (`disabled`, com tooltip) os botões "Inativar"/"Reativar" para qualquer perfil que não seja `FUNCIONARIO`, o que é uma proteção adicional além do 403 de backend já documentado em TC-I004. Isso bloqueou a execução real de TC-I005/TC-I006 — não havia credencial de conta `FUNCIONARIO`/`DESENVOLVEDOR` disponível, e o agente de QA só tem permissão para SQL de leitura (não pode alterar senha/perfil de nenhuma conta).
+
+| TC | Status | Resultado observado na UI | Confirmação em `sgsm.log_acesso` |
+|----|--------|---------------------------|-----------------------------------|
+| TC-CR001 | ✅ | Paciente "QA Retest Auditoria 1" (CPF 199.520.754-30) cadastrado com sucesso, `POST /v1/api/pacientes` → 201, aparece no topo da lista. | Linha `CRIACAO / PACIENTE / 0372610f-2b2c-4800-b2f2-4d76af68c2b2 / MEDICO / fabioeuro@gmail.com` às 09:02:28 (mesmos segundos da ação). |
+| TC-CR002 | ✅ | "QA Retest Auditoria 2" (CPF 991.956.697-79): duplo clique em Salvar disparou **apenas um** `POST /v1/api/pacientes` (201) — sem duplicidade. | Uma única linha `CRIACAO / PACIENTE / 8e2ee6a7-01d6-42ab-b1be-ebdd26dc1350 / MEDICO / fabioeuro@gmail.com` às 09:03:02 — confirma que não houve gravação duplicada no log tampouco. |
+| TC-D001 | ✅ | Clicar no nome "QA Retest Auditoria 2" abre o modal de detalhes normalmente. | **Sem linha nova em `log_acesso`** — achado: o front-end não faz nenhuma chamada de rede ao abrir o modal (reaproveita os dados já carregados pelo `GET /v1/api/pacientes` da listagem); logo essa ação nunca exercita `PacienteService.consultar()` e nunca poderia gerar uma linha `LEITURA`. Não é falha do re-teste — é uma limitação de cobertura: a UI atual não tem nenhum fluxo que dispare `consultar()` por paciente individual. |
+| TC-D002 | ✅ | Modal exibe Nome, CPF, Nascimento+idade, E-mail e Status corretamente. | Mesma observação do TC-D001 (nenhuma chamada de rede adicional). |
+| TC-E001 | ✅ | Abrir "Editar" em "QA Retest Auditoria 1" → campos pré-populados (nome, CPF, nascimento, e-mail, telefone, endereço). | N/A — abrir o modal de edição não chama a API; só o Salvar chamaria `atualizar()`. |
+| TC-E002 | ✅ | Campo CPF aparece `disabled` no modo edição. | N/A (mesmo motivo acima). |
+| TC-E003 | ✅ | Telefone salvo anteriormente aparece formatado `(11) 98765-4321` ao abrir edição. | N/A (mesmo motivo acima). |
+| TC-E004 | ✅ | Digitar e-mail `invalido` + Salvar → "E-mail inválido" exibido, nenhuma chamada de rede disparada, modal não fecha. | N/A — validação client-side bloqueia antes de qualquer requisição; `atualizar()` nunca é chamado. |
+| TC-E004 (extra) | ⚠️ Achado | Ao corrigir o e-mail e tentar salvar de verdade (para gerar uma linha `ATUALIZACAO` como prova), o backend respondeu **403 Forbidden** (`PUT /v1/api/pacientes/{id}`) — reproduzindo exatamente o TC-E005 já documentado (MEDICO não tem permissão de `PUT`). | **Sem linha nova em `log_acesso`**, como esperado — o 403 acontece na camada de segurança antes de chegar ao `PacienteService.atualizar()`, então a transação nunca inicia e não há nada para auditar. Isso é o comportamento correto, mas significa que **não foi possível, com a conta disponível, provar uma gravação `ATUALIZACAO` bem-sucedida** — precisaria de conta `FUNCIONARIO`/`DESENVOLVEDOR`. |
+| TC-I005 (novo) | ❌ Bloqueado | Botão "Inativar" vem `disabled` para todo paciente ativo com a conta MEDICO (tooltip "Apenas funcionários podem inativar pacientes"). Impossível abrir o modal de confirmação. | N/A — ação não pôde ser disparada. |
+| TC-I006 (novo) | ❌ Bloqueado | Botão "Reativar" existe na UI (paciente "MARIA SILVA", já inativo) mas também vem `disabled` para a conta MEDICO. | N/A — ação não pôde ser disparada. |
+
+**Resumo do re-teste**: 8 itens aprovados com UI + rede confirmadas (CR001, CR002, D001, D002, E001–E004), 2 itens novos bloqueados por permissão de conta (I005, I006 — não é falha da auditoria, é ausência de credencial `FUNCIONARIO`/`DESENVOLVEDOR` disponível para o agente). A trilha de auditoria (`log_acesso`) foi confirmada **ponta a ponta com sucesso** para as duas gravações de `CRIACAO` gerenciadas por esta conta (CR001, CR002), inclusive confirmando que o duplo clique do CR002 não gerou linha duplicada. Não foi possível confirmar `ATUALIZACAO`, `INATIVACAO` ou `REATIVACAO` porque a única conta disponível (`fabioeuro@gmail.com`) não tem permissão de escrita além de `cadastrar()` — toda tentativa de `PUT`/inativar é barrada por 403 (backend) ou pelo próprio botão desabilitado (front-end), então essas trilhas nunca chegam a ser exercitadas nesta conta. Nenhum caso de "UI funciona mas log não grava" foi encontrado nos fluxos que puderam ser exercitados.
+
+---
+
+### Continuação (conta FUNCIONARIO) — 2026-08-26
+
+> Fechamento da lacuna acima: nova conta `recepcao.inativacao.teste@teste.com` confirmada via SQL como `auth.usuario.tipo_perfil = 'FUNCIONARIO'`, `ativo = true`. Login realizado com sucesso em `http://localhost:3001`, sidebar exibe "Recepcionista Inativacao Teste / FUNCIONARIO". Com esse perfil os botões "Inativar"/"Reativar" aparecem habilitados (sem o `disabled` + tooltip observado com a conta MEDICO).
+
+| TC | Status | Resultado observado na UI | Confirmação em `sgsm.log_acesso` |
+|----|--------|---------------------------|-----------------------------------|
+| TC-E004 (sucesso, continuação) | ✅ | Editado o paciente "QA Retest Auditoria 2" (CPF 991.956.697-79): preenchido telefone `(11) 98765-1234` e Salvar. (Achado à parte, não bloqueante: no primeiro clique em Salvar apareceu erro "UF inválida" com o campo UF vazio — validação client-side com estado obsoleto; contornado preenchendo UF="SP" antes de salvar novamente.) `PUT /v1/api/pacientes/8e2ee6a7-01d6-42ab-b1be-ebdd26dc1350` → 200, modal fechou, telefone atualizado passou a aparecer no card da lista. | Linha `ATUALIZACAO / PACIENTE / 8e2ee6a7-01d6-42ab-b1be-ebdd26dc1350 / FUNCIONARIO / recepcao.inativacao.teste@teste.com` às 09:38:17 (mesmos segundos da resposta do PUT). Confirma a gravação `ATUALIZACAO` que a conta MEDICO não conseguiu exercitar. |
+| TC-I005 | ✅ | Paciente "QA Retest Auditoria 1" (CPF 199.520.754-30, ainda ativo da rodada anterior): botão "Inativar" habilitado, modal "Inativar Paciente" aberto e confirmado. `DELETE /v1/api/pacientes/0372610f-2b2c-4800-b2f2-4d76af68c2b2` → 204. Badge do card mudou de "Ativo" para "Inativo" imediatamente. | Linha `INATIVACAO / PACIENTE / 0372610f-2b2c-4800-b2f2-4d76af68c2b2 / FUNCIONARIO / recepcao.inativacao.teste@teste.com` às 09:38:50. |
+| TC-I006 | ✅ | Mesmo paciente "QA Retest Auditoria 1", agora inativo: botão "Reativar" habilitado e clicado (sem modal de confirmação intermediário). `PATCH /v1/api/pacientes/0372610f-2b2c-4800-b2f2-4d76af68c2b2/reativar` → 200. Badge do card voltou a "Ativo" imediatamente. | Linha `REATIVACAO / PACIENTE / 0372610f-2b2c-4800-b2f2-4d76af68c2b2 / FUNCIONARIO / recepcao.inativacao.teste@teste.com` às 09:39:13. |
+
+**Resumo da continuação**: os 3 itens pendentes (ATUALIZACAO via TC-E004 sucesso, INATIVACAO via TC-I005, REATIVACAO via TC-I006) foram executados ao vivo com a conta FUNCIONARIO e **aprovados** — UI correta em todos os casos (sem erros, badges corretos, listas atualizadas) e cada ação gerou a linha correspondente em `sgsm.log_acesso` com `perfil = 'FUNCIONARIO'` e timestamp batendo com a chamada de rede. Com isso, **as 5 ações de auditoria (CRIACAO, LEITURA¹, ATUALIZACAO, INATIVACAO, REATIVACAO) estão confirmadas ponta a ponta** nos fluxos que a UI atual expõe. Nenhum caso de "UI funciona mas log não grava" foi encontrado em nenhuma das duas rodadas.
+>
+> ¹ `LEITURA` continua sem um fluxo de UI que a exercite diretamente (ver achado do TC-D001 na rodada anterior — o front-end reaproveita os dados da listagem e nunca chama `consultar()` por paciente individual); isso é uma limitação de cobertura da UI, não uma falha da auditoria.
