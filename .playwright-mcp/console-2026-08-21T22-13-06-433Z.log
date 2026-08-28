@@ -1,0 +1,7 @@
+[     133ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=6f31de53:21608
+[57392244ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:3001/@vite/client:963
+[57410954ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=773759e3:21608
+[57427676ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:3001/@vite/client:963
+[57430028ms] [ERROR] WebSocket connection to 'ws://localhost:3001/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3001/@vite/client:1034
+[57433388ms] [ERROR] WebSocket connection to 'ws://localhost:3001/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3001/@vite/client:1034
+[57446790ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:21608

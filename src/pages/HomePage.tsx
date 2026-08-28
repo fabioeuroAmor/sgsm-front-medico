@@ -385,6 +385,7 @@ export default function HomePage() {
     { label: 'Início', href: '#' },
     { label: 'Funcionalidades', href: '#features' },
     { label: 'Sobre o Sistema', href: '#about' },
+    { label: 'Home2', href: '/home2' },
   ]
 
   function onModulesMove(e: React.MouseEvent<HTMLDivElement>) {

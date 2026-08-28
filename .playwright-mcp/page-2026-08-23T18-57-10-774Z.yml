@@ -1,0 +1,143 @@
+- generic [ref=f22e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f22e3] [cursor=pointer]
+  - generic [ref=f22e6]:
+    - banner [ref=f22e7]:
+      - generic [ref=f22e8]:
+        - link "IA SGSM Médico" [ref=f22e11] [cursor=pointer]:
+          - /url: /
+        - navigation [ref=f22e16]:
+          - link "Início" [ref=f22e17] [cursor=pointer]:
+            - /url: "#"
+          - link "Funcionalidades" [ref=f22e18] [cursor=pointer]:
+            - /url: "#features"
+          - link "Sobre o Sistema" [ref=f22e19] [cursor=pointer]:
+            - /url: "#about"
+        - link "Acessar Sistema" [ref=f22e21] [cursor=pointer]:
+          - /url: /pacientes
+    - main [ref=f22e24]:
+      - generic [ref=f22e29]:
+        - generic [ref=f22e37]:
+          - link [ref=f22e38] [cursor=pointer]:
+            - /url: /
+          - generic [ref=f22e44]:
+            - link "Pacientes" [ref=f22e45] [cursor=pointer]:
+              - /url: /pacientes
+            - link "Médicos" [ref=f22e54] [cursor=pointer]:
+              - /url: /medicos
+            - link "Agenda" [ref=f22e62] [cursor=pointer]:
+              - /url: /agendamentos
+        - generic [ref=f22e72]:
+          - generic [ref=f22e73]: IA Sistema de Gestão em Saúde
+          - heading "Gestão Médica Completa na Palma da Mão" [level=1] [ref=f22e74]
+          - paragraph [ref=f22e75]: Controle pacientes, médicos, estabelecimentos e agendamentos com inteligência artificial integrada em uma única plataforma. Ágil, completo e focado na eficiência do atendimento médico.
+          - generic [ref=f22e76]:
+            - link "Novo Agendamento" [ref=f22e77] [cursor=pointer]:
+              - /url: /agendamentos
+            - link "✦ Explorar o mundo do sistema" [ref=f22e80] [cursor=pointer]:
+              - /url: /world
+      - generic [ref=f22e82]:
+        - generic [ref=f22e84]:
+          - paragraph [ref=f22e85]: Funcionalidades
+          - heading "Tudo que você precisa" [level=2] [ref=f22e86]
+          - paragraph [ref=f22e87]: Uma plataforma completa para gerenciar todos os aspectos da operação médica, do cadastro ao atendimento.
+        - generic [ref=f22e88]:
+          - generic [ref=f22e92]:
+            - heading "Gestão de Pacientes" [level=3] [ref=f22e99]
+            - paragraph [ref=f22e100]: Cadastro completo com CPF, endereço automático via ViaCEP com localização integrada ao Google Maps, histórico e controle de status.
+          - generic [ref=f22e104]:
+            - heading "Gestão de Médicos" [level=3] [ref=f22e110]
+            - paragraph [ref=f22e111]: Agenda semanal por dia da semana, suporte a atendimento domiciliar e vínculos com estabelecimentos.
+          - generic [ref=f22e115]:
+            - heading "Estabelecimentos" [level=3] [ref=f22e121]
+            - paragraph [ref=f22e122]: Gerencie clínicas e hospitais, vincule médicos por unidade e acesse a localização integrada ao Google Maps.
+          - generic [ref=f22e126]:
+            - heading "Agendamentos" [level=3] [ref=f22e132]
+            - paragraph [ref=f22e133]: Wizard intuitivo de 5 etapas com controle completo de status e link de acompanhamento do médico em tempo real nos atendimentos domiciliares.
+          - generic [ref=f22e137]:
+            - heading "Serviços Médicos" [level=3] [ref=f22e142]
+            - paragraph [ref=f22e143]: Catálogo de serviços por especialidade, com preços, duração e vínculo com médicos e estabelecimentos.
+          - generic [ref=f22e147]:
+            - heading "Funcionários" [level=3] [ref=f22e161]
+            - paragraph [ref=f22e162]: Cadastro da equipe administrativa e de apoio, com vínculo direto aos estabelecimentos onde atuam.
+          - generic [ref=f22e166]:
+            - heading "Assistente IA" [level=3] [ref=f22e170]
+            - paragraph [ref=f22e171]: Chat inteligente com RAG e busca semântica nos dados do sistema, além dos indicadores de KPIs do CRM.
+          - generic [ref=f22e175]:
+            - heading "CRM" [level=3] [ref=f22e178]
+            - paragraph [ref=f22e179]: Pipeline de leads, contatos e notas clínicas, com indicadores de churn, faturamento e ocupação de agenda.
+          - generic [ref=f22e183]:
+            - heading "WhatsApp" [level=3] [ref=f22e187]
+            - paragraph [ref=f22e188]: Bot conversacional com RAG para cadastro e agendamento direto pelo WhatsApp, sem precisar abrir o sistema.
+        - link "Acessar Sistema" [ref=f22e190] [cursor=pointer]:
+          - /url: /pacientes
+      - generic [ref=f22e194]:
+        - generic [ref=f22e196] [cursor=pointer]
+        - generic [ref=f22e201]:
+          - heading "Assistente Virtual disponível agora" [level=3] [ref=f22e202]
+          - paragraph [ref=f22e203]:
+            - text: Clique no botão
+            - strong [ref=f22e204]: azul-teal
+            - text: no canto inferior direito e use nosso chatbot para
+            - strong [ref=f22e205]: cadastrar um paciente
+            - text: ou
+            - strong [ref=f22e206]: agendar uma consulta
+            - text: em poucos passos, sem precisar navegar pelo sistema.
+        - generic [ref=f22e207]:
+          - generic [ref=f22e208]: Clique aqui embaixo
+          - generic [ref=f22e220] [cursor=pointer]
+          - generic [ref=f22e225]: canto inferior direito ↘
+      - generic [ref=f22e230]:
+        - generic [ref=f22e233]:
+          - paragraph [ref=f22e234]: Fluxo de Atendimento
+          - heading "Agendamento em 5 etapas" [level=2] [ref=f22e235]
+          - generic [ref=f22e236]:
+            - paragraph [ref=f22e237]: "O módulo de agendamentos guia o operador em um wizard intuitivo: selecione o paciente, o serviço, o médico, o slot disponível e confirme."
+            - paragraph [ref=f22e238]: "Acompanhe cada consulta do agendamento até a conclusão: Agendado → Confirmado → A Caminho → Chegou → Concluído."
+          - link "Criar Agendamento" [ref=f22e240] [cursor=pointer]:
+            - /url: /agendamentos
+        - generic [ref=f22e243]:
+          - heading "Módulos disponíveis:" [level=4] [ref=f22e244]
+          - list [ref=f22e245]:
+            - listitem [ref=f22e246]:
+              - generic [ref=f22e251]:
+                - generic [ref=f22e252]: Pacientes
+                - text: Cadastro com ViaCEP e Google Maps
+            - listitem [ref=f22e253]:
+              - generic [ref=f22e258]:
+                - generic [ref=f22e259]: Médicos
+                - text: Agenda semanal e atendimento domiciliar
+            - listitem [ref=f22e260]:
+              - generic [ref=f22e265]:
+                - generic [ref=f22e266]: Estabelecimentos
+                - text: Clínicas, hospitais e endereço integrado ao Google Maps
+            - listitem [ref=f22e267]:
+              - generic [ref=f22e272]:
+                - generic [ref=f22e273]: Serviços Médicos
+                - text: Catálogo com valores e tipos
+            - listitem [ref=f22e274]:
+              - generic [ref=f22e279]:
+                - generic [ref=f22e280]: Agendamentos
+                - text: Wizard completo, status e acompanhamento do médico em tempo real
+            - listitem [ref=f22e281]:
+              - generic [ref=f22e286]:
+                - generic [ref=f22e287]: Funcionários
+                - text: Cadastro de equipe e vínculo com estabelecimentos
+            - listitem [ref=f22e288]:
+              - generic [ref=f22e293]:
+                - generic [ref=f22e294]: Assistente IA
+                - text: Chat com RAG e busca semântica nos dados do sistema
+            - listitem [ref=f22e295]:
+              - generic [ref=f22e300]:
+                - generic [ref=f22e301]: CRM
+                - text: Leads, contatos, notas clínicas, churn e indicadores
+            - listitem [ref=f22e302]:
+              - generic [ref=f22e307]:
+                - generic [ref=f22e308]: WhatsApp
+                - text: Bot conversacional com RAG para cadastro e agendamento
+    - contentinfo [ref=f22e309]:
+      - generic [ref=f22e310]:
+        - generic [ref=f22e311]: IA SGSM Médico
+        - paragraph [ref=f22e320]: © 2026 SGSM — IA Sistema de Gestão em Saúde Médica
+        - link "Acessar Sistema →" [ref=f22e323] [cursor=pointer]:
+          - /url: /pacientes

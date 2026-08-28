@@ -1,0 +1,86 @@
+- generic [ref=f26e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f26e3] [cursor=pointer]
+  - generic [ref=f26e35]:
+    - complementary [ref=f26e36]:
+      - generic [ref=f26e43] [cursor=pointer]:
+        - paragraph [ref=f26e44]: SGSM
+        - paragraph [ref=f26e45]: Sistema Médico
+      - navigation [ref=f26e46]:
+        - link "Home" [ref=f26e48] [cursor=pointer]:
+          - /url: /
+        - link "Pacientes" [ref=f26e53] [cursor=pointer]:
+          - /url: /pacientes
+        - link "Médicos" [ref=f26e60] [cursor=pointer]:
+          - /url: /medicos
+        - link "Estabelecimentos" [ref=f26e66] [cursor=pointer]:
+          - /url: /estabelecimentos
+        - link "Serviços" [ref=f26e72] [cursor=pointer]:
+          - /url: /servicos
+        - link "Agendamentos" [ref=f26e77] [cursor=pointer]:
+          - /url: /agendamentos
+        - link "Funcionários" [ref=f26e83] [cursor=pointer]:
+          - /url: /funcionarios
+        - link "Assistente IA" [ref=f26e97] [cursor=pointer]:
+          - /url: /ia
+        - link "CRM" [ref=f26e101] [cursor=pointer]:
+          - /url: /crm
+      - generic [ref=f26e103]:
+        - generic [ref=f26e104]:
+          - paragraph [ref=f26e105]: Fabio Monteiro Amorim
+          - paragraph [ref=f26e106]: MEDICO
+        - button "Sair" [ref=f26e107] [cursor=pointer]
+    - main [ref=f26e112]:
+      - generic [ref=f26e1480]:
+        - generic [ref=f26e1481]:
+          - generic [ref=f26e1486]:
+            - heading "Assistente IA" [level=1] [ref=f26e1487]
+            - paragraph [ref=f26e1488]: Powered by RAG + Milvus
+          - generic [ref=f26e1489]:
+            - button "Chat" [ref=f26e1490] [cursor=pointer]
+            - button "KPIs" [ref=f26e1494] [cursor=pointer]
+        - generic [ref=f26e1611]:
+          - generic [ref=f26e1617]:
+            - paragraph [ref=f26e1618]: Olá! Sou o assistente inteligente do SGSM. Posso responder perguntas sobre pacientes, médicos, agendamentos, serviços e também sobre o CRM Analítico — faturamento, churn, funil de conversão, ocupação de agenda e outros indicadores. Como posso ajudar?
+            - paragraph [ref=f26e1619]: 11:36
+          - generic [ref=f26e1626]:
+            - paragraph [ref=f26e1627]: Quantos pacientes ativos existem?
+            - paragraph [ref=f26e1628]: 11:37
+          - generic [ref=f26e1638]:
+            - paragraph [ref=f26e1639]: De acordo com o resumo analítico do sistema de gestão médica, o total de pacientes cadastrados — que corresponde ao número de pacientes ativos no momento — é **42**.
+            - paragraph [ref=f26e1640]: 11:38
+          - generic [ref=f26e1646]:
+            - paragraph [ref=f26e1647]: Qual médico tem mais agendamentos?
+            - paragraph [ref=f26e1648]: 11:38
+          - generic [ref=f26e1658]:
+            - paragraph [ref=f26e1659]: O médico com maior número de agendamentos é **Fabio Monteiro Amorim** (Neurologia).
+            - paragraph [ref=f26e1660]: 11:38
+          - generic [ref=f26e1665]:
+            - paragraph [ref=f26e1666]: Quais serviços o Fabio Monteiro Amorim oferece?
+            - paragraph [ref=f26e1667]: 11:40
+          - generic [ref=f26e1677]:
+            - paragraph [ref=f26e1678]: "Fabio Monteiro Amorim oferece os seguintes serviços: - Consulta de Rotina - QA Descartável"
+            - paragraph [ref=f26e1679]: 11:40
+          - generic [ref=f26e1684]:
+            - paragraph [ref=f26e1685]: teste duplo clique
+            - paragraph [ref=f26e1686]: 11:40
+          - generic [ref=f26e1696]:
+            - paragraph [ref=f26e1697]: Só respondo perguntas relacionadas a pacientes, médicos, agendamentos e dados clínicos do sistema SGSM.
+            - paragraph [ref=f26e1698]: 11:40
+          - generic [ref=f26e1700]:
+            - paragraph [ref=f26e1701]: Gostaria de entender melhor como funciona o sistema de agendamento de consultas para pacientes com atendimento domiciliar, incluindo quais são os critérios utilizados para definir a disponibilidade de horários dos médicos, como o sistema calcula os valores cobrados quando há deslocamento até a residência do paciente, e também gostaria de saber se existe algum tipo de relatório consolidado que mostre o histórico de agendamentos cancelados por médico, por período e por motivo, para que eu possa acompanhar melhor a operação e identificar possíveis gargalos no processo de atendimento ao longo dos últimos meses.
+            - paragraph [ref=f26e1702]: 11:40
+          - generic [ref=f26e1712]:
+            - paragraph [ref=f26e1713]: "**Como funciona o agendamento de consultas domiciliares no SGSM (com base nos dados disponíveis):** 1. **Tipos de atendimento** - Nos registros há consultas marcadas com o campo **`Tipo: DOMICILIAR`** (ex.: João Pereira Teste – 27/08/2026, 08:00 e 08:30; Zildinha Ruela – 20/08/2026, 09:00). - O tipo “DOMICILIAR” indica que o médico irá até a residência do paciente. 2. **Critérios de disponibilidade de horário** - O sistema controla a ocupação da agenda por **slots** (faixas de horário). - Para o médico **Fabio Monteiro Amorim** (Neurologia) temos: - `slots_totais: 10` - `slots_usados: 9` - `taxa_ocupacao_pct: 90,00%` - Quando o número de slots usados se aproxima do total, o sistema considera a agenda quase cheia e, consequentemente, reduz a disponibilidade de novos horários. - Não há no contexto informações adicionais sobre regras específicas (ex.: distância máxima, tempo de deslocamento, limites diários) que o SGSM utiliza para definir quais horários podem ser ofertados como domiciliares. 3. **Cálculo de valores cobrados pelo deslocamento** - O campo **Faturamento mensal** está registrado como “sem dados disponíveis no momento”. - Não há nos registros nenhum detalhe sobre como o sistema calcula valores adicionais por deslocamento até a residência do paciente (ex.: tarifa fixa, quilometragem, tempo de viagem, etc.). - Portanto, com base nas informações fornecidas, **não é possível informar** o método de cálculo dos valores cobrados para atendimentos domiciliares. 4. **Relatório consolidado de cancelamentos** - Existe um **Histórico de cancelamentos** resumido: - `origem_cancelamento: MEDICO` - `mes: 2026-08-01` - `total_cancelamentos: 1` - `pacientes_distintos: 1` - `medicos_distintos: 1` - Esse resumo indica apenas o número total de cancelamentos por origem (medico) e por mês, sem detalhar motivo, data exata ou lista de pacientes. - Não há nos dados um relatório mais detalhado que mostre, por exemplo, **cancelamentos por médico, por período e por motivo**. **Resumo:** - O SGSM registra consultas domiciliares como um tipo de atendimento e controla a disponibilidade por meio de slots de agenda (ex.: 10 slots, 9 usados para o Dr. Fabio Monteiro Amorim). - Não há informações no contexto sobre os critérios específicos de definição de horários domiciliares nem sobre a fórmula de cobrança de deslocamento. - Existe apenas um resumo mensal de cancelamentos por origem; não há um relatório consolidado com detalhes por médico, período e motivo. Caso precise de informações mais detalhadas (ex.: regras de alocação de slots, política de tarifação de deslocamento ou relatórios avançados de cancelamento), será necessário consultar a documentação técnica ou a equipe responsável pelo módulo de agendamento do SGSM."
+            - paragraph [ref=f26e1714]: 11:40
+          - generic [ref=f26e1716]:
+            - paragraph [ref=f26e1717]: <script>alert(1)</script> e também <b>teste</b>
+            - paragraph [ref=f26e1718]: 11:41
+          - generic [ref=f26e1728]:
+            - paragraph [ref=f26e1729]: Só respondo perguntas relacionadas a pacientes, médicos, agendamentos e dados clínicos do sistema SGSM.
+            - paragraph [ref=f26e1730]: 11:41
+        - generic [ref=f26e1620]:
+          - generic [ref=f26e1621]:
+            - textbox "Pergunte sobre pacientes, agendamentos, médicos, faturamento, churn..." [active] [ref=f26e1623]
+            - button [disabled]
+          - paragraph [ref=f26e1624]: Enter para enviar · Shift+Enter para nova linha

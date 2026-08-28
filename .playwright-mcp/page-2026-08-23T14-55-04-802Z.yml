@@ -1,0 +1,3 @@
+- generic [ref=f34e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f34e3] [cursor=pointer]

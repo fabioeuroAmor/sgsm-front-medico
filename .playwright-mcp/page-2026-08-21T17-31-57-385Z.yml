@@ -1,0 +1,105 @@
+- generic [ref=f41e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f41e3] [cursor=pointer]
+  - generic [ref=f41e197]:
+    - generic [ref=f41e198]:
+      - generic [ref=f41e199]: Assistente SGSM
+      - button "reiniciar" [active] [ref=f41e202] [cursor=pointer]
+    - generic [ref=f41e203]: Olá! Como posso ajudar você hoje?
+    - generic [ref=f41e783]:
+      - button "1.Cadastrar-me como paciente" [ref=f41e790] [cursor=pointer]:
+        - generic [ref=f41e791]: "1."
+        - text: Cadastrar-me como paciente
+      - button "2.Agendar uma consulta" [ref=f41e792] [cursor=pointer]:
+        - generic [ref=f41e793]: "2."
+        - text: Agendar uma consulta
+  - generic [ref=f41e8]:
+    - complementary [ref=f41e9]:
+      - generic [ref=f41e16] [cursor=pointer]:
+        - paragraph [ref=f41e17]: SGSM
+        - paragraph [ref=f41e18]: Sistema Médico
+      - navigation [ref=f41e19]:
+        - link "Home" [ref=f41e21] [cursor=pointer]:
+          - /url: /
+        - link "Pacientes" [ref=f41e26] [cursor=pointer]:
+          - /url: /pacientes
+        - link "Médicos" [ref=f41e33] [cursor=pointer]:
+          - /url: /medicos
+        - link "Estabelecimentos" [ref=f41e39] [cursor=pointer]:
+          - /url: /estabelecimentos
+        - link "Serviços" [ref=f41e45] [cursor=pointer]:
+          - /url: /servicos
+        - link "Agendamentos" [ref=f41e50] [cursor=pointer]:
+          - /url: /agendamentos
+        - link "Funcionários" [ref=f41e56] [cursor=pointer]:
+          - /url: /funcionarios
+        - link "Assistente IA" [ref=f41e70] [cursor=pointer]:
+          - /url: /ia
+        - link "CRM" [ref=f41e74] [cursor=pointer]:
+          - /url: /crm
+      - generic [ref=f41e76]:
+        - generic [ref=f41e77]:
+          - paragraph [ref=f41e78]: Fabio Monteiro Amorim
+          - paragraph [ref=f41e79]: MEDICO
+        - button "Sair" [ref=f41e80] [cursor=pointer]
+    - main [ref=f41e85]:
+      - generic [ref=f41e86]:
+        - generic [ref=f41e87]:
+          - generic [ref=f41e88]:
+            - paragraph [ref=f41e89]: Cadastros
+            - heading "Estabelecimentos" [level=1] [ref=f41e90]
+            - paragraph [ref=f41e91]: Clínicas, hospitais e consultórios com localização no mapa.
+            - button "Novo Estabelecimento" [ref=f41e93] [cursor=pointer]
+          - generic [ref=f41e95] [cursor=pointer]
+        - generic [ref=f41e99]:
+          - textbox "Buscar por nome, CNPJ ou cidade…" [ref=f41e104]
+          - combobox [ref=f41e105]:
+            - option "Todos os status" [selected]
+            - option "Ativos"
+            - option "Inativos"
+          - combobox [ref=f41e106]:
+            - option "Todos os estados" [selected]
+            - option "AC"
+            - option "AL"
+            - option "AM"
+            - option "AP"
+            - option "BA"
+            - option "CE"
+            - option "DF"
+            - option "ES"
+            - option "GO"
+            - option "MA"
+            - option "MG"
+            - option "MS"
+            - option "MT"
+            - option "PA"
+            - option "PB"
+            - option "PE"
+            - option "PI"
+            - option "PR"
+            - option "RJ"
+            - option "RN"
+            - option "RO"
+            - option "RR"
+            - option "RS"
+            - option "SC"
+            - option "SE"
+            - option "SP"
+            - option "TO"
+          - textbox "Filtrar por cidade…" [ref=f41e107]
+        - generic [ref=f41e109]:
+          - generic [ref=f41e110]: Ativo
+          - generic [ref=f41e117]:
+            - heading "Clinica São Lucas" [level=3] [ref=f41e118]
+            - paragraph [ref=f41e119]: Brasília — DF
+          - generic [ref=f41e120]:
+            - paragraph [ref=f41e121]: "CNPJ: 45834560001256"
+            - link "Samambai, 45 — Sala 46, Samambai SUL" [ref=f41e122] [cursor=pointer]:
+              - /url: https://www.google.com/maps/search/?api=1&query=Samambai%2C%2045%2C%20Sala%2046%2C%20Samambai%20%20SUL%2C%20Bras%C3%ADlia%2C%20DF%2C%2072300-000%2C%20Brasil
+            - paragraph [ref=f41e127]: "Tel: 1135712356"
+          - generic [ref=f41e128]:
+            - button "Editar" [ref=f41e129] [cursor=pointer]
+            - button "Gerenciar médicos" [ref=f41e133] [cursor=pointer]
+            - link [ref=f41e138] [cursor=pointer]:
+              - /url: https://www.google.com/maps/search/?api=1&query=Samambai%2C%2045%2C%20Sala%2046%2C%20Samambai%20%20SUL%2C%20Bras%C3%ADlia%2C%20DF%2C%2072300-000%2C%20Brasil
+            - button [ref=f41e142] [cursor=pointer]

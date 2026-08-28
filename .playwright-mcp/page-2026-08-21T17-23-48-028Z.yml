@@ -1,0 +1,63 @@
+- generic [ref=e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=e3] [cursor=pointer]
+  - generic [ref=e8]:
+    - complementary [ref=e9]:
+      - generic [ref=e16] [cursor=pointer]:
+        - paragraph [ref=e17]: SGSM
+        - paragraph [ref=e18]: Sistema Médico
+      - navigation [ref=e19]:
+        - link "Home" [ref=e21] [cursor=pointer]:
+          - /url: /
+        - link "Pacientes" [ref=e26] [cursor=pointer]:
+          - /url: /pacientes
+        - link "Médicos" [ref=e33] [cursor=pointer]:
+          - /url: /medicos
+        - link "Estabelecimentos" [ref=e39] [cursor=pointer]:
+          - /url: /estabelecimentos
+        - link "Serviços" [ref=e45] [cursor=pointer]:
+          - /url: /servicos
+        - link "Agendamentos" [ref=e50] [cursor=pointer]:
+          - /url: /agendamentos
+        - link "Funcionários" [ref=e56] [cursor=pointer]:
+          - /url: /funcionarios
+        - link "Assistente IA" [ref=e70] [cursor=pointer]:
+          - /url: /ia
+        - link "CRM" [ref=e74] [cursor=pointer]:
+          - /url: /crm
+      - generic [ref=e76]:
+        - generic [ref=e77]:
+          - paragraph [ref=e78]: Fabio Monteiro Amorim
+          - paragraph [ref=e79]: MEDICO
+        - button "Sair" [ref=e80] [cursor=pointer]
+    - main [ref=e85]:
+      - generic [ref=e86]:
+        - generic [ref=e87]:
+          - generic [ref=e88]:
+            - paragraph [ref=e89]: Cadastros
+            - heading "Pacientes" [level=1] [ref=e90]
+            - paragraph [ref=e91]: Gerencie o cadastro de pacientes com integração ViaCEP.
+            - button "Novo Paciente" [ref=e93] [cursor=pointer]
+          - generic [ref=e95] [cursor=pointer]
+        - generic [ref=e99]:
+          - textbox "Buscar por nome, CPF ou e-mail…" [active] [ref=e104]: João Pereira Teste
+          - combobox [ref=e105]:
+            - option "Todos os status" [selected]
+            - option "Ativos"
+            - option "Inativos"
+        - paragraph [ref=e106]: 1 paciente encontrado
+        - generic [ref=e525] [cursor=pointer]:
+          - generic [ref=e526]: Ativo
+          - generic [ref=e532]:
+            - heading "João Pereira Teste" [level=3] [ref=e533]
+            - paragraph [ref=e534]: 123.456.789-01
+          - generic [ref=e535]:
+            - generic [ref=e539]:
+              - text: 15/05/1990
+              - generic [ref=e540]: (36 anos)
+            - generic [ref=e541]: joao.pereira.teste@email.com
+            - generic [ref=e546]: (11) 98888-1111
+            - generic [ref=e550]: São Paulo — SP
+          - generic [ref=e555]:
+            - button "Editar" [ref=e556]
+            - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=e560]

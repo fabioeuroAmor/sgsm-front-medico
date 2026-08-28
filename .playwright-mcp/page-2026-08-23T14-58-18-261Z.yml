@@ -1,0 +1,31 @@
+- generic [ref=f34e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f34e3] [cursor=pointer]
+  - generic [ref=f34e8]:
+    - banner [ref=f34e1515]:
+      - generic [ref=f34e1516]: SGSM
+      - button "Toggle menu" [ref=f34e1521] [cursor=pointer]
+    - main [ref=f34e85]:
+      - generic [ref=f34e1453]:
+        - generic [ref=f34e1454]:
+          - generic [ref=f34e1459]:
+            - heading "Assistente IA" [level=1] [ref=f34e1460]
+            - paragraph [ref=f34e1461]: Powered by RAG + Milvus
+          - generic [ref=f34e1462]:
+            - button "Chat" [ref=f34e1463] [cursor=pointer]
+            - button "KPIs" [ref=f34e1467] [cursor=pointer]
+        - generic [ref=f34e1523]:
+          - generic [ref=f34e1529]:
+            - paragraph [ref=f34e1530]: Olá! Sou o assistente inteligente do SGSM. Posso responder perguntas sobre pacientes, médicos, agendamentos, serviços e também sobre o CRM Analítico — faturamento, churn, funil de conversão, ocupação de agenda e outros indicadores. Como posso ajudar?
+            - paragraph [ref=f34e1531]: 11:55
+          - generic [ref=f34e1538]:
+            - paragraph [ref=f34e1539]: Quantos pacientes ativos existem?
+            - paragraph [ref=f34e1540]: 11:58
+          - generic [ref=f34e1550]:
+            - paragraph [ref=f34e1551]: De acordo com o resumo analítico do sistema, existem **42 pacientes cadastrados**. Essa é a informação disponível sobre a quantidade total de pacientes no momento.
+            - paragraph [ref=f34e1552]: 11:58
+        - generic [ref=f34e1532]:
+          - generic [ref=f34e1533]:
+            - textbox "Pergunte sobre pacientes, agendamentos, médicos, faturamento, churn..." [active] [ref=f34e1535]
+            - button [disabled]
+          - paragraph [ref=f34e1536]: Enter para enviar · Shift+Enter para nova linha

@@ -1,0 +1,11 @@
+[     181ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:21608
+[  174721ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_RESET @ http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/components/layout/Layout.tsx?t=1787420695810:0
+[  174722ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_RESET @ http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/index.css?t=1787420695810:0
+[  174722ms] [ERROR] [vite] Failed to reload /@fs/C:/AmbienteDev/sgsm-front-medico/src/components/layout/Layout.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above) @ http://localhost:3001/@vite/client:881
+[  174722ms] [ERROR] [vite] Failed to reload /@fs/C:/AmbienteDev/sgsm-front-medico/src/index.css. This could be due to syntax errors or importing non-existent modules. (see errors above) @ http://localhost:3001/@vite/client:881
+[  174723ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:3001/@vite/client:963
+[  182377ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:21608
+[  227450ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:3001/@vite/client:963
+[  227458ms] [ERROR] WebSocket connection to 'ws://localhost:3001/' failed: Error during WebSocket handshake: net::ERR_CONNECTION_RESET @ http://localhost:3001/@vite/client:1034
+[  230827ms] [ERROR] WebSocket connection to 'ws://localhost:3001/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3001/@vite/client:1034
+[  238826ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:21608

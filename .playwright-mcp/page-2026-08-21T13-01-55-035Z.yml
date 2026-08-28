@@ -1,0 +1,142 @@
+- generic [ref=f38e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f38e3] [cursor=pointer]
+  - generic [ref=f38e168]:
+    - generic [ref=f38e169]:
+      - generic [ref=f38e170]: Assistente SGSM
+      - button "reiniciar" [ref=f38e173] [cursor=pointer]
+    - generic [ref=f38e174]:
+      - generic [ref=f38e175]: Olá! Como posso ajudar você hoje?
+      - generic [ref=f38e266]: Cadastrar-me como paciente
+      - generic [ref=f38e268]: Vamos ao seu cadastro! Qual é o seu nome completo?
+      - generic [ref=f38e276]: Joao Pereira Teste Duplicado
+      - generic [ref=f38e278]: "Informe o seu CPF:"
+      - generic [ref=f38e281]: 123.456.789-01
+      - generic [ref=f38e283]: "Informe sua data de nascimento (DD/MM/AAAA):"
+      - generic [ref=f38e286]: 10/10/1980
+      - generic [ref=f38e288]: "Informe o seu e-mail:"
+      - generic [ref=f38e291]: joao.duplicado.20260821@example.com
+      - generic [ref=f38e293]: "Informe o seu telefone (opcional — pressione Enter para pular):"
+      - generic [ref=f38e296]: (sem telefone)
+      - generic [ref=f38e298]: "Confirme seus dados: • Nome: Joao Pereira Teste Duplicado • CPF: 123.456.789-01 • Nascimento: 10/10/1980 • E-mail: joao.duplicado.20260821@example.com Está correto?"
+      - generic [ref=f38e305]: Sim, confirmar
+      - generic [ref=f38e307]: "Erro ao cadastrar: CPF inválido: 12345678901"
+      - generic [ref=f38e314]: Cancelar
+      - generic [ref=f38e316]: Cadastro cancelado. O que deseja fazer?
+      - generic [ref=f38e322]: Agendar uma consulta
+      - generic [ref=f38e324]: "Para agendar, preciso identificar você. Informe o seu CPF:"
+      - generic [ref=f38e332]: 123.456.789-01
+      - generic [ref=f38e334]: Olá, João! Qual serviço você deseja agendar?
+      - generic [ref=f38e343]: Consulta de Rotina — R$ 1000.00
+      - generic [ref=f38e345]: Atendimento domiciliar 🏠 — irei até você! Qual data você deseja agendar? (DD/MM/AAAA)
+      - generic [ref=f38e353]: 24/08/2026
+      - generic [ref=f38e355]: "Sem horários disponíveis nesta data. Informe outra data:"
+      - generic [ref=f38e357]: 25/08/2026
+      - generic [ref=f38e359]: "Sem horários disponíveis nesta data. Informe outra data:"
+      - generic [ref=f38e361]: 26/08/2026
+      - generic [ref=f38e363]: "Sem horários disponíveis nesta data. Informe outra data:"
+      - generic [ref=f38e365]: 27/08/2026
+      - generic [ref=f38e367]: "Escolha o horário desejado:"
+      - generic [ref=f38e408]: 08:00
+      - generic [ref=f38e410]: Tem alguma observação para o médico? (Opcional — pressione Enter para pular)
+      - generic [ref=f38e418]: (sem observações)
+      - generic [ref=f38e420]: "Confirme o agendamento: • Paciente: João Pereira Teste • Serviço: Consulta de Rotina • Local: Domiciliar — São Paulo/SP • Horário: 27/08/2026, 08:00 • Valor: R$ 1080.00 Confirmar?"
+      - generic [ref=f38e427]: Sim, confirmar
+      - generic [ref=f38e429]: Agendamento realizado com sucesso! Em breve você receberá a confirmação. O que deseja fazer?
+    - generic [ref=f38e431]:
+      - button "1.Cadastrar-me como paciente" [ref=f38e432] [cursor=pointer]:
+        - generic [ref=f38e433]: "1."
+        - text: Cadastrar-me como paciente
+      - button "2.Agendar uma consulta" [ref=f38e434] [cursor=pointer]:
+        - generic [ref=f38e435]: "2."
+        - text: Agendar uma consulta
+  - generic [ref=f38e8]:
+    - complementary [ref=f38e9]:
+      - generic [ref=f38e16] [cursor=pointer]:
+        - paragraph [ref=f38e17]: SGSM
+        - paragraph [ref=f38e18]: Sistema Médico
+      - navigation [ref=f38e19]:
+        - link "Home" [ref=f38e21] [cursor=pointer]:
+          - /url: /
+        - link "Pacientes" [ref=f38e26] [cursor=pointer]:
+          - /url: /pacientes
+        - link "Médicos" [ref=f38e33] [cursor=pointer]:
+          - /url: /medicos
+        - link "Estabelecimentos" [ref=f38e39] [cursor=pointer]:
+          - /url: /estabelecimentos
+        - link "Serviços" [ref=f38e45] [cursor=pointer]:
+          - /url: /servicos
+        - link "Agendamentos" [ref=f38e50] [cursor=pointer]:
+          - /url: /agendamentos
+        - link "Funcionários" [ref=f38e56] [cursor=pointer]:
+          - /url: /funcionarios
+        - link "Assistente IA" [ref=f38e70] [cursor=pointer]:
+          - /url: /ia
+        - link "CRM" [ref=f38e74] [cursor=pointer]:
+          - /url: /crm
+      - generic [ref=f38e76]:
+        - generic [ref=f38e77]:
+          - paragraph [ref=f38e78]: Fabio Monteiro Amorim
+          - paragraph [ref=f38e79]: MEDICO
+        - button "Sair" [ref=f38e80] [cursor=pointer]
+    - main [ref=f38e85]:
+      - generic [ref=f38e86]:
+        - generic [ref=f38e87]:
+          - generic [ref=f38e88]:
+            - paragraph [ref=f38e89]: Cadastros
+            - heading "Estabelecimentos" [level=1] [ref=f38e90]
+            - paragraph [ref=f38e91]: Clínicas, hospitais e consultórios com localização no mapa.
+            - button "Novo Estabelecimento" [ref=f38e93] [cursor=pointer]
+          - generic [ref=f38e95] [cursor=pointer]
+        - generic [ref=f38e99]:
+          - textbox "Buscar por nome, CNPJ ou cidade…" [ref=f38e104]
+          - combobox [ref=f38e105]:
+            - option "Todos os status" [selected]
+            - option "Ativos"
+            - option "Inativos"
+          - combobox [ref=f38e106]:
+            - option "Todos os estados" [selected]
+            - option "AC"
+            - option "AL"
+            - option "AM"
+            - option "AP"
+            - option "BA"
+            - option "CE"
+            - option "DF"
+            - option "ES"
+            - option "GO"
+            - option "MA"
+            - option "MG"
+            - option "MS"
+            - option "MT"
+            - option "PA"
+            - option "PB"
+            - option "PE"
+            - option "PI"
+            - option "PR"
+            - option "RJ"
+            - option "RN"
+            - option "RO"
+            - option "RR"
+            - option "RS"
+            - option "SC"
+            - option "SE"
+            - option "SP"
+            - option "TO"
+          - textbox "Filtrar por cidade…" [ref=f38e107]
+        - generic [ref=f38e109]:
+          - generic [ref=f38e110]: Ativo
+          - generic [ref=f38e117]:
+            - heading "Clinica São Lucas" [level=3] [ref=f38e118]
+            - paragraph [ref=f38e119]: Brasília — DF
+          - generic [ref=f38e120]:
+            - paragraph [ref=f38e121]: "CNPJ: 45834560001256"
+            - link "Samambai, 45 — Sala 46, Samambai SUL" [ref=f38e122] [cursor=pointer]:
+              - /url: https://www.google.com/maps/search/?api=1&query=Samambai%2C%2045%2C%20Sala%2046%2C%20Samambai%20%20SUL%2C%20Bras%C3%ADlia%2C%20DF%2C%2072300-000%2C%20Brasil
+            - paragraph [ref=f38e127]: "Tel: 1135712356"
+          - generic [ref=f38e128]:
+            - button "Editar" [ref=f38e129] [cursor=pointer]
+            - button "Gerenciar médicos" [ref=f38e133] [cursor=pointer]
+            - link [ref=f38e138] [cursor=pointer]:
+              - /url: https://www.google.com/maps/search/?api=1&query=Samambai%2C%2045%2C%20Sala%2046%2C%20Samambai%20%20SUL%2C%20Bras%C3%ADlia%2C%20DF%2C%2072300-000%2C%20Brasil
+            - button [ref=f38e142] [cursor=pointer]
