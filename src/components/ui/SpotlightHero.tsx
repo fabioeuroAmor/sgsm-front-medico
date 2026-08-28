@@ -6,10 +6,15 @@ interface SpotlightHeroProps {
 
 /**
  * Hero com reveal em "lanterna": uma segunda imagem some por trás de uma
- * máscara em gradiente radial que segue o cursor, sobre um grid de linhas que
- * deriva sutilmente em direção ao ponteiro. Portado do hero do sgsm-front —
+ * máscara em gradiente radial que segue o ponteiro, sobre um grid de linhas
+ * que deriva sutilmente em direção a ele. Portado do hero do sgsm-front —
  * mesma mecânica e imagens, escopado aos próprios refs do componente (em vez
  * de consultar `document` direto) para conviver com outras rotas da SPA.
+ *
+ * Pointer Events unificam mouse e touch: no mouse o reveal segue o cursor em
+ * hover contínuo; no toque, só existe "pointermove" enquanto o dedo está em
+ * contato, então o reveal acompanha o arrastar do dedo e volta a esconder ao
+ * soltar — sem precisar de um caminho de código separado para touch.
  */
 export function SpotlightHero({ children }: SpotlightHeroProps) {
   const heroRef = useRef<HTMLDivElement>(null)
@@ -25,9 +30,8 @@ export function SpotlightHero({ children }: SpotlightHeroProps) {
     const context = maskCanvas?.getContext('2d')
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const supportsFinePointer = window.matchMedia('(pointer: fine)').matches
 
-    if (!hero || !gridPattern || !revealLayer || !maskCanvas || !context || !supportsFinePointer || prefersReducedMotion) {
+    if (!hero || !gridPattern || !revealLayer || !maskCanvas || !context || prefersReducedMotion) {
       return
     }
 
@@ -101,6 +105,11 @@ export function SpotlightHero({ children }: SpotlightHeroProps) {
     hero.addEventListener('pointerenter', onPointerEnter)
     hero.addEventListener('pointermove', onPointerMove)
     hero.addEventListener('pointerleave', onPointerLeave)
+    // Reforço para touch: nem todo navegador dispara "pointerleave" ao soltar o
+    // dedo (o ponto de contato só deixa de existir, não necessariamente "sai"
+    // do elemento) — pointerup/pointercancel garantem que o reveal esconda.
+    hero.addEventListener('pointerup', onPointerLeave)
+    hero.addEventListener('pointercancel', onPointerLeave)
 
     resizeCanvas()
     drawRevealMask(cursorPos.x - hero.getBoundingClientRect().left, cursorPos.y - hero.getBoundingClientRect().top)
@@ -112,6 +121,8 @@ export function SpotlightHero({ children }: SpotlightHeroProps) {
       hero.removeEventListener('pointerenter', onPointerEnter)
       hero.removeEventListener('pointermove', onPointerMove)
       hero.removeEventListener('pointerleave', onPointerLeave)
+      hero.removeEventListener('pointerup', onPointerLeave)
+      hero.removeEventListener('pointercancel', onPointerLeave)
       window.removeEventListener('resize', resizeCanvas)
       window.cancelAnimationFrame(raf)
     }
