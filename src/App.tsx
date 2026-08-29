@@ -2,7 +2,7 @@ import { BrowserRouter, Navigate, Outlet, Routes, Route } from 'react-router-dom
 import { Toaster } from 'sonner'
 import { Layout } from './components/layout/Layout'
 import { ChatbotWidget } from './components/ChatbotWidget'
-import HomePage from './pages/HomePage'
+import Home2Page from './pages/Home2Page'
 import WorldPage from './pages/WorldPage'
 import { LoginPage } from './pages/LoginPage'
 import { RegisterPage } from './pages/RegisterPage'
@@ -38,7 +38,7 @@ export default function App() {
       <Toaster position="top-right" richColors />
       <ChatbotWidget />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<Home2Page />} />
         <Route path="/world" element={<WorldPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/registrar" element={<RegisterPage />} />

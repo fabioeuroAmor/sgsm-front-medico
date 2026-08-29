@@ -545,3 +545,110 @@
 .stagger-children {
   will-change: transform, opacity;
 }
+
+/* ============================================================
+   MOUNT REVEAL — useMountReveal (fade + rise já na montagem,
+   para conteúdo acima da dobra que não depende de scroll)
+   ============================================================ */
+.mount-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity var(--duration-slower) var(--ease-out),
+    transform var(--duration-hero) var(--ease-smooth);
+}
+
+.mount-reveal.is-ready {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mount-reveal {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ============================================================
+   SPOTLIGHT HERO — reveal em "lanterna" portado do sgsm-front:
+   uma segunda imagem some por trás de um gradiente radial que
+   segue o cursor, sobre um grid de linhas que deriva até o ponteiro.
+   ============================================================ */
+.spotlight-hero {
+  position: relative;
+  min-height: 88vh;
+  overflow: hidden;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+}
+
+.spotlight-hero__backdrop,
+.spotlight-hero__grid,
+.spotlight-hero__reveal,
+.spotlight-hero__mask-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.spotlight-hero__backdrop {
+  z-index: 0;
+  background-repeat: no-repeat;
+  background-position: 50% 25%;
+  background-size: cover;
+}
+
+.spotlight-hero__backdrop::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, hsl(var(--secondary) / 0.92) 0%, hsl(var(--secondary) / 0.55) 45%, hsl(var(--secondary) / 0.2) 75%);
+  content: '';
+}
+
+.spotlight-hero__grid {
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  color: hsl(var(--primary-foreground));
+  opacity: 0.08;
+}
+
+.spotlight-hero__reveal {
+  z-index: 2;
+  background-repeat: no-repeat;
+  background-position: 50% 25%;
+  background-size: cover;
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-apple);
+  mask-repeat: no-repeat;
+  mask-position: 0 0;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: 0 0;
+  -webkit-mask-size: 100% 100%;
+}
+
+.spotlight-hero.is-interactive .spotlight-hero__reveal {
+  opacity: 1;
+}
+
+.spotlight-hero__mask-canvas {
+  display: none;
+}
+
+.spotlight-hero__content {
+  position: relative;
+  z-index: 3;
+  width: min(100%, 34rem);
+  margin-inline: clamp(1.5rem, 6vw, 5rem);
+  padding-block: 3rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spotlight-hero__reveal {
+    transition: none;
+  }
+}

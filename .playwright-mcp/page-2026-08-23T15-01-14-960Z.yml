@@ -1,0 +1,51 @@
+- generic [ref=f35e2]:
+  - region "Notifications alt+T":
+    - list:
+      - listitem [ref=f35e1581]:
+        - generic [ref=f35e1585]: Erro ao carregar KPIs
+      - listitem [ref=f35e1562]:
+        - generic [ref=f35e1566]: Erro ao carregar KPIs
+  - button "Assistente virtual" [ref=f35e3] [cursor=pointer]
+  - generic [ref=f35e8]:
+    - complementary [ref=f35e9]:
+      - generic [ref=f35e16] [cursor=pointer]:
+        - paragraph [ref=f35e17]: SGSM
+        - paragraph [ref=f35e18]: Sistema Médico
+      - navigation [ref=f35e19]:
+        - link "Home" [ref=f35e21] [cursor=pointer]:
+          - /url: /
+        - link "Pacientes" [ref=f35e26] [cursor=pointer]:
+          - /url: /pacientes
+        - link "Médicos" [ref=f35e33] [cursor=pointer]:
+          - /url: /medicos
+        - link "Estabelecimentos" [ref=f35e39] [cursor=pointer]:
+          - /url: /estabelecimentos
+        - link "Serviços" [ref=f35e45] [cursor=pointer]:
+          - /url: /servicos
+        - link "Agendamentos" [ref=f35e50] [cursor=pointer]:
+          - /url: /agendamentos
+        - link "Funcionários" [ref=f35e56] [cursor=pointer]:
+          - /url: /funcionarios
+        - link "Assistente IA" [ref=f35e70] [cursor=pointer]:
+          - /url: /ia
+        - link "CRM" [ref=f35e74] [cursor=pointer]:
+          - /url: /crm
+      - generic [ref=f35e76]:
+        - generic [ref=f35e77]:
+          - paragraph [ref=f35e78]: Fabio Monteiro Amorim
+          - paragraph [ref=f35e79]: MEDICO
+        - button "Sair" [ref=f35e80] [cursor=pointer]
+    - main [ref=f35e85]:
+      - generic [ref=f35e1453]:
+        - generic [ref=f35e1454]:
+          - generic [ref=f35e1459]:
+            - heading "Assistente IA" [level=1] [ref=f35e1460]
+            - paragraph [ref=f35e1461]: Powered by RAG + Milvus
+          - generic [ref=f35e1462]:
+            - button "Chat" [ref=f35e1463] [cursor=pointer]
+            - button "KPIs" [ref=f35e1467] [cursor=pointer]
+        - generic [ref=f35e1568]:
+          - generic [ref=f35e1569]:
+            - paragraph [ref=f35e1570]: Indicadores do Sistema
+            - button "Atualizar" [ref=f35e1571] [cursor=pointer]
+          - paragraph [ref=f35e1590]: Nenhum dado carregado

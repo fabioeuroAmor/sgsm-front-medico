@@ -1,0 +1,36 @@
+- generic [ref=f37e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [active] [ref=f37e3] [cursor=pointer]
+  - generic [ref=f37e38]:
+    - generic [ref=f37e39]:
+      - generic [ref=f37e40]: Assistente SGSM
+      - button "reiniciar" [ref=f37e43] [cursor=pointer]
+    - generic [ref=f37e44]: Olá! Sou o assistente do SGSM. Como posso ajudar você hoje?
+    - generic [ref=f37e47]:
+      - button "1.Cadastrar-me como paciente" [ref=f37e48] [cursor=pointer]:
+        - generic [ref=f37e49]: "1."
+        - text: Cadastrar-me como paciente
+      - button "2.Agendar uma consulta" [ref=f37e50] [cursor=pointer]:
+        - generic [ref=f37e51]: "2."
+        - text: Agendar uma consulta
+  - generic [ref=f37e7]:
+    - generic [ref=f37e8]:
+      - heading "Bem-vindo ao SGSM" [level=1] [ref=f37e13]
+      - paragraph [ref=f37e14]: Sistema de Gerenciamento de Serviços Médicos
+    - generic [ref=f37e15]:
+      - generic [ref=f37e16]:
+        - generic [ref=f37e17]:
+          - generic [ref=f37e18]: E-mail
+          - textbox "E-mail" [ref=f37e19]:
+            - /placeholder: medico@clinica.com
+        - generic [ref=f37e20]:
+          - generic [ref=f37e21]: Senha
+          - textbox "Senha" [ref=f37e22]:
+            - /placeholder: ••••••••
+        - button "Entrar" [ref=f37e23] [cursor=pointer]
+        - link "Esqueci minha senha" [ref=f37e25] [cursor=pointer]:
+          - /url: /esqueci-senha
+      - link "Novo no sistema? Criar conta" [ref=f37e27] [cursor=pointer]:
+        - /url: /registrar
+        - generic [ref=f37e30]: Novo no sistema?
+        - generic [ref=f37e31]: Criar conta

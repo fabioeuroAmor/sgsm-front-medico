@@ -1,0 +1,95 @@
+- generic [ref=f5e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f5e3] [cursor=pointer]
+  - generic [ref=f5e6]:
+    - generic [ref=f5e8]:
+      - generic:
+        - paragraph: Bem-vindo ao
+        - heading "SGSM Médico" [level=2]
+        - paragraph: Uma plataforma completa para gestão em saúde. Role para voar pelo mundo do sistema.
+        - generic:
+          - generic: Moderno
+          - generic: Integrado
+          - generic: Completo
+      - generic:
+        - paragraph: Módulo 1
+        - heading "Gestão de Pacientes" [level=2]
+        - paragraph: Cadastro com CPF mascarado, endereço automático via ViaCEP, histórico completo e controle de status.
+        - generic:
+          - generic: ViaCEP
+          - generic: CPF
+          - generic: Histórico
+      - generic:
+        - paragraph: Módulos 2 & 3
+        - heading "Médicos e Estabelecimentos" [level=2]
+        - paragraph: Agenda semanal por dia da semana, atendimento domiciliar e vínculos com clínicas e hospitais.
+        - generic:
+          - generic: Agenda
+          - generic: Domiciliar
+          - generic: Mapa
+      - generic:
+        - paragraph: Módulo 4
+        - heading "Serviços Médicos" [level=2]
+        - paragraph: Catálogo de serviços por especialidade, preços, duração e vínculo com médicos e estabelecimentos.
+        - generic:
+          - generic: Especialidades
+          - generic: Preços
+          - generic: Duração
+      - generic:
+        - paragraph: Módulo 5
+        - heading "Agendamentos" [level=2]
+        - paragraph: Wizard de 5 etapas com controle completo de status — de Agendado até Concluído.
+        - generic:
+          - generic: Wizard
+          - generic: 5 Etapas
+          - generic: Status
+      - generic:
+        - paragraph: Módulo 6
+        - heading "Funcionários" [level=2]
+        - paragraph: Cadastro da equipe administrativa e de apoio, com vínculo direto aos estabelecimentos onde atuam.
+        - generic:
+          - generic: Equipe
+          - generic: Vínculos
+          - generic: Estabelecimentos
+      - generic:
+        - paragraph: Inteligência Artificial
+        - heading "IA com RAG integrado" [level=2]
+        - paragraph: Assistente inteligente com busca semântica no histórico de pacientes. O CRM aprende com cada atendimento e responde perguntas clínicas com contexto real.
+        - generic:
+          - generic: RAG
+          - generic: CRM
+          - generic: Busca Semântica
+          - generic: Chatbot
+      - generic:
+        - paragraph: Dados e Indicadores
+        - heading "CRM Analítico" [level=2]
+        - paragraph: Faturamento mensal, risco de churn, funil de conversão por médico e ocupação de agenda — indicadores consolidados em um painel só.
+        - generic:
+          - generic: Faturamento
+          - generic: Churn
+          - generic: Funil
+          - generic: Ocupação
+      - generic:
+        - paragraph: Atendimento
+        - heading "Direto pelo WhatsApp" [level=2]
+        - paragraph: Pacientes se cadastram e agendam consultas conversando com o bot do SGSM no WhatsApp, sem precisar abrir o sistema.
+        - generic:
+          - generic: Bot
+          - generic: Cadastro
+          - generic: Agendamento
+      - generic:
+        - paragraph: Sistema Completo
+        - heading "Pronto para começar?" [level=2]
+        - paragraph: Acesse o SGSM Médico e transforme a gestão do seu atendimento médico.
+        - generic [ref=f5e241]:
+          - link "Acessar Sistema" [ref=f5e242] [cursor=pointer]:
+            - /url: /login
+          - link "← Voltar ao início" [ref=f5e245] [cursor=pointer]:
+            - /url: /
+      - navigation [ref=f5e246]:
+        - link "SGSM Médico" [ref=f5e247] [cursor=pointer]:
+          - /url: /
+        - link "Acessar Sistema" [ref=f5e252] [cursor=pointer]:
+          - /url: /login
+      - generic: role para voar
+    - paragraph [ref=f5e256]: © 2026 SGSM Médico — Sistema de Gestão em Saúde Médica

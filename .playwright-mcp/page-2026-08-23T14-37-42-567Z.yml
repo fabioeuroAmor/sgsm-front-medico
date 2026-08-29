@@ -1,0 +1,67 @@
+- generic [ref=f26e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f26e3] [cursor=pointer]
+  - generic [ref=f26e35]:
+    - complementary [ref=f26e36]:
+      - generic [ref=f26e43] [cursor=pointer]:
+        - paragraph [ref=f26e44]: SGSM
+        - paragraph [ref=f26e45]: Sistema Médico
+      - navigation [ref=f26e46]:
+        - link "Home" [ref=f26e48] [cursor=pointer]:
+          - /url: /
+        - link "Pacientes" [ref=f26e53] [cursor=pointer]:
+          - /url: /pacientes
+        - link "Médicos" [ref=f26e60] [cursor=pointer]:
+          - /url: /medicos
+        - link "Estabelecimentos" [ref=f26e66] [cursor=pointer]:
+          - /url: /estabelecimentos
+        - link "Serviços" [ref=f26e72] [cursor=pointer]:
+          - /url: /servicos
+        - link "Agendamentos" [ref=f26e77] [cursor=pointer]:
+          - /url: /agendamentos
+        - link "Funcionários" [ref=f26e83] [cursor=pointer]:
+          - /url: /funcionarios
+        - link "Assistente IA" [ref=f26e97] [cursor=pointer]:
+          - /url: /ia
+        - link "CRM" [ref=f26e101] [cursor=pointer]:
+          - /url: /crm
+      - generic [ref=f26e103]:
+        - generic [ref=f26e104]:
+          - paragraph [ref=f26e105]: Fabio Monteiro Amorim
+          - paragraph [ref=f26e106]: MEDICO
+        - button "Sair" [ref=f26e107] [cursor=pointer]
+    - main [ref=f26e112]:
+      - generic [ref=f26e1480]:
+        - generic [ref=f26e1481]:
+          - generic [ref=f26e1486]:
+            - heading "Assistente IA" [level=1] [ref=f26e1487]
+            - paragraph [ref=f26e1488]: Powered by RAG + Milvus
+          - generic [ref=f26e1489]:
+            - button "Chat" [ref=f26e1490] [cursor=pointer]
+            - button "KPIs" [ref=f26e1494] [cursor=pointer]
+        - generic [ref=f26e1558]:
+          - generic [ref=f26e1559]:
+            - paragraph [ref=f26e1560]: Indicadores do Sistema
+            - button "Atualizar" [ref=f26e1561] [cursor=pointer]
+          - generic [ref=f26e1589]:
+            - generic [ref=f26e1590]:
+              - paragraph [ref=f26e1591]: ocupacao Agenda
+              - paragraph [ref=f26e1592]: "[ { \"medico_id\": \"ff9a2400-2217-48fa-ac91-b81a4032f2db\", \"medico_nome\": \"Fabio Monteiro Amorim\", \"especialidade\": \"Neurologia\", \"slots_usados\": 9, \"slots_totais\": 10, \"taxa_ocupacao_pct\": 90 }, { \"medico_id\": \"0642b266-8445-4ba9-8806-4d9b9d996437\", \"medico_nome\": \"Fagno Amorim\", \"especialidade\": \"Neurologia\", \"slots_usados\": 0, \"slots_totais\": 0, \"taxa_ocupacao_pct\": null }, { \"medico_id\": \"7fade4fe-d704-40e1-8570-6a510500755d\", \"medico_nome\": \"QA Registro Orfao Medico\", \"especialidade\": \"Neurologia\", \"slots_usados\": 0, \"slots_totais\": 0, \"taxa_ocupacao_pct\": null }, { \"medico_id\": \"e77ace75-98f7-43b6-b6ee-e9731f732709\", \"medico_nome\": \"QA Registro Seletor Teste\", \"especialidade\": \"Cardiologia\", \"slots_usados\": 0, \"slots_totais\": 0, \"taxa_ocupacao_pct\": null } ]"
+            - generic [ref=f26e1593]:
+              - paragraph [ref=f26e1594]: churn Risco
+              - paragraph [ref=f26e1595]: "[]"
+            - generic [ref=f26e1596]:
+              - paragraph [ref=f26e1597]: pacientes Alto Valor
+              - paragraph [ref=f26e1598]: "[]"
+            - generic [ref=f26e1599]:
+              - paragraph [ref=f26e1600]: resumo
+              - paragraph [ref=f26e1601]: "{ \"total_agendamentos\": 50, \"concluidos\": 20, \"cancelados\": 5, \"no_shows\": 0, \"taxa_conversao_pct\": 40, \"receita_total\": 0, \"ticket_medio_geral\": 0, \"total_pacientes\": 42, \"novos_pacientes_30d\": 28, \"medicos_ativos\": 4, \"atualizado_em\": \"2026-08-23T14:23:18.404Z\" }"
+            - generic [ref=f26e1602]:
+              - paragraph [ref=f26e1603]: faturamento Mensal
+              - paragraph [ref=f26e1604]: "[]"
+            - generic [ref=f26e1605]:
+              - paragraph [ref=f26e1606]: cancelamentos
+              - paragraph [ref=f26e1607]: "[ { \"origem_cancelamento\": \"MEDICO\", \"mes\": \"2026-08-01T03:00:00.000Z\", \"total_cancelamentos\": 1, \"pacientes_distintos\": 1, \"medicos_distintos\": 1 } ]"
+            - generic [ref=f26e1608]:
+              - paragraph [ref=f26e1609]: funil Medico
+              - paragraph [ref=f26e1610]: "[ { \"medico_id\": \"7fade4fe-d704-40e1-8570-6a510500755d\", \"medico_nome\": \"QA Registro Orfao Medico\", \"especialidade\": \"Neurologia\", \"total\": 0, \"concluidos\": 0, \"cancelados\": 0, \"no_shows\": 0, \"taxa_conversao_pct\": null, \"receita_total\": 0 }, { \"medico_id\": \"ff9a2400-2217-48fa-ac91-b81a4032f2db\", \"medico_nome\": \"Fabio Monteiro Amorim\", \"especialidade\": \"Neurologia\", \"total\": 10, \"concluidos\": 4, \"cancelados\": 1, \"no_shows\": 0, \"taxa_conversao_pct\": 40, \"receita_total\": 0 }, { \"medico_id\": \"0642b266-8445-4ba9-8806-4d9b9d996437\", \"medico_nome\": \"Fagno Amorim\", \"especialidade\": \"Neurologia\", \"total\": 0, \"concluidos\": 0, \"cancelados\": 0, \"no_shows\": 0, \"taxa_conversao_pct\": null, \"receita_total\": 0 }, { \"medico_id\": \"e77ace75-98f7-43b6-b6ee-e9731f732709\", \"medico_nome\": \"QA Registro Seletor Teste\", \"especialidade\": \"Cardiologia\", \"total\": 0, \"concluidos\": 0, \"cancelados\": 0, \"no_shows\": 0, \"taxa_conversao_pct\": null, \"receita_total\": 0 } ]"

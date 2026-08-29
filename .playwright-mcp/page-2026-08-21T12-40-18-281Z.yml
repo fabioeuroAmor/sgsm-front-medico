@@ -1,0 +1,561 @@
+- generic [ref=f35e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f35e3] [cursor=pointer]
+  - generic [ref=f35e35]:
+    - complementary [ref=f35e36]:
+      - generic [ref=f35e43] [cursor=pointer]:
+        - paragraph [ref=f35e44]: SGSM
+        - paragraph [ref=f35e45]: Sistema Médico
+      - navigation [ref=f35e46]:
+        - link "Home" [ref=f35e48] [cursor=pointer]:
+          - /url: /
+        - link "Pacientes" [ref=f35e53] [cursor=pointer]:
+          - /url: /pacientes
+        - link "Médicos" [ref=f35e60] [cursor=pointer]:
+          - /url: /medicos
+        - link "Estabelecimentos" [ref=f35e66] [cursor=pointer]:
+          - /url: /estabelecimentos
+        - link "Serviços" [ref=f35e72] [cursor=pointer]:
+          - /url: /servicos
+        - link "Agendamentos" [ref=f35e77] [cursor=pointer]:
+          - /url: /agendamentos
+        - link "Funcionários" [ref=f35e83] [cursor=pointer]:
+          - /url: /funcionarios
+        - link "Assistente IA" [ref=f35e97] [cursor=pointer]:
+          - /url: /ia
+        - link "CRM" [ref=f35e101] [cursor=pointer]:
+          - /url: /crm
+      - generic [ref=f35e103]:
+        - generic [ref=f35e104]:
+          - paragraph [ref=f35e105]: Fabio Monteiro Amorim
+          - paragraph [ref=f35e106]: MEDICO
+        - button "Sair" [ref=f35e107] [cursor=pointer]
+    - main [ref=f35e112]:
+      - generic [ref=f35e113]:
+        - generic [ref=f35e114]:
+          - generic [ref=f35e115]:
+            - paragraph [ref=f35e116]: Cadastros
+            - heading "Pacientes" [level=1] [ref=f35e117]
+            - paragraph [ref=f35e118]: Gerencie o cadastro de pacientes com integração ViaCEP.
+            - button "Novo Paciente" [ref=f35e120] [cursor=pointer]
+          - generic [ref=f35e122] [cursor=pointer]
+        - generic [ref=f35e126]:
+          - textbox "Buscar por nome, CPF ou e-mail…" [ref=f35e131]
+          - combobox [ref=f35e132]:
+            - option "Todos os status" [selected]
+            - option "Ativos"
+            - option "Inativos"
+        - paragraph [ref=f35e133]: 38 pacientes encontrados
+        - generic [ref=f35e134]:
+          - generic [ref=f35e135] [cursor=pointer]:
+            - generic [ref=f35e136]: Ativo
+            - generic [ref=f35e142]:
+              - heading "Tereza Rossi" [level=3] [ref=f35e143]
+              - paragraph [ref=f35e144]: 471.258.963-41
+            - generic [ref=f35e145]:
+              - generic [ref=f35e149]:
+                - text: 02/02/1959
+                - generic [ref=f35e150]: (67 anos)
+              - generic [ref=f35e151]: tereza@gmail.com
+            - generic [ref=f35e156]:
+              - button "Editar" [ref=f35e157]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e161]
+          - generic [ref=f35e165] [cursor=pointer]:
+            - generic [ref=f35e166]: Ativo
+            - generic [ref=f35e172]:
+              - heading "Zildinha Ruela" [level=3] [ref=f35e173]
+              - paragraph [ref=f35e174]: 043.141.421-12
+            - generic [ref=f35e175]:
+              - generic [ref=f35e179]:
+                - text: 19/01/1984
+                - generic [ref=f35e180]: (42 anos)
+              - generic [ref=f35e181]: zildinha@gmail.com
+              - generic [ref=f35e186]: (61) 99104-2778
+              - generic [ref=f35e190]: Brasília — DF
+            - generic [ref=f35e195]:
+              - button "Editar" [ref=f35e196]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e200]
+          - generic [ref=f35e204] [cursor=pointer]:
+            - generic [ref=f35e205]: Ativo
+            - generic [ref=f35e211]:
+              - heading "Zilma Ruela" [level=3] [ref=f35e212]
+              - paragraph [ref=f35e213]: 945.231.794-56
+            - generic [ref=f35e214]:
+              - generic [ref=f35e218]:
+                - text: 22/11/1994
+                - generic [ref=f35e219]: (31 anos)
+              - generic [ref=f35e220]: zilma@gmail.com
+              - generic [ref=f35e225]: (61) 99871-3039
+              - generic [ref=f35e229]: Brasília — DF
+            - generic [ref=f35e234]:
+              - button "Editar" [ref=f35e235]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e239]
+          - generic [ref=f35e243] [cursor=pointer]:
+            - generic [ref=f35e244]: Ativo
+            - generic [ref=f35e250]:
+              - heading "FABIO SERGIO" [level=3] [ref=f35e251]
+              - paragraph [ref=f35e252]: 043.141.421-18
+            - generic [ref=f35e253]:
+              - generic [ref=f35e257]:
+                - text: 12/12/1956
+                - generic [ref=f35e258]: (69 anos)
+              - generic [ref=f35e259]: eduardodac.santoss@gmail.com
+              - generic [ref=f35e264]: (61) 99104-2778
+              - generic [ref=f35e268]: Brasília — DF
+            - generic [ref=f35e273]:
+              - button "Editar" [ref=f35e274]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e278]
+          - generic [ref=f35e282] [cursor=pointer]:
+            - generic [ref=f35e283]: Ativo
+            - generic [ref=f35e289]:
+              - heading "Massaru Oroshi" [level=3] [ref=f35e290]
+              - paragraph [ref=f35e291]: 471.258.963-49
+            - generic [ref=f35e292]:
+              - generic [ref=f35e296]:
+                - text: 06/09/1978
+                - generic [ref=f35e297]: (47 anos)
+              - generic [ref=f35e298]: joaovictorlc46@gmail.com
+            - generic [ref=f35e303]:
+              - button "Editar" [ref=f35e304]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e308]
+          - generic [ref=f35e312] [cursor=pointer]:
+            - generic [ref=f35e313]: Ativo
+            - generic [ref=f35e319]:
+              - heading "antonia" [level=3] [ref=f35e320]
+              - paragraph [ref=f35e321]: 123.542.889-36
+            - generic [ref=f35e322]:
+              - generic [ref=f35e326]:
+                - text: 20/05/1956
+                - generic [ref=f35e327]: (70 anos)
+              - generic [ref=f35e328]: rebecca.sabrina@hotmail.com
+            - generic [ref=f35e333]:
+              - button "Editar" [ref=f35e334]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e338]
+          - generic [ref=f35e342] [cursor=pointer]:
+            - generic [ref=f35e343]: Ativo
+            - generic [ref=f35e349]:
+              - heading "raimundas ergia" [level=3] [ref=f35e350]
+              - paragraph [ref=f35e351]: 405.201.452-02
+            - generic [ref=f35e352]:
+              - generic [ref=f35e356]:
+                - text: 05/07/1945
+                - generic [ref=f35e357]: (81 anos)
+              - generic [ref=f35e358]: rebecca.sabrinarp@gmail.com
+            - generic [ref=f35e363]:
+              - button "Editar" [ref=f35e364]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e368]
+          - generic [ref=f35e372] [cursor=pointer]:
+            - generic [ref=f35e373]: Ativo
+            - generic [ref=f35e379]:
+              - heading "fabiola sergia" [level=3] [ref=f35e380]
+              - paragraph [ref=f35e381]: 400.550.861-87
+            - generic [ref=f35e382]:
+              - generic [ref=f35e386]:
+                - text: 12/05/1945
+                - generic [ref=f35e387]: (81 anos)
+              - generic [ref=f35e388]: zenildaruela@gmail.com
+            - generic [ref=f35e393]:
+              - button "Editar" [ref=f35e394]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e398]
+          - generic [ref=f35e402] [cursor=pointer]:
+            - generic [ref=f35e403]: Ativo
+            - generic [ref=f35e409]:
+              - heading "fabiolo sergio" [level=3] [ref=f35e410]
+              - paragraph [ref=f35e411]: 296.767.181-49
+            - generic [ref=f35e412]:
+              - generic [ref=f35e416]:
+                - text: 03/05/1963
+                - generic [ref=f35e417]: (63 anos)
+              - generic [ref=f35e418]: fabiosergiosp@gmail.com
+            - generic [ref=f35e423]:
+              - button "Editar" [ref=f35e424]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e428]
+          - generic [ref=f35e432] [cursor=pointer]:
+            - generic [ref=f35e433]: Ativo
+            - generic [ref=f35e439]:
+              - heading "Biel souza" [level=3] [ref=f35e440]
+              - paragraph [ref=f35e441]: 043.141.589-66
+            - generic [ref=f35e442]:
+              - generic [ref=f35e446]:
+                - text: 13/07/2015
+                - generic [ref=f35e447]: (11 anos)
+              - generic [ref=f35e448]: biel@gmailcom
+            - generic [ref=f35e453]:
+              - button "Editar" [ref=f35e454]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e458]
+          - generic [ref=f35e462] [cursor=pointer]:
+            - generic [ref=f35e463]: Ativo
+            - generic [ref=f35e469]:
+              - heading "Julia Tardino" [level=3] [ref=f35e470]
+              - paragraph [ref=f35e471]: 025.366.978-56
+            - generic [ref=f35e472]:
+              - generic [ref=f35e476]:
+                - text: 02/07/2022
+                - generic [ref=f35e477]: (4 anos)
+              - generic [ref=f35e478]: julia@gmail.com
+            - generic [ref=f35e483]:
+              - button "Editar" [ref=f35e484]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e488]
+          - generic [ref=f35e492] [cursor=pointer]:
+            - generic [ref=f35e493]: Ativo
+            - generic [ref=f35e499]:
+              - heading "Julia Tardino" [level=3] [ref=f35e500]
+              - paragraph [ref=f35e501]: "6987361245"
+            - generic [ref=f35e502]:
+              - generic [ref=f35e506]:
+                - text: 02/07/2022
+                - generic [ref=f35e507]: (4 anos)
+              - generic [ref=f35e508]: julia2@gmail.com
+            - generic [ref=f35e513]:
+              - button "Editar" [ref=f35e514]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e518]
+          - generic [ref=f35e522] [cursor=pointer]:
+            - generic [ref=f35e523]: Ativo
+            - generic [ref=f35e529]:
+              - heading "Julia Tardino" [level=3] [ref=f35e530]
+              - paragraph [ref=f35e531]: 698.736.124-59
+            - generic [ref=f35e532]:
+              - generic [ref=f35e536]:
+                - text: 02/07/2022
+                - generic [ref=f35e537]: (4 anos)
+              - generic [ref=f35e538]: julia3@gmail.com
+            - generic [ref=f35e543]:
+              - button "Editar" [ref=f35e544]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e548]
+          - generic [ref=f35e552] [cursor=pointer]:
+            - generic [ref=f35e553]: Ativo
+            - generic [ref=f35e559]:
+              - heading "João Pereira Teste" [level=3] [ref=f35e560]
+              - paragraph [ref=f35e561]: 123.456.789-01
+            - generic [ref=f35e562]:
+              - generic [ref=f35e566]:
+                - text: 15/05/1990
+                - generic [ref=f35e567]: (36 anos)
+              - generic [ref=f35e568]: joao.pereira.teste@email.com
+              - generic [ref=f35e573]: (11) 98888-1111
+              - generic [ref=f35e577]: São Paulo — SP
+            - generic [ref=f35e582]:
+              - button "Editar" [ref=f35e583]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e587]
+          - generic [ref=f35e591] [cursor=pointer]:
+            - generic [ref=f35e592]: Ativo
+            - generic [ref=f35e598]:
+              - heading "Ana Beatriz Souza" [level=3] [ref=f35e599]
+              - paragraph [ref=f35e600]: 987.654.321-00
+            - generic [ref=f35e601]:
+              - generic [ref=f35e605]:
+                - text: 20/11/1985
+                - generic [ref=f35e606]: (40 anos)
+              - generic [ref=f35e607]: ana.beatriz.souza@email.com
+              - generic [ref=f35e612]: (21) 97777-2222
+              - generic [ref=f35e616]: Rio de Janeiro — RJ
+            - generic [ref=f35e621]:
+              - button "Editar" [ref=f35e622]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e626]
+          - generic [ref=f35e630] [cursor=pointer]:
+            - generic [ref=f35e631]: Ativo
+            - generic [ref=f35e637]:
+              - heading "asasz" [level=3] [ref=f35e638]
+              - paragraph [ref=f35e639]: 896.767.181-49
+            - generic [ref=f35e640]:
+              - generic [ref=f35e644]:
+                - text: 13/08/2026
+                - generic [ref=f35e645]: (0 anos)
+              - generic [ref=f35e646]: fabioeuro@gmail.com
+              - generic [ref=f35e651]: (11) 1234-5678
+              - generic [ref=f35e655]: Brasília — DF
+            - generic [ref=f35e660]:
+              - button "Editar" [ref=f35e661]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e665]
+          - generic [ref=f35e669] [cursor=pointer]:
+            - generic [ref=f35e670]: Ativo
+            - generic [ref=f35e676]:
+              - heading "Teste P016" [level=3] [ref=f35e677]
+              - paragraph [ref=f35e678]: 529.982.247-25
+            - generic [ref=f35e679]:
+              - generic [ref=f35e683]:
+                - text: 01/01/1990
+                - generic [ref=f35e684]: (36 anos)
+              - generic [ref=f35e685]: teste016@teste.com
+            - generic [ref=f35e690]:
+              - button "Editar" [ref=f35e691]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e695]
+          - generic [ref=f35e699] [cursor=pointer]:
+            - generic [ref=f35e700]: Ativo
+            - generic [ref=f35e706]:
+              - heading "Teste Duplo P028" [level=3] [ref=f35e707]
+              - paragraph [ref=f35e708]: 445.364.105-20
+            - generic [ref=f35e709]:
+              - generic [ref=f35e713]:
+                - text: 01/01/1990
+                - generic [ref=f35e714]: (36 anos)
+              - generic [ref=f35e715]: p028@qa.com
+              - generic [ref=f35e720]: São Paulo —
+            - generic [ref=f35e725]:
+              - button "Editar" [ref=f35e726]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e730]
+          - generic [ref=f35e734] [cursor=pointer]:
+            - generic [ref=f35e735]: Ativo
+            - generic [ref=f35e741]:
+              - heading "QA Regressão P032" [level=3] [ref=f35e742]
+              - paragraph [ref=f35e743]: 111.444.777-35
+            - generic [ref=f35e744]:
+              - generic [ref=f35e748]:
+                - text: 15/06/1985
+                - generic [ref=f35e749]: (41 anos)
+              - generic [ref=f35e750]: p032@qa.com
+              - generic [ref=f35e755]: (11) 98765-4321
+            - generic [ref=f35e759]:
+              - button "Editar" [ref=f35e760]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e764]
+          - generic [ref=f35e768] [cursor=pointer]:
+            - generic [ref=f35e769]: Ativo
+            - generic [ref=f35e775]:
+              - heading "QA Paciente Completo" [level=3] [ref=f35e776]
+              - paragraph [ref=f35e777]: 123.456.789-09
+            - generic [ref=f35e778]:
+              - generic [ref=f35e782]:
+                - text: 15/06/1990
+                - generic [ref=f35e783]: (36 anos)
+              - generic [ref=f35e784]: qa.paciente.cr001@teste.com
+              - generic [ref=f35e789]: (11) 98765-4321
+              - generic [ref=f35e793]: São Paulo — SP
+            - generic [ref=f35e798]:
+              - button "Editar" [ref=f35e799]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e803]
+          - generic [ref=f35e807] [cursor=pointer]:
+            - generic [ref=f35e808]: Ativo
+            - generic [ref=f35e814]:
+              - heading "QA Duplo CR002" [level=3] [ref=f35e815]
+              - paragraph [ref=f35e816]: 532.469.860-10
+            - generic [ref=f35e817]:
+              - generic [ref=f35e821]:
+                - text: 01/01/1990
+                - generic [ref=f35e822]: (36 anos)
+              - generic [ref=f35e823]: cr002duplo@teste.com
+            - generic [ref=f35e828]:
+              - button "Editar" [ref=f35e829]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e833]
+          - generic [ref=f35e837] [cursor=pointer]:
+            - generic [ref=f35e838]: Ativo
+            - generic [ref=f35e844]:
+              - heading "QA Registro Paciente Reg011" [level=3] [ref=f35e845]
+              - paragraph [ref=f35e846]: 111.222.333-96
+            - generic [ref=f35e847]:
+              - generic [ref=f35e851]:
+                - text: 10/03/1992
+                - generic [ref=f35e852]: (34 anos)
+              - generic [ref=f35e853]: qa.registro.reg011@teste.com
+            - generic [ref=f35e858]:
+              - button "Editar" [ref=f35e859]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e863]
+          - generic [ref=f35e867] [cursor=pointer]:
+            - generic [ref=f35e868]: Ativo
+            - generic [ref=f35e874]:
+              - heading "QA Registro Data Vazia" [level=3] [ref=f35e875]
+              - paragraph [ref=f35e876]: 444.555.666-19
+            - generic [ref=f35e877]:
+              - generic [ref=f35e881]:
+                - text: 15/06/2027
+                - generic [ref=f35e882]: (-1 anos)
+              - generic [ref=f35e883]: qa.registro.reg015@teste.com
+            - generic [ref=f35e888]:
+              - button "Editar" [ref=f35e889]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e893]
+          - generic [ref=f35e897] [cursor=pointer]:
+            - generic [ref=f35e898]: Ativo
+            - generic [ref=f35e904]:
+              - heading "QA Registro CPF Invalido" [level=3] [ref=f35e905]
+              - paragraph [ref=f35e906]: 111.111.111-11
+            - generic [ref=f35e907]:
+              - generic [ref=f35e911]:
+                - text: 01/01/1990
+                - generic [ref=f35e912]: (36 anos)
+              - generic [ref=f35e913]: qa.registro.reg014@teste.com
+            - generic [ref=f35e918]:
+              - button "Editar" [ref=f35e919]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e923]
+          - generic [ref=f35e927] [cursor=pointer]:
+            - generic [ref=f35e928]: Ativo
+            - generic [ref=f35e934]:
+              - heading "QA Registro Orfao Paciente" [level=3] [ref=f35e935]
+              - paragraph [ref=f35e936]: 555.666.777-20
+            - generic [ref=f35e937]:
+              - generic [ref=f35e941]:
+                - text: 20/04/1985
+                - generic [ref=f35e942]: (41 anos)
+              - generic [ref=f35e943]: qa.registro.orfao@teste.com
+            - generic [ref=f35e948]:
+              - button "Editar" [ref=f35e949]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e953]
+          - generic [ref=f35e957] [cursor=pointer]:
+            - generic [ref=f35e958]: Ativo
+            - generic [ref=f35e964]:
+              - heading "QA Registro Loading State" [level=3] [ref=f35e965]
+              - paragraph [ref=f35e966]: 135.791.357-59
+            - generic [ref=f35e967]:
+              - generic [ref=f35e971]:
+                - text: 02/02/1991
+                - generic [ref=f35e972]: (35 anos)
+              - generic [ref=f35e973]: qa.registro.reg022@teste.com
+            - generic [ref=f35e978]:
+              - button "Editar" [ref=f35e979]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e983]
+          - generic [ref=f35e987] [cursor=pointer]:
+            - generic [ref=f35e988]: Ativo
+            - generic [ref=f35e994]:
+              - heading "QA Registro Duplo Clique" [level=3] [ref=f35e995]
+              - paragraph [ref=f35e996]: 321.654.987-00
+            - generic [ref=f35e997]:
+              - generic [ref=f35e1001]:
+                - text: 07/07/1993
+                - generic [ref=f35e1002]: (33 anos)
+              - generic [ref=f35e1003]: qa.registro.reg028@teste.com
+            - generic [ref=f35e1008]:
+              - button "Editar" [ref=f35e1009]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e1013]
+          - generic [ref=f35e1017] [cursor=pointer]:
+            - generic [ref=f35e1018]: Ativo
+            - generic [ref=f35e1024]:
+              - heading "QA Registro Duplo Clique Dois" [level=3] [ref=f35e1025]
+              - paragraph [ref=f35e1026]: 963.852.741-00
+            - generic [ref=f35e1027]:
+              - generic [ref=f35e1031]:
+                - text: 08/08/1993
+                - generic [ref=f35e1032]: (33 anos)
+              - generic [ref=f35e1033]: qa.registro.reg028b@teste.com
+            - generic [ref=f35e1038]:
+              - button "Editar" [ref=f35e1039]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e1043]
+          - generic [ref=f35e1047] [cursor=pointer]:
+            - generic [ref=f35e1048]: Ativo
+            - generic [ref=f35e1054]:
+              - heading "QA Registro Retest Curl Test" [level=3] [ref=f35e1055]
+              - paragraph [ref=f35e1056]: 168.995.350-09
+            - generic [ref=f35e1057]:
+              - generic [ref=f35e1061]:
+                - text: 10/05/1990
+                - generic [ref=f35e1062]: (36 anos)
+              - generic [ref=f35e1063]: qa.retest.curltest.20260820@teste.com
+            - generic [ref=f35e1068]:
+              - button "Editar" [ref=f35e1069]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e1073]
+          - generic [ref=f35e1077] [cursor=pointer]:
+            - generic [ref=f35e1078]: Ativo
+            - generic [ref=f35e1084]:
+              - heading "QA Proxy Test" [level=3] [ref=f35e1085]
+              - paragraph [ref=f35e1086]: 054.725.920-46
+            - generic [ref=f35e1087]:
+              - generic [ref=f35e1091]:
+                - text: 10/05/1990
+                - generic [ref=f35e1092]: (36 anos)
+              - generic [ref=f35e1093]: qa.proxytest.20260820@teste.com
+            - generic [ref=f35e1098]:
+              - button "Editar" [ref=f35e1099]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e1103]
+          - generic [ref=f35e1107] [cursor=pointer]:
+            - generic [ref=f35e1108]: Ativo
+            - generic [ref=f35e1114]:
+              - heading "QA Registro Retest Paciente Orfao Curl" [level=3] [ref=f35e1115]
+              - paragraph [ref=f35e1116]: 983.333.814-30
+            - generic [ref=f35e1117]:
+              - generic [ref=f35e1121]:
+                - text: 10/05/1990
+                - generic [ref=f35e1122]: (36 anos)
+              - generic [ref=f35e1123]: qa.retest.orfao.curl.20260820@teste.com
+            - generic [ref=f35e1128]:
+              - button "Editar" [ref=f35e1129]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e1133]
+          - generic [ref=f35e1137] [cursor=pointer]:
+            - generic [ref=f35e1138]: Ativo
+            - generic [ref=f35e1144]:
+              - heading "dupcheck" [level=3] [ref=f35e1145]
+              - paragraph [ref=f35e1146]: 166.467.126-97
+            - generic [ref=f35e1147]:
+              - generic [ref=f35e1151]:
+                - text: 10/05/1990
+                - generic [ref=f35e1152]: (36 anos)
+              - generic [ref=f35e1153]: dupcheck.20260820@teste.com
+            - generic [ref=f35e1158]:
+              - button "Editar" [ref=f35e1159]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e1163]
+          - generic [ref=f35e1167] [cursor=pointer]:
+            - generic [ref=f35e1168]: Ativo
+            - generic [ref=f35e1174]:
+              - heading "QA Registro Retest Paciente Orfao" [level=3] [ref=f35e1175]
+              - paragraph [ref=f35e1176]: 594.840.585-07
+            - generic [ref=f35e1177]:
+              - generic [ref=f35e1181]:
+                - text: 10/05/1990
+                - generic [ref=f35e1182]: (36 anos)
+              - generic [ref=f35e1183]: qa.retest.orfao.r4.20260820@teste.com
+            - generic [ref=f35e1188]:
+              - button "Editar" [ref=f35e1189]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e1193]
+          - generic [ref=f35e1197] [cursor=pointer]:
+            - generic [ref=f35e1198]: Ativo
+            - generic [ref=f35e1204]:
+              - heading "QA Registro Retest Duplo Clique" [level=3] [ref=f35e1205]
+              - paragraph [ref=f35e1206]: 025.326.795-14
+            - generic [ref=f35e1207]:
+              - generic [ref=f35e1211]:
+                - text: 10/05/1990
+                - generic [ref=f35e1212]: (36 anos)
+              - generic [ref=f35e1213]: qa.retest.duploclique.20260820@teste.com
+            - generic [ref=f35e1218]:
+              - button "Editar" [ref=f35e1219]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e1223]
+          - generic [ref=f35e1227] [cursor=pointer]:
+            - generic [ref=f35e1228]: Ativo
+            - generic [ref=f35e1234]:
+              - heading "QA Registro Retest Race A" [level=3] [ref=f35e1235]
+              - paragraph [ref=f35e1236]: 158.506.790-30
+            - generic [ref=f35e1237]:
+              - generic [ref=f35e1241]:
+                - text: 10/05/1990
+                - generic [ref=f35e1242]: (36 anos)
+              - generic [ref=f35e1243]: qa.retest.race.20260820@teste.com
+            - generic [ref=f35e1248]:
+              - button "Editar" [ref=f35e1249]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e1253]
+          - generic [ref=f35e1257] [cursor=pointer]:
+            - generic [ref=f35e1258]: Ativo
+            - generic [ref=f35e1264]:
+              - heading "chk" [level=3] [ref=f35e1265]
+              - paragraph [ref=f35e1266]: 240.193.357-37
+            - generic [ref=f35e1267]:
+              - generic [ref=f35e1271]:
+                - text: 10/05/1990
+                - generic [ref=f35e1272]: (36 anos)
+              - generic [ref=f35e1273]: chk2.20260820@teste.com
+            - generic [ref=f35e1278]:
+              - button "Editar" [ref=f35e1279]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e1283]
+          - generic [ref=f35e1287] [cursor=pointer]:
+            - generic [ref=f35e1288]: Ativo
+            - generic [ref=f35e1294]:
+              - heading "check" [level=3] [ref=f35e1295]
+              - paragraph [ref=f35e1296]: 910.157.788-36
+            - generic [ref=f35e1297]:
+              - generic [ref=f35e1301]:
+                - text: 10/05/1990
+                - generic [ref=f35e1302]: (36 anos)
+              - generic [ref=f35e1303]: check.dup.20260820@teste.com
+            - generic [ref=f35e1308]:
+              - button "Editar" [ref=f35e1309]
+              - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f35e1313]
+          - generic [ref=f35e1317] [cursor=pointer]:
+            - generic [ref=f35e1318]: Inativo
+            - generic [ref=f35e1324]:
+              - heading "MARIA SILVA" [level=3] [ref=f35e1325]
+              - paragraph [ref=f35e1326]: 947.523.641-23
+            - generic [ref=f35e1327]:
+              - generic [ref=f35e1331]:
+                - text: 05/05/2015
+                - generic [ref=f35e1332]: (11 anos)
+              - generic [ref=f35e1333]: mariasilva@gmail.com
+              - generic [ref=f35e1338]: (61) 99874-5632
+              - generic [ref=f35e1342]: BRASILIA — DF
+            - generic [ref=f35e1347]:
+              - button "Editar" [ref=f35e1348]
+              - button "Reativar" [disabled] [ref=f35e1352]

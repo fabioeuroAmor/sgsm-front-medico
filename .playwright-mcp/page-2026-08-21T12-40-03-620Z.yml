@@ -1,0 +1,24 @@
+- generic [ref=f35e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f35e3] [cursor=pointer]
+  - generic [ref=f35e7]:
+    - generic [ref=f35e8]:
+      - heading "Bem-vindo ao SGSM" [level=1] [ref=f35e13]
+      - paragraph [ref=f35e14]: Sistema de Gerenciamento de Serviços Médicos
+    - generic [ref=f35e15]:
+      - generic [ref=f35e16]:
+        - generic [ref=f35e17]:
+          - generic [ref=f35e18]: E-mail
+          - textbox "E-mail" [ref=f35e19]:
+            - /placeholder: medico@clinica.com
+        - generic [ref=f35e20]:
+          - generic [ref=f35e21]: Senha
+          - textbox "Senha" [ref=f35e22]:
+            - /placeholder: ••••••••
+        - button "Entrar" [ref=f35e23] [cursor=pointer]
+        - link "Esqueci minha senha" [ref=f35e25] [cursor=pointer]:
+          - /url: /esqueci-senha
+      - link "Novo no sistema? Criar conta" [ref=f35e27] [cursor=pointer]:
+        - /url: /registrar
+        - generic [ref=f35e30]: Novo no sistema?
+        - generic [ref=f35e31]: Criar conta

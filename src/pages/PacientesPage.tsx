@@ -108,13 +108,14 @@ function calcIdade(iso: string) {
 
 // ── Tipos locais ────────────────────────────────────────────────────────────
 type FormErrors = Partial<Record<
-  'nome' | 'cpf' | 'dataNascimento' | 'email' | 'telefone' | 'cep' | 'numero' | 'uf',
+  'nome' | 'cpf' | 'dataNascimento' | 'email' | 'telefone' | 'cep' | 'numero' | 'uf' | 'consentimentoLgpd',
   string
 >>
 
 const emptyForm: CadastrarPacienteRequest = {
   nome: '', cpf: '', dataNascimento: '', email: '', telefone: '',
   logradouro: '', numero: '', complemento: '', bairro: '', cidade: '', uf: '', cep: '',
+  consentimentoLgpd: false,
 }
 
 export function PacientesPage() {
@@ -181,6 +182,9 @@ export function PacientesPage() {
       telefone: p.telefone ?? '', logradouro: p.logradouro ?? '', numero: p.numero ?? '',
       complemento: p.complemento ?? '', bairro: p.bairro ?? '', cidade: p.cidade ?? '',
       uf: p.uf ?? '', cep: p.cep ?? '',
+      // Edição não recoleta consentimento — já concedido no cadastro original; o campo
+      // sequer é enviado por atualizar() (AtualizarPacienteRequest não o inclui).
+      consentimentoLgpd: true,
     })
     setCpfDisplay(formatCpf(p.cpf))
     setTelefoneDisplay(maskTelefone(p.telefone ?? ''))
@@ -297,6 +301,10 @@ export function PacientesPage() {
       const d = form.cpf.replace(/\D/g, '')
       if (d.length !== 11) erros.cpf = 'CPF deve ter 11 dígitos'
       else if (!validarCpfDigitos(d)) erros.cpf = 'CPF inválido'
+
+      if (!form.consentimentoLgpd) {
+        erros.consentimentoLgpd = 'Consentimento com o tratamento de dados (LGPD) é obrigatório'
+      }
     }
 
     const emailErr = validarEmail(form.email)
@@ -584,6 +592,30 @@ export function PacientesPage() {
             onBlur={() => validarCampo('dataNascimento')}
             error={formErrors.dataNascimento}
           />
+
+          {/* Consentimento LGPD (só no cadastro — já é irrevogável uma vez concedido) */}
+          {!editando && (
+            <div>
+              <label className="flex items-start gap-2.5 text-sm text-foreground/80 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={form.consentimentoLgpd}
+                  onChange={(e) => {
+                    setForm((f) => ({ ...f, consentimentoLgpd: e.target.checked }))
+                    setFormErrors((fe) => ({ ...fe, consentimentoLgpd: undefined }))
+                  }}
+                  className="mt-0.5 h-4 w-4 rounded border-border accent-primary shrink-0"
+                />
+                <span>
+                  Paciente concorda com o tratamento dos seus dados de saúde conforme a <strong>LGPD</strong>,
+                  para fins de agendamento e atendimento médico.
+                </span>
+              </label>
+              {formErrors.consentimentoLgpd && (
+                <p className="text-xs text-destructive mt-1">{formErrors.consentimentoLgpd}</p>
+              )}
+            </div>
+          )}
 
           {/* E-mail */}
           <Input

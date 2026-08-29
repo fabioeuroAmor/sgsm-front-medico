@@ -1,0 +1,311 @@
+- generic [ref=f19e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f19e3] [cursor=pointer]
+  - generic [ref=f19e8]:
+    - banner [ref=f19e9]:
+      - generic [ref=f19e10]: SGSM
+      - button "Toggle menu" [ref=f19e15] [cursor=pointer]
+    - main [ref=f19e18]:
+      - generic [ref=f19e19]:
+        - generic [ref=f19e20]:
+          - generic [ref=f19e21]:
+            - paragraph [ref=f19e22]: Gestão
+            - heading "Agendamentos" [level=1] [ref=f19e23]
+            - paragraph [ref=f19e24]: Visualize e gerencie todos os agendamentos de consultas e procedimentos.
+            - button "Novo Agendamento" [ref=f19e26] [cursor=pointer]
+          - generic [ref=f19e28] [cursor=pointer]
+        - generic [ref=f19e31]:
+          - textbox "CRM ou nome do médico…" [ref=f19e37]
+          - textbox "CPF ou nome do paciente…" [ref=f19e43]
+          - generic [ref=f19e44]:
+            - button "Todos" [ref=f19e45] [cursor=pointer]
+            - button "Pendente" [ref=f19e46] [cursor=pointer]
+            - button "Confirmado" [ref=f19e47] [cursor=pointer]
+            - button "Em Andamento" [ref=f19e48] [cursor=pointer]
+            - button "Concluído" [ref=f19e49] [cursor=pointer]
+            - button "Cancelado" [ref=f19e50] [cursor=pointer]
+        - generic [ref=f19e51]:
+          - generic [ref=f19e52]:
+            - generic [ref=f19e53]:
+              - generic [ref=f19e54]:
+                - paragraph [ref=f19e55]: Tereza Rossi
+                - paragraph [ref=f19e56]: Consulta de Rotina
+              - generic [ref=f19e57]: Concluído
+            - generic [ref=f19e58]:
+              - generic [ref=f19e59]: Fabio Monteiro Amorim
+              - link "Clinica São Lucas" [ref=f19e69] [cursor=pointer]:
+                - /url: https://www.google.com/maps/search/?api=1&query=Samambai%2C%2045%2C%20Sala%2046%2C%20Samambai%20%20SUL%2C%20Bras%C3%ADlia%2C%20DF%2C%2072300-000%2C%20Brasil
+              - generic [ref=f19e70]: 27/07/2026, 08:30
+          - generic [ref=f19e74]:
+            - generic [ref=f19e75]:
+              - generic [ref=f19e76]:
+                - paragraph [ref=f19e77]: Zildinha Ruela
+                - paragraph [ref=f19e78]: Consulta de Rotina
+              - generic [ref=f19e79]: Pendente
+            - generic [ref=f19e80]:
+              - generic [ref=f19e81]: Fabio Monteiro Amorim
+              - link "Clinica São Lucas" [ref=f19e91] [cursor=pointer]:
+                - /url: https://www.google.com/maps/search/?api=1&query=Samambai%2C%2045%2C%20Sala%2046%2C%20Samambai%20%20SUL%2C%20Bras%C3%ADlia%2C%20DF%2C%2072300-000%2C%20Brasil
+              - generic [ref=f19e92]: 26/08/2026, 13:00
+            - generic [ref=f19e96]:
+              - button "Cancelar" [ref=f19e97] [cursor=pointer]
+              - button "Confirmar" [ref=f19e102] [cursor=pointer]
+          - generic [ref=f19e103]:
+            - generic [ref=f19e104]:
+              - generic [ref=f19e105]:
+                - paragraph [ref=f19e106]: Zildinha Ruela
+                - paragraph [ref=f19e107]: Consulta de Rotina
+              - generic [ref=f19e108]: Concluído
+            - generic [ref=f19e109]:
+              - generic [ref=f19e110]: Fabio Monteiro Amorim
+              - link "Clinica São Lucas" [ref=f19e120] [cursor=pointer]:
+                - /url: https://www.google.com/maps/search/?api=1&query=Samambai%2C%2045%2C%20Sala%2046%2C%20Samambai%20%20SUL%2C%20Bras%C3%ADlia%2C%20DF%2C%2072300-000%2C%20Brasil
+              - generic [ref=f19e121]: 26/08/2026, 10:00
+          - generic [ref=f19e125]:
+            - generic [ref=f19e126]:
+              - generic [ref=f19e127]:
+                - paragraph [ref=f19e128]: Zildinha Ruela
+                - paragraph [ref=f19e129]: Consulta de Rotina
+              - generic [ref=f19e130]: Concluído
+            - generic [ref=f19e131]:
+              - generic [ref=f19e132]: Fabio Monteiro Amorim
+              - link "Domiciliar — Rua Copaíba, 902, 78, Norte (Águas Claras), Brasília, DF, 71919540, Brasil" [ref=f19e142] [cursor=pointer]:
+                - /url: https://www.google.com/maps/search/?api=1&query=Rua%20Copa%C3%ADba%2C%20902%2C%2078%2C%20Norte%20(%C3%81guas%20Claras)%2C%20Bras%C3%ADlia%2C%20DF%2C%2071919540%2C%20Brasil
+              - generic [ref=f19e143]: 20/08/2026, 09:00
+              - link "Acompanhar médico" [ref=f19e153] [cursor=pointer]:
+                - /url: https://maps.app.goo.gl/QAteste123
+          - generic [ref=f19e154]:
+            - generic [ref=f19e155]:
+              - generic [ref=f19e156]:
+                - paragraph [ref=f19e157]: Zilma Ruela
+                - paragraph [ref=f19e158]: Consulta de Rotina
+              - generic [ref=f19e159]: Cancelado
+            - generic [ref=f19e160]:
+              - generic [ref=f19e161]: Fabio Monteiro Amorim
+              - generic [ref=f19e167]: Telemedicina
+              - generic [ref=f19e172]: 26/08/2026, 11:00
+          - generic [ref=f19e176]:
+            - generic [ref=f19e177]:
+              - generic [ref=f19e178]:
+                - paragraph [ref=f19e179]: Tereza Rossi
+                - paragraph [ref=f19e180]: Consulta de Rotina
+              - generic [ref=f19e181]: Pendente
+            - generic [ref=f19e182]:
+              - generic [ref=f19e183]: Fabio Monteiro Amorim
+              - link "Clinica São Lucas" [ref=f19e193] [cursor=pointer]:
+                - /url: https://www.google.com/maps/search/?api=1&query=Samambai%2C%2045%2C%20Sala%2046%2C%20Samambai%20%20SUL%2C%20Bras%C3%ADlia%2C%20DF%2C%2072300-000%2C%20Brasil
+              - generic [ref=f19e194]: 27/08/2026, 09:00
+            - generic [ref=f19e198]:
+              - button "Cancelar" [ref=f19e199] [cursor=pointer]
+              - button "Confirmar" [ref=f19e204] [cursor=pointer]
+          - generic [ref=f19e205]:
+            - generic [ref=f19e206]:
+              - generic [ref=f19e207]:
+                - paragraph [ref=f19e208]: Zilma Ruela
+                - paragraph [ref=f19e209]: Consulta de Rotina
+              - generic [ref=f19e210]: Concluído
+            - generic [ref=f19e211]:
+              - generic [ref=f19e212]: Fabio Monteiro Amorim
+              - link "Clinica São Lucas" [ref=f19e222] [cursor=pointer]:
+                - /url: https://www.google.com/maps/search/?api=1&query=Samambai%2C%2045%2C%20Sala%2046%2C%20Samambai%20%20SUL%2C%20Bras%C3%ADlia%2C%20DF%2C%2072300-000%2C%20Brasil
+              - generic [ref=f19e223]: 26/08/2026, 13:00
+          - generic [ref=f19e227]:
+            - generic [ref=f19e228]:
+              - generic [ref=f19e229]:
+                - paragraph [ref=f19e230]: João Pereira Teste
+                - paragraph [ref=f19e231]: Consulta de Rotina
+              - generic [ref=f19e232]: Pendente
+            - generic [ref=f19e233]:
+              - generic [ref=f19e234]: Fabio Monteiro Amorim
+              - link "Domiciliar — Centro, São Paulo, SP, Brasil" [ref=f19e244] [cursor=pointer]:
+                - /url: https://www.google.com/maps/search/?api=1&query=Centro%2C%20S%C3%A3o%20Paulo%2C%20SP%2C%20Brasil
+              - generic [ref=f19e245]: 27/08/2026, 08:00
+            - generic [ref=f19e249]:
+              - button "Cancelar" [ref=f19e250] [cursor=pointer]
+              - button "Confirmar" [ref=f19e255] [cursor=pointer]
+          - generic [ref=f19e256]:
+            - generic [ref=f19e257]:
+              - generic [ref=f19e258]:
+                - paragraph [ref=f19e259]: João Pereira Teste
+                - paragraph [ref=f19e260]: Consulta de Rotina
+              - generic [ref=f19e261]: Pendente
+            - generic [ref=f19e262]:
+              - generic [ref=f19e263]: Fabio Monteiro Amorim
+              - link "Domiciliar — Centro, São Paulo, SP, Brasil" [ref=f19e273] [cursor=pointer]:
+                - /url: https://www.google.com/maps/search/?api=1&query=Centro%2C%20S%C3%A3o%20Paulo%2C%20SP%2C%20Brasil
+              - generic [ref=f19e274]: 27/08/2026, 08:30
+            - generic [ref=f19e278]:
+              - button "Cancelar" [ref=f19e279] [cursor=pointer]
+              - button "Confirmar" [ref=f19e284] [cursor=pointer]
+        - generic [ref=f19e287]:
+          - generic [ref=f19e288]:
+            - heading "Passo 1 / 5 — Paciente" [level=2] [ref=f19e289]
+            - button [ref=f19e290] [cursor=pointer]
+          - generic [ref=f19e295]:
+            - textbox "Buscar por nome ou CPF…" [ref=f19e297]
+            - generic [ref=f19e298]:
+              - button "Tereza Rossi 471.258.963-41" [active] [ref=f19e299] [cursor=pointer]:
+                - generic [ref=f19e300]:
+                  - generic [ref=f19e301]: Tereza Rossi
+                  - generic [ref=f19e302]: 471.258.963-41
+              - button "Zildinha Ruela 043.141.421-12" [ref=f19e303] [cursor=pointer]:
+                - generic [ref=f19e304]:
+                  - generic [ref=f19e305]: Zildinha Ruela
+                  - generic [ref=f19e306]: 043.141.421-12
+              - button "Zilma Ruela 945.231.794-56" [ref=f19e307] [cursor=pointer]:
+                - generic [ref=f19e308]:
+                  - generic [ref=f19e309]: Zilma Ruela
+                  - generic [ref=f19e310]: 945.231.794-56
+              - button "FABIO SERGIO 043.141.421-18" [ref=f19e311] [cursor=pointer]:
+                - generic [ref=f19e312]:
+                  - generic [ref=f19e313]: FABIO SERGIO
+                  - generic [ref=f19e314]: 043.141.421-18
+              - button "Massaru Oroshi 471.258.963-49" [ref=f19e315] [cursor=pointer]:
+                - generic [ref=f19e316]:
+                  - generic [ref=f19e317]: Massaru Oroshi
+                  - generic [ref=f19e318]: 471.258.963-49
+              - button "antonia 123.542.889-36" [ref=f19e319] [cursor=pointer]:
+                - generic [ref=f19e320]:
+                  - generic [ref=f19e321]: antonia
+                  - generic [ref=f19e322]: 123.542.889-36
+              - button "raimundas ergia 405.201.452-02" [ref=f19e323] [cursor=pointer]:
+                - generic [ref=f19e324]:
+                  - generic [ref=f19e325]: raimundas ergia
+                  - generic [ref=f19e326]: 405.201.452-02
+              - button "fabiola sergia 400.550.861-87" [ref=f19e327] [cursor=pointer]:
+                - generic [ref=f19e328]:
+                  - generic [ref=f19e329]: fabiola sergia
+                  - generic [ref=f19e330]: 400.550.861-87
+              - button "fabiolo sergio 296.767.181-49" [ref=f19e331] [cursor=pointer]:
+                - generic [ref=f19e332]:
+                  - generic [ref=f19e333]: fabiolo sergio
+                  - generic [ref=f19e334]: 296.767.181-49
+              - button "Biel souza 043.141.589-66" [ref=f19e335] [cursor=pointer]:
+                - generic [ref=f19e336]:
+                  - generic [ref=f19e337]: Biel souza
+                  - generic [ref=f19e338]: 043.141.589-66
+              - button "Julia Tardino 025.366.978-56" [ref=f19e339] [cursor=pointer]:
+                - generic [ref=f19e340]:
+                  - generic [ref=f19e341]: Julia Tardino
+                  - generic [ref=f19e342]: 025.366.978-56
+              - button "Julia Tardino 698.736.124-5" [ref=f19e343] [cursor=pointer]:
+                - generic [ref=f19e344]:
+                  - generic [ref=f19e345]: Julia Tardino
+                  - generic [ref=f19e346]: 698.736.124-5
+              - button "Julia Tardino 698.736.124-59" [ref=f19e347] [cursor=pointer]:
+                - generic [ref=f19e348]:
+                  - generic [ref=f19e349]: Julia Tardino
+                  - generic [ref=f19e350]: 698.736.124-59
+              - button "João Pereira Teste 123.456.789-01" [ref=f19e351] [cursor=pointer]:
+                - generic [ref=f19e352]:
+                  - generic [ref=f19e353]: João Pereira Teste
+                  - generic [ref=f19e354]: 123.456.789-01
+              - button "Ana Beatriz Souza 987.654.321-00" [ref=f19e355] [cursor=pointer]:
+                - generic [ref=f19e356]:
+                  - generic [ref=f19e357]: Ana Beatriz Souza
+                  - generic [ref=f19e358]: 987.654.321-00
+              - button "asasz 896.767.181-49" [ref=f19e359] [cursor=pointer]:
+                - generic [ref=f19e360]:
+                  - generic [ref=f19e361]: asasz
+                  - generic [ref=f19e362]: 896.767.181-49
+              - button "Teste P016 529.982.247-25" [ref=f19e363] [cursor=pointer]:
+                - generic [ref=f19e364]:
+                  - generic [ref=f19e365]: Teste P016
+                  - generic [ref=f19e366]: 529.982.247-25
+              - button "Teste Duplo P028 445.364.105-20" [ref=f19e367] [cursor=pointer]:
+                - generic [ref=f19e368]:
+                  - generic [ref=f19e369]: Teste Duplo P028
+                  - generic [ref=f19e370]: 445.364.105-20
+              - button "QA Regressão P032 111.444.777-35" [ref=f19e371] [cursor=pointer]:
+                - generic [ref=f19e372]:
+                  - generic [ref=f19e373]: QA Regressão P032
+                  - generic [ref=f19e374]: 111.444.777-35
+              - button "QA Paciente Completo 123.456.789-09" [ref=f19e375] [cursor=pointer]:
+                - generic [ref=f19e376]:
+                  - generic [ref=f19e377]: QA Paciente Completo
+                  - generic [ref=f19e378]: 123.456.789-09
+              - button "QA Duplo CR002 532.469.860-10" [ref=f19e379] [cursor=pointer]:
+                - generic [ref=f19e380]:
+                  - generic [ref=f19e381]: QA Duplo CR002
+                  - generic [ref=f19e382]: 532.469.860-10
+              - button "QA Registro Paciente Reg011 111.222.333-96" [ref=f19e383] [cursor=pointer]:
+                - generic [ref=f19e384]:
+                  - generic [ref=f19e385]: QA Registro Paciente Reg011
+                  - generic [ref=f19e386]: 111.222.333-96
+              - button "QA Registro Data Vazia 444.555.666-19" [ref=f19e387] [cursor=pointer]:
+                - generic [ref=f19e388]:
+                  - generic [ref=f19e389]: QA Registro Data Vazia
+                  - generic [ref=f19e390]: 444.555.666-19
+              - button "QA Registro CPF Invalido 111.111.111-11" [ref=f19e391] [cursor=pointer]:
+                - generic [ref=f19e392]:
+                  - generic [ref=f19e393]: QA Registro CPF Invalido
+                  - generic [ref=f19e394]: 111.111.111-11
+              - button "QA Registro Orfao Paciente 555.666.777-20" [ref=f19e395] [cursor=pointer]:
+                - generic [ref=f19e396]:
+                  - generic [ref=f19e397]: QA Registro Orfao Paciente
+                  - generic [ref=f19e398]: 555.666.777-20
+              - button "QA Registro Loading State 135.791.357-59" [ref=f19e399] [cursor=pointer]:
+                - generic [ref=f19e400]:
+                  - generic [ref=f19e401]: QA Registro Loading State
+                  - generic [ref=f19e402]: 135.791.357-59
+              - button "QA Registro Duplo Clique 321.654.987-00" [ref=f19e403] [cursor=pointer]:
+                - generic [ref=f19e404]:
+                  - generic [ref=f19e405]: QA Registro Duplo Clique
+                  - generic [ref=f19e406]: 321.654.987-00
+              - button "QA Registro Duplo Clique Dois 963.852.741-00" [ref=f19e407] [cursor=pointer]:
+                - generic [ref=f19e408]:
+                  - generic [ref=f19e409]: QA Registro Duplo Clique Dois
+                  - generic [ref=f19e410]: 963.852.741-00
+              - button "QA Registro Retest Curl Test 168.995.350-09" [ref=f19e411] [cursor=pointer]:
+                - generic [ref=f19e412]:
+                  - generic [ref=f19e413]: QA Registro Retest Curl Test
+                  - generic [ref=f19e414]: 168.995.350-09
+              - button "QA Proxy Test 054.725.920-46" [ref=f19e415] [cursor=pointer]:
+                - generic [ref=f19e416]:
+                  - generic [ref=f19e417]: QA Proxy Test
+                  - generic [ref=f19e418]: 054.725.920-46
+              - button "QA Registro Retest Paciente Orfao Curl 983.333.814-30" [ref=f19e419] [cursor=pointer]:
+                - generic [ref=f19e420]:
+                  - generic [ref=f19e421]: QA Registro Retest Paciente Orfao Curl
+                  - generic [ref=f19e422]: 983.333.814-30
+              - button "dupcheck 166.467.126-97" [ref=f19e423] [cursor=pointer]:
+                - generic [ref=f19e424]:
+                  - generic [ref=f19e425]: dupcheck
+                  - generic [ref=f19e426]: 166.467.126-97
+              - button "QA Registro Retest Paciente Orfao 594.840.585-07" [ref=f19e427] [cursor=pointer]:
+                - generic [ref=f19e428]:
+                  - generic [ref=f19e429]: QA Registro Retest Paciente Orfao
+                  - generic [ref=f19e430]: 594.840.585-07
+              - button "QA Registro Retest Duplo Clique 025.326.795-14" [ref=f19e431] [cursor=pointer]:
+                - generic [ref=f19e432]:
+                  - generic [ref=f19e433]: QA Registro Retest Duplo Clique
+                  - generic [ref=f19e434]: 025.326.795-14
+              - button "QA Registro Retest Race A 158.506.790-30" [ref=f19e435] [cursor=pointer]:
+                - generic [ref=f19e436]:
+                  - generic [ref=f19e437]: QA Registro Retest Race A
+                  - generic [ref=f19e438]: 158.506.790-30
+              - button "chk 240.193.357-37" [ref=f19e439] [cursor=pointer]:
+                - generic [ref=f19e440]:
+                  - generic [ref=f19e441]: chk
+                  - generic [ref=f19e442]: 240.193.357-37
+              - button "check 910.157.788-36" [ref=f19e443] [cursor=pointer]:
+                - generic [ref=f19e444]:
+                  - generic [ref=f19e445]: check
+                  - generic [ref=f19e446]: 910.157.788-36
+              - button "QA Chatbot Teste 20260821 864.573.216-58" [ref=f19e447] [cursor=pointer]:
+                - generic [ref=f19e448]:
+                  - generic [ref=f19e449]: QA Chatbot Teste 20260821
+                  - generic [ref=f19e450]: 864.573.216-58
+              - button "QA Chatbot Sucesso 21082026 247.161.397-78" [ref=f19e451] [cursor=pointer]:
+                - generic [ref=f19e452]:
+                  - generic [ref=f19e453]: QA Chatbot Sucesso 21082026
+                  - generic [ref=f19e454]: 247.161.397-78
+              - button "Rebecca Sabrina Ruella 043.141.421-11" [ref=f19e455] [cursor=pointer]:
+                - generic [ref=f19e456]:
+                  - generic [ref=f19e457]: Rebecca Sabrina Ruella
+                  - generic [ref=f19e458]: 043.141.421-11
+              - button "Welcilene Silva lima 925.231.701-59" [ref=f19e459] [cursor=pointer]:
+                - generic [ref=f19e460]:
+                  - generic [ref=f19e461]: Welcilene Silva lima
+                  - generic [ref=f19e462]: 925.231.701-59
+          - button "Próximo" [ref=f19e464] [cursor=pointer]

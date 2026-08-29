@@ -1,0 +1,103 @@
+- generic [ref=f21e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f21e3] [cursor=pointer]
+  - generic [ref=f21e6]:
+    - banner [ref=f21e7]:
+      - generic [ref=f21e8]:
+        - link "SGSM Médico" [ref=f21e11] [cursor=pointer]:
+          - /url: /
+        - generic [ref=f21e20]:
+          - link "Acessar Sistema" [ref=f21e21] [cursor=pointer]:
+            - /url: /pacientes
+          - button "Fechar menu" [active] [ref=f21e203] [cursor=pointer]
+      - navigation [ref=f21e207]:
+        - link "Início" [ref=f21e208] [cursor=pointer]:
+          - /url: "#"
+        - link "Funcionalidades" [ref=f21e209] [cursor=pointer]:
+          - /url: "#features"
+        - link "Sobre o Sistema" [ref=f21e210] [cursor=pointer]:
+          - /url: "#about"
+    - main [ref=f21e24]:
+      - generic [ref=f21e32]:
+        - generic [ref=f21e33]: Sistema de Gestão em Saúde
+        - heading "Gestão Médica Completa na Palma da Mão" [level=1] [ref=f21e34]
+        - paragraph [ref=f21e35]: Controle pacientes, médicos, estabelecimentos e agendamentos em uma única plataforma. Ágil, integrado e focado na eficiência do atendimento médico.
+        - generic [ref=f21e36]:
+          - link "Novo Agendamento" [ref=f21e37] [cursor=pointer]:
+            - /url: /agendamentos
+          - link "✦ Explorar o mundo do sistema" [ref=f21e40] [cursor=pointer]:
+            - /url: /world
+      - generic [ref=f21e42]:
+        - generic [ref=f21e44]:
+          - paragraph [ref=f21e45]: Funcionalidades
+          - heading "Tudo que você precisa" [level=2] [ref=f21e46]
+          - paragraph [ref=f21e47]: Uma plataforma completa para gerenciar todos os aspectos da operação médica, do cadastro ao atendimento.
+        - generic [ref=f21e48]:
+          - generic [ref=f21e52]:
+            - heading "Gestão de Pacientes" [level=3] [ref=f21e59]
+            - paragraph [ref=f21e60]: Cadastro completo com CPF, endereço automático via ViaCEP, histórico e controle de status.
+          - generic [ref=f21e64]:
+            - heading "Gestão de Médicos" [level=3] [ref=f21e70]
+            - paragraph [ref=f21e71]: Agenda semanal por dia da semana, suporte a atendimento domiciliar e vínculos com estabelecimentos.
+          - generic [ref=f21e75]:
+            - heading "Estabelecimentos" [level=3] [ref=f21e81]
+            - paragraph [ref=f21e82]: Gerencie clínicas e hospitais, vincule médicos por unidade e acesse localização no Google Maps.
+          - generic [ref=f21e86]:
+            - heading "Agendamentos" [level=3] [ref=f21e92]
+            - paragraph [ref=f21e93]: Wizard intuitivo de 5 etapas com controle completo de status, do agendamento até a conclusão.
+        - link "Acessar Sistema" [ref=f21e95] [cursor=pointer]:
+          - /url: /pacientes
+      - generic [ref=f21e99]:
+        - generic [ref=f21e101] [cursor=pointer]
+        - generic [ref=f21e106]:
+          - heading "Assistente Virtual disponível agora" [level=3] [ref=f21e107]
+          - paragraph [ref=f21e108]:
+            - text: Clique no botão
+            - strong [ref=f21e109]: azul-teal
+            - text: no canto inferior direito e use nosso chatbot para
+            - strong [ref=f21e110]: cadastrar um paciente
+            - text: ou
+            - strong [ref=f21e111]: agendar uma consulta
+            - text: em poucos passos, sem precisar navegar pelo sistema.
+        - generic [ref=f21e112]:
+          - generic [ref=f21e113]: Clique aqui embaixo
+          - generic [ref=f21e125] [cursor=pointer]
+          - generic [ref=f21e130]: canto inferior direito ↘
+      - generic [ref=f21e135]:
+        - generic [ref=f21e138]:
+          - paragraph [ref=f21e139]: Fluxo de Atendimento
+          - heading "Agendamento em 5 etapas" [level=2] [ref=f21e140]
+          - generic [ref=f21e141]:
+            - paragraph [ref=f21e142]: "O módulo de agendamentos guia o operador em um wizard intuitivo: selecione o paciente, o serviço, o médico, o slot disponível e confirme."
+            - paragraph [ref=f21e143]: "Acompanhe cada consulta do agendamento até a conclusão: Agendado → Confirmado → A Caminho → Chegou → Concluído."
+          - link "Criar Agendamento" [ref=f21e145] [cursor=pointer]:
+            - /url: /agendamentos
+        - generic [ref=f21e148]:
+          - heading "Módulos disponíveis:" [level=4] [ref=f21e149]
+          - list [ref=f21e150]:
+            - listitem [ref=f21e151]:
+              - generic [ref=f21e156]:
+                - generic [ref=f21e157]: Pacientes
+                - text: Cadastro com ViaCEP e inativação
+            - listitem [ref=f21e158]:
+              - generic [ref=f21e163]:
+                - generic [ref=f21e164]: Médicos
+                - text: Agenda semanal e atendimento domiciliar
+            - listitem [ref=f21e165]:
+              - generic [ref=f21e170]:
+                - generic [ref=f21e171]: Estabelecimentos
+                - text: Clínicas, hospitais e localização no mapa
+            - listitem [ref=f21e172]:
+              - generic [ref=f21e177]:
+                - generic [ref=f21e178]: Serviços Médicos
+                - text: Catálogo com valores e tipos
+            - listitem [ref=f21e179]:
+              - generic [ref=f21e184]:
+                - generic [ref=f21e185]: Agendamentos
+                - text: Wizard completo e controle de status
+    - contentinfo [ref=f21e186]:
+      - generic [ref=f21e187]:
+        - generic [ref=f21e188]: SGSM Médico
+        - paragraph [ref=f21e197]: © 2026 SGSM — Sistema de Gestão em Saúde Médica
+        - link "Acessar Sistema →" [ref=f21e200] [cursor=pointer]:
+          - /url: /pacientes

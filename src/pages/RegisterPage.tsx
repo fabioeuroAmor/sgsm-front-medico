@@ -34,6 +34,7 @@ export function RegisterPage() {
   const [cpf, setCpf] = useState('')
   const [cpfDisplay, setCpfDisplay] = useState('')
   const [dataNascimento, setDataNascimento] = useState('')
+  const [consentimentoLgpd, setConsentimentoLgpd] = useState(false)
 
   // campos médico
   const [crm, setCrm] = useState('')
@@ -81,6 +82,10 @@ export function RegisterPage() {
         toast.error('Data de nascimento não pode ser no futuro.')
         return
       }
+      if (!consentimentoLgpd) {
+        toast.error('É necessário concordar com o tratamento de dados (LGPD) para se cadastrar.')
+        return
+      }
     }
 
     if (enviandoRef.current) return
@@ -100,7 +105,7 @@ export function RegisterPage() {
         const medico = await medicoService.cadastrar({ nome, crm, crmUf, especialidade, email })
         referenciaId = medico.id
       } else if (tipo === 'PACIENTE') {
-        const paciente = await pacienteService.cadastrar({ nome, cpf, dataNascimento, email })
+        const paciente = await pacienteService.cadastrar({ nome, cpf, dataNascimento, email, consentimentoLgpd })
         referenciaId = paciente.id
       }
       // FUNCIONARIO: referenciaId resolvido automaticamente pelo backend via email
@@ -185,6 +190,20 @@ export function RegisterPage() {
                   onChange={(e) => setDataNascimento(e.target.value)}
                   required
                 />
+                <label className="flex items-start gap-2.5 text-sm text-foreground/80 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={consentimentoLgpd}
+                    onChange={(e) => setConsentimentoLgpd(e.target.checked)}
+                    className="mt-0.5 h-4 w-4 rounded border-border accent-primary shrink-0"
+                    required
+                  />
+                  <span>
+                    Concordo com o tratamento dos meus dados de saúde (nome, CPF, data de
+                    nascimento, e-mail) conforme a <strong>LGPD</strong>, para fins de
+                    agendamento e atendimento médico.
+                  </span>
+                </label>
               </>
             )}
 

@@ -1,0 +1,648 @@
+import { useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
+import type { ComponentType } from 'react'
+import {
+  Activity,
+  Users,
+  Stethoscope,
+  Building2,
+  CalendarClock,
+  ArrowRight,
+  CheckCircle2,
+  MessageCircle,
+  MousePointerClick,
+  Menu,
+  X,
+  ClipboardList,
+  UserCog,
+  Sparkles,
+  BarChart2,
+} from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { buttonVariants } from '@/components/ui/Button'
+import { SpotlightHero } from '@/components/ui/SpotlightHero'
+import { useMountReveal } from '@/hooks/useMountReveal'
+
+// ─── TiltWrap (envolve qualquer elemento com efeito 3D) ───────────────────────
+
+function TiltWrap({ children, intensity = 20, className }: { children: React.ReactNode; intensity?: number; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [tilt, setTilt] = useState({ rx: 0, ry: 0 })
+  const [hov, setHov] = useState(false)
+
+  function onMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = ref.current; if (!el) return
+    const { left, top, width, height } = el.getBoundingClientRect()
+    const px = (e.clientX - left) / width
+    const py = (e.clientY - top) / height
+    setTilt({ rx: (py - 0.5) * -intensity, ry: (px - 0.5) * intensity })
+  }
+
+  return (
+    <div style={{ perspective: '400px' }} className={className}>
+      <div
+        ref={ref}
+        onMouseMove={onMove}
+        onMouseEnter={() => setHov(true)}
+        onMouseLeave={() => { setHov(false); setTilt({ rx: 0, ry: 0 }) }}
+        style={{
+          transformStyle: 'preserve-3d',
+          transform: `rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) scale(${hov ? 1.06 : 1})`,
+          transition: hov ? 'transform 0.07s linear' : 'transform 0.5s cubic-bezier(0.23,1,0.32,1)',
+        }}
+      >
+        {children}
+      </div>
+    </div>
+  )
+}
+
+// ─── NavLink3D (links de navegação com efeito 3D) ─────────────────────────────
+
+function NavLink3D({ href, children }: { href: string; children: React.ReactNode }) {
+  const ref = useRef<HTMLAnchorElement>(null)
+  const [tilt, setTilt] = useState({ rx: 0, ry: 0 })
+  const [hov, setHov] = useState(false)
+
+  function onMove(e: React.MouseEvent<HTMLAnchorElement>) {
+    const el = ref.current; if (!el) return
+    const { left, top, width, height } = el.getBoundingClientRect()
+    const px = (e.clientX - left) / width
+    const py = (e.clientY - top) / height
+    setTilt({ rx: (py - 0.5) * -18, ry: (px - 0.5) * 18 })
+  }
+
+  return (
+    <a
+      ref={ref}
+      href={href}
+      onMouseMove={onMove}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => { setHov(false); setTilt({ rx: 0, ry: 0 }) }}
+      style={{
+        display: 'inline-block',
+        transformStyle: 'preserve-3d',
+        transform: `perspective(300px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) scale(${hov ? 1.1 : 1})`,
+        transition: hov ? 'transform 0.07s linear' : 'transform 0.5s cubic-bezier(0.23,1,0.32,1)',
+        textShadow: hov ? '0 4px 12px rgba(0,0,0,0.15)' : 'none',
+      }}
+      className="text-sm font-semibold text-foreground/80 hover:text-primary transition-colors"
+    >
+      {children}
+    </a>
+  )
+}
+
+// ─── TiltIcon3D (ícone chatbot com efeito 3D) ─────────────────────────────────
+
+function TiltIcon3D({ size }: { size: 'lg' | 'sm' }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [tilt, setTilt] = useState({ rx: 0, ry: 0, gx: 50, gy: 50 })
+  const [hov, setHov] = useState(false)
+
+  function onMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = ref.current; if (!el) return
+    const { left, top, width, height } = el.getBoundingClientRect()
+    const px = (e.clientX - left) / width
+    const py = (e.clientY - top) / height
+    setTilt({ rx: (py - 0.5) * -22, ry: (px - 0.5) * 22, gx: px * 100, gy: py * 100 })
+  }
+
+  const isLg = size === 'lg'
+
+  return (
+    <div style={{ perspective: '400px' }} className="shrink-0">
+      <div
+        ref={ref}
+        onMouseMove={onMove}
+        onMouseEnter={() => setHov(true)}
+        onMouseLeave={() => { setHov(false); setTilt({ rx: 0, ry: 0, gx: 50, gy: 50 }) }}
+        style={{
+          transformStyle: 'preserve-3d',
+          transform: `rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) scale(${hov ? 1.12 : 1})`,
+          transition: hov ? 'transform 0.07s linear' : 'transform 0.55s cubic-bezier(0.23,1,0.32,1)',
+          boxShadow: hov
+            ? `0 ${isLg ? 20 : 10}px ${isLg ? 40 : 20}px rgba(0,0,0,0.25)`
+            : `0 ${isLg ? 4 : 2}px ${isLg ? 12 : 8}px rgba(0,0,0,0.15)`,
+        }}
+        className={cn(
+          'relative flex items-center justify-center bg-primary overflow-hidden cursor-pointer',
+          isLg ? 'w-20 h-20 rounded-2xl' : 'w-14 h-14 rounded-full',
+        )}
+      >
+        <MessageCircle className={cn('text-white relative z-10', isLg ? 'w-10 h-10' : 'w-6 h-6')} />
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: `radial-gradient(circle at ${tilt.gx}% ${tilt.gy}%, rgba(255,255,255,${hov ? '0.3' : '0.1'}), transparent 60%)`,
+            transition: hov ? 'none' : 'background 0.5s ease',
+          }}
+        />
+        <div className="absolute inset-x-0 bottom-0 h-[3px] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+      </div>
+    </div>
+  )
+}
+
+// ─── ButtonLink (Link com efeito 3D) ──────────────────────────────────────────
+
+function ButtonLink({ to, className, children }: { to: string; className?: string; children: React.ReactNode }) {
+  const ref = useRef<HTMLAnchorElement>(null)
+  const [tilt, setTilt] = useState({ rx: 0, ry: 0 })
+  const [hov, setHov] = useState(false)
+
+  function onMove(e: React.MouseEvent<HTMLAnchorElement>) {
+    const el = ref.current; if (!el) return
+    const { left, top, width, height } = el.getBoundingClientRect()
+    const px = (e.clientX - left) / width
+    const py = (e.clientY - top) / height
+    setTilt({ rx: (py - 0.5) * -16, ry: (px - 0.5) * 16 })
+  }
+
+  return (
+    <Link
+      ref={ref}
+      to={to}
+      onMouseMove={onMove}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => { setHov(false); setTilt({ rx: 0, ry: 0 }) }}
+      className={className}
+      style={{
+        display: 'inline-flex',
+        transformStyle: 'preserve-3d',
+        transform: `perspective(400px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) scale(${hov ? 1.06 : 1})`,
+        transition: hov ? 'transform 0.07s linear' : 'transform 0.5s cubic-bezier(0.23,1,0.32,1)',
+        boxShadow: hov ? '0 12px 28px rgba(0,0,0,0.22), 0 2px 6px rgba(0,0,0,0.12)' : undefined,
+      }}
+    >
+      {children}
+    </Link>
+  )
+}
+
+// ─── Data (mesmas informações da home atual) ─────────────────────────────────
+
+const features: Array<{
+  icon: ComponentType<{ className?: string }>
+  title: string
+  description: string
+}> = [
+  {
+    icon: Users,
+    title: 'Gestão de Pacientes',
+    description:
+      'Cadastro completo com CPF, endereço automático via ViaCEP com localização integrada ao Google Maps, histórico e controle de status.',
+  },
+  {
+    icon: Stethoscope,
+    title: 'Gestão de Médicos',
+    description:
+      'Agenda semanal por dia da semana, suporte a atendimento domiciliar e vínculos com estabelecimentos.',
+  },
+  {
+    icon: Building2,
+    title: 'Estabelecimentos',
+    description:
+      'Gerencie clínicas e hospitais, vincule médicos por unidade e acesse a localização integrada ao Google Maps.',
+  },
+  {
+    icon: CalendarClock,
+    title: 'Agendamentos',
+    description:
+      'Wizard intuitivo de 5 etapas com controle completo de status e link de acompanhamento do médico em tempo real nos atendimentos domiciliares.',
+  },
+  {
+    icon: ClipboardList,
+    title: 'Serviços Médicos',
+    description:
+      'Catálogo de serviços por especialidade, com preços, duração e vínculo com médicos e estabelecimentos.',
+  },
+  {
+    icon: UserCog,
+    title: 'Funcionários',
+    description:
+      'Cadastro da equipe administrativa e de apoio, com vínculo direto aos estabelecimentos onde atuam.',
+  },
+  {
+    icon: Sparkles,
+    title: 'Assistente IA',
+    description:
+      'Chat inteligente com RAG e busca semântica nos dados do sistema, além dos indicadores de KPIs do CRM.',
+  },
+  {
+    icon: BarChart2,
+    title: 'CRM',
+    description:
+      'Pipeline de leads, contatos e notas clínicas, com indicadores de churn, faturamento e ocupação de agenda.',
+  },
+  {
+    icon: MessageCircle,
+    title: 'WhatsApp',
+    description:
+      'Bot conversacional com RAG para cadastro e agendamento direto pelo WhatsApp, sem precisar abrir o sistema.',
+  },
+]
+
+const modules = [
+  { label: 'Pacientes', desc: 'Cadastro com ViaCEP e Google Maps' },
+  { label: 'Médicos', desc: 'Agenda semanal e atendimento domiciliar' },
+  { label: 'Estabelecimentos', desc: 'Clínicas, hospitais e endereço integrado ao Google Maps' },
+  { label: 'Serviços Médicos', desc: 'Catálogo com valores e tipos' },
+  { label: 'Agendamentos', desc: 'Wizard completo, status e acompanhamento do médico em tempo real' },
+  { label: 'Funcionários', desc: 'Cadastro de equipe e vínculo com estabelecimentos' },
+  { label: 'Assistente IA', desc: 'Chat com RAG e busca semântica nos dados do sistema' },
+  { label: 'CRM', desc: 'Leads, contatos, notas clínicas, churn e indicadores' },
+  { label: 'WhatsApp', desc: 'Bot conversacional com RAG para cadastro e agendamento' },
+]
+
+// ─── Component ────────────────────────────────────────────────────────────────
+
+export default function Home2Page() {
+  const mountReveal = useMountReveal()
+
+  const chatTextRef = useRef<HTMLDivElement>(null)
+  const [chatTextTilt, setChatTextTilt] = useState({ rx: 0, ry: 0 })
+  const [chatTextHov, setChatTextHov] = useState(false)
+
+  function onChatTextMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = chatTextRef.current; if (!el) return
+    const { left, top, width, height } = el.getBoundingClientRect()
+    const px = (e.clientX - left) / width
+    const py = (e.clientY - top) / height
+    setChatTextTilt({ rx: (py - 0.5) * -10, ry: (px - 0.5) * 10 })
+  }
+
+  const aboutTextRef = useRef<HTMLDivElement>(null)
+  const [aboutTextTilt, setAboutTextTilt] = useState({ rx: 0, ry: 0 })
+  const [aboutTextHov, setAboutTextHov] = useState(false)
+
+  function onAboutTextMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = aboutTextRef.current; if (!el) return
+    const { left, top, width, height } = el.getBoundingClientRect()
+    const px = (e.clientX - left) / width
+    const py = (e.clientY - top) / height
+    setAboutTextTilt({ rx: (py - 0.5) * -10, ry: (px - 0.5) * 10 })
+  }
+
+  const modulesRef = useRef<HTMLDivElement>(null)
+  const [modulesTilt, setModulesTilt] = useState({ rx: 0, ry: 0 })
+  const [modulesHov, setModulesHov] = useState(false)
+
+  function onModulesMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = modulesRef.current; if (!el) return
+    const { left, top, width, height } = el.getBoundingClientRect()
+    const px = (e.clientX - left) / width
+    const py = (e.clientY - top) / height
+    setModulesTilt({ rx: (py - 0.5) * -10, ry: (px - 0.5) * 10 })
+  }
+
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
+  const navLinks = [
+    { label: 'Início', href: '/' },
+    { label: 'Funcionalidades', href: '#features' },
+    { label: 'Sobre o Sistema', href: '#about' },
+  ]
+
+  return (
+    <div className="min-h-screen bg-background">
+
+      {/* ── Header ─────────────────────────────────────────────────────────── */}
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+          <TiltWrap intensity={18}>
+            <Link to="/" className="flex items-center gap-2 group">
+              <div className="bg-primary p-2 rounded-xl group-hover:bg-secondary transition-colors">
+                <Activity className="h-5 w-5 text-white" />
+              </div>
+              <span className="text-xl font-extrabold tracking-tight text-secondary">
+                IA SGSM <span className="text-primary">Médico</span>
+              </span>
+            </Link>
+          </TiltWrap>
+
+          <nav className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <NavLink3D key={link.href} href={link.href}>
+                {link.label}
+              </NavLink3D>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-2">
+            <ButtonLink
+              to="/pacientes"
+              className={cn(buttonVariants({ variant: 'accent', size: 'md' }), 'rounded-full h-11 sm:h-10')}
+            >
+              Acessar Sistema <ArrowRight className="h-4 w-4" />
+            </ButtonLink>
+
+            <button
+              type="button"
+              className="md:hidden p-2.5 rounded-lg text-secondary hover:bg-muted transition-colors"
+              aria-label={mobileNavOpen ? 'Fechar menu' : 'Abrir menu'}
+              onClick={() => setMobileNavOpen((v) => !v)}
+            >
+              {mobileNavOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
+        </div>
+
+        {mobileNavOpen && (
+          <nav className="md:hidden border-t border-border bg-white/95 backdrop-blur-md px-4 py-2 flex flex-col">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileNavOpen(false)}
+                className="px-2 py-3 rounded-lg text-sm font-semibold text-secondary hover:bg-muted transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+        )}
+      </header>
+
+      <main>
+        {/* ── Hero (reveal em lanterna, portado do sgsm-front) ─────────────── */}
+        <SpotlightHero>
+          <div className={cn('spotlight-hero__content', mountReveal)}>
+            <p className="mb-4 text-[0.68rem] font-bold uppercase tracking-[0.24em] text-white/60">
+              IA Sistema de Gestão em Saúde
+            </p>
+            <h1 className="text-4xl md:text-5xl font-extrabold text-white leading-[1.05] tracking-tight max-w-md">
+              Gestão Médica Completa na Palma da Mão
+            </h1>
+            <p className="mt-5 text-white/75 text-base md:text-lg leading-relaxed max-w-sm">
+              Controle pacientes, médicos, estabelecimentos e agendamentos com inteligência
+              artificial integrada em uma única plataforma. Ágil, completo e focado na
+              eficiência do atendimento médico.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-6">
+              <ButtonLink
+                to="/agendamentos"
+                className={cn(buttonVariants({ variant: 'accent', size: 'lg' }), 'rounded-full px-9')}
+              >
+                Novo Agendamento <ArrowRight className="h-5 w-5" />
+              </ButtonLink>
+              <Link
+                to="/world"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-white/75 hover:text-white transition-colors"
+              >
+                <span className="h-2.5 w-2.5 rounded-full border border-current opacity-60" />
+                Explorar o mundo do sistema
+              </Link>
+            </div>
+          </div>
+        </SpotlightHero>
+
+        {/* ── Features ───────────────────────────────────────────────────────── */}
+        <section id="features" className="py-24 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <p className="overline mb-3">Funcionalidades</p>
+              <h2 className="text-4xl md:text-5xl font-extrabold text-primary mb-6">
+                Tudo que você precisa
+              </h2>
+              <p className="text-lg text-foreground/70" style={{ maxWidth: 'none' }}>
+                Uma plataforma completa para gerenciar todos os aspectos da operação médica,
+                do cadastro ao atendimento.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+              {features.map((feature, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="h-full"
+                >
+                  <FeatureCard {...feature} />
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="text-center">
+              <ButtonLink
+                to="/pacientes"
+                className={cn(buttonVariants({ variant: 'accent', size: 'lg' }), 'rounded-full px-10 font-bold')}
+              >
+                Acessar Sistema
+              </ButtonLink>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Chatbot callout ────────────────────────────────────────────────── */}
+        <section className="py-16 bg-muted/40">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="bg-white rounded-3xl border border-border shadow-lg px-8 py-10 flex flex-col lg:flex-row items-center gap-8">
+                <TiltIcon3D size="lg" />
+
+                <div className="flex-1 text-center lg:text-left" style={{ perspective: '800px' }}>
+                  <div
+                    ref={chatTextRef}
+                    onMouseMove={onChatTextMove}
+                    onMouseEnter={() => setChatTextHov(true)}
+                    onMouseLeave={() => { setChatTextHov(false); setChatTextTilt({ rx: 0, ry: 0 }) }}
+                    style={{
+                      transformStyle: 'preserve-3d',
+                      transform: `rotateX(${chatTextTilt.rx}deg) rotateY(${chatTextTilt.ry}deg)`,
+                      transition: chatTextHov ? 'transform 0.08s linear' : 'transform 0.6s cubic-bezier(0.23,1,0.32,1)',
+                      cursor: 'default',
+                    }}
+                  >
+                    <h3 className="text-2xl font-extrabold text-secondary mb-2">
+                      Assistente Virtual disponível agora
+                    </h3>
+                    <p className="text-foreground/70 text-base leading-relaxed" style={{ maxWidth: 'none' }}>
+                      Clique no botão <strong className="text-primary">azul-teal</strong> no canto inferior direito e use nosso chatbot para{' '}
+                      <strong>cadastrar um paciente</strong> ou <strong>agendar uma consulta</strong> em poucos passos, sem precisar navegar pelo sistema.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-center gap-3 shrink-0">
+                  <TiltWrap intensity={18}>
+                    <div className="flex items-center gap-2 text-sm font-semibold text-foreground/60">
+                      <MousePointerClick className="w-4 h-4" />
+                      <span>Clique aqui embaixo</span>
+                    </div>
+                  </TiltWrap>
+                  <div className="relative">
+                    <TiltIcon3D size="sm" />
+                    <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-green-400 border-2 border-white z-10" />
+                  </div>
+                  <TiltWrap intensity={18}>
+                    <span className="text-xs text-foreground/50">canto inferior direito ↘</span>
+                  </TiltWrap>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ── Dark section ───────────────────────────────────────────────────── */}
+        <section id="about" className="py-24 bg-secondary text-white relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-primary/20 rounded-full blur-3xl -mr-20 -mt-20" />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
+                <div
+                  ref={aboutTextRef}
+                  onMouseMove={onAboutTextMove}
+                  onMouseEnter={() => setAboutTextHov(true)}
+                  onMouseLeave={() => { setAboutTextHov(false); setAboutTextTilt({ rx: 0, ry: 0 }) }}
+                  style={{
+                    perspective: '1000px',
+                    transformStyle: 'preserve-3d',
+                    transform: `rotateX(${aboutTextTilt.rx}deg) rotateY(${aboutTextTilt.ry}deg)`,
+                    transition: aboutTextHov ? 'transform 0.08s linear' : 'transform 0.6s cubic-bezier(0.23,1,0.32,1)',
+                    cursor: 'default',
+                  }}
+                >
+                  <p className="overline text-accent mb-3">Fluxo de Atendimento</p>
+                  <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6">
+                    Agendamento em 5 etapas
+                  </h2>
+                  <div className="space-y-4 mb-10">
+                    <p className="text-white/80 text-lg leading-relaxed" style={{ maxWidth: 'none' }}>
+                      O módulo de agendamentos guia o operador em um wizard intuitivo: selecione o
+                      paciente, o serviço, o médico, o slot disponível e confirme.
+                    </p>
+                    <p className="text-white/80 text-lg leading-relaxed" style={{ maxWidth: 'none' }}>
+                      Acompanhe cada consulta do agendamento até a conclusão: Agendado → Confirmado →
+                      A Caminho → Chegou → Concluído.
+                    </p>
+                  </div>
+                  <ButtonLink
+                    to="/agendamentos"
+                    className={cn(buttonVariants({ variant: 'accent', size: 'lg' }), 'rounded-full px-10')}
+                  >
+                    Criar Agendamento
+                  </ButtonLink>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                style={{ perspective: '900px' }}
+              >
+                <div
+                  ref={modulesRef}
+                  onMouseMove={onModulesMove}
+                  onMouseEnter={() => setModulesHov(true)}
+                  onMouseLeave={() => { setModulesHov(false); setModulesTilt({ rx: 0, ry: 0 }) }}
+                  style={{
+                    transformStyle: 'preserve-3d',
+                    transform: `rotateX(${modulesTilt.rx}deg) rotateY(${modulesTilt.ry}deg) scale(${modulesHov ? 1.03 : 1})`,
+                    transition: modulesHov ? 'transform 0.08s linear' : 'transform 0.7s cubic-bezier(0.23,1,0.32,1)',
+                    boxShadow: modulesHov
+                      ? '0 32px 64px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.12)'
+                      : '0 8px 24px rgba(0,0,0,0.2)',
+                  }}
+                  className="glass-dark p-10 rounded-3xl relative overflow-hidden"
+                >
+                  <h4 className="text-2xl font-bold text-white mb-8 relative z-10">Módulos disponíveis:</h4>
+                  <ul className="space-y-5 relative z-10">
+                    {modules.map((item, idx) => (
+                      <li key={idx} className="flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
+                          <CheckCircle2 className="w-5 h-5 text-accent" />
+                        </div>
+                        <div>
+                          <span className="text-base font-semibold text-white block">{item.label}</span>
+                          <span className="text-sm text-white/60">{item.desc}</span>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.div>
+
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* ── Footer ─────────────────────────────────────────────────────────── */}
+      <footer className="bg-secondary border-t border-white/10 py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white/70">
+          <TiltWrap intensity={16}>
+            <div className="flex items-center gap-2">
+              <div className="bg-primary/20 p-1.5 rounded-lg">
+                <Activity className="h-4 w-4 text-primary" />
+              </div>
+              <span className="font-extrabold text-white">
+                IA SGSM <span className="text-primary">Médico</span>
+              </span>
+            </div>
+          </TiltWrap>
+          <TiltWrap intensity={12}>
+            <p style={{ maxWidth: 'none' }}>
+              © {new Date().getFullYear()} SGSM — IA Sistema de Gestão em Saúde Médica
+            </p>
+          </TiltWrap>
+          <TiltWrap intensity={16}>
+            <Link
+              to="/pacientes"
+              className="text-accent hover:text-accent/80 font-semibold transition-colors py-2.5 sm:py-0"
+              style={{ display: 'inline-block' }}
+            >
+              Acessar Sistema →
+            </Link>
+          </TiltWrap>
+        </div>
+      </footer>
+    </div>
+  )
+}
+
+// ─── FeatureCard ──────────────────────────────────────────────────────────────
+
+function FeatureCard({
+  icon: Icon,
+  title,
+  description,
+}: {
+  icon: ComponentType<{ className?: string }>
+  title: string
+  description: string
+}) {
+  return (
+    <div className="group h-full border border-border/60 bg-card rounded-2xl overflow-hidden relative transition-shadow duration-500 hover:shadow-2xl hover:border-primary/20">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="absolute bottom-0 left-0 h-1 bg-primary w-0 group-hover:w-full transition-all duration-500 ease-out" />
+      <div className="p-8 flex flex-col h-full relative">
+        <div className="w-16 h-16 bg-muted/50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:scale-110 transition-all duration-500 shadow-sm">
+          <Icon className="h-8 w-8 text-primary group-hover:text-white transition-colors duration-500" />
+        </div>
+        <h3 className="text-xl font-extrabold text-secondary mb-3 group-hover:text-primary transition-colors duration-300">
+          {title}
+        </h3>
+        <p className="text-foreground/70 leading-relaxed text-base" style={{ maxWidth: 'none' }}>
+          {description}
+        </p>
+      </div>
+    </div>
+  )
+}

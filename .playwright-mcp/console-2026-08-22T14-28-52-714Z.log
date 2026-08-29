@@ -1,0 +1,951 @@
+[     132ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:21608
+[  536212ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:3001/@vite/client:963
+[  538099ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:21608
+[  545575ms] [ERROR] [vite] Error: send was called before connect
+    at Object.send (http://localhost:3001/@vite/client:414:17)
+    at HMRClient.send (http://localhost:3001/@vite/client:136:20)
+    at HMRContext.send (http://localhost:3001/@vite/client:100:20)
+    at HMRContext.invalidate (http://localhost:3001/@vite/client:65:10)
+    at http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:97:46
+    at http://localhost:3001/@vite/client:34:58
+    at http://localhost:3001/@vite/client:213:11
+    at http://localhost:3001/@vite/client:186:58
+    at Array.forEach (<anonymous>)
+    at HMRClient.queueUpdate (http://localhost:3001/@vite/client:186:36) @ http://localhost:3001/@vite/client:881
+[  545905ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  545907ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  545912ms] [ERROR] The above error occurred in the <PrivateRoute> component:
+
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at RenderedRoute (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:6626:26)
+    at Routes (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7561:3)
+    at Router (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7500:13)
+    at BrowserRouter (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:10787:3)
+    at App
+    at AuthProvider (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx?t=1787409476799:22:32)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14079
+[  545917ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19806:22)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19190:13)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19169:15)
+    at recoverFromConcurrentError (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:18786:28)
+[  546450ms] [ERROR] [vite] Error: send was called before connect
+    at Object.send (http://localhost:3001/@vite/client:414:17)
+    at HMRClient.send (http://localhost:3001/@vite/client:136:20)
+    at HMRContext.send (http://localhost:3001/@vite/client:100:20)
+    at HMRContext.invalidate (http://localhost:3001/@vite/client:65:10)
+    at http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:97:46
+    at http://localhost:3001/@vite/client:34:58
+    at http://localhost:3001/@vite/client:213:11
+    at http://localhost:3001/@vite/client:186:58
+    at Array.forEach (<anonymous>)
+    at HMRClient.queueUpdate (http://localhost:3001/@vite/client:186:36) @ http://localhost:3001/@vite/client:881
+[  546471ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  546472ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  546473ms] [ERROR] The above error occurred in the <PrivateRoute> component:
+
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at RenderedRoute (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:6626:26)
+    at Routes (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7561:3)
+    at Router (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7500:13)
+    at BrowserRouter (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:10787:3)
+    at App
+    at AuthProvider (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx?t=1787409476831:22:32)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14079
+[  546473ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19806:22)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19190:13)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19169:15)
+    at recoverFromConcurrentError (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:18786:28)
+[  546498ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  546499ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  546499ms] [ERROR] The above error occurred in the <PrivateRoute> component:
+
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at RenderedRoute (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:6626:26)
+    at Routes (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7561:3)
+    at Router (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7500:13)
+    at BrowserRouter (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:10787:3)
+    at App
+    at AuthProvider (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx?t=1787409476831:22:32)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14079
+[  546500ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19806:22)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19190:13)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19169:15)
+    at recoverFromConcurrentError (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:18786:28)
+[  546520ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  546522ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  546522ms] [ERROR] The above error occurred in the <PrivateRoute> component:
+
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at RenderedRoute (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:6626:26)
+    at Routes (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7561:3)
+    at Router (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7500:13)
+    at BrowserRouter (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:10787:3)
+    at App
+    at AuthProvider (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx?t=1787409476831:22:32)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14079
+[  546524ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19806:22)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19190:13)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19169:15)
+    at recoverFromConcurrentError (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:18786:28)
+[  546547ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  546549ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  546549ms] [ERROR] The above error occurred in the <PrivateRoute> component:
+
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at RenderedRoute (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:6626:26)
+    at Routes (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7561:3)
+    at Router (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7500:13)
+    at BrowserRouter (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:10787:3)
+    at App
+    at AuthProvider (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx?t=1787409476831:22:32)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14079
+[  546550ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19806:22)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19190:13)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19169:15)
+    at recoverFromConcurrentError (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:18786:28)
+[  546573ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  546574ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  546574ms] [ERROR] The above error occurred in the <PrivateRoute> component:
+
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at RenderedRoute (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:6626:26)
+    at Routes (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7561:3)
+    at Router (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7500:13)
+    at BrowserRouter (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:10787:3)
+    at App
+    at AuthProvider (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx?t=1787409476831:22:32)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14079
+[  546576ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19806:22)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19190:13)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19169:15)
+    at recoverFromConcurrentError (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:18786:28)
+[  546598ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  546599ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  546599ms] [ERROR] The above error occurred in the <PrivateRoute> component:
+
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at RenderedRoute (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:6626:26)
+    at Routes (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7561:3)
+    at Router (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7500:13)
+    at BrowserRouter (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:10787:3)
+    at App
+    at AuthProvider (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx?t=1787409476831:22:32)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14079
+[  546600ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19806:22)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19190:13)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19169:15)
+    at recoverFromConcurrentError (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:18786:28)
+[  546659ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  546661ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  546661ms] [ERROR] The above error occurred in the <PrivateRoute> component:
+
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at RenderedRoute (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:6626:26)
+    at Routes (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7561:3)
+    at Router (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7500:13)
+    at BrowserRouter (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:10787:3)
+    at App
+    at AuthProvider (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx?t=1787409476831:22:32)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14079
+[  546663ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19806:22)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19190:13)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19169:15)
+    at recoverFromConcurrentError (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:18786:28)
+[  546712ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  546713ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  546713ms] [ERROR] The above error occurred in the <PrivateRoute> component:
+
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at RenderedRoute (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:6626:26)
+    at Routes (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7561:3)
+    at Router (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7500:13)
+    at BrowserRouter (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:10787:3)
+    at App
+    at AuthProvider (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx?t=1787409476831:22:32)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14079
+[  546713ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19806:22)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19190:13)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19169:15)
+    at recoverFromConcurrentError (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:18786:28)
+[  546803ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  546806ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  546806ms] [ERROR] The above error occurred in the <PrivateRoute> component:
+
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at RenderedRoute (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:6626:26)
+    at Routes (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7561:3)
+    at Router (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7500:13)
+    at BrowserRouter (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:10787:3)
+    at App
+    at AuthProvider (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx?t=1787409476831:22:32)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14079
+[  546808ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19806:22)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19190:13)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19169:15)
+    at recoverFromConcurrentError (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:18786:28)
+[  546832ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  546835ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  546835ms] [ERROR] The above error occurred in the <PrivateRoute> component:
+
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at RenderedRoute (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:6626:26)
+    at Routes (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7561:3)
+    at Router (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7500:13)
+    at BrowserRouter (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:10787:3)
+    at App
+    at AuthProvider (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx?t=1787409476831:22:32)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14079
+[  546836ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19806:22)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19190:13)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19169:15)
+    at recoverFromConcurrentError (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:18786:28)
+[  546863ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  546865ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  546865ms] [ERROR] The above error occurred in the <PrivateRoute> component:
+
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at RenderedRoute (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:6626:26)
+    at Routes (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7561:3)
+    at Router (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7500:13)
+    at BrowserRouter (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:10787:3)
+    at App
+    at AuthProvider (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx?t=1787409476831:22:32)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14079
+[  546869ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19806:22)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19190:13)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19169:15)
+    at recoverFromConcurrentError (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:18786:28)
+[  546915ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  546916ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  546916ms] [ERROR] The above error occurred in the <PrivateRoute> component:
+
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at RenderedRoute (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:6626:26)
+    at Routes (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7561:3)
+    at Router (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7500:13)
+    at BrowserRouter (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:10787:3)
+    at App
+    at AuthProvider (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx?t=1787409476831:22:32)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14079
+[  546917ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19806:22)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19190:13)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19169:15)
+    at recoverFromConcurrentError (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:18786:28)
+[  547266ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  547267ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  547267ms] [ERROR] The above error occurred in the <PrivateRoute> component:
+
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at RenderedRoute (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:6626:26)
+    at Routes (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7561:3)
+    at Router (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7500:13)
+    at BrowserRouter (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:10787:3)
+    at App
+    at AuthProvider (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx?t=1787409476831:22:32)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14079
+[  547268ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19806:22)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19190:13)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19169:15)
+    at recoverFromConcurrentError (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:18786:28)
+[  547849ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  547852ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  547852ms] [ERROR] The above error occurred in the <PrivateRoute> component:
+
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at RenderedRoute (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:6626:26)
+    at Routes (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7561:3)
+    at Router (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7500:13)
+    at BrowserRouter (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:10787:3)
+    at App
+    at AuthProvider (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx?t=1787409476831:22:32)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14079
+[  547852ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19806:22)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19190:13)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19169:15)
+    at recoverFromConcurrentError (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:18786:28)
+[  547970ms] [ERROR] [vite] Error: send was called before connect
+    at Object.send (http://localhost:3001/@vite/client:414:17)
+    at HMRClient.send (http://localhost:3001/@vite/client:136:20)
+    at HMRContext.send (http://localhost:3001/@vite/client:100:20)
+    at HMRContext.invalidate (http://localhost:3001/@vite/client:65:10)
+    at http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:97:46
+    at http://localhost:3001/@vite/client:34:58
+    at http://localhost:3001/@vite/client:213:11
+    at http://localhost:3001/@vite/client:186:58
+    at Array.forEach (<anonymous>)
+    at HMRClient.queueUpdate (http://localhost:3001/@vite/client:186:36) @ http://localhost:3001/@vite/client:881
+[  547992ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  547995ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  547995ms] [ERROR] The above error occurred in the <PrivateRoute> component:
+
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at RenderedRoute (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:6626:26)
+    at Routes (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7561:3)
+    at Router (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7500:13)
+    at BrowserRouter (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:10787:3)
+    at App
+    at AuthProvider (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx?t=1787409476897:23:32)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14079
+[  547996ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19806:22)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19190:13)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19169:15)
+    at recoverFromConcurrentError (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:18786:28)
+[  548310ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  548313ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  548312ms] [ERROR] The above error occurred in the <PrivateRoute> component:
+
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at RenderedRoute (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:6626:26)
+    at Routes (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7561:3)
+    at Router (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7500:13)
+    at BrowserRouter (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:10787:3)
+    at App
+    at AuthProvider (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx?t=1787409476897:23:32)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14079
+[  548316ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19806:22)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19190:13)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19169:15)
+    at recoverFromConcurrentError (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:18786:28)
+[  548415ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  548416ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  548417ms] [ERROR] The above error occurred in the <PrivateRoute> component:
+
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at RenderedRoute (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:6626:26)
+    at Routes (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7561:3)
+    at Router (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7500:13)
+    at BrowserRouter (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:10787:3)
+    at App
+    at AuthProvider (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx?t=1787409476897:23:32)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14079
+[  548416ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19806:22)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19190:13)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19169:15)
+    at recoverFromConcurrentError (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:18786:28)
+[  548544ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  548545ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  548545ms] [ERROR] The above error occurred in the <PrivateRoute> component:
+
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at RenderedRoute (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:6626:26)
+    at Routes (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7561:3)
+    at Router (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7500:13)
+    at BrowserRouter (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:10787:3)
+    at App
+    at AuthProvider (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx?t=1787409476897:23:32)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14079
+[  548547ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19806:22)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19190:13)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19169:15)
+    at recoverFromConcurrentError (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:18786:28)
+[  548612ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:3001/@vite/client:963
+[  548623ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  548625ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+[  548625ms] [ERROR] The above error occurred in the <PrivateRoute> component:
+
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at RenderedRoute (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:6626:26)
+    at Routes (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7561:3)
+    at Router (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:7500:13)
+    at BrowserRouter (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=35739d8e:10787:3)
+    at App
+    at AuthProvider (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx?t=1787409476897:23:32)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14079
+[  548633ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/hooks/useAuth.tsx:81:19)
+    at PrivateRoute (http://localhost:3001/@fs/C:/AmbienteDev/sgsm-front-medico/src/App.tsx:39:40)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:15962:22)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19806:22)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19251:20)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19190:13)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:19169:15)
+    at recoverFromConcurrentError (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:18786:28)
+[  548883ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:21608
+[  692835ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:3001/@vite/client:963
+[  695152ms] [ERROR] WebSocket connection to 'ws://localhost:3001/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3001/@vite/client:1034
+[  700804ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:21608
+[ 1472544ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:3001/@vite/client:963
+[ 1474917ms] [ERROR] WebSocket connection to 'ws://localhost:3001/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3001/@vite/client:1034
+[ 1480091ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:21608
+[ 1531549ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:3001/@vite/client:963
+[ 1533619ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:21608
+[ 1728344ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:3001/@vite/client:963
+[ 1730343ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:21608
+[ 1773375ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:3001/@vite/client:963
+[ 1775736ms] [ERROR] WebSocket connection to 'ws://localhost:3001/' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3001/@vite/client:1034
+[ 1779896ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=35739d8e:21608

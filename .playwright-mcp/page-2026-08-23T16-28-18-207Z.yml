@@ -1,0 +1,128 @@
+- generic [ref=f3e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f3e3] [cursor=pointer]
+  - generic [ref=f3e6]:
+    - banner [ref=f3e7]:
+      - generic [ref=f3e8]:
+        - link "SGSM Médico" [ref=f3e11] [cursor=pointer]:
+          - /url: /
+        - navigation [ref=f3e16]:
+          - link "Início" [ref=f3e17] [cursor=pointer]:
+            - /url: "#"
+          - link "Funcionalidades" [ref=f3e18] [cursor=pointer]:
+            - /url: "#features"
+          - link "Sobre o Sistema" [ref=f3e19] [cursor=pointer]:
+            - /url: "#about"
+        - link "Acessar Sistema" [ref=f3e21] [cursor=pointer]:
+          - /url: /pacientes
+    - main [ref=f3e24]:
+      - generic [ref=f3e29]:
+        - generic [ref=f3e37]:
+          - link [ref=f3e38] [cursor=pointer]:
+            - /url: /
+          - generic [ref=f3e44]:
+            - link "Pacientes" [ref=f3e45] [cursor=pointer]:
+              - /url: /pacientes
+            - link "Médicos" [ref=f3e54] [cursor=pointer]:
+              - /url: /medicos
+            - link "Agenda" [ref=f3e62] [cursor=pointer]:
+              - /url: /agendamentos
+        - generic [ref=f3e72]:
+          - generic [ref=f3e73]: Sistema de Gestão em Saúde
+          - heading "Gestão Médica Completa na Palma da Mão" [level=1] [ref=f3e74]
+          - paragraph [ref=f3e75]: Controle pacientes, médicos, estabelecimentos e agendamentos em uma única plataforma. Ágil, integrado e focado na eficiência do atendimento médico.
+          - generic [ref=f3e76]:
+            - link "Novo Agendamento" [ref=f3e77] [cursor=pointer]:
+              - /url: /agendamentos
+            - link "✦ Explorar o mundo do sistema" [ref=f3e80] [cursor=pointer]:
+              - /url: /world
+      - generic [ref=f3e82]:
+        - generic [ref=f3e84]:
+          - paragraph [ref=f3e85]: Funcionalidades
+          - heading "Tudo que você precisa" [level=2] [ref=f3e86]
+          - paragraph [ref=f3e87]: Uma plataforma completa para gerenciar todos os aspectos da operação médica, do cadastro ao atendimento.
+        - generic [ref=f3e88]:
+          - generic [ref=f3e92]:
+            - heading "Gestão de Pacientes" [level=3] [ref=f3e99]
+            - paragraph [ref=f3e100]: Cadastro completo com CPF, endereço automático via ViaCEP, histórico e controle de status.
+          - generic [ref=f3e104]:
+            - heading "Gestão de Médicos" [level=3] [ref=f3e110]
+            - paragraph [ref=f3e111]: Agenda semanal por dia da semana, suporte a atendimento domiciliar e vínculos com estabelecimentos.
+          - generic [ref=f3e115]:
+            - heading "Estabelecimentos" [level=3] [ref=f3e121]
+            - paragraph [ref=f3e122]: Gerencie clínicas e hospitais, vincule médicos por unidade e acesse localização no Google Maps.
+          - generic [ref=f3e126]:
+            - heading "Agendamentos" [level=3] [ref=f3e132]
+            - paragraph [ref=f3e133]: Wizard intuitivo de 5 etapas com controle completo de status, do agendamento até a conclusão.
+        - link "Acessar Sistema" [ref=f3e135] [cursor=pointer]:
+          - /url: /pacientes
+      - generic [ref=f3e139]:
+        - generic [ref=f3e141] [cursor=pointer]
+        - generic [ref=f3e146]:
+          - heading "Assistente Virtual disponível agora" [level=3] [ref=f3e147]
+          - paragraph [ref=f3e148]:
+            - text: Clique no botão
+            - strong [ref=f3e149]: azul-teal
+            - text: no canto inferior direito e use nosso chatbot para
+            - strong [ref=f3e150]: cadastrar um paciente
+            - text: ou
+            - strong [ref=f3e151]: agendar uma consulta
+            - text: em poucos passos, sem precisar navegar pelo sistema.
+        - generic [ref=f3e152]:
+          - generic [ref=f3e153]: Clique aqui embaixo
+          - generic [ref=f3e165] [cursor=pointer]
+          - generic [ref=f3e170]: canto inferior direito ↘
+      - generic [ref=f3e175]:
+        - generic [ref=f3e178]:
+          - paragraph [ref=f3e179]: Fluxo de Atendimento
+          - heading "Agendamento em 5 etapas" [level=2] [ref=f3e180]
+          - generic [ref=f3e181]:
+            - paragraph [ref=f3e182]: "O módulo de agendamentos guia o operador em um wizard intuitivo: selecione o paciente, o serviço, o médico, o slot disponível e confirme."
+            - paragraph [ref=f3e183]: "Acompanhe cada consulta do agendamento até a conclusão: Agendado → Confirmado → A Caminho → Chegou → Concluído."
+          - link "Criar Agendamento" [ref=f3e185] [cursor=pointer]:
+            - /url: /agendamentos
+        - generic [ref=f3e188]:
+          - heading "Módulos disponíveis:" [level=4] [ref=f3e189]
+          - list [ref=f3e190]:
+            - listitem [ref=f3e191]:
+              - generic [ref=f3e196]:
+                - generic [ref=f3e197]: Pacientes
+                - text: Cadastro com ViaCEP e inativação
+            - listitem [ref=f3e198]:
+              - generic [ref=f3e203]:
+                - generic [ref=f3e204]: Médicos
+                - text: Agenda semanal e atendimento domiciliar
+            - listitem [ref=f3e205]:
+              - generic [ref=f3e210]:
+                - generic [ref=f3e211]: Estabelecimentos
+                - text: Clínicas, hospitais e localização no mapa
+            - listitem [ref=f3e212]:
+              - generic [ref=f3e217]:
+                - generic [ref=f3e218]: Serviços Médicos
+                - text: Catálogo com valores e tipos
+            - listitem [ref=f3e219]:
+              - generic [ref=f3e224]:
+                - generic [ref=f3e225]: Agendamentos
+                - text: Wizard completo e controle de status
+            - listitem [ref=f3e226]:
+              - generic [ref=f3e231]:
+                - generic [ref=f3e232]: Funcionários
+                - text: Cadastro de equipe e vínculo com estabelecimentos
+            - listitem [ref=f3e233]:
+              - generic [ref=f3e238]:
+                - generic [ref=f3e239]: Assistente IA
+                - text: Chat com RAG e busca semântica nos dados do sistema
+            - listitem [ref=f3e240]:
+              - generic [ref=f3e245]:
+                - generic [ref=f3e246]: CRM Analítico
+                - text: Faturamento, churn, funil e ocupação de agenda
+            - listitem [ref=f3e247]:
+              - generic [ref=f3e252]:
+                - generic [ref=f3e253]: WhatsApp
+                - text: Cadastro e agendamento direto pelo bot conversacional
+    - contentinfo [ref=f3e254]:
+      - generic [ref=f3e255]:
+        - generic [ref=f3e256]: SGSM Médico
+        - paragraph [ref=f3e265]: © 2026 SGSM — Sistema de Gestão em Saúde Médica
+        - link "Acessar Sistema →" [ref=f3e268] [cursor=pointer]:
+          - /url: /pacientes

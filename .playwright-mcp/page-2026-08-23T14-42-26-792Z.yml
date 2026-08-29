@@ -1,0 +1,56 @@
+- generic [ref=f26e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f26e3] [cursor=pointer]
+  - generic [ref=f26e35]:
+    - complementary [ref=f26e36]:
+      - generic [ref=f26e43] [cursor=pointer]:
+        - paragraph [ref=f26e44]: SGSM
+        - paragraph [ref=f26e45]: Sistema Médico
+      - navigation [ref=f26e46]:
+        - link "Home" [ref=f26e48] [cursor=pointer]:
+          - /url: /
+        - link "Pacientes" [ref=f26e53] [cursor=pointer]:
+          - /url: /pacientes
+        - link "Médicos" [ref=f26e60] [cursor=pointer]:
+          - /url: /medicos
+        - link "Estabelecimentos" [ref=f26e66] [cursor=pointer]:
+          - /url: /estabelecimentos
+        - link "Serviços" [ref=f26e72] [cursor=pointer]:
+          - /url: /servicos
+        - link "Agendamentos" [ref=f26e77] [cursor=pointer]:
+          - /url: /agendamentos
+        - link "Funcionários" [ref=f26e83] [cursor=pointer]:
+          - /url: /funcionarios
+        - link "Assistente IA" [ref=f26e97] [cursor=pointer]:
+          - /url: /ia
+        - link "CRM" [ref=f26e101] [cursor=pointer]:
+          - /url: /crm
+      - generic [ref=f26e103]:
+        - generic [ref=f26e104]:
+          - paragraph [ref=f26e105]: Fabio Monteiro Amorim
+          - paragraph [ref=f26e106]: MEDICO
+        - button "Sair" [ref=f26e107] [cursor=pointer]
+    - main [ref=f26e112]:
+      - generic [ref=f26e3114]:
+        - generic [ref=f26e3115]:
+          - generic [ref=f26e3120]:
+            - heading "Assistente IA" [level=1] [ref=f26e3121]
+            - paragraph [ref=f26e3122]: Powered by RAG + Milvus
+          - generic [ref=f26e3123]:
+            - button "Chat" [ref=f26e3124] [cursor=pointer]
+            - button "KPIs" [ref=f26e3128] [cursor=pointer]
+        - generic [ref=f26e3131]:
+          - generic [ref=f26e3137]:
+            - paragraph [ref=f26e3138]: Olá! Sou o assistente inteligente do SGSM. Posso responder perguntas sobre pacientes, médicos, agendamentos, serviços e também sobre o CRM Analítico — faturamento, churn, funil de conversão, ocupação de agenda e outros indicadores. Como posso ajudar?
+            - paragraph [ref=f26e3139]: 11:42
+          - generic [ref=f26e3146]:
+            - paragraph [ref=f26e3147]: teste antes do reload
+            - paragraph [ref=f26e3148]: 11:42
+          - generic [ref=f26e3158]:
+            - paragraph [ref=f26e3159]: Só respondo perguntas relacionadas a pacientes, médicos, agendamentos e dados clínicos do sistema SGSM.
+            - paragraph [ref=f26e3160]: 11:42
+        - generic [ref=f26e3140]:
+          - generic [ref=f26e3141]:
+            - textbox "Pergunte sobre pacientes, agendamentos, médicos, faturamento, churn..." [active] [ref=f26e3143]
+            - button [disabled]
+          - paragraph [ref=f26e3144]: Enter para enviar · Shift+Enter para nova linha

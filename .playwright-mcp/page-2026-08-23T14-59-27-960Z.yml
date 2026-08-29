@@ -1,0 +1,56 @@
+- generic [ref=f35e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f35e3] [cursor=pointer]
+  - generic [ref=f35e8]:
+    - complementary [ref=f35e9]:
+      - generic [ref=f35e16] [cursor=pointer]:
+        - paragraph [ref=f35e17]: SGSM
+        - paragraph [ref=f35e18]: Sistema Médico
+      - navigation [ref=f35e19]:
+        - link "Home" [ref=f35e21] [cursor=pointer]:
+          - /url: /
+        - link "Pacientes" [ref=f35e26] [cursor=pointer]:
+          - /url: /pacientes
+        - link "Médicos" [ref=f35e33] [cursor=pointer]:
+          - /url: /medicos
+        - link "Estabelecimentos" [ref=f35e39] [cursor=pointer]:
+          - /url: /estabelecimentos
+        - link "Serviços" [ref=f35e45] [cursor=pointer]:
+          - /url: /servicos
+        - link "Agendamentos" [ref=f35e50] [cursor=pointer]:
+          - /url: /agendamentos
+        - link "Funcionários" [ref=f35e56] [cursor=pointer]:
+          - /url: /funcionarios
+        - link "Assistente IA" [ref=f35e70] [cursor=pointer]:
+          - /url: /ia
+        - link "CRM" [ref=f35e74] [cursor=pointer]:
+          - /url: /crm
+      - generic [ref=f35e76]:
+        - generic [ref=f35e77]:
+          - paragraph [ref=f35e78]: Fabio Monteiro Amorim
+          - paragraph [ref=f35e79]: MEDICO
+        - button "Sair" [ref=f35e80] [cursor=pointer]
+    - main [ref=f35e85]:
+      - generic [ref=f35e1453]:
+        - generic [ref=f35e1454]:
+          - generic [ref=f35e1459]:
+            - heading "Assistente IA" [level=1] [ref=f35e1460]
+            - paragraph [ref=f35e1461]: Powered by RAG + Milvus
+          - generic [ref=f35e1462]:
+            - button "Chat" [ref=f35e1463] [cursor=pointer]
+            - button "KPIs" [ref=f35e1467] [cursor=pointer]
+        - generic [ref=f35e1470]:
+          - generic [ref=f35e1476]:
+            - paragraph [ref=f35e1477]: Olá! Sou o assistente inteligente do SGSM. Posso responder perguntas sobre pacientes, médicos, agendamentos, serviços e também sobre o CRM Analítico — faturamento, churn, funil de conversão, ocupação de agenda e outros indicadores. Como posso ajudar?
+            - paragraph [ref=f35e1478]: 11:59
+          - generic [ref=f35e1493]:
+            - paragraph [ref=f35e1494]: Quantos pacientes ativos existem?
+            - paragraph [ref=f35e1495]: 11:59
+          - generic [ref=f35e1505]:
+            - paragraph [ref=f35e1506]: Não consegui processar sua pergunta. Request failed with status code 500
+            - paragraph [ref=f35e1507]: 11:59
+        - generic [ref=f35e1479]:
+          - generic [ref=f35e1480]:
+            - textbox "Pergunte sobre pacientes, agendamentos, médicos, faturamento, churn..." [active] [ref=f35e1482]
+            - button [disabled]
+          - paragraph [ref=f35e1483]: Enter para enviar · Shift+Enter para nova linha

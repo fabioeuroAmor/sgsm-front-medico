@@ -1,0 +1,3 @@
+[     329ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:21608
+[  374336ms] [ERROR] Failed to load resource: the server responded with a status of 403 (Forbidden) @ http://localhost:3001/v1/api/pacientes/0372610f-2b2c-4800-b2f2-4d76af68c2b2:0
+[  980405ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/v1/api/pacientes:0

@@ -1,0 +1,49 @@
+- generic [ref=f33e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f33e3] [cursor=pointer]
+  - generic [ref=f33e8]:
+    - complementary [ref=f33e9]:
+      - generic [ref=f33e16] [cursor=pointer]:
+        - paragraph [ref=f33e17]: SGSM
+        - paragraph [ref=f33e18]: Sistema Médico
+      - navigation [ref=f33e19]:
+        - link "Home" [ref=f33e21] [cursor=pointer]:
+          - /url: /
+        - link "Pacientes" [ref=f33e26] [cursor=pointer]:
+          - /url: /pacientes
+        - link "Médicos" [ref=f33e33] [cursor=pointer]:
+          - /url: /medicos
+        - link "Estabelecimentos" [ref=f33e39] [cursor=pointer]:
+          - /url: /estabelecimentos
+        - link "Serviços" [ref=f33e45] [cursor=pointer]:
+          - /url: /servicos
+        - link "Agendamentos" [ref=f33e50] [cursor=pointer]:
+          - /url: /agendamentos
+        - link "Funcionários" [ref=f33e56] [cursor=pointer]:
+          - /url: /funcionarios
+        - link "Assistente IA" [active] [ref=f33e70] [cursor=pointer]:
+          - /url: /ia
+        - link "CRM" [ref=f33e74] [cursor=pointer]:
+          - /url: /crm
+      - generic [ref=f33e76]:
+        - generic [ref=f33e77]:
+          - paragraph [ref=f33e78]: Fabio Monteiro Amorim
+          - paragraph [ref=f33e79]: MEDICO
+        - button "Sair" [ref=f33e80] [cursor=pointer]
+    - main [ref=f33e85]:
+      - generic [ref=f33e1453]:
+        - generic [ref=f33e1454]:
+          - generic [ref=f33e1459]:
+            - heading "Assistente IA" [level=1] [ref=f33e1460]
+            - paragraph [ref=f33e1461]: Powered by RAG + Milvus
+          - generic [ref=f33e1462]:
+            - button "Chat" [ref=f33e1463] [cursor=pointer]
+            - button "KPIs" [ref=f33e1467] [cursor=pointer]
+        - generic [ref=f33e1476]:
+          - paragraph [ref=f33e1477]: Olá! Sou o assistente inteligente do SGSM. Posso responder perguntas sobre pacientes, médicos, agendamentos, serviços e também sobre o CRM Analítico — faturamento, churn, funil de conversão, ocupação de agenda e outros indicadores. Como posso ajudar?
+          - paragraph [ref=f33e1478]: 11:43
+        - generic [ref=f33e1479]:
+          - generic [ref=f33e1480]:
+            - textbox "Pergunte sobre pacientes, agendamentos, médicos, faturamento, churn..." [ref=f33e1482]
+            - button [disabled]
+          - paragraph [ref=f33e1483]: Enter para enviar · Shift+Enter para nova linha

@@ -1,0 +1,169 @@
+- generic [ref=f38e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f38e3] [cursor=pointer]
+  - generic [ref=f38e168]:
+    - generic [ref=f38e169]:
+      - generic [ref=f38e170]: Assistente SGSM
+      - button "reiniciar" [ref=f38e173] [cursor=pointer]
+    - generic [ref=f38e174]:
+      - generic [ref=f38e175]: Olá! Como posso ajudar você hoje?
+      - generic [ref=f38e479]: Agendar uma consulta
+      - generic [ref=f38e481]: "Para agendar, preciso identificar você. Informe o seu CPF:"
+      - generic [ref=f38e489]: 529.813.746-64
+      - generic [ref=f38e491]: Paciente não encontrado. Verifique o CPF ou realize o cadastro primeiro.
+      - generic [ref=f38e498]: Agendar uma consulta
+      - generic [ref=f38e500]: "Para agendar, preciso identificar você. Informe o seu CPF:"
+      - generic [ref=f38e508]: 123.456.789-01
+      - generic [ref=f38e510]: Olá, João! Qual serviço você deseja agendar?
+      - generic [ref=f38e519]: Consulta de Rotina — R$ 1000.00
+      - generic [ref=f38e521]: Atendimento domiciliar 🏠 — irei até você! Qual data você deseja agendar? (DD/MM/AAAA)
+      - generic [ref=f38e529]: 31/02/2026
+      - generic [ref=f38e531]: Erro ao buscar horários. Tente novamente.
+      - generic [ref=f38e533]: Data inválida. Use o formato DD/MM/AAAA.
+      - generic [ref=f38e535]: 27/08/2026
+      - generic [ref=f38e537]: "Escolha o horário desejado:"
+    - generic [ref=f38e539]:
+      - button "1.08:30" [ref=f38e540] [cursor=pointer]:
+        - generic [ref=f38e541]: "1."
+        - text: 08:30
+      - button "2.09:30" [ref=f38e542] [cursor=pointer]:
+        - generic [ref=f38e543]: "2."
+        - text: 09:30
+      - button "3.10:00" [ref=f38e544] [cursor=pointer]:
+        - generic [ref=f38e545]: "3."
+        - text: 10:00
+      - button "4.10:30" [ref=f38e546] [cursor=pointer]:
+        - generic [ref=f38e547]: "4."
+        - text: 10:30
+      - button "5.11:00" [ref=f38e548] [cursor=pointer]:
+        - generic [ref=f38e549]: "5."
+        - text: 11:00
+      - button "6.11:30" [ref=f38e550] [cursor=pointer]:
+        - generic [ref=f38e551]: "6."
+        - text: 11:30
+      - button "7.12:00" [ref=f38e552] [cursor=pointer]:
+        - generic [ref=f38e553]: "7."
+        - text: 12:00
+      - button "8.12:30" [ref=f38e554] [cursor=pointer]:
+        - generic [ref=f38e555]: "8."
+        - text: 12:30
+      - button "9.13:00" [ref=f38e556] [cursor=pointer]:
+        - generic [ref=f38e557]: "9."
+        - text: 13:00
+      - button "10.13:30" [ref=f38e558] [cursor=pointer]:
+        - generic [ref=f38e559]: "10."
+        - text: 13:30
+      - button "11.14:00" [ref=f38e560] [cursor=pointer]:
+        - generic [ref=f38e561]: "11."
+        - text: 14:00
+      - button "12.14:30" [ref=f38e562] [cursor=pointer]:
+        - generic [ref=f38e563]: "12."
+        - text: 14:30
+      - button "13.15:00" [ref=f38e564] [cursor=pointer]:
+        - generic [ref=f38e565]: "13."
+        - text: 15:00
+      - button "14.15:30" [ref=f38e566] [cursor=pointer]:
+        - generic [ref=f38e567]: "14."
+        - text: 15:30
+      - button "15.16:00" [ref=f38e568] [cursor=pointer]:
+        - generic [ref=f38e569]: "15."
+        - text: 16:00
+      - button "16.16:30" [ref=f38e570] [cursor=pointer]:
+        - generic [ref=f38e571]: "16."
+        - text: 16:30
+      - button "17.17:00" [ref=f38e572] [cursor=pointer]:
+        - generic [ref=f38e573]: "17."
+        - text: 17:00
+      - button "18.17:30" [ref=f38e574] [cursor=pointer]:
+        - generic [ref=f38e575]: "18."
+        - text: 17:30
+  - generic [ref=f38e8]:
+    - complementary [ref=f38e9]:
+      - generic [ref=f38e16] [cursor=pointer]:
+        - paragraph [ref=f38e17]: SGSM
+        - paragraph [ref=f38e18]: Sistema Médico
+      - navigation [ref=f38e19]:
+        - link "Home" [ref=f38e21] [cursor=pointer]:
+          - /url: /
+        - link "Pacientes" [ref=f38e26] [cursor=pointer]:
+          - /url: /pacientes
+        - link "Médicos" [ref=f38e33] [cursor=pointer]:
+          - /url: /medicos
+        - link "Estabelecimentos" [ref=f38e39] [cursor=pointer]:
+          - /url: /estabelecimentos
+        - link "Serviços" [ref=f38e45] [cursor=pointer]:
+          - /url: /servicos
+        - link "Agendamentos" [ref=f38e50] [cursor=pointer]:
+          - /url: /agendamentos
+        - link "Funcionários" [ref=f38e56] [cursor=pointer]:
+          - /url: /funcionarios
+        - link "Assistente IA" [ref=f38e70] [cursor=pointer]:
+          - /url: /ia
+        - link "CRM" [ref=f38e74] [cursor=pointer]:
+          - /url: /crm
+      - generic [ref=f38e76]:
+        - generic [ref=f38e77]:
+          - paragraph [ref=f38e78]: Fabio Monteiro Amorim
+          - paragraph [ref=f38e79]: MEDICO
+        - button "Sair" [ref=f38e80] [cursor=pointer]
+    - main [ref=f38e85]:
+      - generic [ref=f38e86]:
+        - generic [ref=f38e87]:
+          - generic [ref=f38e88]:
+            - paragraph [ref=f38e89]: Cadastros
+            - heading "Estabelecimentos" [level=1] [ref=f38e90]
+            - paragraph [ref=f38e91]: Clínicas, hospitais e consultórios com localização no mapa.
+            - button "Novo Estabelecimento" [ref=f38e93] [cursor=pointer]
+          - generic [ref=f38e95] [cursor=pointer]
+        - generic [ref=f38e99]:
+          - textbox "Buscar por nome, CNPJ ou cidade…" [ref=f38e104]
+          - combobox [ref=f38e105]:
+            - option "Todos os status" [selected]
+            - option "Ativos"
+            - option "Inativos"
+          - combobox [ref=f38e106]:
+            - option "Todos os estados" [selected]
+            - option "AC"
+            - option "AL"
+            - option "AM"
+            - option "AP"
+            - option "BA"
+            - option "CE"
+            - option "DF"
+            - option "ES"
+            - option "GO"
+            - option "MA"
+            - option "MG"
+            - option "MS"
+            - option "MT"
+            - option "PA"
+            - option "PB"
+            - option "PE"
+            - option "PI"
+            - option "PR"
+            - option "RJ"
+            - option "RN"
+            - option "RO"
+            - option "RR"
+            - option "RS"
+            - option "SC"
+            - option "SE"
+            - option "SP"
+            - option "TO"
+          - textbox "Filtrar por cidade…" [ref=f38e107]
+        - generic [ref=f38e109]:
+          - generic [ref=f38e110]: Ativo
+          - generic [ref=f38e117]:
+            - heading "Clinica São Lucas" [level=3] [ref=f38e118]
+            - paragraph [ref=f38e119]: Brasília — DF
+          - generic [ref=f38e120]:
+            - paragraph [ref=f38e121]: "CNPJ: 45834560001256"
+            - link "Samambai, 45 — Sala 46, Samambai SUL" [ref=f38e122] [cursor=pointer]:
+              - /url: https://www.google.com/maps/search/?api=1&query=Samambai%2C%2045%2C%20Sala%2046%2C%20Samambai%20%20SUL%2C%20Bras%C3%ADlia%2C%20DF%2C%2072300-000%2C%20Brasil
+            - paragraph [ref=f38e127]: "Tel: 1135712356"
+          - generic [ref=f38e128]:
+            - button "Editar" [ref=f38e129] [cursor=pointer]
+            - button "Gerenciar médicos" [ref=f38e133] [cursor=pointer]
+            - link [ref=f38e138] [cursor=pointer]:
+              - /url: https://www.google.com/maps/search/?api=1&query=Samambai%2C%2045%2C%20Sala%2046%2C%20Samambai%20%20SUL%2C%20Bras%C3%ADlia%2C%20DF%2C%2072300-000%2C%20Brasil
+            - button [ref=f38e142] [cursor=pointer]

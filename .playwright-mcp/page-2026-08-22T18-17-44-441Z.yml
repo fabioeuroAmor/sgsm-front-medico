@@ -1,0 +1,170 @@
+- generic [ref=f19e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f19e3] [cursor=pointer]
+  - generic [ref=f19e8]:
+    - banner [ref=f19e9]:
+      - generic [ref=f19e10]: SGSM
+      - button "Toggle menu" [ref=f19e15] [cursor=pointer]
+    - main [ref=f19e18]:
+      - generic [ref=f19e19]:
+        - generic [ref=f19e20]:
+          - generic [ref=f19e21]:
+            - paragraph [ref=f19e22]: Gestão
+            - heading "Agendamentos" [level=1] [ref=f19e23]
+            - paragraph [ref=f19e24]: Visualize e gerencie todos os agendamentos de consultas e procedimentos.
+            - button "Novo Agendamento" [ref=f19e26] [cursor=pointer]
+          - generic [ref=f19e28] [cursor=pointer]
+        - generic [ref=f19e31]:
+          - textbox "CRM ou nome do médico…" [ref=f19e37]
+          - textbox "CPF ou nome do paciente…" [ref=f19e43]
+          - generic [ref=f19e44]:
+            - button "Todos" [ref=f19e45] [cursor=pointer]
+            - button "Pendente" [ref=f19e46] [cursor=pointer]
+            - button "Confirmado" [ref=f19e47] [cursor=pointer]
+            - button "Em Andamento" [ref=f19e48] [cursor=pointer]
+            - button "Concluído" [ref=f19e49] [cursor=pointer]
+            - button "Cancelado" [ref=f19e50] [cursor=pointer]
+        - generic [ref=f19e51]:
+          - generic [ref=f19e52]:
+            - generic [ref=f19e53]:
+              - generic [ref=f19e54]:
+                - paragraph [ref=f19e55]: Tereza Rossi
+                - paragraph [ref=f19e56]: Consulta de Rotina
+              - generic [ref=f19e57]: Concluído
+            - generic [ref=f19e58]:
+              - generic [ref=f19e59]: Fabio Monteiro Amorim
+              - link "Clinica São Lucas" [ref=f19e69] [cursor=pointer]:
+                - /url: https://www.google.com/maps/search/?api=1&query=Samambai%2C%2045%2C%20Sala%2046%2C%20Samambai%20%20SUL%2C%20Bras%C3%ADlia%2C%20DF%2C%2072300-000%2C%20Brasil
+              - generic [ref=f19e70]: 27/07/2026, 08:30
+          - generic [ref=f19e74]:
+            - generic [ref=f19e75]:
+              - generic [ref=f19e76]:
+                - paragraph [ref=f19e77]: Zildinha Ruela
+                - paragraph [ref=f19e78]: Consulta de Rotina
+              - generic [ref=f19e79]: Pendente
+            - generic [ref=f19e80]:
+              - generic [ref=f19e81]: Fabio Monteiro Amorim
+              - link "Clinica São Lucas" [ref=f19e91] [cursor=pointer]:
+                - /url: https://www.google.com/maps/search/?api=1&query=Samambai%2C%2045%2C%20Sala%2046%2C%20Samambai%20%20SUL%2C%20Bras%C3%ADlia%2C%20DF%2C%2072300-000%2C%20Brasil
+              - generic [ref=f19e92]: 26/08/2026, 13:00
+            - generic [ref=f19e96]:
+              - button "Cancelar" [ref=f19e97] [cursor=pointer]
+              - button "Confirmar" [ref=f19e102] [cursor=pointer]
+          - generic [ref=f19e103]:
+            - generic [ref=f19e104]:
+              - generic [ref=f19e105]:
+                - paragraph [ref=f19e106]: Zildinha Ruela
+                - paragraph [ref=f19e107]: Consulta de Rotina
+              - generic [ref=f19e108]: Concluído
+            - generic [ref=f19e109]:
+              - generic [ref=f19e110]: Fabio Monteiro Amorim
+              - link "Clinica São Lucas" [ref=f19e120] [cursor=pointer]:
+                - /url: https://www.google.com/maps/search/?api=1&query=Samambai%2C%2045%2C%20Sala%2046%2C%20Samambai%20%20SUL%2C%20Bras%C3%ADlia%2C%20DF%2C%2072300-000%2C%20Brasil
+              - generic [ref=f19e121]: 26/08/2026, 10:00
+          - generic [ref=f19e125]:
+            - generic [ref=f19e126]:
+              - generic [ref=f19e127]:
+                - paragraph [ref=f19e128]: Zildinha Ruela
+                - paragraph [ref=f19e129]: Consulta de Rotina
+              - generic [ref=f19e130]: Concluído
+            - generic [ref=f19e131]:
+              - generic [ref=f19e132]: Fabio Monteiro Amorim
+              - link "Domiciliar — Rua Copaíba, 902, 78, Norte (Águas Claras), Brasília, DF, 71919540, Brasil" [ref=f19e142] [cursor=pointer]:
+                - /url: https://www.google.com/maps/search/?api=1&query=Rua%20Copa%C3%ADba%2C%20902%2C%2078%2C%20Norte%20(%C3%81guas%20Claras)%2C%20Bras%C3%ADlia%2C%20DF%2C%2071919540%2C%20Brasil
+              - generic [ref=f19e143]: 20/08/2026, 09:00
+              - link "Acompanhar médico" [ref=f19e153] [cursor=pointer]:
+                - /url: https://maps.app.goo.gl/QAteste123
+          - generic [ref=f19e154]:
+            - generic [ref=f19e155]:
+              - generic [ref=f19e156]:
+                - paragraph [ref=f19e157]: Zilma Ruela
+                - paragraph [ref=f19e158]: Consulta de Rotina
+              - generic [ref=f19e159]: Cancelado
+            - generic [ref=f19e160]:
+              - generic [ref=f19e161]: Fabio Monteiro Amorim
+              - generic [ref=f19e167]: Telemedicina
+              - generic [ref=f19e172]: 26/08/2026, 11:00
+          - generic [ref=f19e176]:
+            - generic [ref=f19e177]:
+              - generic [ref=f19e178]:
+                - paragraph [ref=f19e179]: Tereza Rossi
+                - paragraph [ref=f19e180]: Consulta de Rotina
+              - generic [ref=f19e181]: Pendente
+            - generic [ref=f19e182]:
+              - generic [ref=f19e183]: Fabio Monteiro Amorim
+              - link "Clinica São Lucas" [ref=f19e193] [cursor=pointer]:
+                - /url: https://www.google.com/maps/search/?api=1&query=Samambai%2C%2045%2C%20Sala%2046%2C%20Samambai%20%20SUL%2C%20Bras%C3%ADlia%2C%20DF%2C%2072300-000%2C%20Brasil
+              - generic [ref=f19e194]: 27/08/2026, 09:00
+            - generic [ref=f19e198]:
+              - button "Cancelar" [ref=f19e199] [cursor=pointer]
+              - button "Confirmar" [ref=f19e204] [cursor=pointer]
+          - generic [ref=f19e205]:
+            - generic [ref=f19e206]:
+              - generic [ref=f19e207]:
+                - paragraph [ref=f19e208]: Zilma Ruela
+                - paragraph [ref=f19e209]: Consulta de Rotina
+              - generic [ref=f19e210]: Concluído
+            - generic [ref=f19e211]:
+              - generic [ref=f19e212]: Fabio Monteiro Amorim
+              - link "Clinica São Lucas" [ref=f19e222] [cursor=pointer]:
+                - /url: https://www.google.com/maps/search/?api=1&query=Samambai%2C%2045%2C%20Sala%2046%2C%20Samambai%20%20SUL%2C%20Bras%C3%ADlia%2C%20DF%2C%2072300-000%2C%20Brasil
+              - generic [ref=f19e223]: 26/08/2026, 13:00
+          - generic [ref=f19e227]:
+            - generic [ref=f19e228]:
+              - generic [ref=f19e229]:
+                - paragraph [ref=f19e230]: João Pereira Teste
+                - paragraph [ref=f19e231]: Consulta de Rotina
+              - generic [ref=f19e232]: Pendente
+            - generic [ref=f19e233]:
+              - generic [ref=f19e234]: Fabio Monteiro Amorim
+              - link "Domiciliar — Centro, São Paulo, SP, Brasil" [ref=f19e244] [cursor=pointer]:
+                - /url: https://www.google.com/maps/search/?api=1&query=Centro%2C%20S%C3%A3o%20Paulo%2C%20SP%2C%20Brasil
+              - generic [ref=f19e245]: 27/08/2026, 08:00
+            - generic [ref=f19e249]:
+              - button "Cancelar" [ref=f19e250] [cursor=pointer]
+              - button "Confirmar" [ref=f19e255] [cursor=pointer]
+          - generic [ref=f19e256]:
+            - generic [ref=f19e257]:
+              - generic [ref=f19e258]:
+                - paragraph [ref=f19e259]: João Pereira Teste
+                - paragraph [ref=f19e260]: Consulta de Rotina
+              - generic [ref=f19e261]: Pendente
+            - generic [ref=f19e262]:
+              - generic [ref=f19e263]: Fabio Monteiro Amorim
+              - link "Domiciliar — Centro, São Paulo, SP, Brasil" [ref=f19e273] [cursor=pointer]:
+                - /url: https://www.google.com/maps/search/?api=1&query=Centro%2C%20S%C3%A3o%20Paulo%2C%20SP%2C%20Brasil
+              - generic [ref=f19e274]: 27/08/2026, 08:30
+            - generic [ref=f19e278]:
+              - button "Cancelar" [ref=f19e279] [cursor=pointer]
+              - button "Confirmar" [ref=f19e284] [cursor=pointer]
+        - generic [ref=f19e287]:
+          - generic [ref=f19e288]:
+            - heading "Passo 2 / 5 — Serviço Médico" [level=2] [ref=f19e467]
+            - button [ref=f19e290] [cursor=pointer]
+          - generic [ref=f19e468]:
+            - textbox "Buscar por serviço, médico ou especialidade…" [ref=f19e470]
+            - generic [ref=f19e471]:
+              - button "QA Descartavel R$ 50,00 Fabio Monteiro Amorim 15 min" [ref=f19e472] [cursor=pointer]:
+                - generic [ref=f19e473]:
+                  - generic [ref=f19e474]: QA Descartavel
+                  - generic [ref=f19e475]: R$ 50,00
+                - generic [ref=f19e476]:
+                  - generic [ref=f19e477]: Fabio Monteiro Amorim
+                  - generic [ref=f19e478]: 15 min
+              - button "Consulta de Rotina R$ 1.000,00 Fabio Monteiro Amorim 30 min" [ref=f19e479] [cursor=pointer]:
+                - generic [ref=f19e480]:
+                  - generic [ref=f19e481]: Consulta de Rotina
+                  - generic [ref=f19e482]: R$ 1.000,00
+                - generic [ref=f19e483]:
+                  - generic [ref=f19e484]: Fabio Monteiro Amorim
+                  - generic [ref=f19e485]: 30 min
+              - button "Consulta de Rotina R$ 1.000,00 Fabio Monteiro Amorim 30 min" [ref=f19e486] [cursor=pointer]:
+                - generic [ref=f19e487]:
+                  - generic [ref=f19e488]: Consulta de Rotina
+                  - generic [ref=f19e489]: R$ 1.000,00
+                - generic [ref=f19e490]:
+                  - generic [ref=f19e491]: Fabio Monteiro Amorim
+                  - generic [ref=f19e492]: 30 min
+          - generic [ref=f19e463]:
+            - button "Anterior" [ref=f19e493] [cursor=pointer]
+            - button "Próximo" [disabled]
