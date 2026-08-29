@@ -12,7 +12,7 @@ import type {
 
 type Step =
   | 'MENU'
-  | 'CAD_NOME' | 'CAD_CPF' | 'CAD_DATA' | 'CAD_EMAIL' | 'CAD_TELEFONE' | 'CAD_CONFIRMAR'
+  | 'CAD_NOME' | 'CAD_CPF' | 'CAD_DATA' | 'CAD_EMAIL' | 'CAD_TELEFONE' | 'CAD_CONSENTIMENTO' | 'CAD_CONFIRMAR'
   | 'AGE_CPF' | 'AGE_SERVICO' | 'AGE_ESTAB' | 'AGE_DATA' | 'AGE_SLOT' | 'AGE_OBS' | 'AGE_CONFIRMAR'
 
 interface Message { from: 'bot' | 'user'; text: string }
@@ -24,7 +24,7 @@ const MENU_CHOICES: Choice[] = [
 ]
 
 const CHOICE_ONLY_STEPS: Step[] = [
-  'MENU', 'AGE_SERVICO', 'AGE_ESTAB', 'AGE_SLOT', 'CAD_CONFIRMAR', 'AGE_CONFIRMAR',
+  'MENU', 'AGE_SERVICO', 'AGE_ESTAB', 'AGE_SLOT', 'CAD_CONSENTIMENTO', 'CAD_CONFIRMAR', 'AGE_CONFIRMAR',
 ]
 
 // ─── pure helpers ─────────────────────────────────────────────────────────────
@@ -265,6 +265,26 @@ export function ChatbotWidget() {
       return
     }
 
+    if (step === 'CAD_CONSENTIMENTO') {
+      if (choice.value === 'SIM') {
+        const summary = [
+          'Confirme seus dados:',
+          `• Nome: ${cadNome}`,
+          `• CPF: ${maskCPF(cadCpf)}`,
+          `• Nascimento: ${cadDataNasc}`,
+          `• E-mail: ${cadEmail}`,
+          cadTelefone ? `• Telefone: ${cadTelefone}` : null,
+          '', 'Está correto?',
+        ].filter(Boolean).join('\n')
+        setStep('CAD_CONFIRMAR'); addBot(summary)
+        setChoices([{ label: 'Sim, confirmar', value: 'SIM' }, { label: 'Não, cancelar', value: 'NAO' }])
+      } else {
+        addBot('Sem o consentimento com a LGPD não é possível concluir o cadastro. O que deseja fazer?')
+        goMenu()
+      }
+      return
+    }
+
     if (step === 'CAD_CONFIRMAR') {
       if (choice.value === 'SIM') {
         setLoading(true)
@@ -275,6 +295,9 @@ export function ChatbotWidget() {
             dataNascimento: brDateToISO(cadDataNasc),
             email: cadEmail,
             telefone: cadTelefone || undefined,
+            // Consentimento coletado explicitamente no step CAD_CONSENTIMENTO, único jeito
+            // de chegar até aqui.
+            consentimentoLgpd: true,
           })
           addBot('Cadastro realizado com sucesso! Agora você pode agendar consultas. O que deseja fazer?')
           goMenu()
@@ -348,17 +371,13 @@ export function ChatbotWidget() {
     if (step === 'CAD_TELEFONE') {
       addUser(value || '(sem telefone)')
       setCadTelefone(value)
-      const summary = [
-        'Confirme seus dados:',
-        `• Nome: ${cadNome}`,
-        `• CPF: ${maskCPF(cadCpf)}`,
-        `• Nascimento: ${cadDataNasc}`,
-        `• E-mail: ${cadEmail}`,
-        value ? `• Telefone: ${value}` : null,
-        '', 'Está correto?',
-      ].filter(Boolean).join('\n')
-      setStep('CAD_CONFIRMAR'); addBot(summary)
-      setChoices([{ label: 'Sim, confirmar', value: 'SIM' }, { label: 'Não, cancelar', value: 'NAO' }])
+      setStep('CAD_CONSENTIMENTO')
+      addBot(
+        'Antes de continuar, preciso do seu consentimento: seus dados de saúde (nome, CPF, ' +
+        'data de nascimento, e-mail) serão tratados conforme a LGPD, para fins de agendamento ' +
+        'e atendimento médico. Você concorda?',
+      )
+      setChoices([{ label: 'Sim, concordo', value: 'SIM' }, { label: 'Não concordo', value: 'NAO' }])
       return
     }
 

@@ -132,6 +132,8 @@ export interface PacienteResponse {
   uf?: string
   cep?: string
   ativo: boolean
+  consentimentoLgpdEm?: string
+  anonimizado?: boolean
   criadoEm: string
   atualizadoEm: string
 }
@@ -149,6 +151,7 @@ export interface CadastrarPacienteRequest {
   cidade?: string
   uf?: string
   cep?: string
+  consentimentoLgpd: boolean
 }
 
 export interface AtualizarPacienteRequest {
