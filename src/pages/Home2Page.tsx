@@ -529,8 +529,8 @@ export default function Home2Page() {
                 Dados de saúde tratados com o rigor que a LGPD exige
               </h2>
               <p className="text-lg text-foreground/70" style={{ maxWidth: 'none' }}>
-                Trilha de auditoria, criptografia em repouso e um processo real de consentimento,
-                portabilidade e anonimização — não só uma política escrita.
+                Trilha de auditoria completa, criptografia em repouso e um processo estruturado de
+                consentimento, portabilidade e anonimização de dados.
               </p>
             </div>
 
