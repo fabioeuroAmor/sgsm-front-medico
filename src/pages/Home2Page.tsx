@@ -18,6 +18,9 @@ import {
   UserCog,
   Sparkles,
   BarChart2,
+  Eye,
+  Lock,
+  ShieldCheck,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/Button'
@@ -256,6 +259,31 @@ const modules = [
   { label: 'WhatsApp', desc: 'Bot conversacional com RAG para cadastro e agendamento' },
 ]
 
+const compliance: Array<{
+  icon: ComponentType<{ className?: string }>
+  title: string
+  description: string
+}> = [
+  {
+    icon: Eye,
+    title: 'Auditoria de acesso',
+    description:
+      'Toda leitura, criação, alteração, inativação e exportação de dados de pacientes fica registrada — quem acessou, quando e o quê.',
+  },
+  {
+    icon: Lock,
+    title: 'Criptografia em repouso',
+    description:
+      'CPF e dados clínicos cifrados com AES-256-GCM no banco de dados — mitigação direta em caso de vazamento.',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'LGPD por padrão',
+    description:
+      'Consentimento explícito no cadastro, exportação de dados a qualquer momento e anonimização definitiva a pedido do titular.',
+  },
+]
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function Home2Page() {
@@ -489,6 +517,37 @@ export default function Home2Page() {
                 </div>
               </div>
             </motion.div>
+          </div>
+        </section>
+
+        {/* ── Segurança e conformidade ───────────────────────────────────────── */}
+        <section className="py-24 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <p className="overline mb-3">Segurança e conformidade</p>
+              <h2 className="text-4xl md:text-5xl font-extrabold text-primary mb-6">
+                Dados de saúde tratados com o rigor que a LGPD exige
+              </h2>
+              <p className="text-lg text-foreground/70" style={{ maxWidth: 'none' }}>
+                Trilha de auditoria, criptografia em repouso e um processo real de consentimento,
+                portabilidade e anonimização — não só uma política escrita.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {compliance.map((item, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="h-full"
+                >
+                  <FeatureCard {...item} />
+                </motion.div>
+              ))}
+            </div>
           </div>
         </section>
 
