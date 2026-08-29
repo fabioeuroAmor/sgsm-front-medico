@@ -50,5 +50,12 @@ export function usePacientes() {
     return atualizado
   }, [])
 
-  return { pacientes, loading, error, listar, cadastrar, atualizar, remover, reativar }
+  const anonimizar = useCallback(async (id: string) => {
+    await pacienteService.anonimizar(id)
+    setPacientes((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, ativo: false, anonimizado: true } : p)),
+    )
+  }, [])
+
+  return { pacientes, loading, error, listar, cadastrar, atualizar, remover, reativar, anonimizar }
 }

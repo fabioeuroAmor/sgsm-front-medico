@@ -138,6 +138,12 @@ export interface PacienteResponse {
   atualizadoEm: string
 }
 
+// LGPD (item 3.2 do compliance) — portabilidade de dados
+export interface PacienteExportacaoResponse {
+  paciente: PacienteResponse
+  agendamentos: AgendamentoResponse[]
+}
+
 export interface CadastrarPacienteRequest {
   nome: string
   cpf: string
