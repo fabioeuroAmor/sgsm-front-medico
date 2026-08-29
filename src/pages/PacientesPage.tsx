@@ -1,8 +1,9 @@
 import { useEffect, useState, useRef } from 'react'
 import { toast } from 'sonner'
-import { Plus, Search, Pencil, Trash2, RotateCcw, UserRound, CalendarDays, Mail, Phone, MapPin } from 'lucide-react'
+import { Plus, Search, Pencil, Trash2, RotateCcw, UserRound, CalendarDays, Mail, Phone, MapPin, Download, ShieldOff } from 'lucide-react'
 import { usePacientes } from '@/hooks/usePacientes'
 import { useAuth } from '@/hooks/useAuth'
+import { pacienteService } from '@/services/pacienteService'
 import type { PacienteResponse, CadastrarPacienteRequest } from '@/types'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
@@ -119,9 +120,15 @@ const emptyForm: CadastrarPacienteRequest = {
 }
 
 export function PacientesPage() {
-  const { pacientes, loading, error, listar, cadastrar, atualizar, remover, reativar } = usePacientes()
+  const { pacientes, loading, error, listar, cadastrar, atualizar, remover, reativar, anonimizar } = usePacientes()
   const { usuario } = useAuth()
   const podeInativar = usuario?.perfil === 'FUNCIONARIO' || usuario?.perfil === 'DESENVOLVEDOR'
+  const podeExportar = (p: PacienteResponse) =>
+    usuario?.perfil === 'DESENVOLVEDOR' || (usuario?.perfil === 'PACIENTE' && usuario.referenciaId === p.id)
+  const [exportandoId, setExportandoId] = useState<string | null>(null)
+  const [confirmandoAnonimizarId, setConfirmandoAnonimizarId] = useState<string | null>(null)
+  const [erroAnonimizacao, setErroAnonimizacao] = useState<string | null>(null)
+  const [anonimizando, setAnonimizando] = useState(false)
   const [reativandoId, setReativandoId] = useState<string | null>(null)
   const reativandoRef = useRef<string | null>(null)
   const [busca, setBusca] = useState('')
@@ -380,6 +387,43 @@ export function PacientesPage() {
     } finally {
       reativandoRef.current = null
       setReativandoId(null)
+    }
+  }
+
+  // LGPD 3.2 — baixa os próprios dados (ou, se DESENVOLVEDOR, os de qualquer paciente) como JSON
+  async function handleExportar(id: string) {
+    setExportandoId(id)
+    try {
+      const dados = await pacienteService.exportar(id)
+      const blob = new Blob([JSON.stringify(dados, null, 2)], { type: 'application/json' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `paciente-${id}-dados.json`
+      a.click()
+      URL.revokeObjectURL(url)
+      toast.success('Dados exportados com sucesso.')
+    } catch (err) {
+      toast.error((err as Error).message)
+    } finally {
+      setExportandoId(null)
+    }
+  }
+
+  // LGPD 3.3 — anonimização é irreversível (diferente de inativar): zera dados pessoais de vez
+  async function handleAnonimizar() {
+    if (!confirmandoAnonimizarId) return
+    setAnonimizando(true)
+    try {
+      await anonimizar(confirmandoAnonimizarId)
+      setConfirmandoAnonimizarId(null)
+      setErroAnonimizacao(null)
+      setDetalhe(null)
+      toast.success('Paciente anonimizado com sucesso.')
+    } catch (err) {
+      setErroAnonimizacao((err as Error).message)
+    } finally {
+      setAnonimizando(false)
     }
   }
 
@@ -758,6 +802,41 @@ export function PacientesPage() {
         </div>
       </Modal>
 
+      {/* Modal confirmação anonimização (LGPD 3.3 — irreversível, diferente de inativar) */}
+      <Modal
+        open={!!confirmandoAnonimizarId}
+        onClose={() => { setConfirmandoAnonimizarId(null); setErroAnonimizacao(null) }}
+        title="Anonimizar Paciente"
+        size="sm"
+        footer={
+          <>
+            <Button variant="ghost" size="sm" onClick={() => { setConfirmandoAnonimizarId(null); setErroAnonimizacao(null) }}>
+              Cancelar
+            </Button>
+            <Button variant="danger" size="sm" onClick={handleAnonimizar} disabled={anonimizando}>
+              {anonimizando ? 'Anonimizando…' : 'Anonimizar definitivamente'}
+            </Button>
+          </>
+        }
+      >
+        <div className="flex flex-col gap-3">
+          <div className="rounded-xl border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            <strong>Esta ação é irreversível.</strong> Nome, CPF, e-mail, telefone e endereço serão
+            apagados definitivamente (mantém-se só o ano de nascimento, para fins estatísticos). O
+            paciente não poderá mais ser reativado.
+          </div>
+          <p className="text-sm text-foreground/70">
+            Use isso para atender ao direito ao esquecimento (LGPD) — não para uma simples
+            inativação temporária, que é a opção "Inativar".
+          </p>
+          {erroAnonimizacao && (
+            <div className="rounded-xl border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive">
+              {erroAnonimizacao}
+            </div>
+          )}
+        </div>
+      </Modal>
+
       {/* Modal detalhe */}
       <Modal
         open={!!detalhe}
@@ -766,6 +845,25 @@ export function PacientesPage() {
         footer={
           <>
             <Button variant="ghost" size="sm" onClick={() => setDetalhe(null)}>Fechar</Button>
+            {detalhe && podeInativar && !detalhe.anonimizado && (
+              <Button
+                variant="danger"
+                size="sm"
+                onClick={() => { const id = detalhe.id; setDetalhe(null); setConfirmandoAnonimizarId(id) }}
+              >
+                <ShieldOff size={12} /> Anonimizar
+              </Button>
+            )}
+            {detalhe && podeExportar(detalhe) && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleExportar(detalhe.id)}
+                disabled={exportandoId === detalhe.id}
+              >
+                <Download size={12} /> {exportandoId === detalhe.id ? 'Exportando…' : 'Exportar dados'}
+              </Button>
+            )}
             {detalhe && (
               <Button size="sm" onClick={() => { setDetalhe(null); abrirEdicao(detalhe) }}>
                 <Pencil size={12} /> Editar
@@ -781,7 +879,10 @@ export function PacientesPage() {
             <DetailRow label="Nascimento" value={`${formatDate(detalhe.dataNascimento)} — ${calcIdade(detalhe.dataNascimento)} anos`} />
             <DetailRow label="E-mail" value={detalhe.email} />
             {detalhe.telefone && <DetailRow label="Telefone" value={maskTelefone(detalhe.telefone)} />}
-            <DetailRow label="Status" value={detalhe.ativo ? 'Ativo' : 'Inativo'} />
+            <DetailRow label="Status" value={detalhe.anonimizado ? 'Anonimizado' : detalhe.ativo ? 'Ativo' : 'Inativo'} />
+            {detalhe.consentimentoLgpdEm && (
+              <DetailRow label="Consentimento LGPD" value={formatDate(detalhe.consentimentoLgpdEm)} />
+            )}
             {(detalhe.logradouro || detalhe.cidade) && (
               <div className="border-t border-border pt-3 space-y-2">
                 <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Endereço</p>

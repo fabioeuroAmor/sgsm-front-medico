@@ -1,6 +1,7 @@
 import api from './api'
 import type {
   PacienteResponse,
+  PacienteExportacaoResponse,
   CadastrarPacienteRequest,
   AtualizarPacienteRequest,
   FiltrosPaciente,
@@ -25,4 +26,10 @@ export const pacienteService = {
 
   reativar: (id: string) =>
     api.patch<PacienteResponse>(`${BASE}/${id}/reativar`).then((r) => r.data),
+
+  // LGPD (item 3 do compliance)
+  exportar: (id: string) =>
+    api.get<PacienteExportacaoResponse>(`${BASE}/${id}/exportar`).then((r) => r.data),
+
+  anonimizar: (id: string) => api.patch(`${BASE}/${id}/anonimizar`),
 }
