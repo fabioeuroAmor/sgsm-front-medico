@@ -8,6 +8,7 @@ import {
   HeartPulse, Building2, ClipboardList, MessageSquare,
   Star, Zap, Shield, ChevronRight, Brain, Sparkles, Database,
   UserCog, BarChart2, TrendingUp, PhoneCall,
+  Eye, Lock, ShieldCheck,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/Button'
@@ -249,6 +250,28 @@ const SCENES: SceneDef[] = [
       { Icon: PhoneCall,     x: '83%', y: '15%', size: 34, delay: 0.4 },
       { Icon: Zap,           x: '80%', y: '73%', size: 28, delay: 0.7 },
       { Icon: Star,          x: '11%', y: '75%', size: 24, delay: 0.2 },
+    ],
+  },
+  {
+    id: 'seguranca',
+    eyebrow: 'Confiança e Compliance',
+    title: 'Segurança e Conformidade',
+    body: 'Trilha de auditoria completa, criptografia em repouso de CPF e dados clínicos, e um processo estruturado de consentimento, portabilidade e anonimização — a LGPD tratada como parte do sistema, não como documento à parte.',
+    tags: ['Auditoria', 'Criptografia', 'LGPD'],
+    accent: '#1A569E',
+    bgColor: '#020617',
+    orbs: [
+      { color: '#1A569E', size: 700, x: '50%',  y: '40%',  blur: 130, opacity: 0.85, duration: 8 },
+      { color: '#3B82F6', size: 380, x: '20%',  y: '68%',  blur: 105, opacity: 0.4,  duration: 7 },
+      { color: '#0B2A52', size: 520, x: '80%',  y: '28%',  blur: 115, opacity: 0.55, duration: 9 },
+      { color: '#010A18', size: 650, x: '60%',  y: '80%',  blur: 150, opacity: 0.9,  duration: 11 },
+    ],
+    CenterIcon: ShieldCheck,
+    floaters: [
+      { Icon: Eye,        x: '9%',  y: '15%', size: 40, delay: 0.0 },
+      { Icon: Lock,       x: '85%', y: '18%', size: 34, delay: 0.4 },
+      { Icon: ShieldCheck, x: '80%', y: '72%', size: 30, delay: 0.7 },
+      { Icon: Database,   x: '12%', y: '74%', size: 28, delay: 0.2 },
     ],
   },
   {
