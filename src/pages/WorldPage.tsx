@@ -256,7 +256,7 @@ const SCENES: SceneDef[] = [
     id: 'seguranca',
     eyebrow: 'Confiança e Compliance',
     title: 'Segurança e Conformidade',
-    body: 'Trilha de auditoria completa, criptografia em repouso de CPF e dados clínicos, e um processo estruturado de consentimento, portabilidade e anonimização — a LGPD tratada como parte do sistema, não como documento à parte.',
+    body: 'Trilha de auditoria completa, criptografia em repouso de CPF e dados clínicos, e um processo estruturado de consentimento, portabilidade e anonimização de dados.',
     tags: ['Auditoria', 'Criptografia', 'LGPD'],
     accent: '#1A569E',
     bgColor: '#020617',
