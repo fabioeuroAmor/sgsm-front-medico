@@ -1,0 +1,53 @@
+[ 1282632ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3001/src/pages/Home2Page.tsx?t=1788025184710:0
+[ 1282633ms] [ERROR] [vite] Failed to reload /src/pages/Home2Page.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above) @ http://localhost:3001/@vite/client:881
+[ 1282895ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3001/src/components/ui/Calendar.tsx?t=1788025184710:0
+[ 1282895ms] [ERROR] [vite] Failed to reload /src/components/ui/Calendar.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above) @ http://localhost:3001/@vite/client:881
+[ 1283217ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/src/hooks/useAuth.tsx:81:19)
+    at LoginPage (http://localhost:3001/src/pages/LoginPage.tsx:31:21)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:19251:20)
+[ 1283222ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/src/hooks/useAuth.tsx:81:19)
+    at LoginPage (http://localhost:3001/src/pages/LoginPage.tsx:31:21)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:15962:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:3680:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:3705:24)
+    at invokeGuardedCallback (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:3739:39)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:19818:15)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:19251:20)
+[ 1283224ms] [ERROR] The above error occurred in the <LoginPage> component:
+
+    at LoginPage (http://localhost:3001/src/pages/LoginPage.tsx:27:29)
+    at RenderedRoute (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=7d2d3819:6626:26)
+    at Routes (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=7d2d3819:7561:3)
+    at Router (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=7d2d3819:7500:13)
+    at BrowserRouter (http://localhost:3001/node_modules/.vite/deps/react-router-dom.js?v=7d2d3819:10787:3)
+    at App
+    at AuthProvider (http://localhost:3001/src/hooks/useAuth.tsx?t=1788025184764:23:32)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:14079
+[ 1283226ms] Error: useAuth deve ser usado dentro do AuthProvider
+    at useAuth (http://localhost:3001/src/hooks/useAuth.tsx:81:19)
+    at LoginPage (http://localhost:3001/src/pages/LoginPage.tsx:31:21)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:11596:26)
+    at mountIndeterminateComponent (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:14974:21)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:15962:22)
+    at beginWork$1 (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:19806:22)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:19251:20)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:19190:13)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:19169:15)
+    at recoverFromConcurrentError (http://localhost:3001/node_modules/.vite/deps/chunk-Q5ZGKCSG.js?v=7d2d3819:18786:28)
+[ 1283254ms] [ERROR] Failed to load resource: net::ERR_SOCKET_NOT_CONNECTED @ http://localhost:3001/src/components/ChatbotWidget.tsx?t=1788025184713:0
+[ 1283254ms] [ERROR] [vite] Failed to reload /src/components/ChatbotWidget.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above) @ http://localhost:3001/@vite/client:881
+[ 1283254ms] [ERROR] Failed to load resource: net::ERR_SOCKET_NOT_CONNECTED @ http://localhost:3001/src/pages/MedicosPage.tsx?t=1788025184713:0
+[ 1283255ms] [ERROR] [vite] Failed to reload /src/pages/MedicosPage.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above) @ http://localhost:3001/@vite/client:881
