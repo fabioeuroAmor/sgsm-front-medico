@@ -1,0 +1,20 @@
+- generic [ref=f23e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f23e3] [cursor=pointer]
+  - generic [ref=f23e6]:
+    - generic [ref=f23e8]:
+      - navigation [ref=f23e9]:
+        - link "IA SGSM Médico" [ref=f23e10] [cursor=pointer]:
+          - /url: /
+        - link "Acessar Sistema" [ref=f23e15] [cursor=pointer]:
+          - /url: /login
+      - generic:
+        - paragraph: Bem-vindo ao
+        - heading "IA SGSM Médico" [level=2]
+        - paragraph: Uma plataforma completa para gestão em saúde. Role para voar pelo mundo do sistema.
+        - generic:
+          - generic: Moderno
+          - generic: Integrado
+          - generic: Completo
+      - generic: role para voar
+    - paragraph [ref=f23e275]: © 2026 IA SGSM Médico — IA Sistema de Gestão em Saúde Médica

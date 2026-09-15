@@ -1,0 +1,50 @@
+- generic [ref=f20e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f20e3] [cursor=pointer]
+  - generic [ref=f20e35]:
+    - complementary [ref=f20e36]:
+      - generic [ref=f20e43] [cursor=pointer]:
+        - paragraph [ref=f20e44]: IA SGSM
+        - paragraph [ref=f20e45]: Sistema Médico
+      - navigation [ref=f20e46]:
+        - link "Home" [ref=f20e48] [cursor=pointer]:
+          - /url: /
+        - link "Pacientes" [ref=f20e53] [cursor=pointer]:
+          - /url: /pacientes
+        - link "Agendamentos" [ref=f20e60] [cursor=pointer]:
+          - /url: /agendamentos
+      - generic [ref=f20e65]:
+        - generic [ref=f20e66]:
+          - paragraph [ref=f20e67]: Beatriz Retest QA
+          - paragraph [ref=f20e68]: PACIENTE
+        - button "Sair" [ref=f20e69] [cursor=pointer]
+    - main [ref=f20e74]:
+      - generic [ref=f20e75]:
+        - generic [ref=f20e76]:
+          - generic [ref=f20e77]:
+            - paragraph [ref=f20e78]: Cadastros
+            - heading "Pacientes" [level=1] [ref=f20e79]
+            - paragraph [ref=f20e80]: Gerencie o cadastro de pacientes com integração ViaCEP.
+            - button "Novo Paciente" [ref=f20e82] [cursor=pointer]
+          - generic [ref=f20e84] [cursor=pointer]
+        - generic [ref=f20e88]:
+          - textbox "Buscar por nome, CPF ou e-mail…" [ref=f20e93]
+          - combobox [ref=f20e94]:
+            - option "Todos os status" [selected]
+            - option "Ativos"
+            - option "Inativos"
+        - paragraph [ref=f20e95]: 1 paciente encontrado
+        - generic [ref=f20e97] [cursor=pointer]:
+          - generic [ref=f20e98]: Ativo
+          - generic [ref=f20e104]:
+            - heading "Beatriz Retest QA" [level=3] [ref=f20e105]
+            - paragraph [ref=f20e106]: 987.654.321-00
+          - generic [ref=f20e107]:
+            - generic [ref=f20e111]:
+              - text: 20/07/1988
+              - generic [ref=f20e112]: (38 anos)
+            - generic [ref=f20e113]: qa.wb030retest.5511900000031@teste.com
+            - generic [ref=f20e118]: (55) 11900-0000
+          - generic [ref=f20e122]:
+            - button "Editar" [ref=f20e123]
+            - button "Apenas funcionários podem inativar pacientes" [disabled] [ref=f20e127]

@@ -1,0 +1,48 @@
+- generic [ref=f8e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f8e3] [cursor=pointer]
+  - generic [ref=f8e7]:
+    - generic [ref=f8e8]:
+      - heading "Criar conta" [level=1] [ref=f8e9]
+      - paragraph [ref=f8e10]: IA Sistema de Gerenciamento de Serviços Médicos
+    - generic [ref=f8e11]:
+      - generic [ref=f8e12]:
+        - button "Paciente" [ref=f8e13] [cursor=pointer]
+        - button "Médico" [ref=f8e17] [cursor=pointer]
+        - button "Funcionário" [ref=f8e22] [cursor=pointer]
+      - generic [ref=f8e35]:
+        - generic [ref=f8e36]:
+          - generic [ref=f8e37]: Nome completo
+          - textbox "Nome completo" [ref=f8e38]:
+            - /placeholder: Maria da Silva
+        - generic [ref=f8e39]:
+          - generic [ref=f8e40]: CPF
+          - textbox "CPF" [ref=f8e41]:
+            - /placeholder: 000.000.000-00
+        - generic [ref=f8e42]:
+          - generic [ref=f8e43]: Data de nascimento
+          - textbox "Data de nascimento" [ref=f8e44]
+        - generic [ref=f8e45] [cursor=pointer]:
+          - checkbox "Concordo com o tratamento dos meus dados de saúde (nome, CPF, data de nascimento, e-mail) conforme a LGPD, para fins de agendamento e atendimento médico." [ref=f8e46]
+          - generic [ref=f8e47]:
+            - text: Concordo com o tratamento dos meus dados de saúde (nome, CPF, data de nascimento, e-mail) conforme a
+            - strong [ref=f8e48]: LGPD
+            - text: ", para fins de agendamento e atendimento médico."
+        - generic [ref=f8e49]:
+          - generic [ref=f8e50]: E-mail
+          - textbox "E-mail" [ref=f8e51]:
+            - /placeholder: email@exemplo.com
+        - generic [ref=f8e52]:
+          - generic [ref=f8e53]:
+            - generic [ref=f8e54]: Senha
+            - textbox "Senha" [ref=f8e55]:
+              - /placeholder: Mínimo 8 caracteres
+          - generic [ref=f8e56]:
+            - generic [ref=f8e57]: Confirmar senha
+            - textbox "Confirmar senha" [ref=f8e58]:
+              - /placeholder: Repita a senha
+        - button "Criar conta" [ref=f8e59] [cursor=pointer]
+      - link "Já tem conta? Entrar" [ref=f8e61] [cursor=pointer]:
+        - /url: /login
+        - generic [ref=f8e64]: Já tem conta?
+        - generic [ref=f8e65]: Entrar

@@ -1,0 +1,24 @@
+- generic [ref=f20e2]:
+  - region "Notifications alt+T"
+  - button "Assistente virtual" [ref=f20e3] [cursor=pointer]
+  - generic [ref=f20e7]:
+    - generic [ref=f20e8]:
+      - heading "Bem-vindo ao IA SGSM" [level=1] [ref=f20e13]
+      - paragraph [ref=f20e14]: IA Sistema de Gerenciamento de Serviços Médicos
+    - generic [ref=f20e15]:
+      - generic [ref=f20e16]:
+        - generic [ref=f20e17]:
+          - generic [ref=f20e18]: E-mail
+          - textbox "E-mail" [ref=f20e19]:
+            - /placeholder: medico@clinica.com
+        - generic [ref=f20e20]:
+          - generic [ref=f20e21]: Senha
+          - textbox "Senha" [ref=f20e22]:
+            - /placeholder: ••••••••
+        - button "Entrar" [ref=f20e23] [cursor=pointer]
+        - link "Esqueci minha senha" [ref=f20e25] [cursor=pointer]:
+          - /url: /esqueci-senha
+      - link "Novo no sistema? Criar conta" [ref=f20e27] [cursor=pointer]:
+        - /url: /registrar
+        - generic [ref=f20e30]: Novo no sistema?
+        - generic [ref=f20e31]: Criar conta
