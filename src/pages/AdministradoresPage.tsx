@@ -224,7 +224,7 @@ export function AdministradoresPage() {
       } else {
         const novo = await cadastrar({ ...form, nome: form.nome.trim() })
         try {
-          await authService.registrar({
+          await authService.registrarStaff({
             email: form.email,
             senha,
             tipoPerfil: 'ADMIN_ESTABELECIMENTO',

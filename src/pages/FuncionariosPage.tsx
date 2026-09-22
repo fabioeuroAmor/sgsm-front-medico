@@ -3,6 +3,7 @@ import { toast } from 'sonner'
 import { Plus, Search, Pencil, Trash2, RotateCcw, UserCog } from 'lucide-react'
 import { useFuncionarios } from '@/hooks/useFuncionarios'
 import { estabelecimentoService } from '@/services/estabelecimentoService'
+import { authService } from '@/services/authService'
 import { useAuth } from '@/hooks/useAuth'
 import type {
   FuncionarioResponse,
@@ -25,7 +26,7 @@ const emptyForm: CadastrarFuncionarioRequest = {
   estabelecimentoId: '',
 }
 
-const emptyErros = { cpf: '', email: '', telefone: '' }
+const emptyErros = { cpf: '', email: '', telefone: '', senha: '' }
 
 function maskCPF(v: string) {
   const d = v.replace(/\D/g, '').slice(0, 11)
@@ -95,6 +96,7 @@ export function FuncionariosPage() {
   const [modalAberto, setModalAberto] = useState(false)
   const [editando, setEditando] = useState<FuncionarioResponse | null>(null)
   const [form, setForm] = useState<CadastrarFuncionarioRequest>(emptyForm)
+  const [senha, setSenha] = useState('')
   const [salvando, setSalvando] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
   const [confirmandoId, setConfirmandoId] = useState<string | null>(null)
@@ -140,6 +142,7 @@ export function FuncionariosPage() {
   function abrirCadastro() {
     setEditando(null)
     setForm(emptyForm)
+    setSenha('')
     setFormError(null)
     setCampoErros(emptyErros)
     setModalAberto(true)
@@ -155,6 +158,7 @@ export function FuncionariosPage() {
       cargo: func.cargo,
       estabelecimentoId: func.estabelecimentoId,
     })
+    setSenha('')
     setFormError(null)
     setCampoErros(emptyErros)
     setModalAberto(true)
@@ -194,6 +198,10 @@ export function FuncionariosPage() {
         erros.cpf = 'CPF inválido'
         valido = false
       }
+      if (!senha || senha.length < 8) {
+        erros.senha = 'Senha obrigatória (mínimo 8 caracteres)'
+        valido = false
+      }
     }
 
     if (!form.email) {
@@ -224,7 +232,21 @@ export function FuncionariosPage() {
           cargo: form.cargo.trim() || undefined,
         })
       } else {
-        await cadastrar({ ...form, nome: form.nome.trim(), cargo: form.cargo.trim() })
+        const novo = await cadastrar({ ...form, nome: form.nome.trim(), cargo: form.cargo.trim() })
+        try {
+          await authService.registrarStaff({
+            email: form.email,
+            senha,
+            tipoPerfil: 'FUNCIONARIO',
+            referenciaId: novo.id,
+          })
+          toast.success('Funcionário cadastrado. Um e-mail com a senha de acesso foi enviado.')
+        } catch (loginErr) {
+          toast.error(
+            `Funcionário criado, mas o login não pôde ser gerado: ${(loginErr as Error).message}. ` +
+            'Tente criar o login novamente mais tarde.',
+          )
+        }
       }
       setModalAberto(false)
       setEditando(null)
@@ -438,6 +460,20 @@ export function FuncionariosPage() {
               <option key={e.id} value={e.id}>{e.nome}</option>
             ))}
           </SelectField>
+          {!editando && (
+            <Input
+              label="Senha de acesso *"
+              type="password"
+              value={senha}
+              onChange={(e) => { setSenha(e.target.value); setCampoErros((p) => ({ ...p, senha: '' })) }}
+              onBlur={() => {
+                if (!senha || senha.length < 8)
+                  setCampoErros((p) => ({ ...p, senha: 'Senha obrigatória (mínimo 8 caracteres)' }))
+              }}
+              placeholder="Mínimo 8 caracteres"
+              error={campoErros.senha}
+            />
+          )}
         </div>
       </Modal>
 
