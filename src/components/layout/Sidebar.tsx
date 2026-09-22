@@ -21,15 +21,16 @@ import { cn } from '@/lib/utils'
 import { useAuth } from '@/hooks/useAuth'
 
 const navItems = [
-  { to: '/', label: 'Home', icon: Home, roles: ['MEDICO', 'PACIENTE', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
-  { to: '/pacientes', label: 'Pacientes', icon: Users, roles: ['MEDICO', 'PACIENTE', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
-  { to: '/medicos', label: 'Médicos', icon: Stethoscope, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
-  { to: '/estabelecimentos', label: 'Estabelecimentos', icon: Building2, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
-  { to: '/servicos', label: 'Serviços', icon: ClipboardList, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
-  { to: '/agendamentos', label: 'Agendamentos', icon: CalendarClock, roles: ['MEDICO', 'PACIENTE', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
-  { to: '/funcionarios', label: 'Funcionários', icon: UserCog, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
-  { to: '/ia', label: 'Assistente IA', icon: Sparkles, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
-  { to: '/crm', label: 'CRM', icon: BarChart2, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR'] },
+  { to: '/', label: 'Home', icon: Home, roles: ['MEDICO', 'PACIENTE', 'FUNCIONARIO', 'DESENVOLVEDOR', 'ADMIN_ESTABELECIMENTO'] },
+  { to: '/pacientes', label: 'Pacientes', icon: Users, roles: ['MEDICO', 'PACIENTE', 'FUNCIONARIO', 'DESENVOLVEDOR', 'ADMIN_ESTABELECIMENTO'] },
+  { to: '/medicos', label: 'Médicos', icon: Stethoscope, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR', 'ADMIN_ESTABELECIMENTO'] },
+  { to: '/estabelecimentos', label: 'Estabelecimentos', icon: Building2, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR', 'ADMIN_ESTABELECIMENTO'] },
+  { to: '/administradores', label: 'Administradores', icon: UserCog, roles: ['DESENVOLVEDOR'] },
+  { to: '/servicos', label: 'Serviços', icon: ClipboardList, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR', 'ADMIN_ESTABELECIMENTO'] },
+  { to: '/agendamentos', label: 'Agendamentos', icon: CalendarClock, roles: ['MEDICO', 'PACIENTE', 'FUNCIONARIO', 'DESENVOLVEDOR', 'ADMIN_ESTABELECIMENTO'] },
+  { to: '/funcionarios', label: 'Funcionários', icon: UserCog, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR', 'ADMIN_ESTABELECIMENTO'] },
+  { to: '/ia', label: 'Assistente IA', icon: Sparkles, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR', 'ADMIN_ESTABELECIMENTO'] },
+  { to: '/crm', label: 'CRM', icon: BarChart2, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR', 'ADMIN_ESTABELECIMENTO'] },
 ]
 
 function NavItem3D({ to, label, icon: Icon, onClick }: {
