@@ -9,6 +9,7 @@ import { RegisterPage } from './pages/RegisterPage'
 import { PacientesPage } from './pages/PacientesPage'
 import { MedicosPage } from './pages/MedicosPage'
 import { EstabelecimentosPage } from './pages/EstabelecimentosPage'
+import { AdministradoresPage } from './pages/AdministradoresPage'
 import { ServicosPage } from './pages/ServicosPage'
 import { AgendamentosPage } from './pages/AgendamentosPage'
 import { FuncionariosPage } from './pages/FuncionariosPage'
@@ -49,6 +50,7 @@ export default function App() {
             <Route path="/pacientes" element={<PacientesPage />} />
             <Route path="/medicos" element={<MedicosPage />} />
             <Route path="/estabelecimentos" element={<EstabelecimentosPage />} />
+            <Route path="/administradores" element={<AdministradoresPage />} />
             <Route path="/servicos" element={<ServicosPage />} />
             <Route path="/agendamentos" element={<AgendamentosPage />} />
             <Route path="/funcionarios" element={<FuncionariosPage />} />

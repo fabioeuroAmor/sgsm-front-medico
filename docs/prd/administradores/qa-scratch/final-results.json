@@ -1,0 +1,286 @@
+{
+  "AD002": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD005": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD001": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD004": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD041": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD042": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD015": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD016": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD018": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD019": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD020": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD021": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD022": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD024": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD025": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD026": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD029": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD030": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD031": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD032": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD034": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD035": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD036": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD037": {
+    "status": "blocked",
+    "note": "POST /v1/api/administradores succeeded (201) but POST /v1/api/auth/registrar failed with 500 \"Erro interno\" for tipoPerfil=ADMIN_ESTABELECIMENTO - confirmed via direct curl too (reproducible, not transient). Likely missing ms-sboot-auth/V6__admin_estabelecimento_role.sql migration / ADMIN_ESTABELECIMENTO role row in auth.role, as flagged in test-plan.md prerequisite note. See AD037-backend-bug-curl-evidence.log. The admin identity WAS created (orphan) but no login exists; full happy-path cannot be verified until backend precondition is fixed."
+  },
+  "AD017": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD023": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD027": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD038": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD039": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD040": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD043": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD044": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD033": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD045": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD046": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD047": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD048": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD049": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD050": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD051": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD052": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD053": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD006": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD007": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD008": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD009": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD010": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD011": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD012": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD013": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD014": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD054": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD055": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD058": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD060": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD056": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD057": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD059": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD062": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD061": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD066": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD067": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD068": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD070": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD069": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD003": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD028": {
+    "status": "pass",
+    "note": "Evidence shared with AD040 (see AD028.png/AD028.log) - Bruno Carvalho created with telefone empty, POST body telefone:\"\", 201 Created, no error."
+  },
+  "AD063": {
+    "status": "blocked",
+    "note": "Provided MEDICO credentials (fabioeuro@gmail.com/famor966) return 401 from the real backend - see AD063-065-blocked-medico-credentials.log"
+  },
+  "AD064": {
+    "status": "blocked",
+    "note": "Same MEDICO credential blocker as AD063 - could not establish a MEDICO session to test direct URL access."
+  },
+  "AD065": {
+    "status": "blocked",
+    "note": "Same MEDICO credential blocker as AD063 - could not establish a MEDICO session to attempt the POST."
+  },
+  "AD071": {
+    "status": "blocked",
+    "note": "Depends on a working ADMIN_ESTABELECIMENTO login, which is blocked by the AD037 backend bug - see AD071-blocked-login-verification.log"
+  }
+}

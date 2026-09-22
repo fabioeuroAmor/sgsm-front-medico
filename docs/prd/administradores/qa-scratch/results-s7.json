@@ -1,0 +1,14 @@
+{
+  "AD067": {
+    "status": "fail",
+    "note": "Page went blank instead of recovering via refresh+retry"
+  },
+  "AD067b": {
+    "status": "pass",
+    "note": ""
+  },
+  "AD068": {
+    "status": "fail",
+    "note": "locator.innerText: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: /Salvar/ })\u001b[22m\n"
+  }
+}

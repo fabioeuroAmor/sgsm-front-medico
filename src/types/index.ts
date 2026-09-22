@@ -310,7 +310,7 @@ export interface LoginResponse {
 export interface RegistrarRequest {
   email: string
   senha: string
-  tipoPerfil: 'MEDICO' | 'PACIENTE' | 'FUNCIONARIO' | 'DESENVOLVEDOR'
+  tipoPerfil: 'MEDICO' | 'PACIENTE' | 'FUNCIONARIO' | 'DESENVOLVEDOR' | 'ADMIN_ESTABELECIMENTO'
   referenciaId?: string
 }
 
@@ -372,6 +372,40 @@ export interface AtualizarFuncionarioRequest {
 
 export type FiltrosFuncionario = {
   estabelecimentoId?: string
+  ativo?: boolean
+}
+
+// ─── Administrador (dono/gestor de estabelecimento) ───────────────────────────
+
+export interface AdministradorResponse {
+  id: string
+  nome: string
+  cpf: string
+  email: string
+  telefone?: string
+  ativo: boolean
+  criadoEm: string
+  atualizadoEm: string
+}
+
+export interface CadastrarAdministradorRequest {
+  nome: string
+  cpf: string
+  email: string
+  telefone?: string
+}
+
+export interface AtualizarAdministradorRequest {
+  nome?: string
+  email?: string
+  telefone?: string
+}
+
+export interface AssociarEstabelecimentosRequest {
+  estabelecimentoIds: string[]
+}
+
+export type FiltrosAdministrador = {
   ativo?: boolean
 }
 
