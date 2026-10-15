@@ -58,8 +58,22 @@ Não há `.env`/variável de API base — as chamadas usam caminhos relativos (`
 |---|---|
 | `/v1/api/auth/**` | `http://localhost:8081` (`ms-sboot-auth`) |
 | `/v1/**` (demais) | `http://localhost:8080` (`sgsm`) |
+| `/ia/(chat\|busca\|paciente\|kpis\|etl)/**`, `/crm/**` | `http://localhost:8082` (`sgsm-ia`) |
 
-Ou seja: para rodar o frontend de ponta a ponta, **os dois backends precisam estar de pé** nas portas acima antes de `npm run dev`.
+Ou seja: para rodar o frontend de ponta a ponta, **`sgsm` e `ms-sboot-auth` precisam estar de pé** nas portas acima antes de `npm run dev`. O `sgsm-ia` só é necessário para as telas **Assistente IA** e **CRM**.
+
+### Permissões nas telas de IA e CRM
+
+O `sgsm-ia` autoriza cada rota por perfil e filtra os dados pelos estabelecimentos do usuário. O front só esconde o que o perfil não pode usar (`src/lib/permissoesIa.ts`); a barreira real é o backend, que responde 403/404.
+
+| Recurso | Perfis |
+|---|---|
+| CRM → Leads | FUNCIONARIO, ADMIN_ESTABELECIMENTO, DESENVOLVEDOR (lead exige estabelecimento, exceto para DESENVOLVEDOR) |
+| CRM → Paciente 360 (tags, contatos) | MEDICO, FUNCIONARIO, ADMIN_ESTABELECIMENTO, DESENVOLVEDOR |
+| CRM → Notas clínicas | leitura: MEDICO que atendeu o paciente e DESENVOLVEDOR; registro: só MEDICO |
+| CRM → Risco de Churn | FUNCIONARIO, ADMIN_ESTABELECIMENTO, DESENVOLVEDOR |
+| CRM → Analytics / IA → KPIs | ADMIN_ESTABELECIMENTO, DESENVOLVEDOR |
+| IA → Chat | MEDICO, FUNCIONARIO, ADMIN_ESTABELECIMENTO, DESENVOLVEDOR (contexto filtrado pelo escopo do usuário) |
 
 Em build de produção (`npm run build` + `npm run preview`, ou deploy), esse proxy do dev server não existe — é preciso um proxy reverso equivalente (nginx, API gateway etc.) apontando `/v1/api/auth/**` e o restante de `/v1/**` para os respectivos serviços.
 
@@ -118,7 +132,11 @@ cd ../ms-sboot-auth && ./mvnw spring-boot:run
 # 3. sgsm (porta 8080)
 cd ../sgsm && ./mvnw spring-boot:run
 
-# 4. Frontend (porta 3001)
+# 4. sgsm-ia (porta 8082) — opcional, só para Assistente IA e CRM
+#    (depende de Redis e Milvus de pé)
+cd ../sgsm-ia && mvn spring-boot:run
+
+# 5. Frontend (porta 3001)
 cd ../sgsm-front-medico && npm run dev
 ```
 

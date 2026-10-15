@@ -4,6 +4,8 @@ import { toast } from 'sonner'
 import iaApi from '@/services/iaService'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
+import { useAuth } from '@/hooks/useAuth'
+import { podeIa } from '@/lib/permissoesIa'
 
 interface Message {
   id: string
@@ -56,6 +58,9 @@ function KpiCard({ label, value }: { label: string; value: unknown }) {
 type Tab = 'chat' | 'kpis'
 
 export function IaPage() {
+  const { usuario } = useAuth()
+  // KPIs (financeiro) só para ADMIN_ESTABELECIMENTO e DESENVOLVEDOR — o sgsm-ia nega os demais
+  const podeVerKpis = podeIa(usuario?.perfil, 'kpis')
   const [tab, setTab] = useState<Tab>('chat')
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -123,8 +128,8 @@ export function IaPage() {
     try {
       const data = await iaApi.kpis()
       setKpis(data)
-    } catch {
-      toast.error('Erro ao carregar KPIs')
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : 'Erro ao carregar KPIs')
     } finally {
       setKpisLoading(false)
     }
@@ -161,17 +166,19 @@ export function IaPage() {
           >
             <Bot size={13} /> Chat
           </button>
-          <button
-            onClick={() => setTab('kpis')}
-            className={cn(
-              'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors',
-              tab === 'kpis'
-                ? 'bg-[hsl(184,80%,25%)] text-white'
-                : 'text-[hsl(185,59%,65%)] hover:text-[hsl(185,59%,89%)]',
-            )}
-          >
-            <BarChart3 size={13} /> KPIs
-          </button>
+          {podeVerKpis && (
+            <button
+              onClick={() => setTab('kpis')}
+              className={cn(
+                'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors',
+                tab === 'kpis'
+                  ? 'bg-[hsl(184,80%,25%)] text-white'
+                  : 'text-[hsl(185,59%,65%)] hover:text-[hsl(185,59%,89%)]',
+              )}
+            >
+              <BarChart3 size={13} /> KPIs
+            </button>
+          )}
         </div>
       </div>
 
@@ -235,10 +242,12 @@ export function IaPage() {
       )}
 
       {/* KPIs Tab */}
-      {tab === 'kpis' && (
+      {tab === 'kpis' && podeVerKpis && (
         <div className="flex-1 overflow-y-auto px-6 py-4">
           <div className="flex items-center justify-between mb-4">
-            <p className="text-[hsl(185,59%,75%)] text-sm font-semibold">Indicadores do Sistema</p>
+            <p className="text-[hsl(185,59%,75%)] text-sm font-semibold">
+              {usuario?.perfil === 'DESENVOLVEDOR' ? 'Indicadores do Sistema' : 'Indicadores dos seus Estabelecimentos'}
+            </p>
             <button
               onClick={loadKpis}
               disabled={kpisLoading}

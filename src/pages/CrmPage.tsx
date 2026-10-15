@@ -7,7 +7,10 @@ import {
 import { toast } from 'sonner'
 import crmService, { type Contato, type KpisData, type Lead, type NotaClinica, type Tag } from '@/services/crmService'
 import { pacienteService } from '@/services/pacienteService'
-import type { PacienteResponse } from '@/types'
+import { estabelecimentoService } from '@/services/estabelecimentoService'
+import type { EstabelecimentoResponse, PacienteResponse } from '@/types'
+import { useAuth } from '@/hooks/useAuth'
+import { podeIa } from '@/lib/permissoesIa'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { Modal } from '@/components/ui/Modal'
@@ -67,9 +70,14 @@ function isValidTelefone(telefone: string) {
 
 // ── Leads Tab ────────────────────────────────────────────────────────────────
 
-const FORM_LEAD_VAZIO = { nome: '', email: '', telefone: '', interesse: '', origem: 'OUTRO', observacoes: '' }
+const FORM_LEAD_VAZIO = { nome: '', email: '', telefone: '', interesse: '', origem: 'OUTRO', observacoes: '', estabelecimentoId: '' }
 
 function LeadsTab() {
+  const { usuario } = useAuth()
+  // Lead pertence a um estabelecimento (o sgsm-ia só mostra leads das clínicas do usuário);
+  // só DESENVOLVEDOR pode criar sem estabelecimento
+  const exigeEstabelecimento = !podeIa(usuario?.perfil, 'leadSemEstabelecimento')
+  const [estabelecimentos, setEstabelecimentos] = useState<EstabelecimentoResponse[]>([])
   const [leads, setLeads] = useState<Lead[]>([])
   const [filtroStatus, setFiltroStatus] = useState('')
   const [loading, setLoading] = useState(false)
@@ -99,8 +107,15 @@ function LeadsTab() {
 
   useEffect(() => { carregar() }, [filtroStatus])
 
+  // O sgsm já devolve só os estabelecimentos do escopo do usuário
+  useEffect(() => {
+    estabelecimentoService.listar().then(setEstabelecimentos).catch(() => {})
+  }, [])
+
   function abrirModalCriar() {
-    setForm(FORM_LEAD_VAZIO)
+    setForm(estabelecimentos.length === 1
+      ? { ...FORM_LEAD_VAZIO, estabelecimentoId: estabelecimentos[0].id }
+      : FORM_LEAD_VAZIO)
     setFieldErrors({})
     setModalCriar(true)
   }
@@ -117,6 +132,7 @@ function LeadsTab() {
     if (form.email && !isValidEmail(form.email)) errors.email = 'E-mail inválido'
     if (form.telefone && !isValidTelefone(form.telefone)) errors.telefone = 'Telefone inválido'
     if (form.interesse && form.interesse.trim().length < 3) errors.interesse = 'Interesse deve ter pelo menos 3 caracteres'
+    if (exigeEstabelecimento && !form.estabelecimentoId) errors.estabelecimentoId = 'Estabelecimento é obrigatório'
     setFieldErrors(errors)
     return Object.keys(errors).length === 0
   }
@@ -127,7 +143,7 @@ function LeadsTab() {
     salvandoRef.current = true
     setSalvando(true)
     try {
-      await crmService.criarLead(form)
+      await crmService.criarLead({ ...form, estabelecimentoId: form.estabelecimentoId || undefined })
       toast.success('Lead criado')
       fecharModalCriar()
       carregar()
@@ -232,6 +248,17 @@ function LeadsTab() {
             <Input label="E-mail" type="email" value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} error={fieldErrors.email} />
             <Input label="Telefone" value={form.telefone} onChange={(e) => setForm((f) => ({ ...f, telefone: e.target.value }))} error={fieldErrors.telefone} />
           </div>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              Estabelecimento{exigeEstabelecimento ? ' *' : ''}
+            </label>
+            <select value={form.estabelecimentoId} onChange={(e) => setForm((f) => ({ ...f, estabelecimentoId: e.target.value }))}
+              className="rounded-xl border border-border bg-input px-3 py-2 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring">
+              <option value="">{exigeEstabelecimento ? 'Selecione…' : 'Nenhum'}</option>
+              {estabelecimentos.map((e) => <option key={e.id} value={e.id}>{e.nome}</option>)}
+            </select>
+            {fieldErrors.estabelecimentoId && <p className="text-xs text-destructive">{fieldErrors.estabelecimentoId}</p>}
+          </div>
           <Input label="Interesse" value={form.interesse} onChange={(e) => setForm((f) => ({ ...f, interesse: e.target.value }))} placeholder="Consulta cardiológica" error={fieldErrors.interesse} />
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Origem</label>
@@ -282,6 +309,10 @@ function LeadsTab() {
 // ── Paciente 360 Tab ──────────────────────────────────────────────────────────
 
 function Paciente360Tab() {
+  const { usuario } = useAuth()
+  const podeLerNotas = podeIa(usuario?.perfil, 'lerNotasClinicas')
+  const podeRegistrarNota = podeIa(usuario?.perfil, 'registrarNotaClinica')
+  const [notasBloqueadas, setNotasBloqueadas] = useState(false)
   const [pacientes, setPacientes] = useState<PacienteResponse[]>([])
   const [busca, setBusca] = useState('')
   const [selecionado, setSelecionado] = useState<PacienteResponse | null>(null)
@@ -312,15 +343,18 @@ function Paciente360Tab() {
     setShowDropdown(false)
     setLoadingDetalhe(true)
     try {
+      // Notas: o médico só lê as de pacientes que ele próprio atendeu — fora disso o
+      // sgsm-ia responde 404, que aqui vira "sem acesso" em vez de erro da tela toda
       const [t, c, n] = await Promise.all([
         crmService.listarTags(p.id),
         crmService.listarContatos(p.id),
-        crmService.listarNotas(p.id),
+        podeLerNotas ? crmService.listarNotas(p.id).catch(() => null) : Promise.resolve([]),
       ])
       setTags(t)
       setContatos(c)
-      setNotas(n)
-    } catch { toast.error('Erro ao carregar dados do paciente') } finally { setLoadingDetalhe(false) }
+      setNotas(n ?? [])
+      setNotasBloqueadas(podeLerNotas && n === null)
+    } catch (e) { toast.error((e as Error).message || 'Erro ao carregar dados do paciente') } finally { setLoadingDetalhe(false) }
   }
 
   async function adicionarTag() {
@@ -440,7 +474,7 @@ function Paciente360Tab() {
 
           {/* Sub tabs */}
           <div className="flex gap-1 bg-card border border-border p-1 rounded-xl w-fit">
-            {(['tags', 'contatos', 'notas'] as const).map((t) => (
+            {(podeLerNotas ? (['tags', 'contatos', 'notas'] as const) : (['tags', 'contatos'] as const)).map((t) => (
               <button
                 key={t}
                 onClick={() => setSubTab(t)}
@@ -515,12 +549,19 @@ function Paciente360Tab() {
           )}
 
           {/* Notes section */}
-          {subTab === 'notas' && (
+          {subTab === 'notas' && podeLerNotas && (
             <Card className="p-4 space-y-3">
-              <div className="flex justify-end">
-                <Button onClick={() => setModalNota(true)} size="sm"><FileText size={14} /> Nova Nota</Button>
-              </div>
-              {notas.length === 0 && <p className="text-xs text-muted-foreground text-center py-4">Nenhuma nota clínica</p>}
+              {podeRegistrarNota && !notasBloqueadas && (
+                <div className="flex justify-end">
+                  <Button onClick={() => setModalNota(true)} size="sm"><FileText size={14} /> Nova Nota</Button>
+                </div>
+              )}
+              {notasBloqueadas && (
+                <p className="text-xs text-muted-foreground text-center py-4">
+                  Notas clínicas são visíveis só para o médico que atendeu este paciente.
+                </p>
+              )}
+              {!notasBloqueadas && notas.length === 0 && <p className="text-xs text-muted-foreground text-center py-4">Nenhuma nota clínica</p>}
               <div className="space-y-2">
                 {notas.map((n) => (
                   <div key={n.id} className="rounded-xl border border-border/60 bg-muted/20 p-3 space-y-1.5">
@@ -911,14 +952,18 @@ function AnalyticsTab() {
 type CrmTab = 'leads' | '360' | 'churn' | 'analytics'
 
 export function CrmPage() {
-  const [tab, setTab] = useState<CrmTab>('leads')
+  const { usuario } = useAuth()
 
-  const tabs: { id: CrmTab; label: string; icon: React.ReactNode }[] = [
-    { id: 'leads', label: 'Leads', icon: <UserPlus size={14} /> },
-    { id: '360', label: 'Paciente 360', icon: <Users size={14} /> },
-    { id: 'churn', label: 'Risco de Churn', icon: <AlertTriangle size={14} /> },
-    { id: 'analytics', label: 'Analytics', icon: <BarChart2 size={14} /> },
-  ]
+  // Só as abas que o perfil pode usar no sgsm-ia (ex.: MEDICO vê só Paciente 360)
+  const tabs = ([
+    { id: 'leads', label: 'Leads', icon: <UserPlus size={14} />, permitido: podeIa(usuario?.perfil, 'leads') },
+    { id: '360', label: 'Paciente 360', icon: <Users size={14} />, permitido: podeIa(usuario?.perfil, 'paciente360') },
+    { id: 'churn', label: 'Risco de Churn', icon: <AlertTriangle size={14} />, permitido: podeIa(usuario?.perfil, 'churn') },
+    { id: 'analytics', label: 'Analytics', icon: <BarChart2 size={14} />, permitido: podeIa(usuario?.perfil, 'kpis') },
+  ] satisfies { id: CrmTab; label: string; icon: React.ReactNode; permitido: boolean }[]).filter((t) => t.permitido)
+
+  const [tabEscolhida, setTab] = useState<CrmTab | null>(null)
+  const tab = tabs.some((t) => t.id === tabEscolhida) ? tabEscolhida : tabs[0]?.id
 
   return (
     <div className="space-y-6">

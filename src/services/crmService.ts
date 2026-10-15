@@ -9,8 +9,19 @@ export interface Lead {
   origem: string
   status: string
   observacoes: string
+  estabelecimento_id: string | null
   criado_em: string
   atualizado_em: string
+}
+
+export interface LeadRequest {
+  nome: string
+  email?: string
+  telefone?: string
+  interesse?: string
+  origem?: string
+  observacoes?: string
+  estabelecimentoId?: string
 }
 
 export interface Tag {
@@ -109,7 +120,7 @@ const crmService = {
   listarLeads: (status?: string, origem?: string) =>
     api.get<Lead[]>('/crm/leads', { ...B, params: { status, origem } }).then((r) => r.data),
 
-  criarLead: (body: Partial<Lead>) =>
+  criarLead: (body: LeadRequest) =>
     api.post<{ id: string; status: string }>('/crm/leads', body, B).then((r) => r.data),
 
   atualizarStatusLead: (id: string, status: string, observacoes?: string) =>
