@@ -58,7 +58,7 @@ Não há `.env`/variável de API base — as chamadas usam caminhos relativos (`
 |---|---|
 | `/v1/api/auth/**` | `http://localhost:8081` (`ms-sboot-auth`) |
 | `/v1/**` (demais) | `http://localhost:8080` (`sgsm`) |
-| `/ia/(chat\|busca\|paciente\|kpis\|etl)/**`, `/crm/**` | `http://localhost:8082` (`sgsm-ia`) |
+| `/ia/(chat\|busca\|paciente\|kpis\|etl)/**`, `/crm/**`, `/marketing/**` | `http://localhost:8082` (`sgsm-ia`) |
 
 Ou seja: para rodar o frontend de ponta a ponta, **`sgsm` e `ms-sboot-auth` precisam estar de pé** nas portas acima antes de `npm run dev`. O `sgsm-ia` só é necessário para as telas **Assistente IA** e **CRM**.
 
@@ -74,6 +74,7 @@ O `sgsm-ia` autoriza cada rota por perfil e filtra os dados pelos estabeleciment
 | CRM → Risco de Churn | FUNCIONARIO, ADMIN_ESTABELECIMENTO, DESENVOLVEDOR |
 | CRM → Analytics / IA → KPIs | ADMIN_ESTABELECIMENTO, DESENVOLVEDOR |
 | IA → Chat | MEDICO, FUNCIONARIO, ADMIN_ESTABELECIMENTO, DESENVOLVEDOR (contexto filtrado pelo escopo do usuário) |
+| Tráfego pago (Meta Ads) | ADMIN_ESTABELECIMENTO (só das suas clínicas) e DESENVOLVEDOR. O login da Meta volta por `/marketing/meta/callback`, que passa pelo proxy do Vite até o sgsm-ia |
 
 Em build de produção (`npm run build` + `npm run preview`, ou deploy), esse proxy do dev server não existe — é preciso um proxy reverso equivalente (nginx, API gateway etc.) apontando `/v1/api/auth/**` e o restante de `/v1/**` para os respectivos serviços.
 

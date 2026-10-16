@@ -32,6 +32,12 @@ export default defineConfig({
         target: 'http://localhost:8082',
         changeOrigin: true,
       },
+      // Tráfego pago (Meta Ads). Inclui o callback OAuth: a Meta devolve o navegador para
+      // http://localhost:3001/marketing/meta/callback, que chega aqui e segue para o sgsm-ia
+      '/marketing/': {
+        target: 'http://localhost:8082',
+        changeOrigin: true,
+      },
     },
   },
 })

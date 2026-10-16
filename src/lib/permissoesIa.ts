@@ -17,6 +17,8 @@ const PERMISSOES = {
   registrarNotaClinica: [MEDICO],
   // DESENVOLVEDOR pode criar lead sem estabelecimento; os demais escolhem um dos seus
   leadSemEstabelecimento: [DEV],
+  // Tráfego pago (Meta Ads): gasto da clínica — só o ADMIN da clínica e DESENVOLVEDOR (DM2)
+  trafegoPago: [ADMIN, DEV],
 } as const
 
 export type PermissaoIa = keyof typeof PERMISSOES
