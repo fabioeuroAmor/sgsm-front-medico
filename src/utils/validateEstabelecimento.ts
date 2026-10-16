@@ -4,11 +4,11 @@ import type { CadastrarEstabelecimentoRequest } from '@/types'
 const CNPJ_FORMATO_REGEX = /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/
 const TELEFONE_REGEX = /^\(\d{2}\) \d{4,5}-\d{4}$/
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-const LOGRADOURO_REGEX = /^[A-Za-zÀ-ÿ0-9\s.,\-]+$/
+const LOGRADOURO_REGEX = /^[A-Za-zÀ-ÿ0-9\s.,-]+$/
 const NUMERO_REGEX = /^\d+$/
-const BAIRRO_REGEX = /^[A-Za-zÀ-ÿ\s.\-]+$/
+const BAIRRO_REGEX = /^[A-Za-zÀ-ÿ\s.-]+$/
 const CEP_REGEX = /^\d{5}-\d{3}$/
-const CIDADE_REGEX = /^[A-Za-zÀ-ÿ\s.\-]+$/
+const CIDADE_REGEX = /^[A-Za-zÀ-ÿ\s.-]+$/
 const UF_REGEX = /^(AC|AL|AP|AM|BA|CE|DF|ES|GO|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SC|SP|SE|TO)$/
 
 export type EstabelecimentoFormErrors = Partial<Record<keyof CadastrarEstabelecimentoRequest, string>>

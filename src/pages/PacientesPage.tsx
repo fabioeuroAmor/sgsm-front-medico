@@ -56,7 +56,7 @@ function validarCepDigitos(digits: string): string | null {
 
 function validarNumero(num: string): string | null {
   if (!num) return null   // opcional
-  if (!/^[a-zA-Z0-9\s/\-]+$/.test(num)) return 'Número inválido (use apenas letras, números e /-)'
+  if (!/^[a-zA-Z0-9\s/-]+$/.test(num)) return 'Número inválido (use apenas letras, números e /-)'
   return null
 }
 

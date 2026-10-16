@@ -81,7 +81,7 @@ function buildDateString(d: string, m: string, y: string): string | null {
 function parseDate(raw: string): string | null {
   const s = raw.trim()
 
-  const m1 = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/)
+  const m1 = s.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{4})$/)
   if (m1) return buildDateString(m1[1], m1[2], m1[3])
 
   const m2 = s.match(/^(\d{1,2})[\s.](\d{1,2})[\s.](\d{4})$/)
