@@ -3,8 +3,10 @@ import type {
   AgendamentoResponse,
   CadastrarAgendamentoRequest,
   CancelarAgendamentoRequest,
+  CriarReservaRequest,
   EstabelecimentoResponse,
   FiltrosAgendamento,
+  ReservaResponse,
   SlotDisponivelResponse,
   StatusAgendamento,
 } from '../types'
@@ -34,6 +36,18 @@ export const agendamentoService = {
 
   cadastrar(request: CadastrarAgendamentoRequest): Promise<AgendamentoResponse> {
     return api.post<AgendamentoResponse>('/agendamentos', request).then((r) => r.data)
+  },
+
+  reservar(request: CriarReservaRequest): Promise<ReservaResponse> {
+    return api.post<ReservaResponse>('/agendamentos/reservas', request).then((r) => r.data)
+  },
+
+  renovarReserva(token: string): Promise<ReservaResponse> {
+    return api.post<ReservaResponse>(`/agendamentos/reservas/${token}/renovar`).then((r) => r.data)
+  },
+
+  liberarReserva(token: string): Promise<void> {
+    return api.delete(`/agendamentos/reservas/${token}`).then(() => undefined)
   },
 
   consultar(id: string): Promise<AgendamentoResponse> {

@@ -3,6 +3,7 @@ import { MessageCircle, X, Send } from 'lucide-react'
 import { pacienteService } from '@/services/pacienteService'
 import { servicoMedicoService } from '@/services/servicoMedicoService'
 import { agendamentoService } from '@/services/agendamentoService'
+import { ApiError } from '@/services/api'
 import type {
   PacienteResponse,
   ServicoMedicoResponse,
@@ -152,6 +153,8 @@ export function ChatbotWidget() {
   const [slots, setSlots] = useState<SlotDisponivelResponse[]>([])
   const [slot, setSlot] = useState<SlotDisponivelResponse | null>(null)
   const [ageObs, setAgeObs] = useState('')
+  // pré-reserva do horário escolhido até a confirmação (expira sozinha no backend)
+  const [reservaToken, setReservaToken] = useState<string | null>(null)
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -173,6 +176,28 @@ export function ChatbotWidget() {
 
   function goMenu() { setStep('MENU'); setChoices(MENU_CHOICES) }
 
+  function liberarReserva() {
+    if (reservaToken) agendamentoService.liberarReserva(reservaToken).catch(() => {})
+    setReservaToken(null)
+  }
+
+  // 409: horário tomado — oferece as alternativas próximas ou pede outra data
+  function oferecerAlternativas(err: unknown) {
+    const alternativas = err instanceof ApiError
+      ? (err.data as { alternativas?: SlotDisponivelResponse[] } | undefined)?.alternativas ?? []
+      : []
+    setSlot(null)
+    if (alternativas.length === 0) {
+      setStep('AGE_DATA')
+      addBot('Esse horário acabou de ser ocupado. Informe outra data (DD/MM/AAAA):')
+      return
+    }
+    setSlots(alternativas)
+    setStep('AGE_SLOT')
+    addBot('Esse horário acabou de ser ocupado. Estes horários próximos estão livres:')
+    setChoices(alternativas.map(s => ({ label: formatDateTime(s.dataHoraInicio), value: s.dataHoraInicio })))
+  }
+
   function reset() {
     setStep('MENU')
     setMessages([{ from: 'bot', text: 'Olá! Como posso ajudar você hoje?' }])
@@ -183,6 +208,7 @@ export function ChatbotWidget() {
     setPaciente(null); setServicos([]); setServico(null)
     setEstabelecimentos([]); setEstabelecimento(null)
     setSlots([]); setSlot(null); setAgeObs('')
+    liberarReserva()
   }
 
   // ─── choice handler ───────────────────────────────────────────────────────
@@ -259,9 +285,28 @@ export function ChatbotWidget() {
     if (step === 'AGE_SLOT') {
       const selected = slots.find(s => s.dataHoraInicio === choice.value)
       if (!selected) return
-      setSlot(selected)
-      setStep('AGE_OBS')
-      addBot('Tem alguma observação para o médico? (Opcional — pressione Enter para pular)')
+      setLoading(true)
+      liberarReserva()
+      try {
+        const reserva = await agendamentoService.reservar({
+          servicoMedicoId: servico!.id,
+          estabelecimentoId: servico!.domiciliar ? undefined : estabelecimento!.id,
+          tipo: servico!.domiciliar ? 'DOMICILIAR' : 'PRESENCIAL',
+          dataHoraInicio: selected.dataHoraInicio,
+        })
+        // reservado=false (Redis fora do ar): segue sem reserva; o banco ainda impede a duplicidade
+        setReservaToken(reserva.reservado ? reserva.token : null)
+        setSlot(selected)
+        setStep('AGE_OBS')
+        addBot((reserva.reservado ? 'Horário reservado para você por alguns minutos. ' : '')
+          + 'Tem alguma observação para o médico? (Opcional — pressione Enter para pular)')
+      } catch (err: unknown) {
+        if (err instanceof ApiError && err.status === 409) oferecerAlternativas(err)
+        else {
+          addBot(`Erro ao reservar o horário: ${err instanceof Error ? err.message : 'Tente novamente.'}`)
+          setChoices(slots.map(s => ({ label: formatSlotLabel(s), value: s.dataHoraInicio })))
+        }
+      } finally { setLoading(false) }
       return
     }
 
@@ -323,14 +368,26 @@ export function ChatbotWidget() {
             tipo: servico!.domiciliar ? 'DOMICILIAR' : 'PRESENCIAL',
             dataHoraInicio: slot!.dataHoraInicio,
             observacoes: ageObs || undefined,
+            reservaToken: reservaToken ?? undefined,
           })
+          // a reserva é consumida pelo próprio agendamento
+          setReservaToken(null)
           addBot('Agendamento realizado com sucesso! Em breve você receberá a confirmação. O que deseja fazer?')
           goMenu()
         } catch (err: unknown) {
-          addBot(`Erro ao agendar: ${err instanceof Error ? err.message : 'Tente novamente.'}`)
-          setChoices([{ label: 'Tentar novamente', value: 'SIM' }, { label: 'Cancelar', value: 'NAO' }])
+          if (err instanceof ApiError && err.status === 409) {
+            liberarReserva()
+            oferecerAlternativas(err)
+          } else if (reservaToken && err instanceof ApiError && err.status === 404) {
+            setReservaToken(null); setSlot(null); setStep('AGE_DATA')
+            addBot('A reserva do horário expirou. Informe a data novamente (DD/MM/AAAA):')
+          } else {
+            addBot(`Erro ao agendar: ${err instanceof Error ? err.message : 'Tente novamente.'}`)
+            setChoices([{ label: 'Tentar novamente', value: 'SIM' }, { label: 'Cancelar', value: 'NAO' }])
+          }
         } finally { setLoading(false) }
       } else {
+        liberarReserva()
         addBot('Agendamento cancelado. O que deseja fazer?')
         goMenu()
       }

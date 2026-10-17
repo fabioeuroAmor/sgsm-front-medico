@@ -274,6 +274,7 @@ export interface CadastrarAgendamentoRequest {
   tipo?: TipoAgendamento
   dataHoraInicio: string
   observacoes?: string
+  reservaToken?: string
 }
 
 export interface CancelarAgendamentoRequest {
@@ -285,6 +286,24 @@ export interface SlotDisponivelResponse {
   dataHoraInicio: string
   dataHoraFim: string
   duracaoMinutos: number
+  reservadoPorVoce?: boolean
+}
+
+// Pré-reserva do horário enquanto o agendamento é concluído (expira sozinha)
+export interface CriarReservaRequest {
+  servicoMedicoId: string
+  estabelecimentoId?: string
+  tipo?: TipoAgendamento
+  dataHoraInicio: string
+}
+
+export interface ReservaResponse {
+  token: string | null
+  dataHoraInicio: string
+  dataHoraFim: string
+  expiraEm: string | null
+  renovavelAte: string | null
+  reservado: boolean
 }
 
 export type FiltrosAgendamento = {

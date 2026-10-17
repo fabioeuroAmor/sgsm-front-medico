@@ -9,9 +9,10 @@ import { pacienteService } from '@/services/pacienteService'
 import { servicoMedicoService } from '@/services/servicoMedicoService'
 import { medicoService } from '@/services/medicoService'
 import { agendamentoService } from '@/services/agendamentoService'
+import { ApiError } from '@/services/api'
 import type {
   AgendamentoResponse, EstabelecimentoResponse,
-  MedicoResponse, OrigemCancelamento, PacienteResponse, ServicoMedicoResponse,
+  MedicoResponse, OrigemCancelamento, PacienteResponse, ReservaResponse, ServicoMedicoResponse,
   SlotDisponivelResponse, StatusAgendamento, TipoAgendamento,
 } from '@/types'
 import { Button } from '@/components/ui/Button'
@@ -41,6 +42,33 @@ function formatDateTime(iso: string) {
 function formatTime(iso: string) {
   if (!iso) return ''
   return new Date(iso).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+}
+
+// Compara instantes (o backend pode serializar o mesmo horário com offsets diferentes)
+function mesmoHorario(a: string, b: string) {
+  return new Date(a).getTime() === new Date(b).getTime()
+}
+
+// yyyy-MM-dd local do horário (formato usado pelo Calendar)
+function dataLocal(iso: string) {
+  const d = new Date(iso)
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
+function formatRestante(ms: number) {
+  const total = Math.max(0, Math.floor(ms / 1000))
+  return `${String(Math.floor(total / 60)).padStart(2, '0')}:${String(total % 60).padStart(2, '0')}`
+}
+
+function horarioIndisponivel(err: unknown): err is ApiError {
+  return err instanceof ApiError && err.status === 409
+}
+
+// 409 de horário indisponível traz até 3 horários próximos livres
+function alternativasDoErro(err: unknown): SlotDisponivelResponse[] {
+  if (!horarioIndisponivel(err)) return []
+  const alternativas = (err.data as { alternativas?: SlotDisponivelResponse[] } | undefined)?.alternativas
+  return Array.isArray(alternativas) ? alternativas : []
 }
 
 function formatBRL(v: number) {
@@ -174,6 +202,13 @@ export function AgendamentosPage() {
   const [selectedSlot, setSelectedSlot] = useState<SlotDisponivelResponse | null>(null)
   const [observacoes, setObservacoes] = useState('')
 
+  // pré-reserva do horário escolhido (segura o slot enquanto a secretária conclui o agendamento)
+  const [reserva, setReserva] = useState<ReservaResponse | null>(null)
+  const [reservando, setReservando] = useState(false)
+  const [alternativas, setAlternativas] = useState<SlotDisponivelResponse[]>([])
+  const [agora, setAgora] = useState(() => Date.now())
+  const reservaRef = useRef<ReservaResponse | null>(null)
+
   const [aCaminhoItem, setACaminhoItem] = useState<AgendamentoResponse | null>(null)
   const [linkLocalizacao, setLinkLocalizacao] = useState('')
   const [salvandoACaminho, setSalvandoACaminho] = useState(false)
@@ -271,12 +306,120 @@ export function AgendamentosPage() {
   useEffect(() => {
     if (passo !== 4 || !selectedServico || !dataSelecionada) return
     if (selectedTipo !== 'DOMICILIAR' && !selectedEstabelecimento) return
-    setLoadingSlots(true); setSelectedSlot(null)
+    setLoadingSlots(true)
     agendamentoService.getSlots(selectedServico.medicoId, selectedTipo === 'DOMICILIAR' ? undefined : selectedEstabelecimento!.id, dataSelecionada)
-      .then(setSlots).catch(() => setSlots([])).finally(() => setLoadingSlots(false))
+      .then((data) => {
+        setSlots(data)
+        setSelectedSlot((atual) => (atual && data.some((s) => mesmoHorario(s.dataHoraInicio, atual.dataHoraInicio)) ? atual : null))
+      })
+      .catch(() => setSlots([])).finally(() => setLoadingSlots(false))
   }, [passo, dataSelecionada, selectedServico, selectedEstabelecimento, selectedTipo])
 
-  function resetWizard() {
+  // Grade sempre atual: recarrega a cada 30 s e ao voltar para a aba (horários tomados somem)
+  useEffect(() => {
+    if (passo !== 4 || !selectedServico || !dataSelecionada) return
+    if (selectedTipo !== 'DOMICILIAR' && !selectedEstabelecimento) return
+    const atualizar = () => {
+      agendamentoService.getSlots(selectedServico.medicoId, selectedTipo === 'DOMICILIAR' ? undefined : selectedEstabelecimento!.id, dataSelecionada)
+        .then((data) => {
+          setSlots(data)
+          setSelectedSlot((atual) => (atual && data.some((s) => mesmoHorario(s.dataHoraInicio, atual.dataHoraInicio)) ? atual : null))
+        })
+        .catch(() => {})
+    }
+    const id = window.setInterval(atualizar, 30_000)
+    window.addEventListener('focus', atualizar)
+    return () => { window.clearInterval(id); window.removeEventListener('focus', atualizar) }
+  }, [passo, dataSelecionada, selectedServico, selectedEstabelecimento, selectedTipo])
+
+  // Contagem regressiva da reserva; ao expirar o horário volta a ficar livre para os outros
+  useEffect(() => {
+    reservaRef.current = reserva
+    if (!reserva?.expiraEm) return
+    const expira = new Date(reserva.expiraEm).getTime()
+    const id = window.setInterval(() => {
+      const t = Date.now()
+      setAgora(t)
+      if (t >= expira) {
+        setReserva(null)
+        setWizardError('A reserva do horário expirou e ele pode ser ocupado por outra pessoa. Selecione-o novamente para garantir.')
+      }
+    }, 1000)
+    return () => window.clearInterval(id)
+  }, [reserva])
+
+  // Saiu da tela com uma reserva ativa: libera (se falhar, expira sozinha)
+  useEffect(() => () => {
+    const token = reservaRef.current?.token
+    if (token) agendamentoService.liberarReserva(token).catch(() => {})
+  }, [])
+
+  function liberarReservaAtual() {
+    const token = reserva?.token
+    setReserva(null)
+    if (token) agendamentoService.liberarReserva(token).catch(() => {})
+  }
+
+  function recarregarSlots(data = dataSelecionada) {
+    if (!selectedServico || !data) return
+    if (selectedTipo !== 'DOMICILIAR' && !selectedEstabelecimento) return
+    agendamentoService.getSlots(selectedServico.medicoId, selectedTipo === 'DOMICILIAR' ? undefined : selectedEstabelecimento!.id, data)
+      .then(setSlots).catch(() => {})
+  }
+
+  function mostrarIndisponivel(err: unknown) {
+    if (!horarioIndisponivel(err)) { setWizardError((err as Error).message); return }
+    const opcoes = alternativasDoErro(err)
+    setAlternativas(opcoes)
+    setWizardError('Este horário acabou de ser ocupado ou está reservado por outra pessoa.'
+      + (opcoes.length > 0 ? ' Veja abaixo os horários próximos disponíveis.' : ' Escolha outro horário.'))
+    recarregarSlots()
+  }
+
+  async function selecionarSlot(slot: SlotDisponivelResponse) {
+    if (!selectedServico) return
+    if (reserva && mesmoHorario(reserva.dataHoraInicio, slot.dataHoraInicio)) { setSelectedSlot(slot); return }
+    setWizardError(null); setAlternativas([]); setReservando(true)
+    liberarReservaAtual()
+    try {
+      const nova = await agendamentoService.reservar({
+        servicoMedicoId: selectedServico.id,
+        estabelecimentoId: selectedTipo === 'DOMICILIAR' ? undefined : selectedEstabelecimento?.id,
+        tipo: selectedTipo,
+        dataHoraInicio: slot.dataHoraInicio,
+      })
+      setSelectedSlot(slot)
+      // reservado=false: Redis fora do ar; segue sem reserva (o banco ainda impede a duplicidade)
+      setReserva(nova.reservado && nova.token ? nova : null)
+      setAgora(Date.now())
+    } catch (err) {
+      setSelectedSlot(null)
+      mostrarIndisponivel(err)
+    } finally { setReservando(false) }
+  }
+
+  function escolherAlternativa(slot: SlotDisponivelResponse) {
+    const dia = dataLocal(slot.dataHoraInicio)
+    setPasso(4)
+    if (dia !== dataSelecionada) setDataSelecionada(dia)
+    void selecionarSlot(slot)
+  }
+
+  async function renovarReserva() {
+    if (!reserva?.token) return
+    try {
+      setReserva(await agendamentoService.renovarReserva(reserva.token))
+      setAgora(Date.now())
+    } catch (err) { setWizardError((err as Error).message) }
+  }
+
+  const podeRenovar = !!reserva?.expiraEm && !!reserva.renovavelAte
+    && new Date(reserva.expiraEm).getTime() < new Date(reserva.renovavelAte).getTime()
+
+  function resetWizard(liberarReserva = true) {
+    if (liberarReserva) liberarReservaAtual()
+    else setReserva(null)
+    setAlternativas([])
     setPasso(1); setBuscaPaciente(''); setSelectedPaciente(null); setBuscaServico(''); setSelectedServico(null)
     setSelectedTipo('PRESENCIAL'); setEstabelecimentos([]); setSelectedEstabelecimento(null)
     setDataSelecionada(''); setMesVisivel(''); setDiasDisponiveis([])
@@ -294,17 +437,32 @@ export function AgendamentosPage() {
   async function confirmar() {
     if (!selectedPaciente || !selectedServico || !selectedSlot) return
     if (selectedTipo !== 'DOMICILIAR' && !selectedEstabelecimento) return
-    setSalvando(true); setWizardError(null)
+    setSalvando(true); setWizardError(null); setAlternativas([])
+    const reservaToken = reserva?.token && mesmoHorario(reserva.dataHoraInicio, selectedSlot.dataHoraInicio)
+      ? reserva.token : undefined
     try {
       await cadastrar({
         pacienteId: selectedPaciente.id, servicoMedicoId: selectedServico.id,
         estabelecimentoId: selectedTipo === 'DOMICILIAR' ? undefined : selectedEstabelecimento!.id,
         tipo: selectedTipo, dataHoraInicio: selectedSlot.dataHoraInicio,
         observacoes: observacoes || undefined,
+        reservaToken,
       })
-      setWizardAberto(false); resetWizard()
+      // a reserva é consumida pelo próprio agendamento
+      setWizardAberto(false); resetWizard(false)
       listar(filtroStatus ? { status: filtroStatus } : {})
-    } catch (err) { setWizardError((err as Error).message) } finally { setSalvando(false) }
+    } catch (err) {
+      if (horarioIndisponivel(err)) {
+        liberarReservaAtual(); setSelectedSlot(null); setPasso(4)
+        mostrarIndisponivel(err)
+      } else if (reservaToken && err instanceof ApiError && err.status === 404) {
+        setReserva(null); setSelectedSlot(null); setPasso(4)
+        setWizardError('A reserva do horário expirou. Selecione o horário novamente.')
+        recarregarSlots()
+      } else {
+        setWizardError((err as Error).message)
+      }
+    } finally { setSalvando(false) }
   }
 
   async function confirmarCancelamento() {
@@ -537,13 +695,41 @@ export function AgendamentosPage() {
       <Modal open={wizardAberto} onClose={() => { setWizardAberto(false); resetWizard() }} title={WIZARD_TITLES[passo - 1]} size="lg"
         footer={
           <>
-            {passo > 1 && <Button variant="outline" onClick={() => { setWizardError(null); setPasso((p) => p - 1) }} disabled={salvando}><ChevronLeft size={15} /> Anterior</Button>}
+            {passo > 1 && <Button variant="outline" onClick={() => {
+              setWizardError(null); setAlternativas([])
+              if (passo === 4) { liberarReservaAtual(); setSelectedSlot(null) }
+              setPasso((p) => p - 1)
+            }} disabled={salvando}><ChevronLeft size={15} /> Anterior</Button>}
             {passo < 5
               ? <Button onClick={() => { if (podeAvancar()) { setWizardError(null); setPasso((p) => p + 1) } }} disabled={!podeAvancar()}>Próximo <ChevronRight size={15} /></Button>
               : <Button onClick={confirmar} disabled={salvando}>{salvando ? 'Salvando…' : <><CheckCircle2 size={15} /> Confirmar</>}</Button>}
           </>
         }>
         {wizardError && <div className="mb-4 rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">{wizardError}</div>}
+
+        {alternativas.length > 0 && (
+          <div className="mb-4 rounded-xl border border-border bg-muted/50 p-4">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Horários próximos disponíveis</p>
+            <div className="flex flex-wrap gap-2">
+              {alternativas.map((a) => (
+                <button key={a.dataHoraInicio} type="button" onClick={() => escolherAlternativa(a)} disabled={reservando}
+                  className="rounded-xl border border-border bg-input px-3 py-2 text-sm font-semibold text-foreground transition-all hover:border-primary/30">
+                  {formatDateTime(a.dataHoraInicio)}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {reserva?.expiraEm && (passo === 4 || passo === 5) && (
+          <div className="mb-4 flex items-center justify-between gap-3 rounded-xl border border-primary/30 bg-primary/5 px-4 py-2.5 text-sm text-foreground">
+            <span className="flex items-center gap-2">
+              <Clock size={14} className="text-primary" />
+              Horário reservado para você — expira em <strong>{formatRestante(new Date(reserva.expiraEm).getTime() - agora)}</strong>
+            </span>
+            {podeRenovar && <Button variant="outline" size="sm" onClick={renovarReserva}>Mais tempo</Button>}
+          </div>
+        )}
 
         {passo === 1 && (
           <div className="space-y-3">
@@ -634,7 +820,10 @@ export function AgendamentosPage() {
             <Calendar
               label="Data da consulta"
               value={dataSelecionada}
-              onChange={setDataSelecionada}
+              onChange={(dia) => {
+                if (reserva && dataLocal(reserva.dataHoraInicio) !== dia) liberarReservaAtual()
+                setDataSelecionada(dia)
+              }}
               minDate={hojeLocal()}
               diasDisponiveis={diasDisponiveis}
               loading={loadingDias}
@@ -649,9 +838,10 @@ export function AgendamentosPage() {
                     ? <p className="py-4 text-center text-sm text-muted-foreground">Sem horários disponíveis nesta data</p>
                     : <div className="grid max-h-52 grid-cols-3 gap-2 overflow-y-auto pr-1">
                       {slots.map((slot) => (
-                        <button key={slot.dataHoraInicio} type="button" onClick={() => setSelectedSlot(slot)}
-                          className={cn('rounded-xl border px-3 py-2 text-sm flex items-center justify-center gap-1 font-semibold transition-all',
-                            selectedSlot?.dataHoraInicio === slot.dataHoraInicio ? 'border-primary/50 bg-primary/10 text-primary' : 'border-border bg-input hover:border-primary/30 text-foreground')}>
+                        <button key={slot.dataHoraInicio} type="button" onClick={() => void selecionarSlot(slot)} disabled={reservando}
+                          title={slot.reservadoPorVoce ? 'Reservado por você' : undefined}
+                          className={cn('rounded-xl border px-3 py-2 text-sm flex items-center justify-center gap-1 font-semibold transition-all disabled:opacity-60',
+                            selectedSlot && mesmoHorario(selectedSlot.dataHoraInicio, slot.dataHoraInicio) ? 'border-primary/50 bg-primary/10 text-primary' : 'border-border bg-input hover:border-primary/30 text-foreground')}>
                           <Clock size={12} className="text-muted-foreground" />
                           {formatTime(slot.dataHoraInicio)}
                         </button>

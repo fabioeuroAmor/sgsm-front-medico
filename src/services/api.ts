@@ -7,6 +7,19 @@ interface RetryableConfig extends InternalAxiosRequestConfig {
   _isRetry?: boolean
 }
 
+// Mantém status e corpo da resposta (ex.: 409 de horário indisponível traz "alternativas")
+export class ApiError extends Error {
+  readonly status?: number
+  readonly data?: unknown
+
+  constructor(message: string, status?: number, data?: unknown) {
+    super(message)
+    this.name = 'ApiError'
+    this.status = status
+    this.data = data
+  }
+}
+
 const api = axios.create({
   baseURL: '/v1/api',
   timeout: 300_000,
@@ -67,7 +80,7 @@ api.interceptors.response.use(
 
     const message =
       err.response?.data?.erro ?? err.response?.data?.detail ?? err.message ?? 'Erro desconhecido'
-    return Promise.reject(new Error(message))
+    return Promise.reject(new ApiError(message, err.response?.status, err.response?.data))
   },
 )
 
