@@ -1,0 +1,7 @@
+[NOTA] INICIO QA042-r2-natural
+[NOTA] refresh_token removido; access token em memoria intacto; aguardando o vencimento natural (expiresIn 900 s) sem acao
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA042-r2-3-a-passo4-aguardando.png
+[NOTA] redirecionou=true apos 902 s | url=http://localhost:3010/login?sessao=expirada
+[NOTA] alerta: ["Sua sessão expirou. Faça login novamente."] | "Sua sessão expirou" visivel: true
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA042-r2-3-b-login.png
+[NOTA] FIM QA042-r2-natural

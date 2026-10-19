@@ -1,0 +1,24 @@
+[NOTA] INICIO QA052-r2
+[NOTA] cards 21/10/2026, 15:00 na lista de SEC-A antes: 0 []
+[NOTA] SEC-A POST reserva 15:00 -> 201
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA052-r2-a-SEC-A-passo5-com-reserva.png
+[NOTA] faixa sumiu no passo 5 apos 601 s; erro exibido=["A reserva do horário expirou e ele pode ser ocupado por outra pessoa. Selecione-o novamente para garantir."]
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA052-r2-b-SEC-A-passo5-sem-reserva.png
+[NOTA] SEC-B POST reserva 15:00 -> 201
+[NOTA] SEC-B POST agendamentos 15:00 -> 201 id=70e32a10-d8cd-4a20-92cf-ca81ced30938
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA052-r2-c-SEC-B-agendou.png
+[NOTA] SEC-A POST agendamentos -> 409 requestBody={"pacienteId":"693a2996-64db-47e3-acf3-1611a75be3b5","servicoMedicoId":"0f4d2d1e-7a44-49d3-87af-a8c72aafcb82","estabelecimentoId":"655759aa-bf83-417e-a45b-b06258c4458f","tipo":"PRESENCIAL","dataHoraInicio":"2026-10-21T15:00:00-03:00"} resposta={"detail":"Horário indisponível: já existe agendamento para este médico neste período.","instance":"/v1/api/agendamentos","status":409,"title":"Horário indisponível","type":"https://sgsm.com.br/erros/horario-indisponivel","alternativas":[{"dataHoraInicio":"2026-10-21T14:30:00-03:00","dataHoraFim":"2026-10-21T15:00:00-03:00","duracaoMinutos":30,"reservadoPorVoce":false},{"dataHoraInicio":"2026-10-21T15:30:00-03:00","dataHoraFim":"2026-10-21T16:00:00-03:00","duracaoMinutos":30,"reservadoPorVoce":false},{"dataHoraInicio":"2026-10-21T14:00:00-03:00","dataHoraFim":"2026-10-21T14:30:00-03:00","duracaoMinutos":30,"reservadoPorVoce":false}]}
+[NOTA] titulo modal: Passo 4 / 5 — Data e Horário
+[NOTA] erro: ["Este horário acabou de ser ocupado ou está reservado por outra pessoa. Veja abaixo os horários próximos disponíveis."]
+[NOTA] alternativas: visivel=true ["21/10/2026, 14:30","21/10/2026, 15:30","21/10/2026, 14:00"]
+[NOTA] grade: ["08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:30","16:00","16:30","17:00","17:30"] | contem 15:00? false
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA052-r2-d-409-passo4.png
+[NOTA] FIM QA052-r2
+[NOTA] INICIO QA053-r2
+[NOTA] GET /agendamentos apos o 409 (sem recarregar, modal ainda aberto): 200 http://localhost:3010/v1/api/agendamentos 
+[NOTA] resposta da lista contem o agendamento de SEC-B (70e32a10-d8cd-4a20-92cf-ca81ced30938): true
+[NOTA] (modal aberto) cards 21/10/2026, 15:00 no DOM da lista de SEC-A: 1 ["Zilma Ruela |  | QA Descartavel |  | Pendente | Fabio Monteiro Amorim | Clinica São Lucas | 21/10/2026, 15:00 | Cancelar | Confirmar"]
+[NOTA] GET /agendamentos disparados ao fechar o modal: 0
+[NOTA] (modal fechado, sem recarregar) cards 21/10/2026, 15:00: 1 ["Zilma Ruela |  | QA Descartavel |  | Pendente | Fabio Monteiro Amorim | Clinica São Lucas | 21/10/2026, 15:00 | Cancelar | Confirmar"] | url=http://localhost:3010/agendamentos
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA053-r2-lista-SEC-A.png
+[NOTA] FIM QA053-r2

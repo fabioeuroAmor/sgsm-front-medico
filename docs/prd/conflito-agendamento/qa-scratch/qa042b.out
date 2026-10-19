@@ -1,0 +1,6 @@
+[NOTA] INICIO QA042-b
+[NOTA] refresh_token removido do localStorage; access token (expiresIn 900 s) mantido em memoria; aguardando expirar
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA042-c-passo4-aguardando.png
+[NOTA] url final: http://localhost:3010/login | textos "sess": [] | toasts=[]
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA042-d-final.png
+[NOTA] FIM QA042-b

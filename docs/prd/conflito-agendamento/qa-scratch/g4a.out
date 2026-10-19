@@ -1,0 +1,50 @@
+[NOTA] INICIO QA036
+[NOTA] INICIO QA052
+[NOTA] aba1 POST 12:30 -> 201
+[NOTA] aba2 POST 13:00 -> 201
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA052-a-SEC-A-passo5-com-reserva.png
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA036-a-inicio.png
+[NOTA] faixa aba1: Horário reservado para você — expira em 09:56
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA036-b-quase-zero.png
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA036-b-quase-zero.png
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA036-b-quase-zero.png
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA036-b-quase-zero.png
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA036-b-quase-zero.png
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA036-b-quase-zero.png
+[NOTA] faixa sumiu apos 597 s de espera
+[NOTA] mensagem: ["A reserva do horário expirou e ele pode ser ocupado por outra pessoa. Selecione-o novamente para garantir."]
+[NOTA] selecionado ainda: ["12:30"]
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA036-c-expirou.png
+[NOTA] FIM QA036
+[NOTA] INICIO QA037
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA037-a-passo5.png
+[NOTA] POST agendamentos -> 201 requestBody={"pacienteId":"693a2996-64db-47e3-acf3-1611a75be3b5","servicoMedicoId":"0f4d2d1e-7a44-49d3-87af-a8c72aafcb82","estabelecimentoId":"655759aa-bf83-417e-a45b-b06258c4458f","tipo":"PRESENCIAL","dataHoraInicio":"2026-10-21T12:30:00-03:00"} resposta={"id":"fe399bd3-39a4-45af-aab1-d63a93504f6e","pacienteId":"693a2996-64db-47e3-acf3-1611a75be3b5","pacienteNome":"Zilma Ruela","pacienteEndereco":null,"servicoMedicoId":"0f4d2d1e-7a44-49d3-87af-a8c72aafcb82","servicoMedicoNome":"QA Descartavel","medicoId":"ff9a2400-2217-48fa-ac91-b81a4032f2db","medic
+[NOTA] modal aberto=false erros=[]
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA037-b-resultado.png
+[NOTA] FIM QA037
+[NOTA] grade SEC-B: ["08:00","08:30","09:00","09:30","10:30","11:00","11:30","12:00","13:00","13:30","14:00","15:00","15:30","16:00","16:30","17:00","17:30"]
+[NOTA] SEC-B POST reserva 13:00 -> 201
+[NOTA] SEC-B POST agendamentos 13:00 -> 201
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA052-b-SEC-B-agendou.png
+[NOTA] aba2 faixa visivel (deve ter expirado): false
+[NOTA] aba2 POST agendamentos -> 409 requestBody={"pacienteId":"693a2996-64db-47e3-acf3-1611a75be3b5","servicoMedicoId":"0f4d2d1e-7a44-49d3-87af-a8c72aafcb82","estabelecimentoId":"655759aa-bf83-417e-a45b-b06258c4458f","tipo":"PRESENCIAL","dataHoraInicio":"2026-10-21T13:00:00-03:00"} resposta={"detail":"Horário indisponível: já existe agendamento para este médico neste período.","instance":"/v1/api/agendamentos","status":409,"title":"Horário indisponível","type":"https://sgsm.com.br/erros/horario-indisponivel","alternativas":[{"dataHoraInicio":"2026-10-21T13:30:00-03:00","dataHoraFim":"2026-10-21T14:00:00-03:00","duracaoMinutos":30,"reservadoPorVoce":false},{"dataHoraInicio":"2026-10-21T12:00:00-03:00","dataHoraFim":"2026-10-21T12:30:00-03:00","duracaoMinutos":30,"reservadoPorVoce":false},{"dataHoraInicio":"2026-10-21T14:00:00-03:00","dataHoraFim":"2026-10-21T14:30:00-03:00","duracaoMinutos":30,"reservadoPorVoce":false}]}
+[NOTA] titulo modal: Passo 4 / 5 — Data e Horário
+[NOTA] erro: ["Este horário acabou de ser ocupado ou está reservado por outra pessoa. Veja abaixo os horários próximos disponíveis."]
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.isVisible: Error: strict mode violation: locator('div.fixed.inset-0.z-50').filter({ has: locator('h2') }).last().getByText('Horários próximos disponíveis') resolved to 2 elements:
+    1) <div class="mb-4 rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">Este horário acabou de ser ocupado ou está reserv…</div> aka getByText('Este horário acabou de ser')
+    2) <p class="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Horários próximos disponíveis</p> aka getByText('Horários próximos disponíveis', { exact: true })
+
+Call log:
+[2m    - checking visibility of locator('div.fixed.inset-0.z-50').filter({ has: locator('h2') }).last().getByText('Horários próximos disponíveis')[22m
+
+    at C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\qa-scratch\g4a-expiracao.mjs:96:88 {
+  log: [
+    "    - checking visibility of locator('div.fixed.inset-0.z-50').filter({ has: locator('h2') }).last().getByText('Horários próximos disponíveis')"
+  ]
+}
+
+Node.js v24.11.1

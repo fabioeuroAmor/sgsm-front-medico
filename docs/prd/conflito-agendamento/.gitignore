@@ -1,0 +1,6 @@
+# Material de QA que não vai para o repositório:
+# - senhas das contas de teste criadas nas rodadas
+qa-scratch/contas*.json
+# - captura crua das mensagens do bot (contém códigos OTP em claro)
+qa-scratch/evolution-captura.jsonl
+qa-scratch/r*-enviadas.jsonl

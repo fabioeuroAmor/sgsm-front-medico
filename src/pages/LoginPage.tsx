@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, useSearchParams, Link } from 'react-router-dom'
 import { toast } from 'sonner'
 import { LogIn, UserPlus, Sparkles } from 'lucide-react'
 import { Input } from '@/components/ui/Input'
@@ -13,6 +13,9 @@ export function LoginPage() {
   const submitRef = useRef(false)
   const { login } = useAuth()
   const navigate = useNavigate()
+  // api.ts redireciona para /login?sessao=expirada quando o token não pode ser renovado
+  const [params] = useSearchParams()
+  const sessaoExpirada = params.get('sessao') === 'expirada'
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -23,7 +26,15 @@ export function LoginPage() {
       await login({ email, senha })
       navigate('/pacientes', { replace: true })
     } catch (err) {
-      toast.error((err as Error).message)
+      const mensagem = (err as Error).message
+      // conta do auto-cadastro ainda sem o código do e-mail: atalho para a etapa de ativação
+      if (mensagem.includes('não ativada')) {
+        toast.error(mensagem, {
+          action: { label: 'Digitar código', onClick: () => navigate(`/registrar?ativar=${encodeURIComponent(email)}`) },
+        })
+      } else {
+        toast.error(mensagem)
+      }
     } finally {
       submitRef.current = false
       setLoading(false)
@@ -44,6 +55,11 @@ export function LoginPage() {
         </div>
 
         <div className="bg-card border border-border rounded-2xl shadow-lg p-8">
+          {sessaoExpirada && (
+            <div role="alert" className="mb-5 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-700 dark:text-amber-300">
+              Sua sessão expirou. Faça login novamente.
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             <Input
               label="E-mail"

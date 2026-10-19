@@ -1,0 +1,43 @@
+[NOTA] SEC-A logada; driver pronto
+[NOTA] INICIO QA140-r10-browser
+[NOTA] cards de 21/10/2026 na lista da SEC-A antes do QA140: ["Zilma Ruela | QA Descartavel | Cancelado | Fabio Monteiro Amorim | Clinica São Lucas | 21/10/2026, 14:30","Zilma Ruela | QA Descartavel | Cancelado | Fabio Monteiro Amorim | Clinica São Lucas | 21/10/2026, 10:00","Zilma Ruela | QA Descartavel | Cancelado | Fabio Monteiro Amorim | Clinica São Lucas | 21/10/2026, 12:30","Zilma Ruela | QA Descartavel | Cancelado | Fabio Monteiro Amorim | Clinica São Lucas | 21/10/2026, 13:00","Zilma Ruela | QA Descartavel | Cancelado | Fabio Monteiro Amorim | Clinica São Lucas | 21/10/2026, 13:30","Zilma Ruela | QA Descartavel | Cancelado | Fabio Monteiro Amorim | Clinica São Lucas | 21/10/2026, 15:00","Zilma Ruela | QA Descartavel | Cancelado | Fabio Monteiro Amorim | Clinica São Lucas | 21/10/2026, 10:00","Zilma Ruela | QA Descartavel | Cancelado | Fabio Monteiro Amorim | Presencial | 21/10/2026, 15:30","Zilma Ruela | QA Descartavel | Cancelado | Fabio Monteiro Amorim | Clinica São Lucas | 21/10/2026, 16:00","Zilma Ruela | QA Descartavel | Cancelado | Fabio Monteiro Amorim | Clinica São Lucas | 21/10/2026, 10:00"]
+[NOTA] grade 21/10 (SEC-A) antes do QA140: ["08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30"]
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA140-r10-a-grade-antes.png
+[NOTA] SEC-A clicou 10:00 -> ["201 POST http://localhost:3010/v1/api/agendamentos/reservas"] | faixa=Horário reservado para você — expira em
+09:59
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA140-r10-b-SEC-A-reservou-10h.png
+[NOTA] passo 5 resumo: Passo 5 / 5 — Confirmação | Horário reservado para você — expira em | 08:13 | Mais tempo | PACIENTE | Zilma Ruela | SERVIÇO | QA Descartavel• Fabio Monteiro Amorim | TIPO / LOCAL | Clinica São Lucas | DATA E HORA | 21/10/2026, 10:00 — 10:30 | DURAÇÃO | 30 minutos | VALOR | R$ 50,00 | OBSERVAÇÕES (OPCIONAL) | Anterior | Confirmar
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA140-r10-c-SEC-A-passo5.png
+[NOTA] SEC-A confirmou 10:00 -> ["201 POST http://localhost:3010/v1/api/agendamentos","200 GET http://localhost:3010/v1/api/agendamentos"] | modal aberto=0 | toasts=[]
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA140-r10-d-SEC-A-confirmou.png
+[NOTA] QA140 cards ativos de 21/10/2026 na lista da SEC-A (apos recarregar): ["Zilma Ruela | QA Descartavel | Pendente | Fabio Monteiro Amorim | Clinica São Lucas | 21/10/2026, 10:00 | Cancelar | Confirmar"]
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA140-r10-e-lista-so-zilma-10h.png
+[NOTA] FIM QA140-r10-browser
+[NOTA] FIM QA140-r10-browser
+[NOTA] INICIO QA141-r10-browser
+[NOTA] QA141 grade 21/10 antes do pedido do paciente: ["08:00","08:30","09:00","09:30","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30"]
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA141-r10-a-grade-antes.png
+[NOTA] QA141 grade da SEC-A (desatualizada?) antes do clique: 11:00 presente=true | GET slots ate agora=5
+[NOTA] QA141 SEC-A clicou 11:00 (grade desatualizada) -> ["409 POST http://localhost:3010/v1/api/agendamentos/reservas","200 GET http://localhost:3010/v1/api/agendamentos/slots?medicoId=ff9a2400-2217-48fa-ac91-b81a4032f2db&estabelecimentoId=655759aa-bf83-417e-a45b-b06258c4458f&data=2026-10-21"] | faixa reserva=0 | grade depois: 11:00 presente=false
+[NOTA] QA141 texto do passo 4 apos o clique: Passo 4 / 5 — Data e Horário | Este horário acabou de ser ocupado ou está reservado por outra pessoa. Veja abaixo os horários próximos disponíveis. | HORÁRIOS PRÓXIMOS DISPONÍVEIS | 21/10/2026, 10:30 | 21/10/2026, 11:30 | 21/10/2026, 12:00 | DATA DA CONSULTA | Outubro de 2026 | D | S | T | Q | Q | S | S | 27 | 28 | 29 | 30 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30 | 31 | Limpar | Hoje | HORÁRIOS DISPONÍVEIS | 08:00 | 08:30 | 09:00 | 09:30 | 10:30 | 11:30 | 12:00 | 12:30 | 13:00 | 13:30 | 14:00 | 14:30 | 15:00 | 15:30 | 16:00 | 16:30 | 17:00 | 17:30 | Anterior | Próximo
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA141-r10-b-SEC-A-clicou-11h-409.png
+[NOTA] QA141 apos o "Nao" do paciente, 35 s parada (atualizacao periodica): GET slots=["200 GET http://localhost:3010/v1/api/agendamentos/slots?medicoId=ff9a2400-2217-48fa-ac91-b81a4032f2db&estabelecimentoId=655759aa-bf83-417e-a45b-b06258c4458f&data=2026-10-21"] | 11:00 na grade=true | grade=["08:00","08:30","09:00","09:30","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30"]
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA141-r10-c-grade-apos-nao-11h-voltou.png
+[NOTA] QA141 SEC-A fechou o wizard (sem reserva propria) -> []
+[NOTA] FIM QA141-r10-browser
+[NOTA] INICIO QA142-r10-browser
+[NOTA] QA142 cards ativos de 21/10/2026 na lista da SEC-A apos o "Sim" do paciente (recarregada): ["Zilma Ruela | QA Descartavel | Pendente | Fabio Monteiro Amorim | Clinica São Lucas | 21/10/2026, 10:00 | Cancelar | Confirmar","QA Paciente R10 Conta 69523 | QA Descartavel | Pendente | Fabio Monteiro Amorim | Presencial | 21/10/2026, 14:00 | Cancelar | Confirmar"]
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA142-r10-a-lista-com-14h-paciente.png
+[NOTA] QA142 grade 21/10 apos o "Sim": 14:00 presente=false | grade=["08:00","08:30","09:00","09:30","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:30","15:00","15:30","16:00","16:30","17:00","17:30"]
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA142-r10-b-grade-sem-14h.png
+[NOTA] FIM QA142-r10-browser
+[NOTA] QA142 GET /v1/api/agendamentos (sessao da SEC-A, fetch via :3010), ativos de 21/10: {"status":401,"itens":[]}
+[NOTA] QA142 resposta do GET http://localhost:3010/v1/api/agendamentos (200) feito pela propria tela, ativos de 21/10: [{"id":"226da8e0-2d7d-417b-b7f5-6b31740c0914","pacienteNome":"Zilma Ruela","servicoMedicoNome":"QA Descartavel","dataHoraInicio":"2026-10-21T13:00:00Z","status":"PENDENTE","tipo":"PRESENCIAL","estabelecimentoId":"655759aa-bf83-417e-a45b-b06258c4458f","estabelecimentoNome":"Clinica São Lucas"},{"id":"bf3239ac-fb82-4c0a-aff1-002be12076ab","pacienteNome":"QA Paciente R10 Conta 69523","servicoMedicoNome":"QA Descartavel","dataHoraInicio":"2026-10-21T17:00:00Z","status":"PENDENTE","tipo":"PRESENCIAL","estabelecimentoId":null,"estabelecimentoNome":null}]
+[NOTA] INICIO LIMPEZA-r10-SEC-A
+[NOTA] cancelando: Zilma Ruela | QA Descartavel | Pendente | Fabio Monteiro Amorim | Clinica São Lucas | 21/10/2026, 10:00 | Cancelar | Confirmar
+[NOTA] cancelar 21/10/2026, 10:00 -> PATCH http://localhost:3010/v1/api/agendamentos/226da8e0-2d7d-417b-b7f5-6b31740c0914/cancelar -> 204
+[NOTA] cancelando: QA Paciente R10 Conta 69523 | QA Descartavel | Pendente | Fabio Monteiro Amorim | Presencial | 21/10/2026, 14:00 | Cancelar | Confirmar
+[NOTA] cancelar 21/10/2026, 14:00 -> PATCH http://localhost:3010/v1/api/agendamentos/bf3239ac-fb82-4c0a-aff1-002be12076ab/cancelar -> 204
+[NOTA] status final dos agendamentos da rodada 10: [{"id":"226da8e0-2d7d-417b-b7f5-6b31740c0914","status":"CANCELADO"},{"id":"bf3239ac-fb82-4c0a-aff1-002be12076ab","status":"CANCELADO"}] | ativos em 21/10/2026: []
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\LIMPEZA-r10-a-agendamentos-cancelados.png
+[NOTA] FIM LIMPEZA-r10-SEC-A

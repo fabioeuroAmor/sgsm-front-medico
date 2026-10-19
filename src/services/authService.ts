@@ -18,8 +18,11 @@ export const authService = {
   registrarStaff: (body: RegistrarRequest) =>
     api.post<RegistrarResponse>('/auth/registrar-staff', body).then((r) => r.data),
 
-  emailDisponivel: (email: string) =>
-    api.get<{ disponivel: boolean }>('/auth/email-disponivel', { params: { email } }).then((r) => r.data.disponivel),
+  ativarConta: (email: string, codigo: string) =>
+    api.post('/auth/ativar-conta', { email, codigo }),
+
+  reenviarCodigoAtivacao: (email: string) =>
+    api.post('/auth/ativar-conta/reenviar', { email }),
 
   me: () =>
     api.get<MeResponse>('/auth/me').then((r) => r.data),

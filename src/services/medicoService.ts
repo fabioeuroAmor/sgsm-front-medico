@@ -9,6 +9,10 @@ import type {
 const BASE = '/medicos'
 
 export const medicoService = {
+  // Convite para o médico criar a própria senha (link no e-mail do cadastro); só a equipe da clínica
+  enviarConviteAcesso: (id: string) =>
+    api.post<{ email: string; loginCriado: boolean }>(`/medicos/${id}/convite-acesso`).then((r) => r.data),
+
   listar: (filtros?: FiltrosMedico) =>
     api.get<MedicoResponse[]>(BASE, { params: filtros }).then((r) => r.data),
 

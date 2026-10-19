@@ -9,6 +9,8 @@ import { authService } from '@/services/authService'
 export function ResetarSenhaPage() {
   const [searchParams] = useSearchParams()
   const token = searchParams.get('token') ?? ''
+  // convite=1: link do convite de acesso do médico (mesmo token da redefinição, outro texto)
+  const convite = searchParams.get('convite') === '1'
   const navigate = useNavigate()
 
   const [novaSenha, setNovaSenha] = useState('')
@@ -36,7 +38,7 @@ export function ResetarSenhaPage() {
     setLoading(true)
     try {
       await authService.resetarSenha(token, novaSenha)
-      toast.success('Senha redefinida com sucesso!')
+      toast.success(convite ? 'Senha criada! Faça login para acessar o sistema.' : 'Senha redefinida com sucesso!')
       navigate('/login', { replace: true })
     } catch (err) {
       toast.error((err as Error).message ?? 'Link inválido ou expirado.')
@@ -68,9 +70,9 @@ export function ResetarSenhaPage() {
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary/10 mb-4">
             <KeyRound className="w-7 h-7 text-primary" />
           </div>
-          <h1 className="text-2xl font-bold text-foreground">Redefinir senha</h1>
+          <h1 className="text-2xl font-bold text-foreground">{convite ? 'Criar sua senha' : 'Redefinir senha'}</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Escolha uma nova senha para sua conta
+            {convite ? 'Bem-vindo(a) ao SGSM! Escolha a senha do seu acesso' : 'Escolha uma nova senha para sua conta'}
           </p>
         </div>
 
@@ -95,7 +97,7 @@ export function ResetarSenhaPage() {
               autoComplete="new-password"
             />
             <Button type="submit" className="w-full mt-1" disabled={loading}>
-              {loading ? 'Salvando...' : 'Redefinir senha'}
+              {loading ? 'Salvando...' : convite ? 'Criar senha' : 'Redefinir senha'}
             </Button>
             <Link
               to="/login"

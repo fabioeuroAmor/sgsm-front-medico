@@ -1,45 +1,35 @@
 import { useRef, useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, useSearchParams, Link } from 'react-router-dom'
 import { toast } from 'sonner'
-import { UserRound, Stethoscope, LogIn, Sparkles } from 'lucide-react'
-import { Input, SelectField } from '@/components/ui/Input'
+import { Stethoscope, LogIn, Sparkles } from 'lucide-react'
+import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
-import { medicoService } from '@/services/medicoService'
 import { pacienteService } from '@/services/pacienteService'
 import { authService } from '@/services/authService'
-import { cn } from '@/lib/utils'
 
-type Tipo = 'MEDICO' | 'PACIENTE'
-
-const ESPECIALIDADES = [
-  'Cardiologia', 'Dermatologia', 'Endocrinologia', 'Ginecologia',
-  'Neurologia', 'Oftalmologia', 'Ortopedia', 'Pediatria', 'Psiquiatria', 'Urologia',
-]
-
-const UFS = ['AC','AL','AM','AP','BA','CE','DF','ES','GO','MA','MG','MS','MT','PA','PB','PE','PI','PR','RJ','RN','RO','RR','RS','SC','SE','SP','TO']
-
+// Cadastro público só de paciente: o médico recebe o acesso pelo convite da clínica (tela /medicos)
 export function RegisterPage() {
-  const [tipo, setTipo] = useState<Tipo>('PACIENTE')
   const [loading, setLoading] = useState(false)
   const enviandoRef = useRef(false)
   const navigate = useNavigate()
 
-  // campos comuns
+  // ativação da conta do auto-cadastro de paciente (código de 6 dígitos enviado ao e-mail);
+  // /registrar?ativar=<email> abre direto nesta etapa (link do aviso de conta não ativada no login)
+  const [params, setParams] = useSearchParams()
+  const [ativacaoEmail, setAtivacaoEmail] = useState<string | null>(params.get('ativar'))
+  const [codigo, setCodigo] = useState('')
+  const [ativando, setAtivando] = useState(false)
+
+  // campos do cadastro
   const [nome, setNome] = useState('')
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
   const [confirmarSenha, setConfirmarSenha] = useState('')
 
-  // campos paciente
   const [cpf, setCpf] = useState('')
   const [cpfDisplay, setCpfDisplay] = useState('')
   const [dataNascimento, setDataNascimento] = useState('')
   const [consentimentoLgpd, setConsentimentoLgpd] = useState(false)
-
-  // campos médico
-  const [crm, setCrm] = useState('')
-  const [crmUf, setCrmUf] = useState('SP')
-  const [especialidade, setEspecialidade] = useState('')
 
   function validarCPF(digits: string): boolean {
     if (digits.length !== 11 || /^(\d)\1{10}$/.test(digits)) return false
@@ -73,19 +63,17 @@ export function RegisterPage() {
       toast.error('A senha deve ter no mínimo 8 caracteres.')
       return
     }
-    if (tipo === 'PACIENTE') {
-      if (!validarCPF(cpf)) {
-        toast.error('CPF inválido.')
-        return
-      }
-      if (dataNascimento && new Date(dataNascimento) > new Date()) {
-        toast.error('Data de nascimento não pode ser no futuro.')
-        return
-      }
-      if (!consentimentoLgpd) {
-        toast.error('É necessário concordar com o tratamento de dados (LGPD) para se cadastrar.')
-        return
-      }
+    if (!validarCPF(cpf)) {
+      toast.error('CPF inválido.')
+      return
+    }
+    if (dataNascimento && new Date(dataNascimento) > new Date()) {
+      toast.error('Data de nascimento não pode ser no futuro.')
+      return
+    }
+    if (!consentimentoLgpd) {
+      toast.error('É necessário concordar com o tratamento de dados (LGPD) para se cadastrar.')
+      return
     }
 
     if (enviandoRef.current) return
@@ -93,31 +81,49 @@ export function RegisterPage() {
 
     setLoading(true)
     try {
-      const disponivel = await authService.emailDisponivel(email)
-      if (!disponivel) {
-        toast.error('Este e-mail já está cadastrado. Faça login ou use outro e-mail.')
-        return
-      }
-
-      let referenciaId: string | undefined
-
-      if (tipo === 'MEDICO') {
-        const medico = await medicoService.cadastrar({ nome, crm, crmUf, especialidade, email })
-        referenciaId = medico.id
-      } else if (tipo === 'PACIENTE') {
-        const paciente = await pacienteService.cadastrar({ nome, cpf, dataNascimento, email, consentimentoLgpd })
-        referenciaId = paciente.id
-      }
-
-      await authService.registrar({ email, senha, tipoPerfil: tipo, referenciaId })
-
-      toast.success('Cadastro realizado! Faça login para acessar o sistema.')
-      navigate('/login', { replace: true })
+      // sem pré-checagem de e-mail: ela revelava quem já tem conta (CPF e e-mail repetidos recebem a
+      // mesma resposta do backend, que também desfaz o cadastro se o login não puder ser criado)
+      // uma chamada só: o sgsm cria o paciente e o login (inativo até o código do e-mail)
+      const resposta = await pacienteService.autoCadastro({ nome, cpf, dataNascimento, email, consentimentoLgpd, senha })
+      setAtivacaoEmail(resposta.email)
+      // na URL: F5 nesta etapa continua no código, sem voltar ao formulário
+      setParams({ ativar: resposta.email }, { replace: true })
+      setCodigo('')
+      toast.success('Enviamos um código de 6 dígitos para o seu e-mail.')
     } catch (err) {
       toast.error((err as Error).message)
     } finally {
       enviandoRef.current = false
       setLoading(false)
+    }
+  }
+
+  async function ativarConta(e: React.FormEvent) {
+    e.preventDefault()
+    if (!ativacaoEmail || ativando) return
+    if (!/^\d{6}$/.test(codigo)) {
+      toast.error('Digite os 6 números do código.')
+      return
+    }
+    setAtivando(true)
+    try {
+      await authService.ativarConta(ativacaoEmail, codigo)
+      toast.success('Conta ativada! Faça login para acessar o sistema.')
+      navigate('/login', { replace: true })
+    } catch (err) {
+      toast.error((err as Error).message)
+    } finally {
+      setAtivando(false)
+    }
+  }
+
+  async function reenviarCodigo() {
+    if (!ativacaoEmail) return
+    try {
+      await authService.reenviarCodigoAtivacao(ativacaoEmail)
+      toast.success('Se houver cadastro aguardando ativação, enviamos um novo código.')
+    } catch (err) {
+      toast.error((err as Error).message)
     }
   }
 
@@ -132,40 +138,49 @@ export function RegisterPage() {
         </div>
 
         <div className="bg-card border border-border rounded-2xl shadow-lg p-8">
-          {/* Seletor de tipo */}
-          <div className="flex gap-3 mb-6">
-            {([
-              { value: 'PACIENTE', label: 'Paciente', icon: <UserRound size={20} /> },
-              { value: 'MEDICO', label: 'Médico', icon: <Stethoscope size={20} /> },
-            ] as { value: Tipo; label: string; icon: React.ReactNode }[]).map(({ value, label, icon }) => (
-              <button
-                key={value}
-                type="button"
-                onClick={() => setTipo(value)}
-                className={cn(
-                  'flex-1 flex flex-col items-center gap-2 rounded-xl border-2 py-3 text-xs font-semibold transition-all',
-                  tipo === value
-                    ? 'border-primary bg-primary/10 text-primary'
-                    : 'border-border text-muted-foreground hover:border-primary/40',
-                )}
-              >
-                {icon}
-                {label}
-              </button>
-            ))}
-          </div>
-
+          {ativacaoEmail ? (
+            <form onSubmit={ativarConta} className="flex flex-col gap-4" aria-label="Ativar conta">
+              <div>
+                <h2 className="text-lg font-semibold text-foreground">Ative sua conta</h2>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Digite o código de 6 dígitos enviado para <strong className="text-foreground">{ativacaoEmail}</strong>.
+                  Ele vale por 15 minutos.
+                </p>
+              </div>
+              <Input
+                label="Código de ativação"
+                value={codigo}
+                onChange={(e) => setCodigo(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                placeholder="000000"
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                autoFocus
+                required
+              />
+              <Button type="submit" className="w-full" disabled={ativando}>
+                {ativando ? 'Ativando...' : 'Ativar conta'}
+              </Button>
+              <div className="flex items-center justify-between text-sm">
+                <button type="button" onClick={reenviarCodigo} className="text-primary hover:underline">
+                  Reenviar código
+                </button>
+                <button type="button" onClick={() => { setAtivacaoEmail(null); setCodigo(''); setParams({}, { replace: true }) }}
+                  className="text-muted-foreground hover:text-foreground">
+                  Voltar ao cadastro
+                </button>
+              </div>
+            </form>
+          ) : (<>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <Input
               label="Nome completo"
               value={nome}
               onChange={(e) => setNome(e.target.value)}
-              placeholder={tipo === 'MEDICO' ? 'Dr. João Silva' : 'Maria da Silva'}
+              placeholder="Maria da Silva"
               required
             />
 
-            {tipo === 'PACIENTE' && (
-              <>
+            <>
                 <Input
                   label="CPF"
                   value={cpfDisplay}
@@ -194,38 +209,7 @@ export function RegisterPage() {
                     agendamento e atendimento médico.
                   </span>
                 </label>
-              </>
-            )}
-
-            {tipo === 'MEDICO' && (
-              <>
-                <div className="grid grid-cols-2 gap-3">
-                  <Input
-                    label="CRM"
-                    value={crm}
-                    onChange={(e) => setCrm(e.target.value)}
-                    placeholder="123456"
-                    required
-                  />
-                  <SelectField
-                    label="UF do CRM"
-                    value={crmUf}
-                    onChange={(e) => setCrmUf(e.target.value)}
-                  >
-                    {UFS.map((uf) => <option key={uf}>{uf}</option>)}
-                  </SelectField>
-                </div>
-                <SelectField
-                  label="Especialidade"
-                  value={especialidade}
-                  onChange={(e) => setEspecialidade(e.target.value)}
-                  required
-                >
-                  <option value="">Selecione…</option>
-                  {ESPECIALIDADES.map((e) => <option key={e}>{e}</option>)}
-                </SelectField>
-              </>
-            )}
+            </>
 
             <Input
               label="E-mail"
@@ -262,6 +246,15 @@ export function RegisterPage() {
               {loading ? 'Cadastrando...' : 'Criar conta'}
             </Button>
           </form>
+
+          <p className="mt-5 flex items-start gap-2 rounded-xl border border-border bg-muted/40 px-4 py-3 text-xs text-muted-foreground">
+            <Stethoscope size={14} className="mt-0.5 shrink-0 text-primary" />
+            <span>
+              É médico? Seu acesso é criado pela clínica: peça o convite ao administrador do
+              estabelecimento e crie sua senha pelo link que chegar no seu e-mail.
+            </span>
+          </p>
+          </>)}
 
           <div className="mt-6">
             <Link

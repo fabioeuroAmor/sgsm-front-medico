@@ -1,0 +1,7 @@
+[NOTA] SEC-A logada; driver pronto
+[NOTA] INICIO QA140-r9-browser
+[NOTA] grade 21/10 (SEC-A) antes do QA140: ["08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30"]
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA140-r9-a-grade-antes.png
+[NOTA] SEC-A clicou 10:00 -> ["201 POST http://localhost:3010/v1/api/agendamentos/reservas"] | faixa=Horário reservado para você — expira em
+09:59
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA140-r9-b-SEC-A-reservou-10h.png

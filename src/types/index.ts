@@ -20,6 +20,8 @@ export interface CadastrarMedicoRequest {
   especialidade: string
   email: string
   telefone?: string
+  // clínica a que o médico já nasce vinculado (obrigatória só para admin com mais de uma clínica)
+  estabelecimentoId?: string
 }
 
 export interface AtualizarMedicoRequest {
@@ -275,6 +277,22 @@ export interface CadastrarAgendamentoRequest {
   dataHoraInicio: string
   observacoes?: string
   reservaToken?: string
+}
+
+// Auto-cadastro público de paciente (POST /publico/pacientes)
+export interface AutoCadastroPacienteRequest {
+  nome: string
+  cpf: string
+  dataNascimento: string
+  email: string
+  telefone?: string
+  consentimentoLgpd: boolean
+  senha: string
+}
+
+export interface AutoCadastroPacienteResponse {
+  email: string
+  ativacaoPendente: boolean
 }
 
 export interface CancelarAgendamentoRequest {

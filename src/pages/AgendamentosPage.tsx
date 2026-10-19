@@ -455,6 +455,8 @@ export function AgendamentosPage() {
       if (horarioIndisponivel(err)) {
         liberarReservaAtual(); setSelectedSlot(null); setPasso(4)
         mostrarIndisponivel(err)
+        // quem ocupou o horário já tem o agendamento na base: a lista ao fundo passa a mostrá-lo
+        listar(filtroStatus ? { status: filtroStatus } : {})
       } else if (reservaToken && err instanceof ApiError && err.status === 404) {
         setReserva(null); setSelectedSlot(null); setPasso(4)
         setWizardError('A reserva do horário expirou. Selecione o horário novamente.')

@@ -1,0 +1,17 @@
+[NOTA] INICIO QA050
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA050-a-passo4.png
+[NOTA] sinalizado para parar o sgsm :8095; aguardando porta fechar
+[NOTA] sgsm :8095 fora do ar (curl falhou)
+[NOTA] POST reservas -> 500 em 228 ms body=
+[NOTA] erro: ["Request failed with status code 500"]
+[NOTA] botoes de horario habilitados: {"total":16,"habilitados":16}
+[NOTA] "Carregando horários…" visivel: false
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA050-b-erro.png
+[NOTA] FIM QA050
+[NOTA] INICIO QA051
+[NOTA] aguardando o sgsm subir (subiu.flag)
+[NOTA] sgsm de volta; clicando de novo sem recarregar a pagina
+[NOTA] POST reservas -> 201 body={"token":"91cc8b75-bb8f-45f2-8baf-f4231d05749f","dataHoraInicio":"2026-10-21T12:30:00Z","dataHoraFim":"2026-10-21T12:45:00Z","expiraEm":"2026-10-17T04:07:14.934281-03:00","renovavelAte":"2026-10-17T04:27:14.934281-03:00","reservado":true}
+[NOTA] faixa: Horário reservado para você — expira em 09:59 | erro: []
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA051.png
+[NOTA] FIM QA051

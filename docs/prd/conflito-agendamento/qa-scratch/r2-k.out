@@ -1,0 +1,20 @@
+[NOTA] INICIO QA050-r2
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA050-r2-a-passo4.png
+[NOTA] sinalizado para parar o sgsm :8095; aguardando porta fechar
+[NOTA] sgsm :8095 fora do ar (curl falhou)
+[NOTA] POST reservas -> 500 em 229 ms body=
+[NOTA] [clique 09:30] erro: ["Serviço temporariamente indisponível. Tente novamente em instantes."]
+[NOTA] [clique 09:30] "Request failed" na tela: 0
+[NOTA] [clique 09:30] botoes de horario: {"total":19,"habilitados":19}
+[NOTA] [clique 09:30] "Carregando horários…" visivel: false
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA050-r2-b-erro.png
+[NOTA] [troca para o dia 28] mensagens visiveis: ["Serviço temporariamente indisponível. Tente novamente em instantes."] | "Request failed": 0
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA050-r2-c-troca-de-dia.png
+[NOTA] FIM QA050-r2
+[NOTA] INICIO QA051-r2
+[NOTA] aguardando o sgsm subir (r2-subiu.flag)
+[NOTA] sgsm de volta; clicando de novo sem recarregar a pagina
+[NOTA] POST reservas -> 201 body={"token":"411f4073-fc4e-4718-840d-e1b1700910e2","dataHoraInicio":"2026-10-21T12:30:00Z","dataHoraFim":"2026-10-21T12:45:00Z","expiraEm":"2026-10-17T12:14:18.5547116-03:00","renovavelAte":"2026-10-17T12:34:18.5547116-03:00","reservado":true}
+[NOTA] faixa: Horário reservado para você — expira em 09:59 | erro: [] | url=http://localhost:3010/agendamentos
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA051-r2.png
+[NOTA] FIM QA051-r2

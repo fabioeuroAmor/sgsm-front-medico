@@ -1,0 +1,6 @@
+# Redis antes da espera (2026-10-17T15:05:51Z): docker exec redis-sgsm redis-cli --scan --pattern "sgsm:reserva*"
+(fim; ultima reserva criada na rodada 2: 2026-10-17T15:04:18.691Z)
+
+# Redis apos a espera (2026-10-17T15:36:45Z, 32 min+ apos a ultima reserva): docker exec redis-sgsm redis-cli --scan --pattern "sgsm:reserva*"
+(fim da saida; linhas vazias acima = nenhuma chave)
+# contagem: 0

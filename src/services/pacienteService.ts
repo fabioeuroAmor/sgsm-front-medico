@@ -2,6 +2,8 @@ import api from './api'
 import type {
   PacienteResponse,
   PacienteExportacaoResponse,
+  AutoCadastroPacienteRequest,
+  AutoCadastroPacienteResponse,
   CadastrarPacienteRequest,
   AtualizarPacienteRequest,
   FiltrosPaciente,
@@ -18,6 +20,10 @@ export const pacienteService = {
 
   cadastrar: (body: CadastrarPacienteRequest) =>
     api.post<PacienteResponse>(BASE, body).then((r) => r.data),
+
+  // Auto-cadastro público (sem login): cria o paciente e o login, que só vale após o código do e-mail
+  autoCadastro: (body: AutoCadastroPacienteRequest) =>
+    api.post<AutoCadastroPacienteResponse>('/publico/pacientes', body).then((r) => r.data),
 
   atualizar: (id: string, body: AtualizarPacienteRequest) =>
     api.put<PacienteResponse>(`${BASE}/${id}`, body).then((r) => r.data),

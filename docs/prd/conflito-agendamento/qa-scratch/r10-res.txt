@@ -1,0 +1,2 @@
+OK [{"id":"226da8e0-2d7d-417b-b7f5-6b31740c0914","status":"CANCELADO"},{"id":"bf3239ac-fb82-4c0a-aff1-002be12076ab","status":"CANCELADO"}] ativos=[]
+__FIM__

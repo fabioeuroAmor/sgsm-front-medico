@@ -1,0 +1,8 @@
+[NOTA] INICIO QA036-b
+[NOTA] POST 09:00 -> 201
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA036-d-reteste-inicio.png
+[NOTA] faixa sumiu apos 601 s
+[NOTA] mensagem: ["A reserva do horário expirou e ele pode ser ocupado por outra pessoa. Selecione-o novamente para garantir."] | bbox mensagem={"x":408.66668701171875,"y":128.83334350585938,"width":607.3333129882812,"height":65.33332824707031} | bbox corpo do modal={"x":384.66668701171875,"y":108.83333587646484,"width":670.6666870117188,"height":720.3333511352539} | mensagem dentro da area visivel do corpo sem rolar=true
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA036-e-reteste-expirou-sem-rolar.png
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA036-f-reteste-expirou-rolado-para-cima.png
+[NOTA] FIM QA036-b

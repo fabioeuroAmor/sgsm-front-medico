@@ -20,6 +20,19 @@ export class ApiError extends Error {
   }
 }
 
+// Mensagem do backend quando houver; senão um texto legível no lugar do "Request failed with status code N"
+function mensagemDeErro(err: { message?: string; response?: { status: number; data?: { erro?: string; detail?: string } } }) {
+  const doBackend = err.response?.data?.erro ?? err.response?.data?.detail
+  if (doBackend) return doBackend
+  if (!err.response) return 'Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.'
+  const status = err.response.status
+  if (status >= 500) return 'Serviço temporariamente indisponível. Tente novamente em instantes.'
+  if (status === 401) return 'Faça login para continuar.'
+  if (status === 403) return 'Você não tem permissão para realizar esta ação.'
+  if (status === 404) return 'Registro não encontrado.'
+  return err.message ?? 'Erro desconhecido'
+}
+
 const api = axios.create({
   baseURL: '/v1/api',
   timeout: 300_000,
@@ -28,7 +41,11 @@ const api = axios.create({
 
 // Endpoints públicos de autenticação: um 401 aqui é erro de credencial/entrada
 // do próprio usuário, não sessão expirada — não deve disparar refresh/redirect.
-const PUBLIC_AUTH_PATHS = ['/auth/login', '/auth/registrar', '/auth/esqueci-senha', '/auth/resetar-senha']
+const PUBLIC_AUTH_PATHS = ['/auth/login', '/auth/registrar', '/auth/esqueci-senha', '/auth/resetar-senha', '/auth/ativar-conta', '/publico/']
+
+// Telas abertas (sem PrivateRoute, ver App.tsx): quem está nelas não tem sessão para "expirar" —
+// um 401 vira erro comum da tela, sem mandar para /login?sessao=expirada
+const PUBLIC_PAGES = ['/', '/world', '/login', '/registrar', '/esqueci-senha', '/resetar-senha']
 
 let refreshPromise: Promise<string> | null = null
 
@@ -71,16 +88,17 @@ api.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${accessToken}`
         return api(originalRequest)
       } catch {
+        if (PUBLIC_PAGES.includes(window.location.pathname)) {
+          return Promise.reject(new ApiError(mensagemDeErro(err), 401, err.response?.data))
+        }
         tokenStore.clear()
         localStorage.removeItem('refresh_token')
-        window.location.href = '/login'
+        window.location.href = '/login?sessao=expirada'
         return Promise.reject(new Error('Sessão expirada. Faça login novamente.'))
       }
     }
 
-    const message =
-      err.response?.data?.erro ?? err.response?.data?.detail ?? err.message ?? 'Erro desconhecido'
-    return Promise.reject(new ApiError(message, err.response?.status, err.response?.data))
+    return Promise.reject(new ApiError(mensagemDeErro(err), err.response?.status, err.response?.data))
   },
 )
 

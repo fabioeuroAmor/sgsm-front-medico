@@ -1,0 +1,36 @@
+// QA036 (reteste para o print): expiracao no passo 4; print como esta e apos rolar o modal para cima (roda do mouse)
+import fs from 'node:fs'
+import * as L from './lib.mjs'
+const contas = JSON.parse(fs.readFileSync(new URL('./contas.json', import.meta.url)))
+const browser = await L.launch()
+const A = await L.newSession(browser, 'SEC-A')
+const pa = A.page
+await L.login(pa, contas.A.email, contas.A.senha)
+await L.irAgendamentos(pa)
+L.start('QA036-b')
+await L.wizardAte4(pa)
+const w = pa.waitForResponse((r) => r.url().endsWith('/agendamentos/reservas') && r.request().method() === 'POST')
+await L.slotBtn(pa, '09:00').click()
+L.note('POST 09:00 -> ' + (await w).status())
+await L.faixaReserva(pa).waitFor()
+await L.shot(pa, 'QA036-d-reteste-inicio')
+const t0 = Date.now()
+while (await L.faixaReserva(pa).isVisible().catch(() => false)) {
+  if (Date.now() - t0 > 11 * 60_000) break
+  await L.sleep(2000)
+}
+L.note(`faixa sumiu apos ${((Date.now() - t0) / 1000).toFixed(0)} s`)
+await L.sleep(1000)
+const msg = L.modal(pa).locator('div.text-destructive')
+const box = await msg.boundingBox().catch(() => null)
+const corpo = await L.modal(pa).locator('div.overflow-y-auto').first().boundingBox()
+L.note('mensagem: ' + JSON.stringify(await msg.allTextContents()) + ' | bbox mensagem=' + JSON.stringify(box) + ' | bbox corpo do modal=' + JSON.stringify(corpo) + ' | mensagem dentro da area visivel do corpo sem rolar=' + (box && corpo ? box.y >= corpo.y && box.y + box.height <= corpo.y + corpo.height : false))
+await L.shot(pa, 'QA036-e-reteste-expirou-sem-rolar')
+await pa.mouse.move(corpo.x + corpo.width / 2, corpo.y + 100)
+await pa.mouse.wheel(0, -2000)
+await L.sleep(800)
+await L.shot(pa, 'QA036-f-reteste-expirou-rolado-para-cima')
+await L.end('QA036-b')
+await L.fecharModal(pa)
+await L.sleep(1000)
+await browser.close()

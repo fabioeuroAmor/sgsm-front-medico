@@ -1,0 +1,15 @@
+[NOTA] INICIO QA038
+[NOTA] grade: ["08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30"]
+[NOTA] reserva 17:30 criada; faixa: Horário reservado para você — expira em 09:59
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA038-a-reserva-criada.png
+[NOTA] t=7.53min renovacao #1 -> 200; faixa agora: Horário reservado para você — expira em 09:58; botao visivel=true
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA038-b-renovacao-1.png
+[NOTA] t=15.12min renovacao #2 -> 200; faixa agora: Horário reservado para você — expira em 09:58; botao visivel=true
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA038-b-renovacao-2.png
+[NOTA] t=22.72min renovacao #3 -> 200; faixa agora: Horário reservado para você — expira em 07:15; botao visivel=false
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA038-b-renovacao-3.png
+[NOTA] t=22.83min BOTAO "Mais tempo" NAO VISIVEL; faixa: Horário reservado para você — expira em 07:10
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA038-c-sem-botao.png
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA038-d-final.png
+[NOTA] renovacoes=3; botao sumiu 22.83 min apos criacao
+[NOTA] FIM QA038

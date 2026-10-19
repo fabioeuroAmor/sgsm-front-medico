@@ -1,0 +1,39 @@
+[NOTA] SEC-A logada; driver pronto
+[NOTA] INICIO QA140-r9-browser
+[NOTA] cards de 21/10/2026 na lista da SEC-A antes do QA140: ["Zilma Ruela |  | QA Descartavel |  | Cancelado | Fabio Monteiro Amorim | Clinica São Lucas | 21/10/2026, 14:30","Zilma Ruela |  | QA Descartavel |  | Cancelado | Fabio Monteiro Amorim | Clinica São Lucas | 21/10/2026, 10:00","Zilma Ruela |  | QA Descartavel |  | Cancelado | Fabio Monteiro Amorim | Clinica São Lucas | 21/10/2026, 12:30","Zilma Ruela |  | QA Descartavel |  | Cancelado | Fabio Monteiro Amorim | Clinica São Lucas | 21/10/2026, 13:00","Zilma Ruela |  | QA Descartavel |  | Cancelado | Fabio Monteiro Amorim | Clinica São Lucas | 21/10/2026, 13:30","Zilma Ruela |  | QA Descartavel |  | Cancelado | Fabio Monteiro Amorim | Clinica São Lucas | 21/10/2026, 15:00","Zilma Ruela |  | QA Descartavel |  | Cancelado | Fabio Monteiro Amorim | Clinica São Lucas | 21/10/2026, 10:00","Zilma Ruela |  | QA Descartavel |  | Cancelado | Fabio Monteiro Amorim | Presencial | 21/10/2026, 15:30","Zilma Ruela |  | QA Descartavel |  | Cancelado | Fabio Monteiro Amorim | Clinica São Lucas | 21/10/2026, 16:00"]
+[NOTA] grade 21/10 (SEC-A) antes do QA140: ["08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30"]
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA140-r9-a-grade-antes.png
+[NOTA] SEC-A clicou 10:00 -> ["201 POST http://localhost:3010/v1/api/agendamentos/reservas"] | faixa=Horário reservado para você — expira em
+09:59
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA140-r9-b-SEC-A-reservou-10h.png
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA140-r9-c-SEC-A-passo5.png
+[NOTA] SEC-A confirmou 10:00 -> 201 POST /v1/api/agendamentos (id fe7b450e..., reservaToken no corpo; ver linhas acima) | modal aberto=0
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA140-r9-d-SEC-A-confirmou.png
+[NOTA] QA140 cards ativos de 21/10/2026 na lista da SEC-A: ["Zilma Ruela |  | QA Descartavel |  | Pendente | Fabio Monteiro Amorim | Clinica São Lucas | 21/10/2026, 10:00 | Cancelar | Confirmar"]
+[NOTA] FIM QA140-r9-browser
+[NOTA] INICIO QA141-r9-browser
+[NOTA] QA141 grade 21/10 antes do pedido do paciente: ["08:00","08:30","09:00","09:30","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30"]
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA141-r9-a-grade-antes.png
+[NOTA] QA141 apos 35 s (atualizacao periodica): GET slots=["200 GET http://localhost:3010/v1/api/agendamentos/slots?medicoId=ff9a2400-2217-48fa-ac91-b81a4032f2db&estabelecimentoId=655759aa-bf83-417e-a45b-b06258c4458f&data=2026-10-21","200 GET http://localhost:3010/v1/api/agendamentos/slots?medicoId=ff9a2400-2217-48fa-ac91-b81a4032f2db&estabelecimentoId=655759aa-bf83-417e-a45b-b06258c4458f&data=2026-10-21"] | 11:00 na grade=true
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA141-r9-b-grade-apos-pedido.png
+[NOTA] QA141 SEC-A fechou o wizard (sem reserva propria) -> []
+[NOTA] FIM QA141-r9-browser
+[NOTA] INICIO QA142-r9-browser
+[NOTA] QA142 cards ativos de 21/10/2026 na lista da SEC-A apos o "Sim" do paciente: ["Zilma Ruela |  | QA Descartavel |  | Pendente | Fabio Monteiro Amorim | Clinica São Lucas | 21/10/2026, 10:00 | Cancelar | Confirmar"]
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA142-r9-a-lista-sem-14h.png
+[NOTA] QA142 grade apos o "Sim": 14:00 presente=true
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\QA142-r9-b-grade-14h-livre.png
+[NOTA] FIM QA142-r9-browser
+[NOTA] INICIO SGSM-r9-sem-servico
+[NOTA] FIM SGSM-r9-sem-servico
+[NOTA] INICIO SGSM-r9-sem-servico
+[NOTA] FIM SGSM-r9-sem-servico
+[NOTA] INICIO SGSM-r9-sem-servico
+[NOTA] POST /v1/api/agendamentos/reservas (sem servicoMedicoId) -> 400 {"detail":"Informe o serviço médico do agendamento.","instance":"/v1/api/agendamentos/reservas","status":400,"title":"Requisição inválida","type":"https://sgsm.com.br/erros/argumento-invalido"}
+[NOTA] POST /v1/api/agendamentos (sem servicoMedicoId) -> 400 {"detail":"Informe o serviço médico do agendamento.","instance":"/v1/api/agendamentos","status":400,"title":"Requisição inválida","type":"https://sgsm.com.br/erros/argumento-invalido"}
+[NOTA] FIM SGSM-r9-sem-servico
+[NOTA] INICIO LIMPEZA-r9
+[NOTA] cancelar 10:00 Zilma (QA140) -> PATCH http://localhost:3010/v1/api/agendamentos/fe7b450e-4cfb-4daa-b5c5-a291177e54b8/cancelar -> 204 | toasts=[]
+[NOTA] cards ativos de 21/10/2026 apos a limpeza: []
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\conflito-agendamento\evidence\LIMPEZA-r9-a-agendamento-cancelado.png
+[NOTA] FIM LIMPEZA-r9-SEC-A

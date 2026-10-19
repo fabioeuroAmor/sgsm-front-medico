@@ -1,9 +1,11 @@
 import { useEffect, useState, useRef } from 'react'
 import { toast } from 'sonner'
-import { Plus, Search, Pencil, Trash2, RotateCcw, Stethoscope, CalendarDays, X } from 'lucide-react'
+import { Plus, Search, Pencil, Trash2, RotateCcw, Stethoscope, CalendarDays, X, Mail } from 'lucide-react'
 import { useMedicos } from '@/hooks/useMedicos'
 import { useAuth } from '@/hooks/useAuth'
 import { agendaMedicoService } from '@/services/agendaMedicoService'
+import { medicoService } from '@/services/medicoService'
+import { estabelecimentoService } from '@/services/estabelecimentoService'
 import { agendamentoService } from '@/services/agendamentoService'
 import type {
   AgendaMedicoResponse, CadastrarAgendaMedicoRequest, DiaSemana,
@@ -93,9 +95,17 @@ export function MedicosPage() {
     m.email.toLowerCase().includes(busca.toLowerCase()),
   )
 
+  // Admin com várias clínicas escolhe em qual o médico vai atender; secretária (uma clínica) e
+  // admin de uma clínica só não escolhem — o backend vincula à clínica de quem cadastra
+  const [clinicasDoAdmin, setClinicasDoAdmin] = useState<EstabelecimentoResponse[]>([])
+  const escolheClinica = !editando && clinicasDoAdmin.length > 1
+
   function abrirCadastro() {
     setEditando(null); setForm(emptyForm); setFormError(null)
     setFieldErrors({}); setTouched({}); setModalAberto(true)
+    if (usuario?.perfil === 'ADMIN_ESTABELECIMENTO') {
+      estabelecimentoService.listar({ ativo: true }).then(setClinicasDoAdmin).catch(() => setClinicasDoAdmin([]))
+    }
   }
 
   function abrirEdicao(m: MedicoResponse) {
@@ -128,6 +138,27 @@ export function MedicosPage() {
     return usuario?.perfil !== 'MEDICO' || usuario.referenciaId === m.id
   }
 
+  // equipe da clínica (não o próprio médico) envia o convite de acesso
+  const podeConvidar = usuario?.perfil !== 'MEDICO'
+  const [convidandoId, setConvidandoId] = useState<string | null>(null)
+
+  async function enviarConvite(m: MedicoResponse, aposCadastro = false) {
+    if (convidandoId) return
+    setConvidandoId(m.id)
+    try {
+      const r = await medicoService.enviarConviteAcesso(m.id)
+      toast.success(aposCadastro
+        ? `Médico cadastrado. Enviamos para ${r.email} o convite para ele criar a senha de acesso.`
+        : `Convite de acesso enviado para ${r.email}.`)
+    } catch (err) {
+      toast.error(aposCadastro
+        ? `Médico cadastrado, mas o convite de acesso não pôde ser enviado: ${(err as Error).message} Use "Enviar convite" no card.`
+        : (err as Error).message)
+    } finally {
+      setConvidandoId(null)
+    }
+  }
+
   async function handleReativar(id: string) {
     if (reativandoRef.current) return
     reativandoRef.current = id
@@ -153,6 +184,11 @@ export function MedicosPage() {
       return
     }
 
+    if (escolheClinica && !form.estabelecimentoId) {
+      setFormError('Escolha o estabelecimento em que o médico vai atender.')
+      return
+    }
+
     salvandoRef.current = true
     setSalvando(true); setFormError(null)
     try {
@@ -163,7 +199,12 @@ export function MedicosPage() {
           email: form.email || undefined,
           telefone: form.telefone?.trim() ? form.telefone : null,
         })
-      } else { await cadastrar(form) }
+      } else {
+        const novo = await cadastrar({ ...form, estabelecimentoId: form.estabelecimentoId || undefined })
+        setModalAberto(false); setEditando(null)
+        void enviarConvite(novo, true)
+        return
+      }
       setModalAberto(false); setEditando(null)
     } catch (err) { setFormError((err as Error).message) } finally { setSalvando(false); salvandoRef.current = false }
   }
@@ -309,6 +350,18 @@ export function MedicosPage() {
               </div>
               <div className="flex gap-2 mt-auto">
                 <Button variant="ghost" size="sm" onClick={() => abrirEdicao(m)} className="flex-1" disabled={!podeEditar(m)} title={podeEditar(m) ? undefined : 'Você só pode editar o seu próprio cadastro'}><Pencil size={12} /> Editar</Button>
+                {podeConvidar && m.ativo && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => void enviarConvite(m)}
+                    disabled={convidandoId === m.id}
+                    title="Enviar ao médico o convite para criar a senha de acesso"
+                    aria-label={`Enviar convite de acesso para ${m.nome}`}
+                  >
+                    <Mail size={12} className={convidandoId === m.id ? 'animate-pulse' : undefined} />
+                  </Button>
+                )}
                 <Button
                   variant="outline"
                   size="sm"
@@ -367,6 +420,13 @@ export function MedicosPage() {
           </SelectField>
           <Input label="E-mail" type="email" value={form.email} onChange={(e) => atualizarCampo('email', e.target.value)} onBlur={() => marcarTocado('email')} error={erroDoCampo('email')} placeholder="joao@clinica.com" />
           <Input label="Telefone (opcional)" value={form.telefone ?? ''} onChange={(e) => atualizarCampo('telefone', e.target.value)} onBlur={() => marcarTocado('telefone')} error={erroDoCampo('telefone')} placeholder="(11) 99999-0000" />
+          {escolheClinica && (
+            <SelectField label="Estabelecimento" value={form.estabelecimentoId ?? ''}
+              onChange={(e) => setForm((f) => ({ ...f, estabelecimentoId: e.target.value }))}>
+              <option value="">Selecione…</option>
+              {clinicasDoAdmin.map((c) => <option key={c.id} value={c.id}>{c.nome}</option>)}
+            </SelectField>
+          )}
         </div>
       </Modal>
 
