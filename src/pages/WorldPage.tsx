@@ -8,7 +8,7 @@ import {
   HeartPulse, Building2, ClipboardList, MessageSquare,
   Star, Zap, Shield, ChevronRight, Brain, Sparkles, Database,
   UserCog, BarChart2, TrendingUp, PhoneCall,
-  Eye, Lock, ShieldCheck,
+  Eye, Lock, ShieldCheck, Megaphone, MousePointerClick, Target,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/Button'
@@ -250,6 +250,28 @@ const SCENES: SceneDef[] = [
       { Icon: PhoneCall,     x: '83%', y: '15%', size: 34, delay: 0.4 },
       { Icon: Zap,           x: '80%', y: '73%', size: 28, delay: 0.7 },
       { Icon: Star,          x: '11%', y: '75%', size: 24, delay: 0.2 },
+    ],
+  },
+  {
+    id: 'trafego-pago',
+    eyebrow: 'Marketing',
+    title: 'Tráfego pago',
+    body: 'Conecte a conta Meta Ads da clínica e acompanhe gasto, leads, custo por lead (CPL) e CTR das campanhas — os dados sincronizados no SGSM, sem o token da Meta passar pelo navegador.',
+    tags: ['Meta Ads', 'Leads', 'CPL', 'CTR'],
+    accent: '#F77737',
+    bgColor: '#140703',
+    orbs: [
+      { color: '#C13584', size: 680, x: '50%',  y: '40%',  blur: 135, opacity: 0.8,  duration: 9 },
+      { color: '#F77737', size: 420, x: '24%',  y: '64%',  blur: 105, opacity: 0.5,  duration: 7 },
+      { color: '#833AB4', size: 360, x: '78%',  y: '28%',  blur: 100, opacity: 0.4,  duration: 8 },
+      { color: '#1F0A05', size: 620, x: '64%',  y: '78%',  blur: 145, opacity: 0.85, duration: 11 },
+    ],
+    CenterIcon: Megaphone,
+    floaters: [
+      { Icon: Megaphone,         x: '9%',  y: '16%', size: 50, delay: 0.0 },
+      { Icon: TrendingUp,        x: '83%', y: '17%', size: 36, delay: 0.4 },
+      { Icon: MousePointerClick, x: '80%', y: '73%', size: 30, delay: 0.7 },
+      { Icon: Target,            x: '11%', y: '75%', size: 28, delay: 0.2 },
     ],
   },
   {
