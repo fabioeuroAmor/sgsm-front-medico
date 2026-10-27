@@ -1,0 +1,39 @@
+{
+  "paciente": {
+    "id": "a67b7736-5605-4ac5-87ee-610b060c9988",
+    "nome": "QA WA Paciente Bot 23094",
+    "cpf": "693.531.155-15",
+    "dataNascimento": "1990-04-15",
+    "email": "qa.wa.pac.bot.1793080223094@teste.com",
+    "telefone": "5511973079938",
+    "logradouro": null,
+    "numero": null,
+    "complemento": null,
+    "bairro": null,
+    "cidade": null,
+    "uf": null,
+    "cep": null,
+    "ativo": true,
+    "consentimentoLgpdEm": "2026-10-27T05:51:00.25421Z",
+    "anonimizado": false,
+    "criadoEm": "2026-10-27T05:51:00.25421Z",
+    "atualizadoEm": "2026-10-27T05:51:00.25421Z"
+  },
+  "agendamentos": [],
+  "clinicas": [
+    {
+      "origem": "WHATSAPP",
+      "estabelecimentoId": "655759aa-bf83-417e-a45b-b06258c4458f",
+      "primeiroContatoEm": "2026-10-27T05:51:00.363238Z"
+    }
+  ],
+  "consentimentos": [
+    {
+      "estabelecimentoId": "655759aa-bf83-417e-a45b-b06258c4458f",
+      "canal": "WHATSAPP",
+      "versaoTexto": "whatsapp-lgpd-v1",
+      "aceitoEm": "2026-10-27T05:48:07.164581Z",
+      "revogadoEm": null
+    }
+  ]
+}

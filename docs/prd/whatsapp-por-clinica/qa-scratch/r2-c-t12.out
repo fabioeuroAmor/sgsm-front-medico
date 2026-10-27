@@ -1,0 +1,17 @@
+[NOTA] INICIO R2-WA-T12
+[NOTA] tela aberta com o sgsm no ar (Clinica São Lucas, sem numero). health=401
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\whatsapp-por-clinica\evidence\R2-WA-T12-a-antes.png
+[NOTA] sgsm parado: java 23696 (mvn 34588) finalizado com taskkill
+[NOTA] health do sgsm agora: recusado
+[NOTA] sgsm fora, trocou para Strix: card de erro=["Não foi possível consultar o WhatsApp da clínica"] | detalhe=["Serviço temporariamente indisponível. Tente novamente em instantes."] | "Tentar de novo"=1 | toasts=[]
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\whatsapp-por-clinica\evidence\R2-WA-T12-b-card-erro.png
+[NOTA] "Tentar de novo" com o sgsm ainda fora: card de erro=1 | PAGEERROR=0
+[NOTA] ADM-A abriu /whatsapp-clinica com o sgsm fora: url=http://localhost:3001/whatsapp-clinica | seletor=["Nenhum estabelecimento"] | card "Não foi possível carregar os estabelecimentos"=1 | card consultar=0 | "Tentar de novo"=1 | "Nenhum WhatsApp conectado"=0 | toasts=[]
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\whatsapp-por-clinica\evidence\R2-WA-T12-c-abriu-com-sgsm-fora.png
+[NOTA] aguardando o sgsm voltar (subir.sh sgsm)...
+[NOTA] sgsm voltou: health=401 apos 32s
+[NOTA] "Tentar de novo" com o sgsm de volta -> GET 404 | card de erro=0 | QR da Strix=0 | status=[]
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\whatsapp-por-clinica\evidence\R2-WA-T12-d-recuperou.png
+[NOTA] ADM-A clicou "Tentar de novo" (sem recarregar) com o sgsm de volta -> GET /estabelecimentos 200 | navegacoes novas=0 | seletor=["Clinica São Lucas"] | card carregar=0 | "Nenhum WhatsApp conectado"=1
+[NOTA] print salvo C:\AmbienteDev\sgsm-front-medico\docs\prd\whatsapp-por-clinica\evidence\R2-WA-T12-e-adm-a-recuperou-sem-recarregar.png
+[NOTA] FIM R2-WA-T12

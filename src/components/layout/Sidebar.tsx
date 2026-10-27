@@ -14,6 +14,7 @@ import {
   Sparkles,
   BarChart2,
   Megaphone,
+  MessageCircle,
   type LucideIcon,
 } from 'lucide-react'
 import { useState, useRef } from 'react'
@@ -33,6 +34,7 @@ const navItems = [
   { to: '/ia', label: 'Assistente IA', icon: Sparkles, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR', 'ADMIN_ESTABELECIMENTO'] },
   { to: '/crm', label: 'CRM', icon: BarChart2, roles: ['MEDICO', 'FUNCIONARIO', 'DESENVOLVEDOR', 'ADMIN_ESTABELECIMENTO'] },
   { to: '/trafego-pago', label: 'Tráfego pago', icon: Megaphone, roles: ['DESENVOLVEDOR', 'ADMIN_ESTABELECIMENTO'] },
+  { to: '/whatsapp-clinica', label: 'WhatsApp da clínica', icon: MessageCircle, roles: ['FUNCIONARIO', 'DESENVOLVEDOR', 'ADMIN_ESTABELECIMENTO'] },
 ]
 
 function NavItem3D({ to, label, icon: Icon, onClick }: {

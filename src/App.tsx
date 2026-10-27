@@ -16,6 +16,7 @@ import { FuncionariosPage } from './pages/FuncionariosPage'
 import { IaPage } from './pages/IaPage'
 import { CrmPage } from './pages/CrmPage'
 import { TrafegoPagoPage } from './pages/TrafegoPagoPage'
+import { WhatsappClinicaPage } from './pages/WhatsappClinicaPage'
 import { EsqueciSenhaPage } from './pages/EsqueciSenhaPage'
 import { ResetarSenhaPage } from './pages/ResetarSenhaPage'
 import { useAuth } from './hooks/useAuth'
@@ -58,6 +59,7 @@ export default function App() {
             <Route path="/ia" element={<IaPage />} />
             <Route path="/crm" element={<CrmPage />} />
             <Route path="/trafego-pago" element={<TrafegoPagoPage />} />
+            <Route path="/whatsapp-clinica" element={<WhatsappClinicaPage />} />
           </Route>
         </Route>
       </Routes>
