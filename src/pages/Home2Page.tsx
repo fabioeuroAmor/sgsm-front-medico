@@ -21,6 +21,7 @@ import {
   Eye,
   Lock,
   ShieldCheck,
+  Megaphone,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/Button'
@@ -245,6 +246,12 @@ const features: Array<{
     description:
       'Bot conversacional com RAG para cadastro e agendamento direto pelo WhatsApp, sem precisar abrir o sistema.',
   },
+  {
+    icon: Megaphone,
+    title: 'Tráfego pago',
+    description:
+      'Conecte a conta Meta Ads da clínica e acompanhe gasto, leads, custo por lead (CPL) e CTR das campanhas.',
+  },
 ]
 
 const modules = [
@@ -257,6 +264,7 @@ const modules = [
   { label: 'Assistente IA', desc: 'Chat com RAG e busca semântica nos dados do sistema' },
   { label: 'CRM', desc: 'Leads, contatos, notas clínicas, churn e indicadores' },
   { label: 'WhatsApp', desc: 'Bot conversacional com RAG para cadastro e agendamento' },
+  { label: 'Tráfego pago', desc: 'Meta Ads da clínica: gasto, leads, CPL e CTR das campanhas' },
 ]
 
 const compliance: Array<{
